@@ -1,0 +1,110 @@
+<%
+include("../util/constants.jag");
+
+var user = session.get('user');
+var log = new Log();
+var util = require("../util/utility.jag");
+var authzFailure = request.getParameter("authz_failure");
+
+util.setServerURL("true");
+
+if (user == null) {
+    if (authzFailure != null) {
+        response.sendRedirect("login.jag?authz_failure=" + authzFailure);
+    } else {
+        response.sendRedirect("login.jag");
+    }
+}
+
+var httpsCoreUrl = application.get(SERVER_CORE_URL);
+if (httpsCoreUrl === 'null' || httpsCoreUrl == null || httpsCoreUrl.length <= 0) {
+    httpsCoreUrl = '';
+}
+
+var proxyContextPath = application.get(PROXY_CONTEXT_PATH);
+if (proxyContextPath === 'null' || proxyContextPath == null || proxyContextPath.length <= 0) {
+    proxyContextPath = '';
+}
+
+%>
+<!-- BOF cloud menu -->
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" id="cloud-menu-popover-xs" data-toggle="popover" data-placement="bottom"
+               class="hidden-md hidden-sm hidden-lg cloud-menu-popover">
+                <i class="fw fw-tiles"></i>
+            </a>
+            <a class="navbar-brand" href="#"><img src="../images/logo.png" alt="wso2-logo" > Cloud</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav menu-right">
+                <li><a href="#"><i class="fa fa-book"></i> Documentation</a></li>
+                <li><a href="#about"><i class="fa fa-envelope"></i> Support</a></li>
+                <li class="dropdown user-name">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=session.get(LOGGED_IN_USER) %>
+                        <i class="fa fa-chevron-circle-down"></i>
+                        <img src="../images/user.png" alt="user" class="user-image"></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="<%=proxyContextPath%>/dashboard/samlsso.jag?logout=true">Logout</a></li>
+
+</ul>
+                </li>
+                <li class="cloud-menu hidden-xs">
+                    <a href="#" id="cloud-menu-popover" data-toggle="popover" data-placement="bottom"
+                            class="cloud-menu-popover">
+                        <i class="fw fw-tiles"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- BOF cloud menu content -->
+            <div class="cloud-menu-content hide">
+                <div id="popover-head" class="hide">
+                    Navigate to Cloud
+                </div>
+                <div id="popover-content" class="hide">
+                   <div class="cloud-apps">
+                       <a class="cloud-block">
+                           <i class="fa fa-3x fa-cubes"></i>
+                           <div class="cloud-name">Application Cloud</div>
+                       </a>
+                       <a class="cloud-block">
+                           <i class="fw fw-api fa-3x"></i>
+                           <div class="cloud-name">API Cloud</div>
+                       </a>
+                       <a class="cloud-block">
+                           <i class="fw fw-security fa-3x"></i>
+                           <div class="cloud-name">Identity Cloud</div>
+                       </a>
+                       <div class="clearfix"></div> <!-- to make seperate -->
+                   </div>
+                   <div class="cloud-actions">
+                       <h3>Manage your cloud</h3>
+                       <a class="cloud-block-invert">
+                           <i class="fa fa-3x  fa-institution"></i>
+                           <div class="cloud-name">Organizations</div>
+                       </a>
+                       <a class="cloud-block-invert">
+                           <i class="fa fa-3x  fa-users"></i>
+                           <div class="cloud-name">Members</div>
+                       </a>
+                       <a class="cloud-block-invert">
+                           <i class="fa fa-3x  fa-envelope"></i>
+                           <div class="cloud-name">Support</div>
+                       </a>
+                   </div>
+                </div>
+            </div>
+            <!-- EOF cloud menu content -->
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<!-- EOF cloud menu -->

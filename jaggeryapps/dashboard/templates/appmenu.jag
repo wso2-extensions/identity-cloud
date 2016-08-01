@@ -1,0 +1,13 @@
+<!-- BOF App  menu -->
+<div class="navbar navbar-secondary">
+   <div class="container-fliud">
+       <div class="row">
+           <div class="side-pane-trigger">
+               <i class="fa fa-reorder"></i>
+           </div>
+           <div class="breadcrumb-secondary">
+               <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Service Providers
+           </div>
+       </div>
+   </div>
+</div><!-- EOF App  menu -->

@@ -1,0 +1,46 @@
+<%
+var log = new Log();
+var cookie = request.getParameter("cookie") ;
+var user = request.getParameter("user");
+var action = request.getParameter("clientAction");
+handle(action);
+
+function handle(action) {
+
+    try {
+        if (action == "getClaimURIs") {
+            var ssoClient = require('samlSSOConfigServiceClient.jag');
+            var claimURIs = ssoClient.getClaimURIs();
+            print(claimURIs);
+        } else {
+            getsamlClient();
+        }
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+}
+
+function getsamlClient() {
+
+    session.put('auth-cookie', cookie);
+    session.put('user', user);
+    var ssoClient = require('samlSSOConfigServiceClient.jag');
+    var serviceProviders = ssoClient.getServiceProviders().return;
+    var claimURIs = ssoClient.getClaimURIs().return;
+    var certAliases = ssoClient.getCertAliasOfPrimaryKeyStore().return;
+    var signingAlgos = ssoClient.getSigningAlgorithmUris().return;
+    var digestAlgos = ssoClient.getDigestAlgorithmURIs().return;
+    var signingAlgo = ssoClient.getSigningAlgorithmUriByConfig().return;
+    var digestAlgo = ssoClient.getDigestAlgorithmURIByConfig().return;
+    var samlClient = {};
+    samlClient['serviceProviders'] = serviceProviders;
+    samlClient['claimURIs'] = claimURIs;
+    samlClient['certAliases'] = certAliases;
+    samlClient['signingAlgos'] = signingAlgos;
+    samlClient['signingAlgo'] = signingAlgo;
+    samlClient['digestAlgos'] = digestAlgos;
+    samlClient['digestAlgo'] = digestAlgo;
+    print(samlClient);
+}
+%>

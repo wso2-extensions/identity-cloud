@@ -1,0 +1,60 @@
+<%
+include("../wsUtil.jag");
+var util = require("../../util/utility.jag");
+
+var log = new Log();
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/IdentitySAMLSSOConfigService";
+
+var ws = require('ws');
+var webService = new ws.WSRequest();
+
+function getServiceProviders(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getServiceProviders", null);
+    return result;
+}
+
+function getClaimURIs(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getClaimURIs", null);
+    return result;
+}
+
+function getCertAliasOfPrimaryKeyStore(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getCertAliasOfPrimaryKeyStore", null);
+    return result;
+}
+
+function getSigningAlgorithmUris(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getSigningAlgorithmUris", null);
+    return result;
+}
+
+function getDigestAlgorithmURIs(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getDigestAlgorithmURIs", null);
+    return result;
+}
+function getSigningAlgorithmUriByConfig(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getSigningAlgorithmUriByConfig", null);
+    return result;
+}
+function getDigestAlgorithmURIByConfig(){
+    webService = new ws.WSRequest();
+    var result = callWSReturnJSON(webService, serverUrl, "urn:getDigestAlgorithmURIByConfig", null);
+    return result;
+}
+function removeServiceProvider(issuer){
+    webService = new ws.WSRequest();
+    callWSInOnlyWithParams(webService, serverUrl, "urn:removeServiceProvider", issuer ? new Array(issuer) : new Array("") );
+}
+function addRPServiceProvider(payload){
+    webService = new ws.WSRequest();
+    callWSInOnly(webService, serverUrl, "urn:addRPServiceProvider", payload);
+}
+
+%>

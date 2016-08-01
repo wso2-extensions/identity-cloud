@@ -1,0 +1,20 @@
+<div class="left-pane">
+       <ul>
+           <li>
+               <a href="" target="_blank"><i class="fa fa-laptop"></i> Overview</a>
+           </li>
+           <li>
+               <a href=""><i class="fw fw-folder"></i> Directories</a>
+           </li>
+           <li class="selected">
+               <a href=""><i class="fw fw-globe"></i> Service Providers</a>
+           </li>
+           <li>
+               <a href="#"><i class="fw fw-bar-chart"></i> Analytics</a>
+           </li>
+           <li>
+               <a href=""><i class="fw fw-notification"></i> Events</a>
+           </li>
+
+       </ul>
+   </div>

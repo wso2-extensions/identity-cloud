@@ -1,0 +1,38 @@
+<%
+
+var log = new Log();
+var spClient = require('../custom/spAdminClient.jag');
+
+var i18n = session.get("i18n");
+function deleteSP(){
+    try{
+        var cookie = session.get('auth-cookie');
+        if(cookie == null){
+            var cookie = request.getParameter("cookie");
+            session.put('auth-cookie', cookie);
+            var userName = request.getParameter("user");
+            session.put("user",userName);
+        }
+        var spName = request.getParameter('applicationName');
+        spClient.deleteApplication(spName);
+    }catch(e){
+        log.error(e);
+        print(getErrorMessage(e.message));
+    }
+}
+deleteSP();
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
+}
+
+%>
