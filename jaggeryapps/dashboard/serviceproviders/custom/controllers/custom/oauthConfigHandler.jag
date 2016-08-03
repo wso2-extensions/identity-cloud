@@ -5,6 +5,7 @@ var user = request.getParameter("user");
 var appName = request.getParameter("appName");
 var clientID = request.getParameter("clientID");
 var action = request.getParameter("action");
+var sptype = request.getParameter("spType")
 handle(action);
 function handle(action) {
     if (action == 'getOAuthConfigs') {
@@ -48,7 +49,7 @@ function removeOauthConfig() {
     try {
         var oauthClient = require('oauthAdminClient.jag');
         var util = require ('util.jag');
-        util.preDeleteInboundAuthnConfig('oauth2',appName);
+        util.removeOauthConfig(sptype,appName);
         oauthClient.removeOAuthApplicationData(clientID);
     } catch (e) {
         print(e);
@@ -127,7 +128,6 @@ function updateOauthConfig(){
         '<xsd1:username>'+user+'</xsd1:username>'+
         '</xsd:consumerAppDTO>'+
         '</xsd:updateConsumerApplication>';
-        log.info(payload);
         client.updateConsumerApplication(payload);
     } catch (e) {
         print(e);
@@ -201,7 +201,7 @@ function addOauthConfig(){
         '</xsd:registerOAuthApplicationData>';
         client.registerOAuthApplicationData(payload);
         var consumerApp = client.getOAuthApplicationDataByAppName(applicationName).return;
-        postAddOAuthInboundAuthnConfig(consumerApp,applicationName);
+        postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype);
         log.info(consumerApp.toSource());
 
     } catch (e) {
@@ -211,7 +211,7 @@ function addOauthConfig(){
 
 }
 
-function postAddOAuthInboundAuthnConfig(consumerApp,applicationName){
+function postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype){
 
     var spAdminClient = require('spAdminClient.jag');
     var serviceProvider = spAdminClient.getApplication(applicationName).return;
@@ -335,6 +335,11 @@ function postAddOAuthInboundAuthnConfig(consumerApp,applicationName){
                 '</xsd1:outboundProvisioningConfig>';
     }
     updateApp = updateApp + '<xsd1:permissionAndRoleConfig>' + serviceProvider.permissionAndRoleConfig + '</xsd1:permissionAndRoleConfig>' +
+            '<xsd1:spProperties>'+
+            '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
+            '<xsd1:name>appType</xsd1:name>'+
+            '<xsd1:value>'+sptype+'</xsd1:value>'+
+            '</xsd1:spProperties>'+
             '</xsd:serviceProvider>' +
             '</xsd:updateApplication>';
     spAdminClient.updateApplicationData(updateApp);
