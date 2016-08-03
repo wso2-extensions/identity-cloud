@@ -18,4 +18,5 @@ var SAML_RESPONSE = "saml.response";
 var SAML_PROPERTIES = "saml.config"
 
 var SAML_SSO = "samlssocloud";
+var PASSIVE_STS = "passivests";
 %>

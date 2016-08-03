@@ -196,7 +196,7 @@ function deleteOauthConfig() {
     $.ajax({
         url: str,
         type: "POST",
-        data: "&cookie=" + cookie + "&user=" + userName + "&appName=" + appdata.applicationName + "&clientID=" + $('#consumerID').val() + "&action=removeOauthConfig",
+        data: "&cookie=" + cookie + "&user=" + userName + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&clientID=" + $('#consumerID').val() + "&action=removeOauthConfig",
     })
         .done(function (data) {
             //reloadGrid();
@@ -220,7 +220,7 @@ function saveOauthConfig(){
     $.ajax({
         url: str,
         type: "POST",
-        data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&cookie=" + cookie + "&user=" + userName,
+        data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&cookie=" + cookie + "&user=" + userName,
     })
         .done(function (data) {
             //reloadGrid();
