@@ -56,7 +56,7 @@ function drawList() {
         $('#emptyList').hide();
         for (var i in spList) {
             var spdesc = spList[i].description;
-            var spimage = '<img src="../images/is/netsuit.png " class="square-element">';
+            var spimage = '<img src="../images/is/custom.png " class="square-element">';
             if (spList[i].description.indexOf(']') > -1) {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
@@ -72,8 +72,10 @@ function drawList() {
                     spimage = '<img src="../images/is/zuora.png " class="square-element">';
                 } else if (type == SALESFORCE_SP) {
                     spimage = '<img src="../images/is/salesforce.png " class="square-element">';
+                } else if (type == AMAZON_SP) {
+                    spimage = '<img src="../images/is/aws.png " class="square-element">';
                 } else {
-                    spimage = '<img src="../images/is/netsuit.png " class="square-element">';
+                    spimage = '<img src="../images/is/custom.png " class="square-element">';
                 }
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
