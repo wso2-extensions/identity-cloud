@@ -56,7 +56,6 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     } else {
         $('#issuer').prop('readonly', false);
     }
-    debugger;
     if (providerProps["assertionConsumerURLs"] != null && providerProps["assertionConsumerURLs"].value.length > 0) {
         var assertionConsumerURLTblRow =
             "<table id=\"assertionConsumerURLsTable\" style=\"margin-bottom: 3px;\" class=\"styledInner table table-bordered\">" +
