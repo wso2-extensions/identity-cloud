@@ -9,6 +9,7 @@ var NETSUIT_SP = "netsuit";
 var ZUORA_SP = "zuora";
 var SALESFORCE_SP = "salesforce";
 var WELLKNOWN_APPLICATION_TYPE = "appType";
+var DEFAULT_SUBJECT_CLAIM_URI = "http://wso2.org/claims/emailaddress";
 
 //Form Fields
 var ISSUER = "issuer";
@@ -26,3 +27,12 @@ var ENABLE_AUDIENCE_RESTRICTION = "enableAudienceRestriction";
 var ENABLE_RECEIPIENTS = "enableRecipients";
 var ENABLE_IDP_SSO = "enableIdPInitSSO";
 var ENABLE_IDP_SLO = "enableIdPInitSLO";
+
+//AWS Settings
+var AWS_SUBJECT_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/Role";
+var AWS_SUBJECT_LOCAL_DIALECT = "http://wso2.org/claims/awsrole";
+var AWS_EMAIL_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/RoleSessionName";
+
+
+//claim Dialects
+var WSO2_EMAIL = "http://wso2.org/claims/emailaddress";
