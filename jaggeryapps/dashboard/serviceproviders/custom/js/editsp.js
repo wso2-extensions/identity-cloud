@@ -240,3 +240,40 @@ function saveOauthConfig(){
         });
 
 }
+
+function uploadFile(file){
+    $('#metadataFileName').val(file.value);
+
+    var formData = new FormData();
+    formData.append('file', $('input[type=file]')[0].files[0]);
+    formData.append('cookie',cookie);
+    formData.append('userName', userName);
+    formData.append('clientAction','addSPConfigByMetadata');
+    formData.append('spName',$('#oldSPName').val());
+    formData.append('spType',$('#spType').val())
+
+
+    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag";
+    $.ajax({
+        url: str,
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            //reload the page appropriately.
+        },
+        contentType: false,
+        processData: false
+    }).done(function (data) {
+
+    })
+        .fail(function () {
+            message({
+                content: 'Error while loading configurations from metadata', type: 'error', cbk: function () {
+                }
+            });
+
+        })
+        .always(function () {
+            console.log('completed');
+        });
+}

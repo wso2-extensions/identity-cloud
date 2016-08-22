@@ -89,7 +89,7 @@ function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     }
     var subjectClaimUri = appdata.localAndOutBoundAuthenticationConfig.subjectClaimUri;
     if(subjectClaimUri==null || subjectClaimUri.length==0 ){
-        subjectClaimUri = "http://wso2.org/claims/emailaddress";
+        subjectClaimUri = getSubjectClaimUri();
     }
     var subjectoptionList = '<option value="">---Select---</option>';
     if (isLocalClaimsSelected) {
@@ -239,7 +239,7 @@ function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapp
         data: "&cookie=" + cookie + "&user=" + userName + "&clientAction=getClaimURIs",
         success: function (data) {
             spConfigClaimUris = $.parseJSON(data).return;
-            drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
+            handleWellKnownAppClaims(spClaimConfig, isLocalClaimsSelected, claimMapping);
         },
         error: function (e) {
             message({
@@ -250,7 +250,49 @@ function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapp
             });
         }
     });
+}
 
+function handleWellKnownAppClaims(spClaimConfig, isLocalClaimsSelected, claimMapping) {
+    if ($('#spType').val() == "aws" && claimMapping == null) {
+        isLocalClaimsSelected = false;
+        claimMapping = [];
+        var roleClaim = {};
+        roleClaim["defaultValue"] = "";
+        var localrole = {};
+        localrole["claimId"] = "0";
+        localrole["claimUri"] = AWS_SUBJECT_LOCAL_DIALECT;
+        roleClaim["localClaim"] = localrole;
+        var remoterole = {}
+        remoterole["claimId"] = "0";
+        remoterole["claimUri"] = AWS_SUBJECT_REMOTE_DIALECT;
+        roleClaim["remoteClaim"] = remoterole;
+        roleClaim["requested"] = "true";
+        claimMapping[0] = roleClaim;
+
+
+        var emailClaim = {};
+        emailClaim["defaultValue"] = "";
+        var localemail = {};
+        localemail["claimId"] = "0";
+        localemail["claimUri"] = WSO2_EMAIL;
+        emailClaim["localClaim"] = localemail;
+        var remoteEmail = {};
+        remoteEmail["claimId"] = "0";
+        remoteEmail["claimUri"] = AWS_EMAIL_REMOTE_DIALECT;
+        emailClaim["remoteClaim"] = remoteEmail;
+        emailClaim["requested"] = "true";
+        claimMapping[1] = emailClaim;
+
+        spClaimConfig.roleClaimURI = AWS_EMAIL_REMOTE_DIALECT;
+    }
+    drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
+}
+
+function getSubjectClaimUri() {
+    if ($('#spType').val() == "aws") {
+        return AWS_SUBJECT_REMOTE_DIALECT;
+    }
+    return DEFAULT_SUBJECT_CLAIM_URI;
 }
 
 function resetRoleClaims() {

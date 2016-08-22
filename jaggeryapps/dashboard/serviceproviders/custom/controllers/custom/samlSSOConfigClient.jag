@@ -1,6 +1,6 @@
 <%
 var log = new Log();
-var cookie = request.getParameter("cookie") ;
+var cookie = request.getParameter("cookie");
 var user = request.getParameter("user");
 var action = request.getParameter("clientAction");
 handle(action);
@@ -12,6 +12,8 @@ function handle(action) {
             var ssoClient = require('samlSSOConfigServiceClient.jag');
             var claimURIs = ssoClient.getClaimURIs();
             print(claimURIs);
+        } else if (action == "addSPConfigByMetadata") {
+            addSPConfigByMetadata();
         } else {
             getsamlClient();
         }
@@ -43,4 +45,25 @@ function getsamlClient() {
     samlClient['digestAlgo'] = digestAlgo;
     print(samlClient);
 }
+
+function addSPConfigByMetadata() {
+    var spName = request.getParameter('spName');
+    var file = request.getFile("file")
+    var spType = request.getParameter('spType');
+    file.open("r");
+    var message = "";
+    message = file.readAll();
+    message = new java.lang.String(message);
+    var encoded = org.apache.commons.codec.binary.Base64.encodeBase64(message.getBytes("UTF-8"));
+    encoded = new java.lang.String(encoded);
+    var cloudSamlClient = require('cloudSAMLClient.jag');
+    var payload = '<xsd:addSPConfigByMetadata xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://org.apache.axis2/xsd">' +
+            '<xsd:fileContent>' + encoded + '</xsd:fileContent>' +
+            '<xsd:serviceProviderName>' + spName + '</xsd:serviceProviderName>' +
+            '<xsd:spType>' + spType + '</xsd:spType>' +
+            '</xsd:addSPConfigByMetadata>';
+    cloudSamlClient.addSPConfigByMetadata(payload);
+    file.close();
+}
+
 %>

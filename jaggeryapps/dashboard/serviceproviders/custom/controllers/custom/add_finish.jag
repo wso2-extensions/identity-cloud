@@ -12,7 +12,6 @@ function addSP(){
             var cookie = request.getParameter("cookie");
             session.put('auth-cookie', cookie);
             var userName = request.getParameter("user");
-            log.error(userName)
             session.put("user",userName);
         }
 

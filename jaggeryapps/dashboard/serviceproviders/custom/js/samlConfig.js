@@ -49,10 +49,6 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     }
     //$('#addServiceProvider h4').html(tableTitle);
 
-    if(providerProps["hiddenFields"] != null && providerProps["hiddenFields"].value.length > 0){
-        $('#hiddenFields').val(providerProps["hiddenFields"].value)
-        hiddenFields = providerProps["hiddenFields"].value.split(',');
-    }
     $('#issuer').val(providerProps["issuer"].value);
     $('#hiddenIssuer').val(issuer);
     if (isEditSP) {
@@ -60,8 +56,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     } else {
         $('#issuer').prop('readonly', false);
     }
-
-    if (isEditSP && providerProps["assertionConsumerURLs"] != null && providerProps["assertionConsumerURLs"].value.length > 0) {
+    if (providerProps["assertionConsumerURLs"] != null && providerProps["assertionConsumerURLs"].value.length > 0) {
         var assertionConsumerURLTblRow =
             "<table id=\"assertionConsumerURLsTable\" style=\"margin-bottom: 3px;\" class=\"styledInner table table-bordered\">" +
             "<tbody id=\"assertionConsumerURLsTableBody\">";
@@ -110,13 +105,13 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#defaultAssertionConsumerURL').append(defaultAssertionConsumerURLRow);
     }
     var nameIDVal = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress";
-    if (isEditSP && providerProps["nameIdFormat"].value.length > 0) {
+    if (providerProps["nameIdFormat"].value.length > 0) {
         nameIDVal = providerProps["nameIdFormat"].value.replace(/\//g, ":");
     }
     $('#nameIdFormat').val(nameIDVal);
     var certificateAliasRow = "";
     var aliasSet = spConfigCertificateAlias;
-    if (isEditSP && providerProps["alias"] != null && providerProps["alias"].value.length > 0) {
+    if (providerProps["alias"] != null && providerProps["alias"].value.length > 0) {
         if (aliasSet != null) {
             for (var i in aliasSet) {
                 var alias = aliasSet[i];
@@ -137,7 +132,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             for (var i in aliasSet) {
                 var alias = aliasSet[i];
                 if (alias != null) {
-                    if (alias == 'http://www.w3.org/2000/09/xmldsig#rsa-sha1') {
+                    if (alias == 'wso2carbon.cert') {
                         certificateAliasRow = certificateAliasRow + '<option selected="selected" value="' + alias + '">' + alias +
                             '</option>\n';
                     } else {
@@ -197,7 +192,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     $('#digestAlgorithm').empty();
     $('#digestAlgorithm').append(digestAlgorithmRow);
     //start from here
-    if (isEditSP && providerProps["enableResponseSignature"] != null && providerProps["enableResponseSignature"].value == 'true') {
+    if (providerProps["enableResponseSignature"] != null && providerProps["enableResponseSignature"].value == 'true') {
         $('#enableResponseSignature').prop('checked', true);
         $('#enableResponseSignature').val(true);
     } else {
@@ -205,21 +200,21 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#enableResponseSignature').val(false);
     }
 
-    if (isEditSP && providerProps["enableSigValidation"] != null && providerProps["enableSigValidation"].value == 'true') {
+    if (providerProps["enableSigValidation"] != null && providerProps["enableSigValidation"].value == 'true') {
         $('#enableSigValidation').prop('checked', true);
         $('#enableSigValidation').val(true);
     } else {
         $('#enableSigValidation').prop('checked', false);
         $('#enableSigValidation').val(false);
     }
-    if (isEditSP && providerProps["enableEncAssertion"]!= null && providerProps["enableEncAssertion"].value == 'true') {
+    if (providerProps["enableEncAssertion"]!= null && providerProps["enableEncAssertion"].value == 'true') {
         $('#enableEncAssertion').prop('checked', true);
         $('#enableEncAssertion').val(true);
     } else {
         $('#enableEncAssertion').prop('checked', false);
         $('#enableEncAssertion').val(false);
     }
-    if (isEditSP && providerProps["enableSingleLogout"] != null && providerProps["enableSingleLogout"].value == 'true') {
+    if (providerProps["enableSingleLogout"] != null && providerProps["enableSingleLogout"].value == 'true') {
         $('#enableSingleLogout').prop('checked', true);
         $('#enableSingleLogout').val(true);
         $('#sloResponseURL').prop('disabled', false);
@@ -263,17 +258,18 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     } else {
         show = true;
     }
-    debugger;
-    if (isEditSP && providerProps["acsindex"] != null && providerProps["acsindex"].value.length > 0) {
+    if (providerProps["acsindex"] != null && providerProps["acsindex"].value.length > 0) {
         $('#attributeConsumingServiceIndex').val(providerProps["acsindex"].value);
     }
-    if (isEditSP && show) {
+    if (show) {
         if (providerProps["enableAttributeProfile"] != null && providerProps["enableAttributeProfile"].value == 'true') {
-            $('#acsindex').val(providerProps["acsindex"].value);
+            if(providerProps["acsindex"] != null && providerProps["acsindex"].value.length > 0) {
+                $('#acsindex').val(providerProps["acsindex"].value);
+            }
             $('#enableAttributeProfile').prop("checked", true);
             $('#enableAttributeProfile').val(true);
             $('#enableDefaultAttributeProfile').prop("disabled", false);
-            if (providerProps["enableDefaultAttributeProfile"].value == 'true') {
+            if (providerProps["enableDefaultAttributeProfile"] != null && providerProps["enableDefaultAttributeProfile"].value == 'true') {
                 $('#enableDefaultAttributeProfile').prop("checked", true);
                 $('#enableDefaultAttributeProfile').val(true);
                 $('#enableDefaultAttributeProfileHidden').val(true);
@@ -300,7 +296,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     }
 
     var enableAudienceRestrictionRow = "";
-    if (isEditSP && providerProps["enableAudienceRestriction"] != null && providerProps["enableAudienceRestriction"].value == 'true') {
+    if (providerProps["enableAudienceRestriction"] != null && providerProps["enableAudienceRestriction"].value == 'true') {
         $('#enableAudienceRestriction').prop("checked",true);
         $('#enableAudienceRestriction').val(true);
         $("#addAudience").prop('disabled', false);
@@ -322,7 +318,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         '    <table id="audienceTableId" style="' + audienceTableStyle + '" class="styledInner table table-bordered col-sm-offset-1">' +
         '        <tbody id="audienceTableTbody">';
     var j = 0;
-    if (isEditSP && providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value.length > 0) {
+    if (providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value.length > 0) {
         var requestedAudiences = [];
         if (providerProps["audienceURLs"].value.indexOf(',') > -1) {
             requestedAudiences = providerProps["audienceURLs"].value.split(',');
@@ -350,7 +346,9 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     }
     $('#audiencePropertyCounter').val(j);
-    $('#audienceURLs').val(providerProps["audienceURLs"].value);
+    if(providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value != null) {
+        $('#audienceURLs').val(providerProps["audienceURLs"].value);
+    }
     enableAudienceRestrictionRow = enableAudienceRestrictionRow +
         '        </tbody>' +
         '        </table>' ;
@@ -360,7 +358,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     var enableReceiptValidRow = "";
 
-    if (isEditSP && providerProps["enableRecipients"] != null && providerProps["enableRecipients"].value == 'true') {
+    if (providerProps["enableRecipients"] != null && providerProps["enableRecipients"].value == 'true') {
         $('#enableRecipients').prop("checked",true);
         $('#enableRecipients').val(true);
         $('#recipient').prop('disabled', false);
@@ -383,7 +381,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         '        <tbody id="recipientTableTbody">';
 
     var k = 0;
-    if (isEditSP && providerProps["receipientURLs"] != null && providerProps["receipientURLs"].value.length > 0) {
+    if (providerProps["receipientURLs"] != null && providerProps["receipientURLs"].value.length > 0) {
         var requestedRecipients = [];
         if (providerProps["receipientURLs"].value.indexOf(',') > -1) {
             requestedRecipients = providerProps["receipientURLs"].value.split(',');
@@ -413,14 +411,16 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     }
     $('#recipientPropertyCounter').val(k);
-    $('#receipientURLs').val(providerProps["receipientURLs"].value);
+    if(providerProps["receipientURLs"] != null && providerProps["receipientURLs"].value !== null) {
+        $('#receipientURLs').val(providerProps["receipientURLs"].value);
+    }
     enableReceiptValidRow = enableReceiptValidRow +
         '        </tbody>' +
         '        </table>' ;
     $('#recptTblRow').empty();
     $('#recptTblRow').append(enableReceiptValidRow);
 
-    if (isEditSP && providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value =='true') {
+    if (providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value =='true') {
         $('#enableIdPInitSSO').prop("checked",true);
         $('#enableIdPInitSSO').val(true);
     } else {
@@ -428,7 +428,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#enableIdPInitSSO').val(false);
     }
 
-    if (isEditSP && providerProps["enableIdPInitSLO"] != null && providerProps["enableIdPInitSLO"].value == 'true') {
+    if (providerProps["enableIdPInitSLO"] != null && providerProps["enableIdPInitSLO"].value == 'true') {
         $('#enableIdPInitSLO').prop("checked",true);
         $('#enableIdPInitSLO').val(true);
         $('#returnToURLTxtBox').prop("disabled",false);
@@ -442,7 +442,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     var idpSLOReturnToURLInputRow = '<table id="idpSLOReturnToURLsTbl" style="margin-bottom: 3px;" class="styledInner table table-bordered col-sm-offset-1">\n' +
         '            <tbody id="idpSLOReturnToURLsTblBody">\n';
     var returnToColumnId = 0;
-    if (isEditSP && providerProps["idpSLOURLs"] != null && providerProps["idpSLOURLs"].value.length > 0) {
+    if (providerProps["idpSLOURLs"] != null && providerProps["idpSLOURLs"].value.length > 0) {
         var idpInitSLOReturnToURLs = [];
         if (providerProps["idpSLOURLs"].value.indexOf(',') > -1) {
             idpInitSLOReturnToURLs = providerProps["idpSLOURLs"].value.split(',');
@@ -470,64 +470,73 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     }
     idpSLOReturnToURLInputRow = idpSLOReturnToURLInputRow + '</tbody>' +
         '        </table>';
-    $('#idpSLOURLs').val(providerProps["idpSLOURLs"].value);
+    if(providerProps["idpSLOURLs"] != null && providerProps["idpSLOURLs"].value != null) {
+        $('#idpSLOURLs').val(providerProps["idpSLOURLs"].value);
+    }
     $('#currentReturnToColumnId').val(returnToColumnId);
 
 
     $("#idpSLOReturnToURLInputRow").empty();
     $("#idpSLOReturnToURLInputRow").append(idpSLOReturnToURLInputRow);
 
-    controlHiddenFields(hiddenFields);
+    controlHiddenFields(providerProps);
     $('#addServiceProvider').show();
 }
 
-function controlHiddenFields(hiddenFields){
-    if (hiddenFields.indexOf("issuer") > -1) {
+function controlHiddenFields(providerProps) {
+    if (isHidden(ISSUER, providerProps)) {
         $('#issuerRow').hide();
     }
-    if (hiddenFields.indexOf("assertionConsumerURLs") > -1) {
+    if (isHidden(ACS_URLS, providerProps)) {
         $('#acsRow').hide();
         $('#defaultAssertionConsumerURLRow').hide();
     }
-    if (hiddenFields.indexOf("nameIdFormat") > -1) {
+    if (isHidden(NAME_ID_FORMAT, providerProps)) {
         $('#nameIDRow').hide();
     }
-    if (hiddenFields.indexOf("alias") > -1) {
+    if (isHidden(ALIAS, providerProps)) {
         $('#certificateRow').hide();
     }
-    if (hiddenFields.indexOf("signingAlgorithm") > -1) {
+    if (isHidden(SIGN_ALGO, providerProps)) {
         $('#signingAlgorithmRow').hide();
     }
-    if (hiddenFields.indexOf("digestAlgorithm") > -1) {
+    if (isHidden(DIGEST_ALGO, providerProps)) {
         $('#digestAlgorithmRow').hide();
     }
-    if (hiddenFields.indexOf("enableResponseSignature") > -1) {
+    if (isHidden(ENABLE_RESPONSE_SIGNATURE, providerProps)) {
         $('#enableResponseSignatureRow').hide();
     }
-    if (hiddenFields.indexOf("enableSigValidation") > -1) {
+    if (isHidden(ENABLE_SIG_VALID, providerProps)) {
         $('#enableSigValidationRow').hide();
     }
-    if (hiddenFields.indexOf("enableEncAssertion") > -1) {
+    if (isHidden(ENABLE_ENC_ASSERTION, providerProps)) {
         $('#enableEncAssertionRow').hide();
     }
-    if (hiddenFields.indexOf("enableSingleLogout") > -1) {
+    if (isHidden(ENABLE_SLO, providerProps)) {
         $('#singleLogoutRow').hide();
     }
-    if (hiddenFields.indexOf("enableAttributeProfile") > -1) {
+    if (isHidden(ENABLE_ATTR_PROF, providerProps)) {
         $('#attributeRow').hide();
     }
-    if (hiddenFields.indexOf("enableAudienceRestriction") > -1) {
+    if (isHidden(ENABLE_AUDIENCE_RESTRICTION, providerProps)) {
         $('#audienceRestrictionRow').hide();
     }
-    if (hiddenFields.indexOf("enableRecipients") > -1) {
+    if (isHidden(ENABLE_RECEIPIENTS, providerProps)) {
         $('#receipientRow').hide();
     }
-    if (hiddenFields.indexOf("enableIdPInitSSO") > -1) {
+    if (isHidden(ENABLE_IDP_SSO, providerProps)) {
         $('#idpInitSSORow').hide();
     }
-    if (hiddenFields.indexOf("enableIdPInitSLO") > -1) {
+    if (isHidden(ENABLE_IDP_SLO, providerProps)) {
         $('#idpInitSLORow').hide();
     }
+}
+
+function isHidden(fieldName, providerProps){
+ if(providerProps[fieldName] == null || providerProps[fieldName].type == "hidden"){
+    return true;
+ }
+    return false;
 }
 
 function onClickAddACRUrl() {
