@@ -171,6 +171,45 @@
                                 <div class="form-group">
                                     <label for="service-provider-description" >Inbound Authentication Configuration: </label>
                                     <div class="panel-group property-accordion accordion" id="property-accordion">
+                                        <!--BOF SAML Config From Metadata-->
+                                        <div class="panel panel-default" id="samlMetadataPanel">
+                                            <div class="panel-heading" role="tab" id="samlmeta-header" data-toggle="collapse" href="#samlmeta" aria-controls="samlmeta">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#samlconfig">
+                                                    Upload SAML2 SSO Metdata File
+                                                    <span class="pull-right clickable"><i class="fw fw-up"></i></span>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="samlmeta" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlmeta-header" >
+                                                <div class="panel-body inverse">
+                                                        <form id="addMetadata" class="form-horizontal" role="form" style="color: black;" enctype="multipart/form-data">
+                                                            <div class="form-group " id="fileRow">
+                                                                <div class="col-md-12">
+                                                                    <div hidden>
+                                                                        <input type="file" id="uploadfile" onchange="uploadFile(this);"/>
+                                                                    </div>
+                                                                    <!--<label for="metadataFileName">File Name<span class="required">*</span></label>-->
+                                                                    <div class="input-group input-wrap">
+                                                                       <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="$('#uploadfile').trigger('click');return false;">
+                                                                                <span class="fw-stack btn-action-ico">
+                                                                                <i class="fw fw-ring fw-stack-2x"></i>
+                                                                                <i class="fw fw-save fw-stack-1x"></i>
+                                                                                </span>
+                                                                                Upload File...
+                                                                       </button>
+                                                                       <input type="text" class="form-control" id="metadataFileName" name="metadataFileName" disabled="disabled">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--EOF SAML Config From Metadata>
                                         <!--BOF SAML Config-->
                                         <input type="hidden" value="true" id="isEditSp"/>
                                         <div class="panel panel-default" id="samlPanel">
