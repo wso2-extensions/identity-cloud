@@ -65,10 +65,17 @@ function drawUpdatePage() {
 }
 
 function preDrawUpdatePage() {
-    var applicationName = getRequestParameter('applicationName');
-    var sptype = getRequestParameter('sptype');
+
+//    var applicationName = getRequestParameter('applicationName');
+    var applicationName = 'aws'; //TODO
+//    var matcher = new URIMatcher(request.getRequestURI());
+//
+//    if (matcher.match('/serviceprovider/{appname}')) {
+//        var arguments = matcher.elements();
+//        var applicationName = arguments.appname;
+//    }
     $.ajax({
-        url: "/dashboard/serviceproviders/custom/controllers/custom/getsp.jag",
+        url: "/dashboard/serviceproviders/getsp/" + applicationName,
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + applicationName,
         success: function (data) {
@@ -107,7 +114,8 @@ function updateSP() {
 }
 
 function updateCustomSP() {
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
+//    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
+    var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
     var parameters = '&' + $("#addServiceProvider").serialize();
     if ($('#isEditOauthSP').val() == "true") {
         parameters = parameters + "&consumerID=" + $('#consumerID').val() + "&consumerSecret=" + $('#consumerSecret').val();
@@ -119,7 +127,8 @@ function updateCustomSP() {
         data: $('#claimConfigForm').serialize() + "&oldSPName=" + $('#oldSPName').val() + "&spName=" + $('#spName').val() + "&spType=" + $('#spType').val() + "&spDesc=" + $('#spType').val() + ']' + $('#sp-description').val() + parameters + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
     })
         .done(function (data) {
-            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/listsp.jag";
+//            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";
+            window.location.href = "/dashboard/serviceproviders";
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
 
         })
@@ -216,7 +225,9 @@ function deleteOauthConfig() {
 }
 
 function saveOauthConfig(){
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
+    console.log('######################## saveOauthConfig');
+//    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
+    var str = "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     $.ajax({
         url: str,
         type: "POST",
@@ -253,12 +264,14 @@ function uploadFile(file){
     formData.append('spType',$('#spType').val())
 
 
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag";
+//    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
+    var str = "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
     $.ajax({
         url: str,
         type: 'POST',
         data: formData,
         success: function (data) {
+            location.reload();
             //reload the page appropriately.
         },
         contentType: false,

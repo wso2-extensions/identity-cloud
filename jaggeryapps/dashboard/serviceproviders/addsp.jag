@@ -57,7 +57,7 @@ include("../templates/leftpane.jag");
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a href="/dashboard/serviceproviders/listsp.jag" class="btn-action">
+            <a href="/dashboard/serviceproviders" class="btn-action">
                     <span class="fw-stack fw-lg btn-action-ico">
                         <i class="fw fw-ring fw-stack-2x"></i>
                         <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -65,7 +65,7 @@ include("../templates/leftpane.jag");
             </a>
         </div><!-- EOF App  menu actionbar-->
 <form id="addSPForm">
-<div id="addSPBody" class="container-fluid gadget-body">
+<div id="addSPBody" class="container-fluid">
 
         <div class="container-fluid app-type-listing">
             <div class="row listing padding-bottom-xlg" data-count="8.0">
@@ -86,9 +86,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-six" id="2.0" data-description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ultricies nec,
-                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla
-                                vel, aliquet nec, vulputate eget, arcu." data-appname="NetSuite" sp-type="netsuite">
+                    <div class="cloud-app-type app-color-six" id="2.0" data-description="A service provider is a website that hosts applications. You can enable NetSuite as a service provider. Your users can then access other applications directly from NetSuit using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your NetSuit organization, which means users don’t have to switch between programs." data-appname="NetSuite" sp-type="netsuite">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <img class="" src="../images/is/netsuit.png" alt="">
@@ -98,9 +96,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
-                    <div class="cloud-app-type app-color-two" id="3.0" data-description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ultricies nec,
-                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla
-                                vel, aliquet nec, vulputate eget, arcu." data-appname="Concur" sp-type="concur">
+                    <div class="cloud-app-type app-color-two" id="3.0" data-description="A service provider is a website that hosts applications. You can enable Concur as a service provider. Your users can then access other applications directly from Concur using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your Concur organization, which means users don’t have to switch between programs." data-appname="Concur" sp-type="concur">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <img class="" src="../images/is/concur.png" alt="">
@@ -110,9 +106,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-three" id="4.0" data-description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ultricies nec,
-                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla
-                                vel, aliquet nec, vulputate eget, arcu." data-appname="Zuora" sp-type="zuora">
+                    <div class="cloud-app-type app-color-three" id="4.0" data-description="A service provider is a website that hosts applications. You can enable Zuora as a service provider. Your users can then access other applications directly from Zuora using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your Zuora organization, which means users don’t have to switch between programs." data-appname="Zuora" sp-type="zuora">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <img class="" src="../images/is/zuora.png" alt="">
@@ -122,9 +116,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
-                    <div class="cloud-app-type app-color-one" id="5.0" data-description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ultricies nec,
-                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla
-                                vel, aliquet nec, vulputate eget, arcu." data-appname="AWS" sp-type="aws">
+                    <div class="cloud-app-type app-color-one" id="5.0" data-description="A service provider is a website that hosts applications. You can enable AWS as a service provider. Your users can then access other applications directly from AWS using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your AWS organization, which means users don’t have to switch between programs." data-appname="AWS" sp-type="aws">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <img class="" src="../images/is/aws.png" alt="">
@@ -135,7 +127,7 @@ include("../templates/leftpane.jag");
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
                     <div class="cloud-app-type app-color-five cloud-app-type-max" id="6.0"
-                         data-description="TEST " data-appname="GoToMeeting" sp-type="gotomeeting">
+                         data-description="A service provider is a website that hosts applications. You can enable GotoMeeting as a service provider. Your users can then access other applications directly from GotoMeeting using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your GotoMeeting organization, which means users don’t have to switch between programs. " data-appname="GoToMeeting" sp-type="gotomeeting">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <img class="" src="../images/is/gotomeeting.png" alt="">
@@ -145,8 +137,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type  app-color-two" id="7.0"   data-description="Nulla consequat massa quis enim. Donec pede justo, fringilla
-                                vel, aliquet nec, vulputate eget, arcu." data-appname="WSO2 Cloud" >
+                    <div class="cloud-app-type  app-color-two" id="7.0"   data-description="A service provider is a website that hosts applications. You can enable WSO2 Cloud as a service provider. Your users can then access other applications directly from WSO2 Cloud using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your WSO2 organization, which means users don’t have to switch between programs." data-appname="WSO2 Cloud" >
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <i class="fw fw-wso2 fw-custom-x"></i>
