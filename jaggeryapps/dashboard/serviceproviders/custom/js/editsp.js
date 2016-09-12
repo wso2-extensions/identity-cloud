@@ -64,20 +64,11 @@ function drawUpdatePage() {
     }
 }
 
-function preDrawUpdatePage() {
-
-//    var applicationName = getRequestParameter('applicationName');
-    var applicationName = 'aws'; //TODO
-//    var matcher = new URIMatcher(request.getRequestURI());
-//
-//    if (matcher.match('/serviceprovider/{appname}')) {
-//        var arguments = matcher.elements();
-//        var applicationName = arguments.appname;
-//    }
+function preDrawUpdatePage(appName) {
     $.ajax({
-        url: "/dashboard/serviceproviders/getsp/" + applicationName,
+        url: "/dashboard/serviceproviders/getsp/" + appName,
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + applicationName,
+        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
         success: function (data) {
             appdata = $.parseJSON(data).return;
             drawUpdatePage();
@@ -129,8 +120,6 @@ function updateCustomSP() {
         .done(function (data) {
 //            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";
             window.location.href = "/dashboard/serviceproviders";
-            //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
-
         })
         .fail(function () {
             message({
@@ -234,7 +223,6 @@ function saveOauthConfig(){
         data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&cookie=" + cookie + "&user=" + userName,
     })
         .done(function (data) {
-            //reloadGrid();
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
             $('#addAppForm').hide();
             preDrawUpdatePage(appdata.applicationName);
@@ -272,7 +260,6 @@ function uploadFile(file){
         data: formData,
         success: function (data) {
             location.reload();
-            //reload the page appropriately.
         },
         contentType: false,
         processData: false

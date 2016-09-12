@@ -28,14 +28,15 @@
     <body>
         <!-- BOF cloud menu -->
         <%
-var matcher = new URIMatcher(request.getRequestURI());
-
-if (matcher.match('/serviceprovider/{appname}')) {
-    var arguments = matcher.elements();
-    var applicationName = arguments.appname;
-}
-include("../templates/header.jag");
-%>
+        var matcher = new URIMatcher(request.getRequestURI());
+        var applicationName;
+        if (matcher.match('/dashboard/serviceprovider/{appname}')) {
+            var arguments = matcher.elements();
+            applicationName = arguments.appname;
+        }
+        include("../templates/header.jag");
+        %>
+<input type="hidden" value="<%=applicationName%>" id="appName">
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
     <div class="container-fliud">
@@ -70,23 +71,20 @@ include("../templates/leftpane.jag");
 <!-- EOF App  menu actionbar-->
 <div class="container-fluid cloud-container">
     <div class="row">
-        <div class="col-md-5 forms">
+        <div class="col-md-5">
             <div class="form-group">
-                <label for="service-provider-name">Service Provider Name: </label>
-                <input id = "spName" name="service-provider-name" type="text" class="form-control" placeholder="Enter service provider name" />
+                <!--<label for="service-provider-name">Service Provider Name: </label>-->
+                <input id = "spName" name="service-provider-name" type="hidden" class="form-control" placeholder="Enter service provider name" />
                 <input id = "oldSPName" name="oldSPName" type="hidden" />
             </div>
             <div class="form-group">
-                <label for="service-provider-description" >Description: </label>
-                <textarea id="sp-description" name="service-provider-description" class="form-control" rows="3" ></textarea>
+                <!--<label for="service-provider-description" >Description: </label>-->
+                <input id = "sp-description" name="service-provider-description" type="hidden" class="form-control" placeholder="Enter service provider name" />
+                                <!--<textarea id="sp-description" name="service-provider-description" type="hidden" class="form-control" rows="3" ></textarea>-->
                 <input type="hidden" value="custom" id="spType" name="spType" />
             </div>
             <div class="form-group">
                 <label for="service-provider-description" >Claim Configuration </label>
-
-
-
-
                 <div class="panel-group property-accordion accordion" id="claim-accordion">
                     <!--BOF Claim Config-->
                     <div class="panel panel-default">
@@ -735,11 +733,9 @@ var json = null;
 var userName = null;
 //var serverUrl = window.location.host + PROXY_CONTEXT_PATH;
 var serverUrl = window.location.host;
-console.log("############## serverUrl11 : " + serverUrl);
-var applicationName = "";
+var appName = $('#appName').attr('value');
     $(function WindowLoad(event) {
         url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
-        console.log("editSP************ " + url);
         ws = new WebSocket(url);
 
         ws.onopen = function () {
@@ -750,7 +746,7 @@ var applicationName = "";
             var obj = $.parseJSON(event.data);
             cookie = obj.cookie;
             userName = obj.user;
-            preDrawUpdatePage();
+            preDrawUpdatePage(appName);
             console.log("preDrawUpdatePage invoked. ");
         };
         ws.onclose = function () {

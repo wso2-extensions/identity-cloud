@@ -47,7 +47,6 @@ function message(params){
     }else if(params.type == "error"){
         $('#'+params.labelId).text(params.content);
         $('#'+params.labelId).show();
-        alert(params.labelId);
     }else if(params.type == "confirm"){
         icon = "icon-question-sign";
     }
