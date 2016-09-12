@@ -8,7 +8,7 @@ function preDrawSAMLConfigPage(samlsp) {
     digestAlgorithmUriByConfig = null;
 
     $.ajax({
-        url: "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag",
+        url: "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient",
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
@@ -533,9 +533,9 @@ function controlHiddenFields(providerProps) {
 }
 
 function isHidden(fieldName, providerProps){
- if(providerProps[fieldName] == null || providerProps[fieldName].type == "hidden"){
-    return true;
- }
+    if(providerProps[fieldName] == null || providerProps[fieldName].type == "hidden"){
+        return true;
+    }
     return false;
 }
 

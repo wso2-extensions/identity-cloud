@@ -193,7 +193,7 @@ function drawOAuthEditPage() {
             ntlmGrant = grants.indexOf("iwa:ntlm") > -1 ? true : false;
         }
     }
-var hiddenFields = '<input id="consumerkey" name="consumerkey" type="hidden" />'+
+    var hiddenFields = '<input id="consumerkey" name="consumerkey" type="hidden" />'+
         '<input id="consumersecret" name="consumersecret" type="hidden" />'+
         '<input id="oauthVersion" name="oauthVersion" type="hidden" />';
     $('#oauthHiddenFields').empty();
@@ -228,7 +228,7 @@ var hiddenFields = '<input id="consumerkey" name="consumerkey" type="hidden" />'
     } else {
         $(jQuery('#callback_row')).attr('style', 'display:none');
     }
-    
+
     if (app.OAuthVersion == VERSION_2) {
         $('#grant_row').show();
         $('#pkce_enable').show();
@@ -407,56 +407,10 @@ function adjustForm() {
 }
 //<EDIT OAUTH>
 function onClickUpdate() {
-    //var versionValue = document.getElementsByName("oauthVersion")[0].value;
-    //var callbackUrl = document.getElementsByName("callback")[0].value;
-    //if (!(versionValue == '<%=OAuthConstants.OAuthVersions.VERSION_2%>')) {
-    //    if (callbackUrl.trim() == '') {
-    //       // CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
-    //        return false;
-    //    } else {
-    //        validateEdit();
-    //    }
-    //}
-    //
-    //if ($(jQuery("#grant_code"))[0].checked || $(jQuery("#grant_implicit"))[0].checked) {
-    //    callbackUrl = document.getElementById('callback').value;
-    //    if (callbackUrl.trim() == '') {
-    //      //  CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
-    //        return false;
-    //    } else {
-    //        validateEdit();
-    //    }
-    //} else {
-    //    validateEdit();
-    //}
     validateEdit(); //uncomment above and remove this line
 }
 
 function validateEdit() {
-    //var callbackUrl = document.getElementById('callback').value;
-    //var value = document.getElementsByName("application")[0].value;
-    //if (value == '') {
-    //    CARBON.showWarningDialog('<fmt:message key="application.is.required"/>');
-    //    return false;
-    //}
-    //var versionValue = document.getElementsByName("oauthVersion")[0].value;
-    //if (versionValue == '<%=OAuthConstants.OAuthVersions.VERSION_2%>') {
-    //    if (!$(jQuery("#grant_code"))[0].checked && !$(jQuery("#grant_implicit"))[0].checked) {
-    //        document.getElementsByName("callback")[0].value = '';
-    //    } else {
-    //        if (!isWhiteListed(callbackUrl, ["url"]) || !isNotBlackListed(callbackUrl,
-    //                ["uri-unsafe-exists"])) {
-    //           // CARBON.showWarningDialog('<fmt:message key="callback.is.not.url"/>');
-    //            return false;
-    //        }
-    //    }
-    //} else {
-    //    if (!isWhiteListed(callbackUrl, ["url"]) || !isNotBlackListed(callbackUrl,
-    //            ["uri-unsafe-exists"])) {
-    //       // CARBON.showWarningDialog('<fmt:message key="callback.is.not.url"/>');
-    //        return false;
-    //    }
-    //}
     saveOauthConfig(); //uncomment above but don't remove this line
 }
 

@@ -7,7 +7,6 @@ updateSP();
 
 function updateSP(){
     try{
-
         var cookie = session.get('auth-cookie');
         if(cookie == null){
             var cookie = request.getParameter("cookie");

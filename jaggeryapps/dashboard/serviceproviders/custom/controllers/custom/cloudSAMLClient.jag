@@ -13,4 +13,15 @@ function addSPConfigByMetadata(payload){
     webService = new ws.WSRequest();
     callWSInOnly(webService, serverUrl, "urn:addSPConfigByMetadata", payload);
 }
+
+function getSPConfigByMetadata(){
+    webService = new ws.WSRequest();
+
+    serverUrl = util.getServerUrl();
+    serverUrl = serverUrl + "/IDPMetadataAdminService";
+
+    var result = callWSReturnJSON(webService, serverUrl, "urn:generateMetadata");
+    return result;
+}
+
 %>

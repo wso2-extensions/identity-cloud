@@ -1,0 +1,26 @@
+<%
+var log = new Log();
+var spClient = require('custom/controllers/custom/spAdminClient.jag');
+//include("../../../util/constants.jag");
+//var i18n = session.get("i18n");
+downloadMetadata();
+
+function downloadMetadata(){
+    var cookie = session.get('auth-cookie');
+    session.put("user","admin");
+    log.info("cookie : " + cookie);
+    if(cookie == null){
+        var cookie = request.getParameter("cookie");
+        session.put('auth-cookie', cookie);
+        var userName = request.getParameter("user");
+        log.error(userName)
+        session.put("user",userName);
+    }
+
+    var cloudSamlClient = require('custom/controllers/custom/cloudSAMLClient.jag');
+    var metadata = cloudSamlClient.getSPConfigByMetadata();
+    log.info("######################### downloadMetadata : " + metadata.return);
+    print(metadata.return);
+}
+
+%>

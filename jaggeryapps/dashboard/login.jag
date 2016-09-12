@@ -35,7 +35,7 @@ lg.info('saml not enabled');
             error = "e=1&error=" + request.getParameter("error");
         }
         error = (error == null) ? "" : error;
-        response.sendRedirect("/serviceproviders/listsp.jag?" + error);
+        response.sendRedirect("/serviceproviders" + error);
     }
 }
 
