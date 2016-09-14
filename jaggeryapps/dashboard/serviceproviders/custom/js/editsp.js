@@ -21,6 +21,9 @@ function drawUpdatePage() {
         }
         $('#sp-description').val(spDescription);
         $('#spType').val(sptype);
+        if (sptype == CUSTOM_SP) {
+            $('#gw-config-section').show();
+        }
         preDrawClaimConfig();
         var samlsp;
         if (appdata != null && appdata.inboundAuthenticationConfig != null && appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs != null) {

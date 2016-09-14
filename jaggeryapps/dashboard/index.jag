@@ -65,13 +65,13 @@ include("templates/leftpane.jag");
             <span class="fw-stack fw-lg btn-action-ico">
                 <i class="fw fw-ring fw-stack-2x"></i>
                 <i class="fw fw-add fw-stack-1x"></i>
-            </span> <span class="hidden-xs">Add Service Provider</span>
+            </span> <span class="hidden-xs">Add Application</span>
     </a>
     <a href="serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
             <span class="fw-stack fw-lg btn-action-ico">
                 <i class="fw fw-ring fw-stack-2x"></i>
                 <i class="fw fw-list fw-stack-1x"></i>
-            </span> <span class="hidden-xs">List Service Providers</span>
+            </span> <span class="hidden-xs">Add Application</span>
     </a>
 </div><!-- EOF App  menu actionbar-->
 

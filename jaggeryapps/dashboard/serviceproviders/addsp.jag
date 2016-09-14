@@ -43,7 +43,7 @@ include("../templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Service Providers / Add
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications / Add
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@ include("../templates/leftpane.jag");
                     <span class="fw-stack fw-lg btn-action-ico">
                         <i class="fw fw-ring fw-stack-2x"></i>
                         <i class="fw fw-left-arrow fw-stack-1x"></i>
-                    </span> <span class="hidden-xs">Back to Service Providers</span>
+                    </span> <span class="hidden-xs">Back to Applications</span>
             </a>
         </div><!-- EOF App  menu actionbar-->
 <form id="addSPForm">
@@ -151,14 +151,14 @@ include("../templates/leftpane.jag");
                          from Salesforce using single sign-on. Single sign-on can be a great help to your users:
                          instead of having to remember many passwords, they only have to remember one. Plus, the
                          applications can be added as tabs to your organization, which means users don’t
-                         have to switch between programs." data-appname="Custom Service Provider" sp-type="custom">
+                         have to switch between programs." data-appname="Custom Application" sp-type="custom">
                         <div class="thumbnail icon">
                             <div class="square-element">
                                 <i class="fw fw fw-globe fw-custom-x"></i>
                             </div>
                         </div>
 
-                        <div class="type-name">Custom Service Provider</div>
+                        <div class="type-name">Custom Application</div>
                     </div>
                 </div>
 
