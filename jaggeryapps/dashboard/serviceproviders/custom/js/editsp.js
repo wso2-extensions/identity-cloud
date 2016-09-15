@@ -111,6 +111,20 @@ function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
     var parameters = '&' + $("#addServiceProvider").serialize();
+
+    var gatewayProperties = JSON.stringify({
+                                               "skipGateway": $('#skipgateway').is(':checked'),
+                                               "appContext": $('#gw-app-context').val(),
+                                               "appUrl": $('#gw-app-url').val()
+                                           });
+
+    var storeProperties = JSON.stringify({
+                                             "appDisplayName": $('#store-app-name').val(),
+                                             "appStoreUrl": $('#store-app-url').val(),
+                                             "tags": $('#store-app-tags').val(),
+                                             "visibility": $('#store-app-visibility').val()
+                                         });
+
     if ($('#isEditOauthSP').val() == "true") {
         parameters = parameters + "&consumerID=" + $('#consumerID').val() + "&consumerSecret=" + $('#consumerSecret').val();
     }
@@ -118,7 +132,11 @@ function updateCustomSP() {
     $.ajax({
         url: str,
         type: "POST",
-        data: $('#claimConfigForm').serialize() + "&oldSPName=" + $('#oldSPName').val() + "&spName=" + $('#spName').val() + "&spType=" + $('#spType').val() + "&spDesc=" + $('#spType').val() + ']' + $('#sp-description').val() + parameters + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+               data: $('#claimConfigForm').serialize() + "&oldSPName=" + $('#oldSPName').val() + "&spName="
+                     + $('#spName').val() + "&spType=" + $('#spType').val() + "&spDesc=" + $('#spType').val() + ']'
+                     + $('#sp-description').val() + parameters + "&profileConfiguration=default" + "&cookie=" + cookie
+                     + "&user=" + userName + "&gatewayProperties=" + gatewayProperties + "&storeProperties="
+                     + storeProperties,
     })
         .done(function (data) {
 //            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";

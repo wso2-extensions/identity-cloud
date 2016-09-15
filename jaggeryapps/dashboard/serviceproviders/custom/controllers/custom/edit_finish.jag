@@ -4,6 +4,7 @@ var spClient = require('../custom/spAdminClient.jag');
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
 updateSP();
+createApplication();
 
 function updateSP(){
     try{
@@ -322,6 +323,13 @@ function updateSP(){
         print("This didn't work" + getErrorMessage(e.message));
     }
 
+}
+
+function createApplication() {
+    var storeProperties = request.getParameter("storeProperties");
+    var gatewayProperties = request.getParameter("gatewayProperties");
+
+    //save application using REST API
 }
 
 function getErrorMessage(message) {
