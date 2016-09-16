@@ -1,12 +1,19 @@
 <%
 var log = new Log();
 var spClient = require('../custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
 updateSP();
 
 function updateSP(){
     try{
+
+        if(appManagementIntegrationConfig.enabled){
+          addApp();
+        }
+
         var cookie = session.get('auth-cookie');
         if(cookie == null){
             var cookie = request.getParameter("cookie");
@@ -321,6 +328,55 @@ function updateSP(){
         log.error(e);
         print("This didn't work" + getErrorMessage(e.message));
     }
+
+}
+
+function addApp(){
+
+  var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+  publisher.init();
+
+  var app = {
+              name: request.getParameter('spName'),
+              version: "1.0",
+              isDefaultVersion: true,
+              displayName: request.getParameter('spName'),
+              description: request.getParameter('spDesc'),
+              trackingCode: request.getParameter('spName'),
+              isSite: "false",
+              context: '/' + request.getParameter('spName'),
+              appUrL: "http://www.google.lk",
+              acsUrl: "",
+              transport: "http",
+              policyGroups: [
+                {
+                  policyGroupName: "default",
+                  description: "Default policy",
+                  throttlingTier: "Unlimited",
+                  allowAnonymousAccess: "false"
+                }
+              ],
+              uriTemplates: [
+                {
+                  urlPattern: "/*",
+                  httpVerb: "GET",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "POST",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "PUT",
+                  policyGroupName: "default"
+                }
+              ],
+              customProperties:[]
+            }
+
+  publisher.addApp(app);
 
 }
 
