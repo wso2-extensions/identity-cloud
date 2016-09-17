@@ -6,14 +6,13 @@ var appManagementIntegrationConfig = require('/conf/app_management_integration.j
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
 updateSP();
-createApplication();
+
+if(appManagementIntegrationConfig.enabled){
+  addApp();
+}
 
 function updateSP(){
     try{
-
-        if(appManagementIntegrationConfig.enabled){
-          addApp();
-        }
 
         var cookie = session.get('auth-cookie');
         if(cookie == null){
@@ -332,30 +331,52 @@ function updateSP(){
 
 }
 
-function createApplication() {
-    var storeProperties = request.getParameter("storeProperties");
-    var gatewayProperties = request.getParameter("gatewayProperties");
-
-    //save application using REST API
-}
-
 function addApp(){
 
   var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
   publisher.init();
 
+  var gatewayProperties = request.getParameter("gatewayProperties");
+  if(gatewayProperties){
+    gatewayProperties = JSON.parse(gatewayProperties);
+  }
+
+  var storeProperties = request.getParameter("storeProperties");
+  if(storeProperties){
+    storeProperties = JSON.parse(storeProperties);
+  }
+
+  var appURL = gatewayProperties.appUrl;
+  var context = gatewayProperties.appContext;
+  if(gatewayProperties.skipGateway){
+
+    appURL = storeProperties.appStoreUrl;
+
+    // This is just to by-pass a faulty validation.
+    // TODO : Fix the validation.
+    context =  request.getParameter('spName');
+  }
+
+  // Coverting "a,b,c" => ["a", "b", "c"] for JSON parsing
+  var tags = JSON.parse('["' + storeProperties.tags.split(',').join('","') + '"]');
+
+  var visibleRoles = JSON.parse('["' + storeProperties.visibility.split(',').join('","') + '"]');
+
   var app = {
               name: request.getParameter('spName'),
               version: "1.0",
               isDefaultVersion: true,
-              displayName: request.getParameter('spName'),
+              displayName: storeProperties.appDisplayName,
               description: request.getParameter('spDesc'),
               trackingCode: request.getParameter('spName'),
               isSite: "false",
-              context: '/' + request.getParameter('spName'),
-              appUrL: "http://www.google.lk",
+              skipGateway : gatewayProperties.skipGateway,
+              context: '/' + context,
+              appUrL: appURL,
               acsUrl: "",
               transport: "http",
+              tags : tags,
+              visibleRoles : visibleRoles,
               policyGroups: [
                 {
                   policyGroupName: "default",
