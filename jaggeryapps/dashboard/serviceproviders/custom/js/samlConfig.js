@@ -999,6 +999,18 @@ function addSloReturnToURL() {
     $("#currentReturnToColumnId").val(parseInt(currentColumnId) + 1);
 }
 
+$(document).ready(function() {
+    //IDP initiated sso check box check/uncheck event
+    $("#enableIdPInitSSO").change(function () {
+        if (this.checked) {
+            $("#store-app-url-sec").hide();
+        } else {
+            $("#store-app-url-sec").show();
+        }
+    });
+});
+
+
 
 
 

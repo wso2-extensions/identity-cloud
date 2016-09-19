@@ -346,11 +346,9 @@ function addApp(){
     storeProperties = JSON.parse(storeProperties);
   }
 
-  var appURL = gatewayProperties.appUrl;
+  var appURL = getAppAccessURL(gatewayProperties,storeProperties);
   var context = gatewayProperties.appContext;
   if(gatewayProperties.skipGateway){
-
-    appURL = storeProperties.appStoreUrl;
 
     // This is just to by-pass a faulty validation.
     // TODO : Fix the validation.
@@ -423,4 +421,27 @@ function getErrorMessage(message) {
     return '{"success":false, "message":null}';
 }
 
+function getAppAccessURL(gatewayProperties, storeProperties) {
+    if(request.getParameter("enableIdPInitSSO") == 'true') {
+        // IDP initiated SSO (Gateway is skipped)
+        var issuer = request.getParameter("issuer");
+        return getIDPInitiatedSSOURL(issuer);
+    } else if(gatewayProperties.skipGateway){
+        //SP initiated SSO
+        return storeProperties.appStoreUrl;
+    } else {
+       //Gateway url
+       //TODO
+    }
+
+}
+
+
+function getIDPInitiatedSSOURL(issuer) {
+    //TODO - Support tenants
+    //https://{Hostname}:{Port}/samlsso?spEntityID={SAML2 SSO Issuer name}
+    return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+    + "/samlsso?spEntityID=" +issuer;
+
+}
 %>
