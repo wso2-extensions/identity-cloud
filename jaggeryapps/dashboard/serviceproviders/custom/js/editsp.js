@@ -23,6 +23,8 @@ function drawUpdatePage() {
         $('#spType').val(sptype);
         if (sptype == CUSTOM_SP) {
             $('#gw-config-section').show();
+        } else {
+            $('#skipgateway').prop('checked', true);
         }
         preDrawClaimConfig();
         var samlsp;

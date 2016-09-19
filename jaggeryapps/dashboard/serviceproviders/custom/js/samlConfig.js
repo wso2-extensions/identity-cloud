@@ -423,6 +423,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     if (providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value =='true') {
         $('#enableIdPInitSSO').prop("checked",true);
         $('#enableIdPInitSSO').val(true);
+        //Store app access url should be constructed
+        $("#store-app-url-sec").hide();
     } else {
         $('#enableIdPInitSSO').prop("checked",false);
         $('#enableIdPInitSSO').val(false);
