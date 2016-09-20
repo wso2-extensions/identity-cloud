@@ -8,6 +8,8 @@ $(document).ready(function() {
             if(!$("#enableIdPInitSSO").is(':checked')) {
                 $("#store-app-url-sec").show();
             }
+            //clear gw related properties
+            resetSAML2SSOConfigurations();
         } else {
             $("#gw-config").show();
         }
@@ -24,5 +26,62 @@ $(document).ready(function() {
         }
     });
 
+    $("#gw-app-context").focusout(function () {
+        resetSAML2SSOConfigurations();
+        if ($("#gw-app-context").val().trim() != "") {
+            setSAML2SSOConfigurations();
+        }
+    });
+
 });
+
+//Set gateway
+function setSAML2SSOConfigurations() {
+    //todo: use correct tenantId,tenantDomain,app version
+    var tenantDomain = "carbon.super";
+    var tenantId =  "-1234";
+    var appName = $("#spName").val();
+    var version = "1.0";
+    var transport = "http";
+    var context = $("#gw-app-context").val();
+
+    if (context != "") {
+        if (context.charAt(0) != '/') {
+            context = '/' + context;
+        }
+    }
+
+    var saml2SsoIssuer = null;
+    if (tenantId != '-1234') {
+        saml2SsoIssuer = appName + "-" + tenantDomain + "-" + version;
+    } else {
+        saml2SsoIssuer = appName + "-" + version;
+    }
+    $('#issuer').val(saml2SsoIssuer);
+
+    var ssoEnabled = true; //todo: read from config
+    if (ssoEnabled) {
+        $('#enableResponseSignature').prop('checked', true);
+    } else {
+        $('#enableResponseSignature').prop('checked', false);
+    }
+
+    var acsUrl = getACSURL(context, version, tenantDomain, transport);
+    $('#assertionConsumerURLTxt').val(acsUrl);
+    onClickAddACRUrl();
+}
+
+function resetSAML2SSOConfigurations() {
+    $('#issuer').val("");
+    $('#enableResponseSignature').prop('checked', false);
+    $('#assertionConsumerURLTxt').val("");
+    $('#defaultAssertionConsumerURL').val("");
+    $('#assertionConsumerURLsTable').remove();
+}
+
+
+
+
+
+
 

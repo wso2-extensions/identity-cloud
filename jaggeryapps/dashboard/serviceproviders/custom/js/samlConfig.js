@@ -542,8 +542,8 @@ function isHidden(fieldName, providerProps){
 }
 
 function onClickAddACRUrl() {
-    //var isValidated = doValidateInputToConfirm(document.getElementById('assertionConsumerURLTxt'), "<fmt:message key='sp.not.https.endpoint.address'/>",
-    //    addAssertionConsumerURL, null, null);
+    //var isValidated = doValidateInputToConfirm(document.getElementById('assertionConsumerURLTxt'), "<fmt:message
+    // key='sp.not.https.endpoint.address'/>", addAssertionConsumerURL, null, null);
     var isValidated = true;
     if (isValidated) {
         addAssertionConsumerURL();
@@ -1013,6 +1013,43 @@ $(document).ready(function() {
 });
 
 
+/**
+ * Get Assertion Consumer URL
+ * @param appContext
+ * @param appVersion
+ * @param tenantDomain
+ * @param transport
+ * @returns ACS URL
+ */
+function getACSURL(appContext, appVersion, tenantDomain, transport) {
+    var acsURLPostfix = "appm/acs"; //todo: dynamically read from config
+    return getGatewayUrl(appContext, appVersion, tenantDomain, transport) + acsURLPostfix;
+}
 
+/**
+ * Get Gateway Endpoint URL
+ * @param appContext
+ * @param appVersion
+ * @param tenantDomain
+ * @param transport
+ * @returns {*}
+ */
+function getGatewayUrl(appContext, appVersion, tenantDomain, transport) {
+    var url;
+    //todo: dynamically read from config ("http://${carbon.local.ip}:${http.nio.port},https://${carbon.local.ip}:${https.nio.port}")
+    var gatewayEndpoint = "http://localhost:9763,https://localhost:9443";
 
+    if (transport == "http") {
+        url = gatewayEndpoint.split(",")[0];
+    } else {
+        url = gatewayEndpoint.split(",")[1];
+    }
+
+    if (tenantDomain != "carbon.super") {
+        url = url + "/t/" + tenantDomain + appContext + "/" + appVersion + "/";
+    } else {
+        url = url + appContext + "/" + appVersion + "/";
+    }
+    return url;
+}
 
