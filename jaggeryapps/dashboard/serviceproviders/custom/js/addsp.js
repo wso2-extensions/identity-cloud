@@ -3,8 +3,8 @@ function drawAddSP(sptype) {
     output = '<div class="container-fluid form-listing">'+
         '<div class="col-md-5 forms">'+
         '<div class="form-group">'+
-        '<label for="spName">Service Provider Name: </label>'+
-        '<input id="spName" name="spName" type="text" class="form-control" placeholder="Enter service provider name" autofocus/>'+
+        '<label for="spName">Application Name: </label>'+
+        '<input id="spName" name="spName" type="text" class="form-control" placeholder="Enter application name" autofocus/>'+
         '<label id="spName-error" class="error" hidden="" for="issuer">This field is required.</label>'+
         '</div>'+
         '<div class="form-group">'+

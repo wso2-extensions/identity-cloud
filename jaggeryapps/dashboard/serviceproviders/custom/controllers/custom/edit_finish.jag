@@ -346,10 +346,10 @@ function addApp(){
     storeProperties = JSON.parse(storeProperties);
   }
 
-  var appURL = getAppAccessURL(gatewayProperties,storeProperties);
+  var appURL = gatewayProperties.appUrl;
   var context = gatewayProperties.appContext;
   if(gatewayProperties.skipGateway){
-
+    var appURL = getAppAccessURL(storeProperties);
     // This is just to by-pass a faulty validation.
     // TODO : Fix the validation.
     context =  request.getParameter('spName');
@@ -369,6 +369,7 @@ function addApp(){
               trackingCode: request.getParameter('spName'),
               isSite: "false",
               skipGateway : gatewayProperties.skipGateway,
+              serviceProviderCreationEnabled : false,
               context: '/' + context,
               appUrL: appURL,
               acsUrl: "",
@@ -421,19 +422,21 @@ function getErrorMessage(message) {
     return '{"success":false, "message":null}';
 }
 
-function getAppAccessURL(gatewayProperties, storeProperties) {
+/**
+ * Get the access url for skip the gateway app
+ * @param gatewayProperties
+ * @param storeProperties
+ * @returns {*}
+ */
+function getAppAccessURL(storeProperties) {
     if(request.getParameter("enableIdPInitSSO") == 'true') {
         // IDP initiated SSO (Gateway is skipped)
         var issuer = request.getParameter("issuer");
         return getIDPInitiatedSSOURL(issuer);
-    } else if(gatewayProperties.skipGateway){
+    } else {
         //SP initiated SSO
         return storeProperties.appStoreUrl;
-    } else {
-       //Gateway url
-       //TODO
     }
-
 }
 
 
