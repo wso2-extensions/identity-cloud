@@ -369,6 +369,7 @@ function addApp(){
               trackingCode: request.getParameter('spName'),
               isSite: "false",
               skipGateway : gatewayProperties.skipGateway,
+              serviceProviderCreationEnabled : false,
               context: '/' + context,
               appUrL: appURL,
               acsUrl: "",
@@ -430,8 +431,8 @@ function getAppAccessURL(gatewayProperties, storeProperties) {
         //SP initiated SSO
         return storeProperties.appStoreUrl;
     } else {
-       //Gateway url
-       //TODO
+       // Gateway url. Store UI will take care of the store URL. So lets simply pass a dummy value to avoid validation violations.
+       return 'http://dummy.gateway.com';
     }
 
 }
