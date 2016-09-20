@@ -369,6 +369,7 @@ function addApp(){
               trackingCode: request.getParameter('spName'),
               isSite: "false",
               skipGateway : gatewayProperties.skipGateway,
+              serviceProviderCreationEnabled : false,
               context: '/' + context,
               appUrL: appURL,
               acsUrl: "",
