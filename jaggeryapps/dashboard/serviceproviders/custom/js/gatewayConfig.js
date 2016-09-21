@@ -75,9 +75,6 @@ function setSAML2SSOConfigurations() {
     disableAudienceRestriction($('#enableAudienceRestriction')[0]);
     $('#audience').val("carbonServer");
     addAudienceFunc();
-
-    //set signature validation
-    $('#enableSigValidation').prop('checked', true);
 }
 
 function resetSAML2SSOConfigurations() {
@@ -95,9 +92,6 @@ function resetSAML2SSOConfigurations() {
     for (var c = 0; c < propertyCount; c++) {
         removeAudience(c);
     }
-
-    //clear signature validation
-    $('#enableSigValidation').prop('checked', false);
 }
 
 
