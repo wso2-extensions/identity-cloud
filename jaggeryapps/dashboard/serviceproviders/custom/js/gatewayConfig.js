@@ -69,6 +69,15 @@ function setSAML2SSOConfigurations() {
     var acsUrl = getACSURL(context, version, tenantDomain, transport);
     $('#assertionConsumerURLTxt').val(acsUrl);
     onClickAddACRUrl();
+
+    //set audience restrictions
+    $('#enableAudienceRestriction').prop('checked', true);
+    disableAudienceRestriction($('#enableAudienceRestriction')[0]);
+    $('#audience').val("carbonServer");
+    addAudienceFunc();
+
+    //set signature validation
+    $('#enableSigValidation').prop('checked', true);
 }
 
 function resetSAML2SSOConfigurations() {
@@ -77,6 +86,18 @@ function resetSAML2SSOConfigurations() {
     $('#assertionConsumerURLTxt').val("");
     $('#defaultAssertionConsumerURL').val("");
     $('#assertionConsumerURLsTable').remove();
+
+    //remove audience restrictions
+    $('#enableAudienceRestriction').prop('checked', false);
+    $('#audience').val("");
+    disableAudienceRestriction($('#enableAudienceRestriction')[0]);
+    var propertyCount = $("#audiencePropertyCounter").val();
+    for (var c = 0; c < propertyCount; c++) {
+        removeAudience(c);
+    }
+
+    //clear signature validation
+    $('#enableSigValidation').prop('checked', false);
 }
 
 
