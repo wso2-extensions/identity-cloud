@@ -7,25 +7,42 @@ var appManagementClient = function(){
       this.config = config;
     }
 
-    Publisher.prototype.init = function () {
+    Publisher.prototype.init = function (oauthApp) {
 
-      // Do DCR and access token generation here.
-      var oauthApp = {
-                      callbackUrl: this.config.clientRegistration.callbackUrl,
-                      clientName: this.config.clientRegistration.clientName,
-                      tokenScope: this.config.clientRegistration.tokenScope,
-                      owner: this.config.clientRegistration.owner,
-                      grantType: this.config.clientRegistration.grantType,
-                      saasApp: this.config.clientRegistration.saasApp
-                     };
+      var accessToken = session.get('app-management.accessToken');
 
-      if(!session.get('app-management.accessToken')){
-        var registeredOAuthApp = registerOAuthApp(this.config.clientRegistration, oauthApp)
-        var accessToken = getAccessToken(registeredOAuthApp);
+      if(!accessToken){
+
+        var oauthAppCredentials = {};
+
+        if(!oauthApp){
+          var oauthAppToBeAdded = {
+                                    callbackUrl: this.config.clientRegistration.callbackUrl,
+                                    clientName: this.config.clientRegistration.clientName,
+                                    tokenScope: this.config.clientRegistration.tokenScope,
+                                    owner: this.config.clientRegistration.owner,
+                                    grantType: this.config.clientRegistration.grantType,
+                                    saasApp: this.config.clientRegistration.saasApp
+                                  };
+          oauthAppCredentials = registerOAuthApp(this.config.clientRegistration, oauthAppToBeAdded);
+
+        }else{
+          var inboundConfigs = oauthApp.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
+          for(var i = 0; i < inboundConfigs.length; i++){
+            if(inboundConfigs[i].inboundAuthType === 'oauth2'){
+              oauthAppCredentials.clientId = inboundConfigs[i].inboundAuthKey;
+              oauthAppCredentials.clientSecret = inboundConfigs[i].properties['value'];
+              break;
+            }
+          }
+        }
+
+        accessToken = getAccessToken(oauthAppCredentials);
         session.put('app-management.accessToken', accessToken);
+
       }
 
-      this.accessToken = session.get('app-management.accessToken');
+      this.accessToken  = accessToken;
     };
 
     Publisher.prototype.addApp = function (application) {
