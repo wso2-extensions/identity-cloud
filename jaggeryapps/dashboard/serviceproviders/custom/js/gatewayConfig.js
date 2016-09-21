@@ -65,6 +65,7 @@ function setSAML2SSOConfigurations() {
     } else {
         $('#enableResponseSignature').prop('checked', false);
     }
+    disableResponseSignature($('#enableResponseSignature')[0]);
 
     var acsUrl = getACSURL(context, version, tenantDomain, transport);
     $('#assertionConsumerURLTxt').val(acsUrl);
@@ -80,6 +81,7 @@ function setSAML2SSOConfigurations() {
 function resetSAML2SSOConfigurations() {
     $('#issuer').val("");
     $('#enableResponseSignature').prop('checked', false);
+    disableResponseSignature($('#enableResponseSignature')[0]);
     $('#assertionConsumerURLTxt').val("");
     $('#defaultAssertionConsumerURL').val("");
     $('#assertionConsumerURLsTable').remove();
