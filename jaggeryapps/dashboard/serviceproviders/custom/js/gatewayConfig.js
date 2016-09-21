@@ -42,7 +42,7 @@ function setSAML2SSOConfigurations() {
     var tenantId =  "-1234";
     var appName = $("#spName").val();
     var version = "1.0";
-    var transport = "http";
+    var transport = "https";
     var context = $("#gw-app-context").val();
 
     if (context != "") {

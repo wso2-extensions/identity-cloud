@@ -1037,7 +1037,7 @@ function getACSURL(appContext, appVersion, tenantDomain, transport) {
 function getGatewayUrl(appContext, appVersion, tenantDomain, transport) {
     var url;
     //todo: dynamically read from config ("http://${carbon.local.ip}:${http.nio.port},https://${carbon.local.ip}:${https.nio.port}")
-    var gatewayEndpoint = "http://localhost:9763,https://localhost:9443";
+    var gatewayEndpoint = "http://localhost:8280,https://localhost:8243";
 
     if (transport == "http") {
         url = gatewayEndpoint.split(",")[0];
