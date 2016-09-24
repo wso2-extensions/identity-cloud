@@ -2,6 +2,8 @@
 
 var log = new Log();
 var spClient = require('../custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
 
 var i18n = session.get("i18n");
 function deleteSP(){
@@ -20,7 +22,44 @@ function deleteSP(){
         print(getErrorMessage(e.message));
     }
 }
+
+function deleteApp() {
+
+    var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+
+    // Check whether there is an OAuth app registered for ReST API calls.
+    // If not the publisher module will create one.
+    var oauthApp = getOAuthAppForRestAPI();
+    var applicationName = request.getParameter('applicationName');
+    var version = "1.0";
+    publisher.init(oauthApp);
+    publisher.deleteApp(applicationName, version)
+}
+
+function getOAuthAppForRestAPI(){
+
+    var createdServiceProviders = spClient.getAllCustomSPs().return;
+
+    var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
+    var oauthAppExists = false;
+
+    for(var i = 0; i < createdServiceProviders.length; i++){
+        if(createdServiceProviders[i].applicationName === oauthAppName){
+            oauthAppExists = true;
+            break;
+        }
+    }
+
+    var oauthApp;
+    if(oauthAppExists){
+        oauthApp = spClient.getApplication(oauthAppName).return;
+    }
+
+    return oauthApp;
+}
+
 deleteSP();
+deleteApp();
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
         if (message.indexOf('401 Error: Unauthorized') > -1) {

@@ -46,24 +46,36 @@ var appManagementClient = function(){
     };
 
     Publisher.prototype.addApp = function (application) {
-
       // Call the ReST API to persist the app
       var result = post(
                           this.config.publisher.endpoint + 'apps/webapp',
                           JSON.stringify(application),
                           {
-                           'Authorization' : 'Bearer ' + this.accessToken.access_token,
-                           'Content-Type' : 'application/json'
+                              'Authorization': 'Bearer ' + this.accessToken.access_token,
+                              'Content-Type': 'application/json'
                           },
                           'json'
                         );
-
       // Publish the app so that it will be available in the store.
       updateLifeCycleStatus(result.data.AppId, 'Submit%20for%20Review', this.config.publisher.endpoint, this.accessToken.access_token);
       updateLifeCycleStatus(result.data.AppId, 'Approve', this.config.publisher.endpoint, this.accessToken.access_token);
       updateLifeCycleStatus(result.data.AppId, 'Publish', this.config.publisher.endpoint, this.accessToken.access_token);
 
     };
+
+    Publisher.prototype.updateApp = function (application) {
+        // Call the ReST API to persist the app
+         put(
+            this.config.publisher.endpoint + 'apps/webapp/id/'+application.id,
+            JSON.stringify(application),
+            {
+                'Authorization': 'Bearer ' + this.accessToken.access_token,
+                'Content-Type': 'application/json'
+            },
+            'json'
+        );
+    };
+
 
     function registerOAuthApp(clientRegistrationConfig, oauthApp) {
 
@@ -120,6 +132,62 @@ var appManagementClient = function(){
           );
 
     }
+
+
+    Publisher.prototype.deleteApp = function (applicationName, appVersion) {
+        var appId = getAppIdByName(applicationName, appVersion, this.config.publisher.endpoint,
+                                   this.accessToken.access_token);
+        if (appId == "") {
+            //This code block will execute when user only register the SP and when App details are not saved
+
+            if (log.isDebugEnabeld()) {
+                log.debug("Application details not available for app: " + applicationName + " with version:"
+                          + appVersion);
+            }
+            return;
+        }
+
+        del(
+            this.config.publisher.endpoint + 'apps/webapp/id/' + appId, '',
+            {
+                'Authorization': 'Bearer ' + this.accessToken.access_token,
+                'Content-Type': 'application/json'
+            }
+        );
+    };
+
+    Publisher.prototype.getApp = function (appName, appVersion) {
+        var appId = getAppIdByName(appName, appVersion, this.config.publisher.endpoint, this.accessToken.access_token);
+        if (appId == "") {
+            //This code block will execute when user only register the SP and when App details are not saved
+            if (log.isDebugEnabeld()) {
+                log.debug("Application details not available for app: " + applicationName + " with version:"
+                          + appVersion);
+            }
+            return;
+        }
+        var result = get(
+            this.config.publisher.endpoint + 'apps/webapp/id/' + appId, '',
+            {
+                'Authorization': 'Bearer ' + this.accessToken.access_token,
+                'Content-Type': 'application/json'
+            }, 'json'
+        );
+        return result.data;
+
+    };
+
+    function getAppIdByName(appName, appVersion, endpoint, accesstoken) {
+        var result = get(
+            endpoint + 'apps/webapp/name/' + appName + '/version/' + appVersion + '/uuid', '',
+            {
+                'Authorization': 'Bearer ' + accesstoken,
+                'Content-Type': 'application/json'
+            }, 'json'
+        );
+        return result.data.id;
+    };
+
 
     return {Publisher : Publisher};
 
