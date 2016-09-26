@@ -139,11 +139,9 @@ var appManagementClient = function(){
                                    this.accessToken.access_token);
         if (appId == "") {
             //This code block will execute when user only register the SP and when App details are not saved
+            log.debug("Application details not available for app: " + applicationName + " with version:"
+                      + appVersion);
 
-            if (log.isDebugEnabeld()) {
-                log.debug("Application details not available for app: " + applicationName + " with version:"
-                          + appVersion);
-            }
             return;
         }
 
@@ -160,10 +158,8 @@ var appManagementClient = function(){
         var appId = getAppIdByName(appName, appVersion, this.config.publisher.endpoint, this.accessToken.access_token);
         if (appId == "") {
             //This code block will execute when user only register the SP and when App details are not saved
-            if (log.isDebugEnabeld()) {
-                log.debug("Application details not available for app: " + applicationName + " with version:"
-                          + appVersion);
-            }
+            log.debug("Application details not available for app: " + applicationName + " with version:"
+                      + appVersion);
             return;
         }
         var result = get(
