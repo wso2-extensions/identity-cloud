@@ -37,26 +37,19 @@ $(document).ready(function() {
 
 //Set gateway
 function setSAML2SSOConfigurations() {
-    //todo: use correct tenantId,tenantDomain,app version
-    var tenantDomain = "carbon.super";
-    var tenantId =  "-1234";
+    //todo: use correct app version and transport
     var appName = $("#spName").val();
-    var version = "1.0";
+    var appVersion = "1.0";
     var transport = "http";
-    var context = $("#gw-app-context").val();
 
+    var context = $("#gw-app-context").val();
     if (context != "") {
         if (context.charAt(0) != '/') {
             context = '/' + context;
         }
     }
 
-    var saml2SsoIssuer = null;
-    if (tenantId != '-1234') {
-        saml2SsoIssuer = appName + "-" + tenantDomain + "-" + version;
-    } else {
-        saml2SsoIssuer = appName + "-" + version;
-    }
+    var saml2SsoIssuer = populateIssuerName(appName, appVersion);
     $('#issuer').val(saml2SsoIssuer);
 
     var ssoEnabled = true; //todo: read from config
@@ -67,7 +60,7 @@ function setSAML2SSOConfigurations() {
     }
     disableResponseSignature($('#enableResponseSignature')[0]);
 
-    var acsUrl = getACSURL(context, version, tenantDomain, transport);
+    var acsUrl = getACSURL(context, appVersion, transport);
     $('#assertionConsumerURLTxt').val(acsUrl);
     onClickAddACRUrl();
 
@@ -95,7 +88,6 @@ function resetSAML2SSOConfigurations() {
         removeAudience(c);
     }
 }
-
 
 
 

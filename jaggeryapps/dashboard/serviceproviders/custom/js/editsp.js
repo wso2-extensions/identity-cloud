@@ -71,7 +71,13 @@ function drawSPDetails() {
 
 function drawAppDetails(data) {
     //Set Id for existing apps, if it's new App id will be ""
-    $('#app-id').val(data.id);
+    var id;
+    if (data == null) {
+        id = "";
+    } else {
+        id = data.id;
+    }
+    $('#app-id').val(id);
 
     //gw properties
     $('#skipgateway').prop('checked', (data.skipGateway == "true"));
