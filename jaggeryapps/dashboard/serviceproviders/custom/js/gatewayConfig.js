@@ -52,12 +52,8 @@ function setSAML2SSOConfigurations() {
     var saml2SsoIssuer = populateIssuerName(appName, appVersion);
     $('#issuer').val(saml2SsoIssuer);
 
-    var ssoEnabled = true; //todo: read from config
-    if (ssoEnabled) {
-        $('#enableResponseSignature').prop('checked', true);
-    } else {
-        $('#enableResponseSignature').prop('checked', false);
-    }
+    $('#enableResponseSignature').prop('checked', true);
+
     disableResponseSignature($('#enableResponseSignature')[0]);
 
     var acsUrl = getACSURL(context, appVersion, transport);
