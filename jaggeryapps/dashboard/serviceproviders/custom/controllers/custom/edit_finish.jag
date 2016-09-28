@@ -366,6 +366,7 @@ function addApp(){
   var visibleRoles = JSON.parse('["' + storeProperties.visibility.split(',').join('","') + '"]');
 
   var app = {
+              id: storeProperties.id.toString(),
               name: request.getParameter('spName'),
               version: "1.0",
               isDefaultVersion: true,
@@ -409,8 +410,11 @@ function addApp(){
               customProperties:[]
             }
 
-  publisher.addApp(app);
-
+    if (app.id == "") {
+        publisher.addApp(app);
+    } else {
+        publisher.updateApp(app);
+    }
 }
 
 function getErrorMessage(message) {

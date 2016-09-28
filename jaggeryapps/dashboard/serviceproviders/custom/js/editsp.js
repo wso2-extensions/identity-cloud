@@ -1,4 +1,4 @@
-function drawUpdatePage() {
+function drawSPDetails() {
     if (appdata != null) {
         $('#spName').val(appdata.applicationName);
         $('#oldSPName').val(appdata.applicationName);
@@ -69,23 +69,80 @@ function drawUpdatePage() {
     }
 }
 
-function preDrawUpdatePage(appName) {
-    $.ajax({
-        url: "/dashboard/serviceproviders/getsp/" + appName,
-        type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
-        success: function (data) {
-            appdata = $.parseJSON(data).return;
-            drawUpdatePage();
-        },
-        error: function (e) {
-            message({
-                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
-                }
-            });
-        }
-    });
+function drawAppDetails(data) {
+    //Set Id for existing apps, if it's new App id will be ""
+    var id;
+    if (data == null) {
+        id = "";
+    } else {
+        id = data.id;
+    }
+    $('#app-id').val(id);
 
+    //gw properties
+    $('#skipgateway').prop('checked', (data.skipGateway == "true"));
+
+    if ($('#skipgateway').is(':checked')) {
+        $("#gw-config input").val("");
+        $("#gw-config").hide();
+        if ($("#enableIdPInitSSO").is(':checked')) {
+            $('#store-app-url').val(getIDPInitiatedSSOURL(issuer));
+        } else {
+            $("#store-app-url-sec").show();
+            $('#store-app-url').val(data.appUrL);
+        }
+    } else {
+        $("#gw-config").show();
+        $('#gw-app-context').val(data.context);
+        $('#gw-app-url').val(data.appUrL);
+        $('#store-app-url').val(data.appUrL);
+    }
+
+    //store properties
+    $('#store-app-name').val(data.displayName);
+    $('#store-app-visibility').val(data.visibleRoles);
+}
+
+function preDrawUpdatePage(appName) {
+    preDrawSPDetails(appName);
+    preDrawAppDetails(appName);
+}
+
+function preDrawSPDetails(appName){
+    $.ajax({
+               url: "/dashboard/serviceproviders/getsp/" + appName,
+               type: "GET",
+               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               success: function (data) {
+                   appdata = $.parseJSON(data).return;
+                   drawSPDetails();
+               },
+               error: function (e) {
+                   message({
+                               content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                       }
+                           });
+               }
+           });
+}
+
+function preDrawAppDetails(appName){
+    $.ajax({
+               url:  "/dashboard/serviceproviders/getApp/" + appName,
+               type: "GET",
+               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               success: function (data) {
+                   drawAppDetails(JSON.parse(data));
+               },
+               error: function (e) {
+                   message({
+                               content: 'Error occurred while loading values for the grid.',
+                               type: 'error',
+                               cbk: function () {
+                               }
+                           });
+               }
+           });
 }
 
 function updateSP() {
@@ -124,7 +181,8 @@ function updateCustomSP() {
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
                                              "tags": $('#store-app-tags').val(),
-                                             "visibility": $('#store-app-visibility').val()
+                                             "visibility": $('#store-app-visibility').val(),
+                                             "id": $('#app-id').val()
                                          });
 
     if ($('#isEditOauthSP').val() == "true") {
@@ -138,7 +196,7 @@ function updateCustomSP() {
                      + $('#spName').val() + "&spType=" + $('#spType').val() + "&spDesc=" + $('#spType').val() + ']'
                      + $('#sp-description').val() + parameters + "&profileConfiguration=default" + "&cookie=" + cookie
                      + "&user=" + userName + "&gatewayProperties=" + gatewayProperties + "&storeProperties="
-                     + storeProperties,
+                     + storeProperties
     })
         .done(function (data) {
 //            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";

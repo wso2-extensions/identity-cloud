@@ -1,0 +1,26 @@
+<%
+
+var log = new Log();
+//var apiProvider = jagg.module('manager').getAPIProviderObj();
+var appmgtProvider = require('appmgtpublisher');
+
+var i18n = session.get("i18n");
+var userName = session.get(LOGGED_IN_USER);
+var appName = request.getParameter("appName");
+var version = request.getParameter("version");
+
+populateIssuerName();
+function populateIssuerName() {
+    try {
+        var appmgtProviderObj = new appmgtProvider.APIProvider(userName);
+        var issuerName = appmgtProviderObj.populateIssuerName(appName, version);
+        print(issuerName)
+    } catch (e) {
+        log.error(e);
+        print(e);
+
+    }
+
+}
+
+%>

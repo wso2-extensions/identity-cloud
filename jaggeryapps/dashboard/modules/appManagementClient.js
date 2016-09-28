@@ -31,14 +31,76 @@ var appManagementClient = function(){
 
     };
 
+    Publisher.prototype.updateApp = function (application) {
+        // Call the ReST API to persist the app
+         put(
+            this.config.publisher.endpoint + 'apps/webapp/id/'+application.id,
+            JSON.stringify(application),
+            {
+                'WSO2-Identity-User' : session.get("user"),
+                'Content-Type': 'application/json'
+            },
+            'json'
+        );
+    };
+
+    Publisher.prototype.deleteApp = function (applicationName, appVersion) {
+        var appId = getAppIdByName(applicationName, appVersion, this.config.publisher.endpoint);
+        if (appId == "") {
+            //This code block will execute when user only register the SP and when App details are not saved
+            log.debug("Application details not available for app: " + applicationName + " with version:"
+                      + appVersion);
+
+            return;
+        }
+
+        del(
+            this.config.publisher.endpoint + 'apps/webapp/id/' + appId, '',
+            {
+                'WSO2-Identity-User' : session.get("user"),
+                'Content-Type': 'application/json'
+            }
+        );
+    };
+
+    Publisher.prototype.getApp = function (appName, appVersion) {
+        var appId = getAppIdByName(appName, appVersion, this.config.publisher.endpoint);
+        if (appId == "") {
+            //This code block will execute when user only register the SP and when App details are not saved
+            log.debug("Application details not available for app: " + applicationName + " with version:"
+                      + appVersion);
+            return;
+        }
+        var result = get(
+            this.config.publisher.endpoint + 'apps/webapp/id/' + appId, '',
+            {
+                'WSO2-Identity-User' : session.get("user"),
+                'Content-Type': 'application/json'
+            }, 'json'
+        );
+        return result.data;
+
+    };
+
+    function getAppIdByName(appName, appVersion, endpoint) {
+        var result = get(
+            endpoint + 'apps/webapp/name/' + appName + '/version/' + appVersion + '/uuid', '',
+            {
+                'WSO2-Identity-User' : session.get("user"),
+                'Content-Type': 'application/json'
+            }, 'json'
+        );
+        return result.data.id;
+    };
+
     function updateLifeCycleStatus(appId, newStatus, endpoint){
 
       post(
              endpoint + 'apps/webapp/change-lifecycle?appId=' + appId + '&action=' + newStatus,
              '',
              {
-              'Content-Type' : 'application/json',
-              'WSO2-Identity-User' : session.get("user")
+              'WSO2-Identity-User' : session.get("user"),
+              'Content-Type' : 'application/json'
              }
           );
 
