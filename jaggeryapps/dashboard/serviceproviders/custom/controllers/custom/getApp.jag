@@ -34,9 +34,7 @@ function getAppDetails() {
 }
 
 function getOAuthAppForRestAPI() {
-
     var createdServiceProviders = spClient.getAllCustomSPs().return;
-
     var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
     var oauthAppExists = false;
 
@@ -51,7 +49,6 @@ function getOAuthAppForRestAPI() {
     if (oauthAppExists) {
         oauthApp = spClient.getApplication(oauthAppName).return;
     }
-
     return oauthApp;
 }
 

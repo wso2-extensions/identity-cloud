@@ -351,14 +351,40 @@ function addApp(){
     storeProperties = JSON.parse(storeProperties);
   }
 
-  var appURL = gatewayProperties.appUrl;
-  var context = gatewayProperties.appContext;
-  if(gatewayProperties.skipGateway){
-    var appURL = getAppAccessURL(storeProperties);
-    // This is just to by-pass a faulty validation.
-    // TODO : Fix the validation.
-    context =  request.getParameter('spName');
-  }
+
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var thumbnailId = request.getParameter("thumbnailUrl"); //check for pre attached image
+    var thumbnailFile = request.getFile("thumbnailFile");//check for newly attached image
+    if (thumbnailFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var thumbnailInputStream = Packages.java.io.InputStream;
+        thumbnailInputStream = thumbnailFile.getStream().getStream();
+        fileContentObj.setContent(thumbnailInputStream);
+        fileContentObj.setFileName(thumbnailFile.getName());
+        thumbnailId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var bannerId = request.getParameter("bannerUrl");//check for pre attached image
+    var bannerFile = request.getFile("bannerFile");//check for newly attached image
+    if (bannerFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var bannerInputStream = Packages.java.io.InputStream;
+        bannerInputStream = bannerFile.getStream().getStream();
+        fileContentObj.setContent(bannerInputStream);
+        fileContentObj.setFileName(bannerFile.getName());
+        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var appURL = gatewayProperties.appUrl;
+    var context = gatewayProperties.appContext;
+    if (gatewayProperties.skipGateway) {
+        var appURL = getAppAccessURL(storeProperties);
+        // This is just to by-pass a faulty validation.
+        // TODO : Fix the validation.
+        context = request.getParameter('spName');
+    }
 
   // Coverting "a,b,c" => ["a", "b", "c"] for JSON parsing
   var tags = JSON.parse('["' + storeProperties.tags.split(',').join('","') + '"]');
@@ -381,7 +407,9 @@ function addApp(){
               acsUrl: "",
               transport: "http",
               tags : tags,
-              visibleRoles : visibleRoles,
+              visibleRoles: visibleRoles,
+              thumbnailUrl: thumbnailId,
+              banner: bannerId,
               policyGroups: [
                 {
                   policyGroupName: "default",
@@ -408,7 +436,7 @@ function addApp(){
                 }
               ],
               customProperties:[]
-            }
+            };
 
     if (app.id == "") {
         publisher.addApp(app);

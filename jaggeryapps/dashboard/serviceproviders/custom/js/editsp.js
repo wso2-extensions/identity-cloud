@@ -70,15 +70,6 @@ function drawSPDetails() {
 }
 
 function drawAppDetails(data) {
-    //Set Id for existing apps, if it's new App id will be ""
-    var id;
-    if (data == null) {
-        id = "";
-    } else {
-        id = data.id;
-    }
-    $('#app-id').val(id);
-
     //gw properties
     $('#skipgateway').prop('checked', (data.skipGateway == "true"));
 
@@ -101,6 +92,19 @@ function drawAppDetails(data) {
     //store properties
     $('#store-app-name').val(data.displayName);
     $('#store-app-visibility').val(data.visibleRoles);
+    $('#store-app-thumbnail-url').val(data.thumbnailUrl);
+    $('#store-app-banner-url').val(data.banner);
+
+
+    //Set Id for existing apps, if it's new App id will be ""
+    var id;
+    if (data == null) {
+        id = "";
+    } else {
+        id = data.id;
+    }
+    $('#app-id').val(id);
+
 }
 
 function preDrawUpdatePage(appName) {
@@ -128,9 +132,10 @@ function preDrawSPDetails(appName){
 
 function preDrawAppDetails(appName){
     $.ajax({
-               url:  "/dashboard/serviceproviders/getApp/" + appName,
+               url:  "/dashboard/apps/getApp/" + appName,
                type: "GET",
                data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               contentType: "multipart/form-data",
                success: function (data) {
                    drawAppDetails(JSON.parse(data));
                },
@@ -169,7 +174,6 @@ function updateSP() {
 function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
-    var parameters = '&' + $("#addServiceProvider").serialize();
 
     var gatewayProperties = JSON.stringify({
                                                "skipGateway": $('#skipgateway').is(':checked'),
@@ -185,21 +189,76 @@ function updateCustomSP() {
                                              "id": $('#app-id').val()
                                          });
 
-    if ($('#isEditOauthSP').val() == "true") {
-        parameters = parameters + "&consumerID=" + $('#consumerID').val() + "&consumerSecret=" + $('#consumerSecret').val();
+    var thumbnailUrl = $('#store-app-thumbnail-url').val();
+    var thumbnailFile;
+    if ($('#store-app-thumbnail').val() != "") {
+        thumbnailFile = $('#store-app-thumbnail')[0].files[0];
     }
-    parameters = parameters + "&passiveSTSRealm=" + $('#passiveSTSRealm').val() + "&passiveSTSWReply=" + $('#passiveSTSWReply').val();
+
+    var bannerUrl = $('#store-app-banner-url').val();
+    var bannerFile;
+    if ($('#store-app-banner').val() != "") {
+        bannerFile = $('#store-app-banner')[0].files[0];
+    }
+
+    var formData = new FormData();
+
+    formData.append('claim_dialect', $('#claim_dialect').val());
+    formData.append('subject_claim_uri', $('#subject_claim_uri').val());
+    formData.append('number_of_claimmappings', $('#number_of_claimmappings').val());
+    formData.append('roleClaim', $('#roleClaim').val());
+
+    formData.append('oldSPName', $('#oldSPName').val());
+    formData.append('spName', $('#spName').val());
+    formData.append('spType', $('#spType').val());
+    formData.append('spDesc', $('#spType').val() + ']' + $('#sp-description').val());
+
+    formData.append('hiddenFields',$('#hiddenFields').val());
+    formData.append('issuer',$('#issuer').val());
+    formData.append('hiddenIssuer',$('#hiddenIssuer').val());
+    formData.append('assertionConsumerURLTxt',$('#assertionConsumerURLTxt').val());
+    formData.append('assertionConsumerURLs',$('#assertionConsumerURLs').val());
+    formData.append('defaultAssertionConsumerURL',$('#defaultAssertionConsumerURL').val());
+    formData.append('nameIdFormat',$('#nameIdFormat').val());
+    formData.append('alias',$('#alias').val());
+    formData.append('signingAlgorithm',$('#signingAlgorithm').val());
+    formData.append('digestAlgorithm',$('#digestAlgorithm').val());
+    formData.append('enableDefaultAttributeProfileHidden',$('#enableDefaultAttributeProfileHidden').val());
+    formData.append('audiencePropertyCounter',$('#audiencePropertyCounter').val());
+    formData.append('audienceURLs',$('#audienceURLs').val());
+    formData.append('recipientPropertyCounter',$('#recipientPropertyCounter').val());
+    formData.append('receipientURLs',$('#receipientURLs').val());
+    formData.append('idpSLOURLs',$('#idpSLOURLs').val());
+    formData.append('attributeConsumingServiceIndex',$('#attributeConsumingServiceIndex').val());
+
+
+
+    if ($('#isEditOauthSP').val() == "true") {
+        formData.append('consumerID', $('#consumerID').val());
+        formData.append('consumerSecret', $('#consumerSecret').val());
+    }
+
+    formData.append('passiveSTSRealm', $('#passiveSTSRealm').val());
+    formData.append('passiveSTSWReply', $('#passiveSTSWReply').val());
+    formData.append('profileConfiguration', 'default');
+    formData.append('cookie', cookie);
+    formData.append('user', userName);
+    formData.append('gatewayProperties', gatewayProperties);
+    formData.append('storeProperties', storeProperties);
+    formData.append('thumbnailFile', thumbnailFile);
+    formData.append('thumbnailUrl', thumbnailUrl);
+    formData.append('bannerFile', bannerFile);
+    formData.append('bannerUrl', bannerUrl);
+
+
     $.ajax({
         url: str,
         type: "POST",
-               data: $('#claimConfigForm').serialize() + "&oldSPName=" + $('#oldSPName').val() + "&spName="
-                     + $('#spName').val() + "&spType=" + $('#spType').val() + "&spDesc=" + $('#spType').val() + ']'
-                     + $('#sp-description').val() + parameters + "&profileConfiguration=default" + "&cookie=" + cookie
-                     + "&user=" + userName + "&gatewayProperties=" + gatewayProperties + "&storeProperties="
-                     + storeProperties
+        contentType:false,
+               processData: false,
+               data: formData
     })
         .done(function (data) {
-//            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";
             window.location.href = "/dashboard/serviceproviders";
         })
         .fail(function () {

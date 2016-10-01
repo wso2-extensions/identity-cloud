@@ -793,6 +793,20 @@ include("../templates/leftpane.jag");
                                        <input type="text" class="form-control" id="store-app-visibility" name="store-app-visibility" >
                                     </div>
                                  </div>
+                                 <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label>Thumbnail</label>
+                                        <input type="file" class="form-control" id="store-app-thumbnail" name="store-app-thumbnail" accept="image/gif, image/jpeg, image/png, image/jpg" >
+                                        <input type="hidden" class="form-control" id="store-app-thumbnail-url" name="store-app-thumbnail-url" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label>Banner</label>
+                                        <input type="file" class="form-control" id="store-app-banner" name="store-app-banner" accept="image/gif, image/jpeg, image/png, image/jpg" >
+                                        <input type="hidden" class="form-control" id="store-app-banner-url" name="store-app-banner-url" >
+                                    </div>
+                                  </div>
                               </div>
                            </form>
                         </div>

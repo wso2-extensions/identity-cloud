@@ -184,6 +184,21 @@ var appManagementClient = function(){
         return result.data.id;
     };
 
+    Publisher.prototype.uploadImage = function (file) {
+        var payload = {
+            "file": file
+        };
+
+        var xhr = new XMLHttpRequest();
+        var tokenEndpoint = this.config.publisher.endpoint + 'apps/static-contents?appType=webapp';
+        xhr.open("POST", tokenEndpoint);
+        var authSet = "Bearer " + this.accessToken.access_token;
+        xhr.setRequestHeader("Authorization", authSet);
+        xhr.setRequestHeader("Content-Type", "multipart/form-data");
+        xhr.send(payload);
+    };
+
+
 
     return {Publisher : Publisher};
 
