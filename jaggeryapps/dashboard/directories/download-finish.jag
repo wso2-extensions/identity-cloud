@@ -1,0 +1,82 @@
+<%
+var log = new Log();
+
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/UserStoreConfigAdminService";
+var ws = require('ws');
+var webService = new ws.WSRequest();
+var i18n = session.get("i18n");
+var domain = request.getParameter("domain");
+
+var TEMP_PATH = "/resources/tmp/";
+var APP_PATH = "repository/deployment/server/jaggeryapps/dashboard";
+downloadAgent();
+function downloadAgent(){
+    try{
+        var dirname = getDirnameInTimestamp();
+        copyAgentFiles(dirname);
+        copyPublicKey(dirname);
+        var file = new File(TEMP_PATH + dirname + "/" + "agent");
+        file.zip(TEMP_PATH + dirname + "/" + "wso2agent"  + ".tgz");
+        deleteDirectory(TEMP_PATH + dirname + "/" + "agent");
+        print(TEMP_PATH + dirname + "/" + "wso2agent" + ".tgz");
+    }catch(e){
+        print(e);
+        log.error(e);
+    }
+}
+
+function copyPublicKey(dirname){
+    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext;
+    var context = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+    var tenantID = context.getTenantId();
+    var keystore = Packages.org.wso2.carbon.core.util.KeyStoreManager.getInstance(tenantID);
+
+    var encoded = keystore.getDefaultPublicKey().toString();
+    var exportedFile = Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/" + "agent"  + "/" + "public.cert");
+
+    if(!exportedFile.exists()) {
+        exportedFile.createNewFile();
+    }
+    var fileOutputStream = Packages.java.io.FileOutputStream(exportedFile);
+    fileOutputStream.write(keystore.getDefaultPublicKey().getEncoded());
+    fileOutputStream.flush();
+    fileOutputStream.close();
+}
+
+function deleteDirectory(dirPath){
+    var directory = Packages.java.io.File(APP_PATH + dirPath);
+    Packages.org.apache.commons.io.FileUtils.deleteDirectory(directory);
+}
+function copyAgentFiles(dirname){
+    var source = Packages.java.io.File(APP_PATH + "/resources/agent");
+    var destination = Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/" + "agent"  + "/");
+    org.apache.commons.io.FileUtils.copyDirectory(source, destination);
+}
+
+function getDirnameInTimestamp(){
+    var milliseconds = new Date().getTime();
+    return milliseconds;
+}
+
+
+function createDirs(path) {
+    var parts = path.split('/');
+    var dirPath = '';
+    for (var i = 0; i < parts.length - 1; i++) {
+        var part = parts[i];
+        dirPath = dirPath + '/' + part;
+        try {
+            var file = new File(dirPath);
+            file.mkdir();
+        } catch (e) {
+            log.error("Error occurred while creating directory.");
+// ASSUME: Error is due to dir already existing, thus ignore
+        }
+    }
+}
+
+%>

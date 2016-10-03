@@ -4,7 +4,7 @@
                <a href="" target="_blank"><i class="fa fa-laptop"></i> Overview</a>
            </li>
            <li>
-               <a href=""><i class="fw fw-folder"></i> Directories</a>
+               <a href="directories"><i class="fw fw-folder"></i> Directories</a>
            </li>
            <li class="selected">
                <a href=""><i class="fw fw-globe"></i> Service Providers</a>

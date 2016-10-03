@@ -1,0 +1,24 @@
+<%
+var log = new Log();
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/UserStoreConfigAdminService";
+var ws = require('ws');
+var webService = new ws.WSRequest();
+var i18n = session.get("i18n");
+
+getDirectories();
+function getDirectories(){
+    try{
+        webService = new ws.WSRequest();
+        var result = callWSReturnJSON(webService, serverUrl, "urn:getSecondaryRealmConfigurations", null);
+        //return result;
+        print(result);
+    }catch(e){
+        print(e);
+        log.error(e);
+    }
+}
+%>

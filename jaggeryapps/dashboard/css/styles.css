@@ -1536,6 +1536,14 @@ svg .outer {
 .alert-info .close{
     color:#666;
 }
+.alert-error {
+    background-color: #ae2727;
+    border-color: #d44040;
+    border-radius: 0px;
+    color: #fff;
+    padding: 0px;
+}
+
 .alert .close{
     background-color:#333;
     color:#fff;
@@ -1561,6 +1569,14 @@ svg .outer {
 }
 .alert-extra-content ul{
     list-style: decimal;
+}
+.agentURLContainer .alert{
+    padding: 5px 13px;
+    min-height:auto;
+}
+
+.agentURLContainer .alert-success{
+    margin: 0px;
 }
 
 
@@ -2025,7 +2041,7 @@ svg .outer {
     }
 }
 @media (max-width: 992px) {
- .version-url{
+    .version-url{
         width:45.1%;
     }
     .block-general h3, .block-team h3, .block-database h3{
@@ -2091,13 +2107,13 @@ svg .outer {
         width:100%;
     }
     .version-number{
-      margin-bottom:1px;
+        margin-bottom:1px;
     }
-     .version-number,.version-number button,.version-number .dropdown-menu{
+    .version-number,.version-number button,.version-number .dropdown-menu{
         width:100%;
     }
     .btn-launch-app{
-       width:60%;
+        width:60%;
     }
     .btn-edit-code{
         margin-left:0px;
@@ -2192,19 +2208,19 @@ svg .outer {
     border-top-color:#464646;
 }
 #password_strength_wrap {
-        border: 1px solid #D5CEC8;
-        display: none;
-        float: left;
-        padding: 10px;
-        position: relative;
-        max-width: 320px;
+    border: 1px solid #D5CEC8;
+    display: none;
+    float: left;
+    padding: 10px;
+    position: relative;
+    max-width: 320px;
 }
 #password_strength_wrap:before, #password_strength_wrap:after{
-        content: ' ';
-        height: 0;
-        position: absolute;
-        width: 0;
-        border: 10px solid transparent; /* arrow size */
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+    border: 10px solid transparent; /* arrow size */
 }
 #password_strength_wrap:before{
     border-bottom: 7px solid rgba(0, 0, 0, 0);
@@ -2227,15 +2243,15 @@ svg .outer {
     top: 11px;
 }
 #pswd_info ul {
-        list-style-type: none;
-        margin: 5px 0 0;
-        padding: 0;
+    list-style-type: none;
+    margin: 5px 0 0;
+    padding: 0;
 }
 #pswd_info .status_icon{
     margin-right:5px;
 }
 #pswd_info ul li.valid {
-        color: #27ae60;
+    color: #27ae60;
 }
 #passwordStrength {
     display: block;
@@ -2539,7 +2555,7 @@ th.hide-column-data, td.hide-column-data {
 
 .nav-tabs-wizard .step-number{
     float:left;
-    width:19%;
+    width:18%;
     background-color:#626262;
     margin-left:5px;
     padding:10px 20px;
@@ -3170,129 +3186,129 @@ table.dataTable .subtable th, table.dataTable .subtable td{
  * Accordion and Collapse styles
  * ======================================================================== */
 .accordion h4 a, .collapse h4 a {
-  text-decoration: none;
-  font-weight: bold;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .accordion h4 p, .collapse h4 p {
-  padding: 10px;
-  margin-bottom: 0px;
+    padding: 10px;
+    margin-bottom: 0px;
 }
 
 .accordion .panel, .collapse .panel {
-  margin-bottom: 10px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+    margin-bottom: 10px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .accordion .panel-heading, .collapse .panel-heading {
-  background: #e2e2e2;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  border: none;
-  cursor: pointer;
+    background: #e2e2e2;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border: none;
+    cursor: pointer;
 }
 
 .accordion .panel-heading:hover, .collapse .panel-heading:hover {
-  background: #efefef;
+    background: #efefef;
 }
 
 .accordion .panel-body, .collapse .panel-body {
-  padding: 10px;
-  border: 1px solid #e2e2e2;
+    padding: 10px;
+    border: 1px solid #e2e2e2;
 }
 
 .accordion h4 input[type=checkbox], .accordion h4 input[type=radio],
 .collapse h4 input[type=checkbox], .collapse h4 input[type=radio] {
-  margin-top: 0px;
-  margin-right: 4px;
+    margin-top: 0px;
+    margin-right: 4px;
 }
 
 .accordion .panel-heading .radio, .collapse .panel-heading .radio {
-  width: 60px;
-  height: 60px;
-  float: left;
-  margin-right: 0px;
-  background: #ccc;
+    width: 60px;
+    height: 60px;
+    float: left;
+    margin-right: 0px;
+    background: #ccc;
 }
 
 .accordion .panel-heading .panel-title, .collapse .panel-heading .panel-title {
-  height: 28px;
+    height: 28px;
 }
 
 .accordion .panel-heading .radio .helper,
 .collapse .panel-heading .radio .helper {
-  padding-top: 0px;
-  top: 20px;
-  left: 20px;
+    padding-top: 0px;
+    top: 20px;
+    left: 20px;
 }
 
 .accordion .panel-heading .radio > i,
 .collapse .panel-heading .radio > i {
-  position: relative;
-  top: 22px;
-  left: 22px;
+    position: relative;
+    top: 22px;
+    left: 22px;
 }
 
 .accordion .panel-heading .radio > span,
 .collapse .panel-heading .radio > span {
-  position: relative;
-  top: 14px;
-  left: 14px;
+    position: relative;
+    top: 14px;
+    left: 14px;
 }
 
 .accordion .panel-heading div .status,
 .collapse .panel-heading div .status {
-  margin-top: -42px;
+    margin-top: -42px;
 }
 
 .accordion .panel-heading div .no-description + .status,
 .collapse .panel-heading div .no-description + .status {
-  margin-top: -36px;
+    margin-top: -36px;
 }
 
 .accordion .panel-heading div .status i,
 .collapse .panel-heading div .status i {
-  position: relative;
-  top: 16px;
-  left: calc(100% - 40px);
+    position: relative;
+    top: 16px;
+    left: calc(100% - 40px);
 }
 
 .accordion .panel-heading .radio + div .status i,
 .collapse .panel-heading .radio + div .status i {
-  position: relative;
-  top: 16px;
-  left: calc(100% - 100px);
+    position: relative;
+    top: 16px;
+    left: calc(100% - 100px);
 }
 
 .accordion .panel-heading p, .collapse .panel-heading p,
 .collapse .panel-heading p, .collapse .panel-heading p {
-  float: none;
-  width: auto;
+    float: none;
+    width: auto;
 }
 
 .accordion .panel-heading div .heading,
 .collapse .panel-heading div .heading {
-  font-weight: bold;
-  padding-top: 10px;
-  padding-bottom: 4px;
-  text-indent: 10px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    text-indent: 10px;
 }
 
 .accordion .panel-heading div .no-description,
 .collapse .panel-heading div .no-description {
-  padding-top: 20px;
+    padding-top: 20px;
 }
 
 .accordion .panel-heading div .description,
 .collapse .panel-heading div .description {
-  text-indent: 10px;
-  margin-right: 60px;
+    text-indent: 10px;
+    margin-right: 60px;
 }
 
 .accordion h4 a i, .collapse h4 a i {
-  margin-top: -4px;
+    margin-top: -4px;
 }
 .custom-checkbox-white{
     background-color: #FFFFFF;
