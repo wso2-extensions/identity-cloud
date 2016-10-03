@@ -18,13 +18,6 @@ function getAppDetails() {
 
     try {
         var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
-
-        // Check whether there is an OAuth app registered for ReST API calls.
-        // If not the publisher module will create one.
-        var oauthApp = getOAuthAppForRestAPI();
-
-        publisher.init(oauthApp);
-
         var fieldValues = publisher.getApp(applicationName, appVersion);
         print(fieldValues);
     } catch (e) {
@@ -33,23 +26,5 @@ function getAppDetails() {
     }
 }
 
-function getOAuthAppForRestAPI() {
-    var createdServiceProviders = spClient.getAllCustomSPs().return;
-    var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
-    var oauthAppExists = false;
-
-    for (var i = 0; i < createdServiceProviders.length; i++) {
-        if (createdServiceProviders[i].applicationName === oauthAppName) {
-            oauthAppExists = true;
-            break;
-        }
-    }
-
-    var oauthApp;
-    if (oauthAppExists) {
-        oauthApp = spClient.getApplication(oauthAppName).return;
-    }
-    return oauthApp;
-}
 
 %>

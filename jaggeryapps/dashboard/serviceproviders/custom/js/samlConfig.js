@@ -1023,7 +1023,7 @@ $(document).ready(function() {
 function getACSURL(appContext, appVersion, transport) {
     var ascUrl = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/custom/controllers/configuration/appmCongfig",
+               url: "/dashboard/serviceproviders/appmConf",
                type: "GET",
                data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
                      + "&transport=" + transport,
@@ -1044,7 +1044,7 @@ function getACSURL(appContext, appVersion, transport) {
 function populateIssuerName(appName, appVersion) {
     var saml2SsoIssuer = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/custom/controllers/configuration/appmCongfig",
+               url: "/dashboard/serviceproviders/appmConf",
                type: "GET",
                data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
                async: false,
