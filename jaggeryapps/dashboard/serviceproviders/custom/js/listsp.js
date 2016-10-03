@@ -135,6 +135,7 @@ function drawList() {
 
 }
 
+
 function setCustomImage(appName) {
     $.ajax({
                url: "/dashboard/apps/getApp",

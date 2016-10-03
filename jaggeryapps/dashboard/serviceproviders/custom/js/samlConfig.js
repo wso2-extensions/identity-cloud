@@ -1023,9 +1023,10 @@ $(document).ready(function() {
 function getACSURL(appContext, appVersion, transport) {
     var ascUrl = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/custom/controllers/configuration/getAcsUrl",
+               url: "/dashboard/serviceproviders/custom/controllers/configuration/appmCongfig",
                type: "GET",
-               data: "&appContext=" + appContext + "&version=" + appVersion + "&transport=" + transport,
+               data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
+                     + "&transport=" + transport,
                async: false,
                success: function (data) {
                    ascUrl = data;
@@ -1043,9 +1044,9 @@ function getACSURL(appContext, appVersion, transport) {
 function populateIssuerName(appName, appVersion) {
     var saml2SsoIssuer = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/custom/controllers/configuration/populateIssuerName",
+               url: "/dashboard/serviceproviders/custom/controllers/configuration/appmCongfig",
                type: "GET",
-               data: "&appName=" + appName + "&version=" + appVersion,
+               data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
                async: false,
                success: function (data) {
                    saml2SsoIssuer = data;

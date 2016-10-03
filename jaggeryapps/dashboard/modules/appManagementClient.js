@@ -101,8 +101,8 @@ var appManagementClient = function(){
         var xhr = new XMLHttpRequest();
         var tokenEndpoint = this.config.publisher.endpoint + 'apps/static-contents?appType=webapp';
         xhr.open("POST", tokenEndpoint);
-        var authSet = "Bearer " + this.accessToken.access_token;
-        xhr.setRequestHeader("Authorization", authSet);
+        var authSet = session.get("user");
+        xhr.setRequestHeader("WSO2-Identity-User", authSet);
         xhr.setRequestHeader("Content-Type", "multipart/form-data");
         xhr.send(payload);
     };
