@@ -1,0 +1,124 @@
+<%
+include("../util/constants.jag");
+var login =       "<aut:login xmlns:aut=\"http://authentication.services.core.carbon.wso2.org\">\n" +
+        "<aut:username>{0}</aut:username>\n"+
+        "<aut:password>{1}</aut:password>\n"+
+        "<aut:remoteAddress>{2}</aut:remoteAddress>\n"+
+        "</aut:login>";
+
+var getApplication =    "<xsd:getApplication xmlns:xsd=\"http://org.apache.axis2/xsd\">\n" +
+        "<xsd:applicationName>{0}</xsd:applicationName>\n" +
+        "</xsd:getApplication>";
+
+var createApplication = "<xsd:createApplication xmlns:xsd =\"http://org.apache.axis2/xsd\" xmlns:xsd1=\"http://model.common.application.identity.carbon.wso2.org/xsd\">\n" +
+        "<xsd:serviceProvider>\n" +
+        "<xsd1:applicationName>{0}</xsd1:applicationName>\n" +
+        "<xsd1:description>{1}</xsd1:description>" +
+        "</xsd:serviceProvider>\n" +
+        "</xsd:createApplication>\n";
+
+var deleteApplication = "<xsd:deleteApplication xmlns:xsd=\"http://org.apache.axis2/xsd\">\n" +
+        "<xsd:applicationName>{0}</xsd:applicationName>\n" +
+        "</xsd:deleteApplication>\n";
+
+var updateApplicationData = "<xsd:updateApplication xmlns:xsd=\"http://org.apache.axis2/xsd\" xmlns:xsd1=\"http://model.common.application.identity.carbon.wso2.org/xsd\">\n" +
+        "<xsd:serviceProvider>\n" +
+        "<xsd1:applicationName>{0}</xsd1:applicationName>\n" +
+        "</xsd:serviceProvider>\n" +
+        "</xsd:createApplication>\n";
+var getOAuthApplicationDataByAppName = '<xsd:getOAuthApplicationDataByAppName xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://org.apache.axis2/xsd">\n'+
+'<xsd:appName>{0}</xsd:appName>'+
+'</xsd:getOAuthApplicationDataByAppName>';
+
+var getOAuthApplicationData = '<xsd:getOAuthApplicationData xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://org.apache.axis2/xsd">'+
+'<xsd:consumerKey>{0}</xsd:consumerKey>'+
+'</xsd:getOAuthApplicationData>';
+
+var removeServiceProvider = '<xsd:removeServiceProvider xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://org.apache.axis2/xsd">'+
+'<xsd:issuer>{0}</xsd:issuer>'+
+'</xsd:removeServiceProvider>';
+
+var removeOAuthApplicationData = '<xsd:removeOAuthApplicationData xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd">' +
+'<xsd:consumerKey>{0}</xsd:consumerKey>' +
+'</xsd:removeOAuthApplicationData>';
+
+var addRPServiceProvider = '<xsd:addRPServiceProvider xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.saml.sso.identity.carbon.wso2.org/xsd">'+
+                                '<xsd:spDto>'+
+                                    '<xsd1:assertionConsumerUrl>{0}</xsd1:assertionConsumerUrl>'+
+                                    '<xsd1:assertionConsumerUrls>{1}</xsd1:assertionConsumerUrls>'+
+                                    '<xsd1:attributeConsumingServiceIndex>{2}</xsd1:attributeConsumingServiceIndex>'+
+                                    '<xsd1:certAlias>{3}</xsd1:certAlias>'+
+                                    '<xsd1:defaultAssertionConsumerUrl>{4}</xsd1:defaultAssertionConsumerUrl>'+
+                                    '<xsd1:digestAlgorithmURI>{5}</xsd1:digestAlgorithmURI>'+
+                                    '<xsd1:doEnableEncryptedAssertion>{6}</xsd1:doEnableEncryptedAssertion>'+
+                                    '<xsd1:doSignAssertions>{7}</xsd1:doSignAssertions>'+
+                                    '<xsd1:doSignResponse>{8}</xsd1:doSignResponse>'+
+                                    '<xsd1:doSingleLogout>{9}</xsd1:doSingleLogout>'+
+                                    '<xsd1:doValidateSignatureInRequests>{10}</xsd1:doValidateSignatureInRequests>'+
+                                    '<xsd1:enableAttributeProfile>{11}</xsd1:enableAttributeProfile>'+
+                                    '<xsd1:enableAttributesByDefault>{12}</xsd1:enableAttributesByDefault>'+
+                                    '<xsd1:idPInitSLOEnabled>{13}</xsd1:idPInitSLOEnabled>'+
+                                    '<xsd1:idPInitSSOEnabled>{14}</xsd1:idPInitSSOEnabled>'+
+                                    '<xsd1:idpInitSLOReturnToURLs>{15}</xsd1:idpInitSLOReturnToURLs>'+
+                                    '<xsd1:issuer>{16}</xsd1:issuer>'+
+                                    '<xsd1:loginPageURL>{17}</xsd1:loginPageURL>'+
+                                    '<xsd1:nameIDFormat>{18}</xsd1:nameIDFormat>'+
+                                    '<xsd1:nameIdClaimUri>{19}</xsd1:nameIdClaimUri>'+
+                                    '<xsd1:requestedAudiences>{20}</xsd1:requestedAudiences>'+
+                                    '<xsd1:requestedClaims>{21}</xsd1:requestedClaims>'+
+                                    '<xsd1:requestedRecipients>{22}</xsd1:requestedRecipients>'+
+                                    '<xsd1:signingAlgorithmURI>{23}</xsd1:signingAlgorithmURI>'+
+                                    '<xsd1:sloRequestURL>{24}</xsd1:sloRequestURL>'+
+                                    '<xsd1:sloResponseURL>{25}</xsd1:sloResponseURL>'+
+                                '</xsd:spDto>'+
+                            '</xsd:addRPServiceProvider>';
+
+
+application.put("urn:getApplication", getApplication);
+application.put("urn:createApplication", createApplication);
+application.put("urn:deleteApplication", deleteApplication);
+application.put("urn:updateApplicationData", updateApplicationData);
+application.put("urn:getOAuthApplicationDataByAppName",getOAuthApplicationDataByAppName);
+application.put("urn:getOAuthApplicationData",getOAuthApplicationData);
+application.put("urn:removeServiceProvider",removeServiceProvider);
+application.put("urn:addRPServiceProvider",addRPServiceProvider);
+application.put("urn:removeOAuthApplicationData",removeOAuthApplicationData);
+if(!application.get(SAML_ENABLED)){
+    application.put("urn:login", login);
+}
+
+function getPayload(method, param){
+
+    var payload = application.get(method);
+
+    if(payload != null){
+        if(param instanceof Array){
+            for(var x = 0; x < param.length; x++){
+                payload = format(payload, param[x], x);
+            }
+        }else{
+            payload = format(payload, param, 0);
+        }
+    }
+
+    return payload;
+}
+
+function format(variable, value, index){
+    var placeHolder = "{" + index + "}";
+    var index = variable.indexOf(placeHolder);
+    if(index > -1){
+        var data = variable.split(placeHolder);
+        var newData = data[0] + value;
+        if(data.length > 1){
+            newData += data[1];
+        }
+
+        return newData;
+    }
+
+    return variable;
+}
+
+
+%>

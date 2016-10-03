@@ -1,0 +1,48 @@
+<%
+
+var log = new Log();
+//var apiProvider = jagg.module('manager').getAPIProviderObj();
+var appmgtProvider = require('appmgtpublisher');
+
+var i18n = session.get("i18n");
+var appContext = request.getParameter("appContext");
+var version = request.getParameter("version");
+var transport = request.getParameter("transport");
+var userName = session.get(LOGGED_IN_USER);
+var appName = request.getParameter("appName");
+var requestType = request.getParameter("requestType");
+
+
+if (requestType == "GET_ACS_URL") {
+    getAscUrl();
+} else if (requestType == "POPULATE_ISSUER_NAME") {
+    populateIssuerName();
+}
+
+function getAscUrl() {
+    try {
+        var appmgtProviderObj = new appmgtProvider.APIProvider(userName);
+        var ascUrl = appmgtProviderObj.getAscUrl(version, appContext, transport);
+        print(ascUrl)
+    } catch (e) {
+        log.error(e);
+        print(e);
+
+    }
+}
+
+
+function populateIssuerName() {
+    try {
+        var appmgtProviderObj = new appmgtProvider.APIProvider(userName);
+        var issuerName = appmgtProviderObj.populateIssuerName(appName, version);
+        print(issuerName)
+    } catch (e) {
+        log.error(e);
+        print(e);
+
+    }
+
+}
+
+%>

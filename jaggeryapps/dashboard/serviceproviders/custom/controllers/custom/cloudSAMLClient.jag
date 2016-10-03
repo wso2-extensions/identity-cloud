@@ -1,0 +1,27 @@
+<%
+include("../wsUtil.jag");
+var util = require("../../util/utility.jag");
+
+var log = new Log();
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/IdentityCloudSAMLSSOService";
+
+var ws = require('ws');
+var webService = new ws.WSRequest();
+
+function addSPConfigByMetadata(payload){
+    webService = new ws.WSRequest();
+    callWSInOnly(webService, serverUrl, "urn:addSPConfigByMetadata", payload);
+}
+
+function getSPConfigByMetadata(){
+    webService = new ws.WSRequest();
+
+    serverUrl = util.getServerUrl();
+    serverUrl = serverUrl + "/IDPMetadataAdminService";
+
+    var result = callWSReturnJSON(webService, serverUrl, "urn:generateMetadata");
+    return result;
+}
+
+%>

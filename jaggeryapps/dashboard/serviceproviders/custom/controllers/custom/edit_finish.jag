@@ -1,0 +1,509 @@
+<%
+var log = new Log();
+var spClient = require('../custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
+include("../../../util/constants.jag");
+var i18n = session.get("i18n");
+updateSP();
+
+if(appManagementIntegrationConfig.enabled){
+  addApp();
+}
+
+function updateSP(){
+    try{
+
+        var cookie = session.get('auth-cookie');
+        if(cookie == null){
+            var cookie = request.getParameter("cookie");
+            session.put('auth-cookie', cookie);
+            var userName = request.getParameter("user");
+            log.error(userName)
+            session.put("user",userName);
+        }
+
+        var spName = request.getParameter('spName');
+        var oldSPName = request.getParameter('oldSPName');
+        var spDesc = request.getParameter('spDesc');
+        var oauthConsumerID = request.getParameter('consumerID');
+        var oauthSecret = request.getParameter('consumerSecret');
+        var stsRealm = request.getParameter('passiveSTSRealm');
+        var stsUrl = request.getParameter('passiveSTSWReply');
+        var dialect = request.getParameter('claim_dialect');
+        var subjectClaim = request.getParameter('subject_claim_uri');
+        var roleClaim = request.getParameter('roleClaim');
+        var claimsNumber = request.getParameter('number_of_claimmappings') - 1; //includes the header row also
+        var sptype=request.getParameter("spType");
+
+
+        var localClaimDialect = false;
+        if(dialect == 'local'){
+            localClaimDialect = true;
+        }
+
+        var claimMappings = [];
+        for (var i = 0; i < claimsNumber; i++) {
+            var claim = {};
+            claim["defaultValue"] = "";
+            var localClaim = {};
+            localClaim["claimId"] = 0;
+            localClaim["claimUri"] = request.getParameter('idpClaim_'+i);
+            claim["localClaim"] = localClaim;
+            var remoteClaim = {};
+            remoteClaim["claimId"] = 0;
+            if (localClaimDialect) {
+                remoteClaim["claimUri"] = request.getParameter('idpClaim_'+i);
+            } else {
+                remoteClaim["claimUri"] = request.getParameter('spClaim_' + i);
+            }
+            claim["remoteClaim"] = remoteClaim;
+            if (request.getParameter('spClaim_req_' + i) == 'on') {
+                claim["requested"] = true;
+            } else {
+                claim["requested"] = false;
+            }
+            claimMappings.push(claim);
+        }
+
+        var status = false;
+        var serviceProviderDTO = {};
+
+        var isEditingSP = false;
+        if (request.getParameter('isEditSP') == 'true') {
+            isEditingSP = true;
+        }
+
+        serviceProviderDTO["issuer"] = request.getParameter("issuer");
+        serviceProviderDTO["assertionConsumerURLs"] = request.getParameter("assertionConsumerURLs").split(",");
+        serviceProviderDTO["acsindex"] = "";
+        serviceProviderDTO["defaultAssertionConsumerURL"] = request.getParameter("defaultAssertionConsumerURL");
+        serviceProviderDTO["nameIdFormat"] = request.getParameter("nameIdFormat");
+        serviceProviderDTO["alias"] = "";
+        serviceProviderDTO["signingAlgorithm"] = request.getParameter("signingAlgorithm");
+        serviceProviderDTO["digestAlgorithm"] = request.getParameter("digestAlgorithm");
+        serviceProviderDTO["enableResponseSignature"] = false;
+        serviceProviderDTO["enableSigValidation"] = false;
+        serviceProviderDTO["enableEncAssertion"] = false;
+        serviceProviderDTO["enableSingleLogout"] = false;
+        serviceProviderDTO["sloResponseURL"] = "";
+        serviceProviderDTO["sloRequestURL"] = "";
+        serviceProviderDTO["enableAssertionSignature"] = false;
+        serviceProviderDTO["enableAttributeProfile"] = false;
+        serviceProviderDTO["enableDefaultAttributeProfile"] = false;
+        serviceProviderDTO["enableAudienceRestriction"] = false;
+        serviceProviderDTO["audienceURLs"] = "";
+        serviceProviderDTO["enableRecipients"] = false;
+        serviceProviderDTO["receipientURLs"] = "";
+        serviceProviderDTO["enableIdPInitSSO"] = false;
+        serviceProviderDTO["enableIdPInitSLO"] = false;
+        serviceProviderDTO["idpSLOURLs"] = [];
+        serviceProviderDTO["hiddenFields"] = request.getParameter('hiddenFields');
+        serviceProviderDTO["appType"] = sptype;
+
+        if (request.getParameter("enableSingleLogout") == 'true') {
+            serviceProviderDTO["enableSingleLogout"] = true;
+            if (request.getParameter("sloResponseURL") != null && request.getParameter("sloResponseURL").length > 0) {
+                serviceProviderDTO["sloResponseURL"] = request.getParameter("sloResponseURL");
+            }
+            if (request.getParameter("sloRequestURL") != null && request.getParameter("sloRequestURL").length > 0) {
+                serviceProviderDTO["sloRequestURL"] = request.getParameter("sloRequestURL");
+            }
+        }
+
+        if (request.getParameter("enableResponseSignature") == 'true') {
+            serviceProviderDTO["enableResponseSignature"] = true;
+        }
+
+
+        if (request.getParameter("enableAssertionSignature") == 'true') {
+            serviceProviderDTO["enableAssertionSignature"] = true;
+        }
+
+        if (serviceProviderDTO["nameIdFormat"] != null && serviceProviderDTO["nameIdFormat"].length > 0) {
+            serviceProviderDTO["nameIdFormat"] = serviceProviderDTO["nameIdFormat"].replace(":", "/");
+        }
+
+        if (request.getParameter("enableAttributeProfile") != null && request.getParameter("enableAttributeProfile") == 'true') {
+            //TODO : Do the following
+            //serviceProviderDTO.setRequestedClaims(samlSsoServuceProviderConfigBean.getSelectedClaimsAttay());
+            serviceProviderDTO["enableAttributeProfile"] = true;
+            if (request.getParameter("attributeConsumingServiceIndex") != null && request.getParameter("attributeConsumingServiceIndex").length > 0) {
+                serviceProviderDTO["acsindex"] = request.getParameter("attributeConsumingServiceIndex");
+            }
+
+            if (request.getParameter("enableDefaultAttributeProfile") == 'true') {
+                serviceProviderDTO["enableDefaultAttributeProfile"] = true;
+            }
+        }
+
+        if (request.getParameter("enableAudienceRestriction") == 'true') {
+            serviceProviderDTO["enableAudienceRestriction"] = true;
+            var audienceUrls = request.getParameter("audienceURLs");
+            if (audienceUrls != null && audienceUrls.length > 0) {
+                serviceProviderDTO["audienceURLs"] = audienceUrls;
+            }
+        }
+
+        if (request.getParameter("enableRecipients") == 'true') {
+            serviceProviderDTO["enableRecipients"] = true;
+            var receipientURLs = request.getParameter("receipientURLs");
+            if (receipientURLs != null && receipientURLs.length > 0) {
+                serviceProviderDTO["receipientURLs"] = receipientURLs;
+            }
+        }
+
+        //For editing purposes
+        if( serviceProviderDTO["enableAttributeProfile"] == false){
+            serviceProviderDTO["acsindex"] = "";
+        }
+
+        if (request.getParameter("enableIdPInitSSO") == 'true') {
+            serviceProviderDTO["enableIdPInitSSO"] = true;
+        }
+
+        if (request.getParameter("enableIdPInitSLO") == 'true') {
+            serviceProviderDTO["enableIdPInitSLO"] = true;
+            var returnToUrls = request.getParameter("idpSLOURLs");
+            if (returnToUrls != null && returnToUrls.length > 0) {
+                serviceProviderDTO["idpSLOURLs"] = returnToUrls;
+            }
+        }
+
+        if (request.getParameter("enableEncAssertion") == 'true') {
+            serviceProviderDTO["enableEncAssertion"] = true;
+            serviceProviderDTO["alias"] = request.getParameter("alias");
+        }
+
+        if (request.getParameter("enableSigValidation") == 'true') {
+            serviceProviderDTO["enableSigValidation"] = true;
+            serviceProviderDTO["alias"] = request.getParameter("alias");
+        }
+
+        var spAdminClient = require('spAdminClient.jag');
+        var serviceProvider = spAdminClient.getApplication(oldSPName).return;
+
+        var updateSp = '<xsd:updateApplication xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">'+
+                '<xsd:serviceProvider>'+
+                '<xsd1:applicationID>'+serviceProvider.applicationID+'</xsd1:applicationID>'+
+                '<xsd1:applicationName>'+spName+'</xsd1:applicationName>'+
+                '<xsd1:claimConfig>'+
+                '<xsd1:alwaysSendMappedLocalSubjectId>'+serviceProvider.claimConfig.alwaysSendMappedLocalSubjectId+'</xsd1:alwaysSendMappedLocalSubjectId>';
+
+        for (var i in claimMappings) {
+            var claimMapping = claimMappings[i];
+            updateSp = updateSp + '<xsd1:claimMappings>' +
+                    '<xsd1:defaultValue>' + claimMapping.defaultValue + '</xsd1:defaultValue>' +
+                    '<xsd1:localClaim>' +
+                    '<xsd1:claimId>' + claimMapping.localClaim.claimId + '</xsd1:claimId>' +
+                    '<xsd1:claimUri>' + claimMapping.localClaim.claimUri + '</xsd1:claimUri>' +
+                    '</xsd1:localClaim>' +
+                    '<xsd1:remoteClaim>' +
+                    '<xsd1:claimId>' + claimMapping.remoteClaim.claimId + '</xsd1:claimId>' +
+                    '<xsd1:claimUri>' + claimMapping.remoteClaim.claimUri + '</xsd1:claimUri>' +
+                    '</xsd1:remoteClaim>' +
+                    '<xsd1:requested>' + claimMapping.requested + '</xsd1:requested>' +
+                    '</xsd1:claimMappings>';
+        }
+        updateSp = updateSp +
+                '<xsd1:localClaimDialect>'+localClaimDialect+'</xsd1:localClaimDialect>'+
+                '<xsd1:roleClaimURI>'+roleClaim+'</xsd1:roleClaimURI>'+
+                '<xsd1:userClaimURI></xsd1:userClaimURI>'+
+                '</xsd1:claimConfig>'+
+                '<xsd1:description>'+spDesc+'</xsd1:description>'+
+                '<xsd1:inboundAuthenticationConfig>';
+
+        var inboundConfigs = serviceProvider.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
+        if(inboundConfigs.constructor !== Array){
+            inboundConfigs = [inboundConfigs];
+        }
+        var samlConfig = null;
+        for (var i in inboundConfigs){
+            var conf = inboundConfigs[i];
+            if(conf.inboundAuthType == SAML_SSO){
+                samlConfig = conf;
+                break;
+            }
+        }
+        if(samlConfig != null){
+            updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>'+
+                    '<xsd1:friendlyName>' + samlConfig.friendlyName + '</xsd1:friendlyName>'+
+                    '<xsd1:inboundAuthKey>' + serviceProviderDTO["issuer"] + '</xsd1:inboundAuthKey>'+
+                    '<xsd1:inboundAuthType>' + samlConfig.inboundAuthType+'</xsd1:inboundAuthType>';
+            var props = samlConfig.properties;
+            //props can't be null
+            if(props.constructor !== Array) {
+                props = [props];
+            }
+            for (var i in props) {
+                var prop = props[i];
+                var propval = serviceProviderDTO[prop.name];
+                updateSp = updateSp + '<xsd1:properties>' +
+                        '<xsd1:confidential>' + prop.confidential + '</xsd1:confidential>' +
+                        '<xsd1:defaultValue>' + prop.defaultValue + '</xsd1:defaultValue>' +
+                        '<xsd1:description>' + prop.description + '</xsd1:description>' +
+                        '<xsd1:displayName>' + prop.displayName + '</xsd1:displayName>' +
+                        '<xsd1:displayOrder>' + prop.displayOrder + '</xsd1:displayOrder>' +
+                        '<xsd1:name>' + prop.name + '</xsd1:name>' +
+                        '<xsd1:required>' + prop.required + '</xsd1:required>' +
+                        '<xsd1:type>' + prop.type + '</xsd1:type>' +
+                        '<xsd1:value>' + propval + '</xsd1:value>' +
+                        '</xsd1:properties>';
+            }
+            updateSp = updateSp + '</xsd1:inboundAuthenticationRequestConfigs>';
+        }
+        if (oauthConsumerID != null && oauthSecret != null && oauthConsumerID.length > 0 && oauthSecret.length > 0) {
+            updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>' +
+                    '<xsd1:friendlyName>?</xsd1:friendlyName>' +
+                    '<xsd1:inboundAuthKey>' + oauthConsumerID + '</xsd1:inboundAuthKey>' +
+                    '<xsd1:inboundAuthType>oauth2</xsd1:inboundAuthType>' +
+                    '<xsd1:properties>' +
+                    '<xsd1:confidential>false</xsd1:confidential>' +
+                    '<xsd1:defaultValue></xsd1:defaultValue>' +
+                    '<xsd1:description></xsd1:description>' +
+                    '<xsd1:displayName></xsd1:displayName>' +
+                    '<xsd1:displayOrder>0</xsd1:displayOrder>' +
+                    '<xsd1:name>oauthConsumerSecret</xsd1:name>' +
+                    '<xsd1:required>false</xsd1:required>' +
+                    '<xsd1:type></xsd1:type>' +
+                    '<xsd1:value>' + oauthSecret + '</xsd1:value>' +
+                    '</xsd1:properties>' +
+                    '</xsd1:inboundAuthenticationRequestConfigs>';
+        }
+        if ((stsRealm != null && stsRealm.length > 0) || (stsUrl != null  && stsUrl.length > 0)) {
+            if(stsRealm == null){
+                stsRealm = "";
+            }
+            if(stsUrl == null){
+                stsUrl = "";
+            }
+            updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>' +
+                    '<xsd1:friendlyName>?</xsd1:friendlyName>' +
+                    '<xsd1:inboundAuthKey>' + stsRealm + '</xsd1:inboundAuthKey>' +
+                    '<xsd1:inboundAuthType>passivests</xsd1:inboundAuthType>' +
+                    '<xsd1:properties>' +
+                    '<xsd1:confidential>false</xsd1:confidential>' +
+                    '<xsd1:defaultValue></xsd1:defaultValue>' +
+                    '<xsd1:description></xsd1:description>' +
+                    '<xsd1:displayName></xsd1:displayName>' +
+                    '<xsd1:displayOrder>0</xsd1:displayOrder>' +
+                    '<xsd1:name>passiveSTSWReply</xsd1:name>' +
+                    '<xsd1:required>false</xsd1:required>' +
+                    '<xsd1:type></xsd1:type>' +
+                    '<xsd1:value>' + stsUrl + '</xsd1:value>' +
+                    '</xsd1:properties>' +
+                    '</xsd1:inboundAuthenticationRequestConfigs>';
+        }
+        updateSp = updateSp + '</xsd1:inboundAuthenticationConfig>';
+
+        if(subjectClaim != null && subjectClaim.length > 0) {
+            updateSp = updateSp + '<xsd1:localAndOutBoundAuthenticationConfig>' +
+                    '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
+                    '<xsd1:authenticationType>default</xsd1:authenticationType>' +
+                    '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
+                    '<xsd1:useTenantDomainInLocalSubjectIdentifier>false</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
+                    '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>false</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
+                    '</xsd1:localAndOutBoundAuthenticationConfig>';
+        }
+        updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
+                '<xsd1:dumbMode>false</xsd1:dumbMode>'+
+                '<xsd1:provisioningEnabled>false</xsd1:provisioningEnabled>'+
+                '<xsd1:provisioningUserStore></xsd1:provisioningUserStore>'+
+                '</xsd1:inboundProvisioningConfig>'+
+
+                '<xsd1:outboundProvisioningConfig>'+
+                '<xsd1:provisionByRoleList>'+ serviceProvider.outboundProvisioningConfig.provisionByRoleList +'</xsd1:provisionByRoleList>'+
+                '</xsd1:outboundProvisioningConfig>'+
+
+                '<xsd1:permissionAndRoleConfig></xsd1:permissionAndRoleConfig>'+
+                '<xsd1:spProperties>'+
+                '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
+                '<xsd1:name>appType</xsd1:name>'+
+                '<xsd1:value>'+sptype+'</xsd1:value>'+
+                '</xsd1:spProperties>'+
+                '</xsd:serviceProvider>'+
+                '</xsd:updateApplication>';
+        spClient.updateApplicationData(updateSp);
+    } catch (e) {
+        log.error(e);
+        print("This didn't work" + getErrorMessage(e.message));
+    }
+
+}
+
+function addApp(){
+
+  var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+
+  // Check whether there is an OAuth app registered for ReST API calls.
+  // If not the publisher module will create one.
+  var oauthApp = getOAuthAppForRestAPI();
+
+  publisher.init(oauthApp);
+
+  var gatewayProperties = request.getParameter("gatewayProperties");
+  if(gatewayProperties){
+    gatewayProperties = JSON.parse(gatewayProperties);
+  }
+
+  var storeProperties = request.getParameter("storeProperties");
+  if(storeProperties){
+    storeProperties = JSON.parse(storeProperties);
+  }
+
+
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var thumbnailId = request.getParameter("thumbnailUrl"); //check for pre attached image
+    var thumbnailFile = request.getFile("thumbnailFile");//check for newly attached image
+    if (thumbnailFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var thumbnailInputStream = Packages.java.io.InputStream;
+        thumbnailInputStream = thumbnailFile.getStream().getStream();
+        fileContentObj.setContent(thumbnailInputStream);
+        fileContentObj.setFileName(thumbnailFile.getName());
+        thumbnailId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var bannerId = request.getParameter("bannerUrl");//check for pre attached image
+    var bannerFile = request.getFile("bannerFile");//check for newly attached image
+    if (bannerFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var bannerInputStream = Packages.java.io.InputStream;
+        bannerInputStream = bannerFile.getStream().getStream();
+        fileContentObj.setContent(bannerInputStream);
+        fileContentObj.setFileName(bannerFile.getName());
+        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var appURL = gatewayProperties.appUrl;
+    var context = gatewayProperties.appContext;
+    if (gatewayProperties.skipGateway) {
+        var appURL = getAppAccessURL(storeProperties);
+        // This is just to by-pass a faulty validation.
+        // TODO : Fix the validation.
+        context = request.getParameter('spName');
+    }
+
+  // Coverting "a,b,c" => ["a", "b", "c"] for JSON parsing
+  var tags = JSON.parse('["' + storeProperties.tags.split(',').join('","') + '"]');
+
+  var visibleRoles = JSON.parse('["' + storeProperties.visibility.split(',').join('","') + '"]');
+
+  var app = {
+              id: storeProperties.id.toString(),
+              name: request.getParameter('spName'),
+              version: "1.0",
+              isDefaultVersion: true,
+              displayName: storeProperties.appDisplayName,
+              description: request.getParameter('spDesc'),
+              trackingCode: request.getParameter('spName'),
+              isSite: "false",
+              skipGateway : gatewayProperties.skipGateway,
+              serviceProviderCreationEnabled : false,
+              context: '/' + context,
+              appUrL: appURL,
+              acsUrl: "",
+              transport: "http",
+              tags : tags,
+              visibleRoles: visibleRoles,
+              thumbnailUrl: thumbnailId,
+              banner: bannerId,
+              policyGroups: [
+                {
+                  policyGroupName: "default",
+                  description: "Default policy",
+                  throttlingTier: "Unlimited",
+                  allowAnonymousAccess: "false"
+                }
+              ],
+              uriTemplates: [
+                {
+                  urlPattern: "/*",
+                  httpVerb: "GET",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "POST",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "PUT",
+                  policyGroupName: "default"
+                }
+              ],
+              customProperties:[]
+            };
+
+    if (app.id == "") {
+        publisher.addApp(app);
+    } else {
+        publisher.updateApp(app);
+    }
+}
+
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
+}
+
+function getOAuthAppForRestAPI(){
+
+  var createdServiceProviders = spClient.getAllCustomSPs().return;
+
+  var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
+  var oauthAppExists = false;
+
+  for(var i = 0; i < createdServiceProviders.length; i++){
+    if(createdServiceProviders[i].applicationName === oauthAppName){
+      oauthAppExists = true;
+      break;
+    }
+  }
+
+  var oauthApp;
+  if(oauthAppExists){
+    oauthApp = spClient.getApplication(oauthAppName).return;
+  }
+
+  return oauthApp;
+}
+
+/**
+ * Get the access url for skip the gateway app
+ * @param gatewayProperties
+ * @param storeProperties
+ * @returns {*}
+ */
+function getAppAccessURL(storeProperties) {
+    if(request.getParameter("enableIdPInitSSO") == 'true') {
+        // IDP initiated SSO (Gateway is skipped)
+        var issuer = request.getParameter("issuer");
+        return getIDPInitiatedSSOURL(issuer);
+    } else {
+        //SP initiated SSO
+        return storeProperties.appStoreUrl;
+    }
+}
+
+
+function getIDPInitiatedSSOURL(issuer) {
+    //TODO - Support tenants
+    //https://{Hostname}:{Port}/samlsso?spEntityID={SAML2 SSO Issuer name}
+    return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+    + "/samlsso?spEntityID=" +issuer;
+
+}
+%>

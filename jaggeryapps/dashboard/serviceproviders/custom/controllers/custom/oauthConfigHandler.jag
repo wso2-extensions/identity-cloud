@@ -1,0 +1,347 @@
+<%
+var log = new Log();
+var cookie = request.getParameter("cookie");
+var user = request.getParameter("user");
+var appName = request.getParameter("appName");
+var clientID = request.getParameter("clientID");
+var action = request.getParameter("action");
+var sptype = request.getParameter("spType")
+handle(action);
+function handle(action) {
+    if (action == 'getOAuthConfigs') {
+        getOAuthConfigs();
+    } else if (action == 'removeOauthConfig') {
+        removeOauthConfig();
+    } else if (action == 'addOauthConfig') {
+        var isEdit = request.getParameter("isEditSP");
+        if (isEdit == 'true') {
+            updateOauthConfig();
+        } else {
+            addOauthConfig();
+        }
+    }
+}
+function getOAuthConfigs() {
+    session.put('auth-cookie', cookie);
+    session.put('user', user);
+    try {
+        var oauthClient = require('oauthAdminClient.jag');
+        var grantTypes = oauthClient.getAllowedGrantTypes();
+        var isPKCESupportEnabled = oauthClient.isPKCESupportEnabled();
+        var fieldValues = {};
+        fieldValues['grantTypes'] = grantTypes.return;
+        fieldValues['isPKCESupportEnabled'] = isPKCESupportEnabled.return;
+        if (appName != null && appName.length > 0) {
+            fieldValues['app'] = oauthClient.getOAuthApplicationDataByAppName(appName).return;
+        } else if (clientID != null && appName.length > 0) {
+            fieldValues['app'] = oauthClient.getOAuthApplicationData(clientID).return;
+        }
+        print(fieldValues);
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+
+}
+function removeOauthConfig() {
+    session.put('auth-cookie', cookie);
+    session.put('user', user);
+    try {
+        var oauthClient = require('oauthAdminClient.jag');
+        var util = require ('util.jag');
+        util.removeOauthConfig(sptype,appName);
+        oauthClient.removeOAuthApplicationData(clientID);
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+}
+
+function updateOauthConfig(){
+    var consumerkey = request.getParameter("consumerkey");
+    var callback = request.getParameter("callback");
+    var consumersecret = request.getParameter("consumersecret");
+    var oauthVersion = request.getParameter("oauthVersion");
+    //-- start setting grants
+    var grantCode = request.getParameter("grant_code");
+    var grantImplicit = request.getParameter("grant_implicit");
+    var grantPassword = request.getParameter("grant_password");
+    var grantClient = request.getParameter("grant_client");
+    var grantRefresh = request.getParameter("grant_refresh");
+    var grantSAML1 = request.getParameter("grant_saml1");
+    var grantSAML2 = request.getParameter("grant_saml2");
+    var grantNTLM = request.getParameter("grant_ntlm");
+    var grants = null;
+    var buff = "";
+    var pkceMandatory = false;
+    var pkceSupportPlain = false;
+    if (grantCode != null && grantCode.length > 0) {
+        buff = buff + grantCode + " ";
+    }
+    if (grantImplicit != null && grantImplicit.length > 0) {
+        buff = buff + grantImplicit + " ";
+    }
+    if (grantPassword != null && grantPassword.length > 0) {
+        buff = buff + grantPassword + " ";
+    }
+    if (grantClient != null && grantClient.length > 0) {
+        buff = buff + grantClient + " ";
+    }
+    if (grantRefresh != null && grantRefresh.length > 0) {
+        buff = buff + grantRefresh + " ";
+    }
+    if (grantSAML1 != null && grantSAML1.length > 0) {
+        buff = buff + grantSAML1 + " ";
+    }
+    if (grantSAML2 != null && grantSAML2.length > 0) {
+        buff = buff + grantSAML2 + " ";
+    }
+    if (grantNTLM != null && grantNTLM.length > 0) {
+        buff = buff + grantNTLM;
+    }
+    grants = buff;
+
+    if(request.getParameter("pkce") != null && request.getParameter("pkce").length > 0) {
+        pkceMandatory = true;
+    }
+    if(request.getParameter("pkce_plain") != null && request.getParameter("pkce_plain").length > 0) {
+        pkceSupportPlain = true;
+    }
+
+    var VERSION_2 = "OAuth-2.0"
+    try {
+        var client = require('oauthAdminClient.jag');
+        var payload = '<xsd:updateConsumerApplication xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.oauth.identity.carbon.wso2.org/xsd">'+
+        '<xsd:consumerAppDTO>'+
+        '<xsd1:OAuthVersion>'+oauthVersion+'</xsd1:OAuthVersion>'+
+        '<xsd1:applicationName>'+appName+'</xsd1:applicationName>'+
+        '<xsd1:callbackUrl>'+callback+'</xsd1:callbackUrl>'+
+        '<xsd1:grantTypes>';
+        if(VERSION_2==oauthVersion){
+            payload = payload + grants;
+        }
+        payload = payload + '</xsd1:grantTypes>'+
+        '<xsd1:oauthConsumerKey>'+consumerkey+'</xsd1:oauthConsumerKey>'+
+        '<xsd1:oauthConsumerSecret>'+consumersecret+'</xsd1:oauthConsumerSecret>'+
+        '<xsd1:pkceMandatory>'+pkceMandatory+'</xsd1:pkceMandatory>'+
+        '<xsd1:pkceSupportPlain>'+pkceSupportPlain+'</xsd1:pkceSupportPlain>'+
+        '<xsd1:username>'+user+'</xsd1:username>'+
+        '</xsd:consumerAppDTO>'+
+        '</xsd:updateConsumerApplication>';
+        client.updateConsumerApplication(payload);
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+}
+
+function addOauthConfig(){
+    var applicationName = request.getParameter("application");
+    var callback = request.getParameter("callback");
+    var oauthVersion = request.getParameter("oauthVersion");
+    //-- start setting grants
+    var grantCode = request.getParameter("grant_code");
+    var grantImplicit = request.getParameter("grant_implicit");
+    var grantPassword = request.getParameter("grant_password");
+    var grantClient = request.getParameter("grant_client");
+    var grantRefresh = request.getParameter("grant_refresh");
+    var grantSAML1 = request.getParameter("grant_saml1");
+    var grantSAML2 = request.getParameter("grant_saml2");
+    var grantNTLM = request.getParameter("grant_ntlm");
+    var pkceMandatory = false;
+    var pkceSupportPlain = false;
+
+    var grants = null;
+    var buff = "";
+    if (grantCode != null && grantCode.length > 0) {
+        buff = buff + grantCode + " ";
+    }
+    if (grantImplicit != null && grantImplicit.length > 0) {
+        buff = buff + grantImplicit + " ";
+    }
+    if (grantPassword != null && grantPassword.length > 0) {
+        buff = buff + grantPassword + " ";
+    }
+    if (grantClient != null && grantClient.length > 0) {
+        buff = buff + grantClient + " ";
+    }
+    if (grantRefresh != null && grantRefresh.length > 0) {
+        buff = buff + grantRefresh + " ";
+    }
+    if (grantSAML1 != null && grantSAML1.length > 0) {
+        buff = buff + grantSAML1 + " ";
+    }
+    if (grantSAML2 != null && grantSAML2.length > 0) {
+        buff = buff + grantSAML2 + " ";
+    }
+    if (grantNTLM != null && grantNTLM.length > 0) {
+        buff = buff + grantNTLM;
+    }
+    grants = buff;
+    if(request.getParameter("pkce") != null && request.getParameter("pkce").length > 0) {
+        pkceMandatory = true;
+    }
+    if(request.getParameter("pkce_plain") != null && request.getParameter("pkce_plain").length > 0) {
+        pkceSupportPlain = true;
+    }
+
+    try {
+        var client = require('oauthAdminClient.jag');
+
+        var payload = '<xsd:registerOAuthApplicationData xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.oauth.identity.carbon.wso2.org/xsd">'+
+                '<xsd:application>'+
+                '<xsd1:OAuthVersion>'+oauthVersion+'</xsd1:OAuthVersion>'+
+                '<xsd1:applicationName>'+applicationName+'</xsd1:applicationName>'+
+        '<xsd1:callbackUrl>'+callback+'</xsd1:callbackUrl>'+
+        '<xsd1:grantTypes>'+grants+'</xsd1:grantTypes>'+
+        '<xsd1:pkceMandatory>'+pkceMandatory+'</xsd1:pkceMandatory>'+
+        '<xsd1:pkceSupportPlain>'+pkceSupportPlain+'</xsd1:pkceSupportPlain>'+
+        '<xsd1:username>'+user+'</xsd1:username>'+
+        '</xsd:application>'+
+        '</xsd:registerOAuthApplicationData>';
+        client.registerOAuthApplicationData(payload);
+        var consumerApp = client.getOAuthApplicationDataByAppName(applicationName).return;
+        postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype);
+        log.info(consumerApp.toSource());
+
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+
+}
+
+function postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype){
+
+    var spAdminClient = require('spAdminClient.jag');
+    var serviceProvider = spAdminClient.getApplication(applicationName).return;
+
+    var updateApp = '<xsd:updateApplication xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">' +
+            '<xsd:serviceProvider>' +
+            '<xsd1:applicationID>' + serviceProvider.applicationID + '</xsd1:applicationID>' +
+            '<xsd1:applicationName>' + serviceProvider.applicationName + '</xsd1:applicationName>';
+
+    //claimConfig
+    if (serviceProvider.claimConfig != null) {
+        updateApp = updateApp + '<xsd1:claimConfig>' +
+                '<xsd1:alwaysSendMappedLocalSubjectId>' + serviceProvider.claimConfig.alwaysSendMappedLocalSubjectId + '</xsd1:alwaysSendMappedLocalSubjectId>';
+        var claimMappings = serviceProvider.claimConfig.claimMappings;
+        if (claimMappings != null && claimMappings.length > 0) {
+            if (!(claimMappings instanceof Array)) {
+                var tempArr = [];
+                tempArr[0] = claimMappings;
+                claimMappings = tempArr;
+            }
+            for (var i in claimMappings) {
+                var claimMapping = claimMappings[i];
+                updateApp = updateApp + '<xsd1:claimMappings>' +
+                        '<xsd1:defaultValue>' + claimMapping.defaultValue + '</xsd1:defaultValue>' +
+                        '<xsd1:localClaim>' +
+                        '<xsd1:claimId>' + claimMapping.localClaim.claimId + '</xsd1:claimId>' +
+                        '<xsd1:claimUri>' + claimMapping.localClaim.claimUri + '</xsd1:claimUri>' +
+                        '</xsd1:localClaim>' +
+                        '<xsd1:remoteClaim>' +
+                        '<xsd1:claimId>' + claimMapping.remoteClaim.claimId + '</xsd1:claimId>' +
+                        '<xsd1:claimUri>' + claimMapping.remoteClaim.claimUri + '</xsd1:claimUri>' +
+                        '</xsd1:remoteClaim>' +
+                        '<xsd1:requested>' + claimMapping.requested + '</xsd1:requested>' +
+                        '</xsd1:claimMappings>';
+            }
+        }
+        updateApp = updateApp + '<xsd1:localClaimDialect>' + serviceProvider.claimConfig.localClaimDialect + '</xsd1:localClaimDialect>' +
+                '<xsd1:roleClaimURI>' + serviceProvider.claimConfig.roleClaimURI + '</xsd1:roleClaimURI>' +
+                '<xsd1:userClaimURI>' + serviceProvider.claimConfig.userClaimURI + '</xsd1:userClaimURI>' +
+                '</xsd1:claimConfig>';
+    }
+    updateApp = updateApp + '<xsd1:description>' + serviceProvider.description + '</xsd1:description>';
+
+    //inboundAuthenticationConfig
+    if (serviceProvider.inboundAuthenticationConfig != null) {
+        updateApp = updateApp + '<xsd1:inboundAuthenticationConfig>';
+        var authConfigs = serviceProvider.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
+        if (authConfigs != null) {
+            if (!(authConfigs instanceof Array)) {
+                var tempArr = [];
+                tempArr[0] = authConfigs;
+                authConfigs = tempArr;
+            }
+            for (var i in authConfigs) {
+                var config = authConfigs[i];
+
+                if(config.inboundAuthType!="oauth2") {
+                    updateApp = updateApp + '<xsd1:inboundAuthenticationRequestConfigs>' +
+                            '<xsd1:friendlyName>' + config.friendlyName + '</xsd1:friendlyName>' +
+                            '<xsd1:inboundAuthKey>' + config.inboundAuthKey + '</xsd1:inboundAuthKey>' +
+                            '<xsd1:inboundAuthType>' + config.inboundAuthType + '</xsd1:inboundAuthType>';
+                    if (config.properties != null) {
+                        if (!(config.properties instanceof Array)) {
+                            var tempArr = [config.properties];
+                            config.properties = tempArr;
+                        }
+                        for (var i in config.properties) {
+                            var property = config.properties[i];
+                            updateApp = updateApp + '<xsd1:properties>' +
+                                    '<xsd1:confidential>' + property.confidential + '</xsd1:confidential>' +
+                                    '<xsd1:defaultValue>' + property.defaultValue + '</xsd1:defaultValue>' +
+                                    '<xsd1:description>' + property.description + '</xsd1:description>' +
+                                    '<xsd1:displayName>' + property.displayName + '</xsd1:displayName>' +
+                                    '<xsd1:displayOrder>' + property.displayOrder + '</xsd1:displayOrder>' +
+                                    '<xsd1:name>' + property.name + '</xsd1:name>' +
+                                    '<xsd1:required>' + property.required + '</xsd1:required>' +
+                                    '<xsd1:type>' + property.type + '</xsd1:type>' +
+                                    '<xsd1:value>' + property.value + '</xsd1:value>' +
+                                    '</xsd1:properties>';
+                        }
+                    }
+                    updateApp = updateApp + '</xsd1:inboundAuthenticationRequestConfigs>';
+                }
+            }
+
+        }
+        updateApp = updateApp + '<xsd1:inboundAuthenticationRequestConfigs>' +
+                '<xsd1:friendlyName></xsd1:friendlyName>' +
+                '<xsd1:inboundAuthKey>' + consumerApp.oauthConsumerKey + '</xsd1:inboundAuthKey>' +
+                '<xsd1:inboundAuthType>' + "oauth2" + '</xsd1:inboundAuthType>';
+
+        if(consumerApp.oauthConsumerSecret!=null && consumerApp.oauthConsumerSecret.length>0) {
+            updateApp = updateApp + '<xsd1:properties>' +
+                    '<xsd1:confidential>false</xsd1:confidential>' +
+                    '<xsd1:defaultValue></xsd1:defaultValue>' +
+                    '<xsd1:description></xsd1:description>' +
+                    '<xsd1:displayName></xsd1:displayName>' +
+                    '<xsd1:displayOrder>0</xsd1:displayOrder>' +
+                    '<xsd1:name>oauthConsumerSecret</xsd1:name>' +
+                    '<xsd1:required>false</xsd1:required>' +
+                    '<xsd1:type></xsd1:type>' +
+                    '<xsd1:value>' + consumerApp.oauthConsumerSecret +'</xsd1:value>' +
+                    '</xsd1:properties>';
+        }
+
+        updateApp = updateApp + '</xsd1:inboundAuthenticationRequestConfigs>';
+        updateApp = updateApp + '</xsd1:inboundAuthenticationConfig>';
+    }
+    //inboundProvisioningConfig
+    if (serviceProvider.inboundProvisioningConfig != null) {
+        updateApp = updateApp + '<xsd1:inboundProvisioningConfig>' +
+                '<xsd1:dumbMode>' + serviceProvider.inboundProvisioningConfig.dumbMode + '</xsd1:dumbMode>' +
+                '<xsd1:provisioningEnabled>' + serviceProvider.inboundProvisioningConfig.provisioningEnabled + '</xsd1:provisioningEnabled>' +
+                '<xsd1:provisioningUserStore>' + serviceProvider.inboundProvisioningConfig.provisioningUserStore + '</xsd1:provisioningUserStore>' +
+                '</xsd1:inboundProvisioningConfig>';
+    }
+
+    if (serviceProvider.outboundProvisioningConfig != null) {
+        updateApp = updateApp + '<xsd1:outboundProvisioningConfig>' +
+                '<xsd1:provisionByRoleList>' + serviceProvider.outboundProvisioningConfig.provisionByRoleList + '</xsd1:provisionByRoleList>' +
+                '</xsd1:outboundProvisioningConfig>';
+    }
+    updateApp = updateApp + '<xsd1:permissionAndRoleConfig>' + serviceProvider.permissionAndRoleConfig + '</xsd1:permissionAndRoleConfig>' +
+            '<xsd1:spProperties>'+
+            '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
+            '<xsd1:name>appType</xsd1:name>'+
+            '<xsd1:value>'+sptype+'</xsd1:value>'+
+            '</xsd1:spProperties>'+
+            '</xsd:serviceProvider>' +
+            '</xsd:updateApplication>';
+    spAdminClient.updateApplicationData(updateApp);
+}
+%>
