@@ -6,7 +6,6 @@ var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
 serverUrl = serverUrl + "/CloudDirectoryAdminService";
-<!--serverUrl = serverUrl + "/OAuthAdminService";-->
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var i18n = session.get("i18n");
