@@ -15,7 +15,6 @@ var agenturl = request.getParameter("url");
 testConnection();
 function testConnection(){
     try{
-        log.info("##########################################testConnection Started. : " + agenturl);
         webService = new ws.WSRequest();
         var result = callWSReturnJSON(webService, serverUrl, "urn:testConnection", agenturl, null);
         print(result);
