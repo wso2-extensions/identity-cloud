@@ -1,0 +1,61 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+var log = new Log();
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/UserStoreConfigAdminService";
+var ws = require('ws');
+var webService = new ws.WSRequest();
+
+function deleteUserStore(){
+
+    try{
+        var domain = request.getParameter('domain');
+        var deleteUserStore = '<xsd:deleteUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
+                '<xsd:domainName>' + domain +  '</xsd:domainName>' +
+                '</xsd:deleteUserStore>';
+
+        webService = new ws.WSRequest();
+        callWSInOnly(webService, serverUrl, "urn:deleteUserStore", deleteUserStore);
+        print("Success");
+    }catch(e){
+        log.error(e);
+        print("This didn't work" + getErrorMessage(e.message));
+
+    }
+
+}
+deleteUserStore();
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
+}
+
+%>

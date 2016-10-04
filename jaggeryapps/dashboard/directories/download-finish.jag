@@ -1,0 +1,107 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+
+var log = new Log();
+
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+
+var serverUrl = util.getServerUrl();
+serverUrl = serverUrl + "/UserStoreConfigAdminService";
+var ws = require('ws');
+var webService = new ws.WSRequest();
+var domain = request.getParameter("domain");
+
+var TEMP_PATH = "/resources/tmp/";
+var APP_PATH = "repository/deployment/server/jaggeryapps/dashboard";
+downloadAgent();
+function downloadAgent(){
+    try{
+        var dirname = getDirnameInTimestamp();
+        copyAgentFiles(dirname);
+        copyPublicKey(dirname);
+        var file = new File(TEMP_PATH + dirname + "/" + "agent");
+        file.zip(TEMP_PATH + dirname + "/" + "wso2agent"  + ".tgz");
+        deleteDirectory(TEMP_PATH + dirname + "/" + "agent");
+        print(TEMP_PATH + dirname + "/" + "wso2agent" + ".tgz");
+    }catch(e){
+        print(e);
+        log.error(e);
+    }
+}
+
+function copyPublicKey(dirname){
+    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext;
+    var context = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+    var tenantID = context.getTenantId();
+    var keystore = Packages.org.wso2.carbon.core.util.KeyStoreManager.getInstance(tenantID);
+    var dos;
+
+    try {
+        var file =  Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/agent/conf/security/" + "public.cert");
+        var fos =  Packages.java.io.FileOutputStream(file);
+        dos =  Packages.java.io.DataOutputStream(fos);
+        var keyBytes=keystore.getDefaultPublicKey().getEncoded();
+        var encoder= Packages.sun.misc.BASE64Encoder();
+        var encoded = encoder.encodeBuffer(keyBytes);
+        dos.writeBytes(encoded);
+        dos.flush();
+    } catch (e) {
+        log.error("Error occurred while copying public key" + e);
+    }finally{
+        dos.close();
+    }
+
+
+
+}
+
+function deleteDirectory(dirPath){
+    var directory = Packages.java.io.File(APP_PATH + dirPath);
+    Packages.org.apache.commons.io.FileUtils.deleteDirectory(directory);
+}
+function copyAgentFiles(dirname){
+    var source = Packages.java.io.File(APP_PATH + "/resources/agent");
+    var destination = Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/" + "agent"  + "/");
+    org.apache.commons.io.FileUtils.copyDirectory(source, destination);
+}
+
+function getDirnameInTimestamp(){
+    var milliseconds = new Date().getTime();
+    return milliseconds;
+}
+
+
+function createDirs(path) {
+    var parts = path.split('/');
+    var dirPath = '';
+    for (var i = 0; i < parts.length - 1; i++) {
+        var part = parts[i];
+        dirPath = dirPath + '/' + part;
+        try {
+            var file = new File(dirPath);
+            file.mkdir();
+        } catch (e) {
+            log.error("Error occurred while creating directory.");
+// ASSUME: Error is due to dir already existing, thus ignore
+        }
+    }
+}
+
+%>
