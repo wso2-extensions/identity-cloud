@@ -34,17 +34,25 @@ function copyPublicKey(dirname){
     var context = PrivilegedCarbonContext.getThreadLocalCarbonContext();
     var tenantID = context.getTenantId();
     var keystore = Packages.org.wso2.carbon.core.util.KeyStoreManager.getInstance(tenantID);
+    var dos;
 
-    var encoded = keystore.getDefaultPublicKey().toString();
-    var exportedFile = Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/" + "agent"  + "/" + "public.cert");
-
-    if(!exportedFile.exists()) {
-        exportedFile.createNewFile();
+    try {
+        var file =  Packages.java.io.File(APP_PATH + TEMP_PATH + dirname + "/agent/conf/security/" + "public.cert");
+        var fos =  Packages.java.io.FileOutputStream(file);
+        dos =  Packages.java.io.DataOutputStream(fos);
+        var keyBytes=keystore.getDefaultPublicKey().getEncoded();
+        var encoder= Packages.sun.misc.BASE64Encoder();
+        var encoded = encoder.encodeBuffer(keyBytes);
+        dos.writeBytes(encoded);
+        dos.flush();
+    } catch (e) {
+        log.error("Error occurred while copying public key" + e);
+    }finally{
+        dos.close();
     }
-    var fileOutputStream = Packages.java.io.FileOutputStream(exportedFile);
-    fileOutputStream.write(keystore.getDefaultPublicKey().getEncoded());
-    fileOutputStream.flush();
-    fileOutputStream.close();
+
+
+
 }
 
 function deleteDirectory(dirPath){
