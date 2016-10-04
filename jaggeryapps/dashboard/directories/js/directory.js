@@ -96,7 +96,7 @@ function drawList() {
         $('#emptyList').hide();
         for (var i in directoryList) {
             var spdesc = directoryList[i].description;
-            if (directoryList[i].domainId == userstoredomain) { //TODO remove is-wso2.com
+            if (directoryList[i].domainId == userstoredomain) {
                 isUserStoreCreated = true;
                 properties = directoryList[i].properties;
             }
@@ -104,7 +104,7 @@ function drawList() {
 
         if (isUserStoreCreated) {
             for (var j in properties) {
-                if (properties[j].name == endpointurl) { //TODO remove this magic words
+                if (properties[j].name == endpointurl) {
                     agentUrl = properties[j].value;
                     break;
                 }
