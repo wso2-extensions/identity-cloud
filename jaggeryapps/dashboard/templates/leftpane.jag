@@ -7,7 +7,7 @@
                <a href="directories"><i class="fw fw-folder"></i> Directories</a>
            </li>
            <li class="selected">
-               <a href=""><i class="fw fw-globe"></i> Service Providers</a>
+               <a href=""><i class="fw fw-globe"></i> Applications</a>
            </li>
            <li>
                <a href="#"><i class="fw fw-bar-chart"></i> Analytics</a>

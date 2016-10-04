@@ -423,6 +423,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     if (providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value =='true') {
         $('#enableIdPInitSSO').prop("checked",true);
         $('#enableIdPInitSSO').val(true);
+        //Store app access url should be constructed
+        $("#store-app-url-sec").hide();
     } else {
         $('#enableIdPInitSSO').prop("checked",false);
         $('#enableIdPInitSSO').val(false);
@@ -540,8 +542,8 @@ function isHidden(fieldName, providerProps){
 }
 
 function onClickAddACRUrl() {
-    //var isValidated = doValidateInputToConfirm(document.getElementById('assertionConsumerURLTxt'), "<fmt:message key='sp.not.https.endpoint.address'/>",
-    //    addAssertionConsumerURL, null, null);
+    //var isValidated = doValidateInputToConfirm(document.getElementById('assertionConsumerURLTxt'), "<fmt:message
+    // key='sp.not.https.endpoint.address'/>", addAssertionConsumerURL, null, null);
     var isValidated = true;
     if (isValidated) {
         addAssertionConsumerURL();
@@ -999,6 +1001,63 @@ function addSloReturnToURL() {
     $("#currentReturnToColumnId").val(parseInt(currentColumnId) + 1);
 }
 
+$(document).ready(function() {
+    //IDP initiated sso check box check/uncheck event
+    $("#enableIdPInitSSO").change(function () {
+        if (this.checked) {
+            $("#store-app-url-sec").hide();
+        } else {
+            $("#store-app-url-sec").show();
+        }
+    });
+});
 
 
+/**
+ * Get Assertion Consumer URL
+ * @param appContext
+ * @param appVersion
+ * @param transport
+ * @returns ACS URL
+ */
+function getACSURL(appContext, appVersion, transport) {
+    var ascUrl = "";
+    $.ajax({
+               url: "/dashboard/serviceproviders/appmConf",
+               type: "GET",
+               data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
+                     + "&transport=" + transport,
+               async: false,
+               success: function (data) {
+                   ascUrl = data;
+               },
+               error: function (e) {
+                   message({
+                               content: 'Error occurred while getting the configuration: Issuer details',
+                               type: 'error'
+                           });
+               }
+           });
+    return ascUrl;
+}
+
+function populateIssuerName(appName, appVersion) {
+    var saml2SsoIssuer = "";
+    $.ajax({
+               url: "/dashboard/serviceproviders/appmConf",
+               type: "GET",
+               data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
+               async: false,
+               success: function (data) {
+                   saml2SsoIssuer = data;
+               },
+               error: function (e) {
+                   message({
+                               content: 'Error occurred while getting the configuration: Issuer details',
+                               type: 'error'
+                           });
+               }
+           });
+    return saml2SsoIssuer;
+}
 

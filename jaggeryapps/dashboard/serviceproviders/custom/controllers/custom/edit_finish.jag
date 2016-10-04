@@ -1,12 +1,19 @@
 <%
 var log = new Log();
 var spClient = require('../custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
 updateSP();
 
+if(appManagementIntegrationConfig.enabled){
+  addApp();
+}
+
 function updateSP(){
     try{
+
         var cookie = session.get('auth-cookie');
         if(cookie == null){
             var cookie = request.getParameter("cookie");
@@ -324,6 +331,120 @@ function updateSP(){
 
 }
 
+function addApp(){
+
+  var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+
+  // Check whether there is an OAuth app registered for ReST API calls.
+  // If not the publisher module will create one.
+  var oauthApp = getOAuthAppForRestAPI();
+
+  publisher.init(oauthApp);
+
+  var gatewayProperties = request.getParameter("gatewayProperties");
+  if(gatewayProperties){
+    gatewayProperties = JSON.parse(gatewayProperties);
+  }
+
+  var storeProperties = request.getParameter("storeProperties");
+  if(storeProperties){
+    storeProperties = JSON.parse(storeProperties);
+  }
+
+
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var thumbnailId = request.getParameter("thumbnailUrl"); //check for pre attached image
+    var thumbnailFile = request.getFile("thumbnailFile");//check for newly attached image
+    if (thumbnailFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var thumbnailInputStream = Packages.java.io.InputStream;
+        thumbnailInputStream = thumbnailFile.getStream().getStream();
+        fileContentObj.setContent(thumbnailInputStream);
+        fileContentObj.setFileName(thumbnailFile.getName());
+        thumbnailId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var bannerId = request.getParameter("bannerUrl");//check for pre attached image
+    var bannerFile = request.getFile("bannerFile");//check for newly attached image
+    if (bannerFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var bannerInputStream = Packages.java.io.InputStream;
+        bannerInputStream = bannerFile.getStream().getStream();
+        fileContentObj.setContent(bannerInputStream);
+        fileContentObj.setFileName(bannerFile.getName());
+        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    }
+
+    var appURL = gatewayProperties.appUrl;
+    var context = gatewayProperties.appContext;
+    if (gatewayProperties.skipGateway) {
+        var appURL = getAppAccessURL(storeProperties);
+        // This is just to by-pass a faulty validation.
+        // TODO : Fix the validation.
+        context = request.getParameter('spName');
+    }
+
+  // Coverting "a,b,c" => ["a", "b", "c"] for JSON parsing
+  var tags = JSON.parse('["' + storeProperties.tags.split(',').join('","') + '"]');
+
+  var visibleRoles = JSON.parse('["' + storeProperties.visibility.split(',').join('","') + '"]');
+
+  var app = {
+              id: storeProperties.id.toString(),
+              name: request.getParameter('spName'),
+              version: "1.0",
+              isDefaultVersion: true,
+              displayName: storeProperties.appDisplayName,
+              description: request.getParameter('spDesc'),
+              trackingCode: request.getParameter('spName'),
+              isSite: "false",
+              skipGateway : gatewayProperties.skipGateway,
+              serviceProviderCreationEnabled : false,
+              context: '/' + context,
+              appUrL: appURL,
+              acsUrl: "",
+              transport: "http",
+              tags : tags,
+              visibleRoles: visibleRoles,
+              thumbnailUrl: thumbnailId,
+              banner: bannerId,
+              policyGroups: [
+                {
+                  policyGroupName: "default",
+                  description: "Default policy",
+                  throttlingTier: "Unlimited",
+                  allowAnonymousAccess: "false"
+                }
+              ],
+              uriTemplates: [
+                {
+                  urlPattern: "/*",
+                  httpVerb: "GET",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "POST",
+                  policyGroupName: "default"
+                },
+                {
+                  urlPattern: "/*",
+                  httpVerb: "PUT",
+                  policyGroupName: "default"
+                }
+              ],
+              customProperties:[]
+            };
+
+    if (app.id == "") {
+        publisher.addApp(app);
+    } else {
+        publisher.updateApp(app);
+    }
+}
+
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
         if (message.indexOf('401 Error: Unauthorized') > -1) {
@@ -338,4 +459,51 @@ function getErrorMessage(message) {
     return '{"success":false, "message":null}';
 }
 
+function getOAuthAppForRestAPI(){
+
+  var createdServiceProviders = spClient.getAllCustomSPs().return;
+
+  var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
+  var oauthAppExists = false;
+
+  for(var i = 0; i < createdServiceProviders.length; i++){
+    if(createdServiceProviders[i].applicationName === oauthAppName){
+      oauthAppExists = true;
+      break;
+    }
+  }
+
+  var oauthApp;
+  if(oauthAppExists){
+    oauthApp = spClient.getApplication(oauthAppName).return;
+  }
+
+  return oauthApp;
+}
+
+/**
+ * Get the access url for skip the gateway app
+ * @param gatewayProperties
+ * @param storeProperties
+ * @returns {*}
+ */
+function getAppAccessURL(storeProperties) {
+    if(request.getParameter("enableIdPInitSSO") == 'true') {
+        // IDP initiated SSO (Gateway is skipped)
+        var issuer = request.getParameter("issuer");
+        return getIDPInitiatedSSOURL(issuer);
+    } else {
+        //SP initiated SSO
+        return storeProperties.appStoreUrl;
+    }
+}
+
+
+function getIDPInitiatedSSOURL(issuer) {
+    //TODO - Support tenants
+    //https://{Hostname}:{Port}/samlsso?spEntityID={SAML2 SSO Issuer name}
+    return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+    + "/samlsso?spEntityID=" +issuer;
+
+}
 %>

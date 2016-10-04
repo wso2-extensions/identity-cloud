@@ -86,23 +86,26 @@ function drawList() {
             if (spList[i].description.indexOf(']') > -1) {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
+                var appName = spList[i].applicationName;
+
                 if (type == CUSTOM_SP) {
-                    spimage = '<img src="images/is/custom.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
                 } else if (type == CONCUR_SP) {
-                    spimage = '<img src="images/is/concur.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/concur.png " class="square-element">';
                 } else if (type == GOTOMEETING_SP) {
-                    spimage = '<img src="images/is/gotomeeting.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/gotomeeting.png " class="square-element">';
                 } else if (type == NETSUIT_SP) {
-                    spimage = '<img src="images/is/netsuit.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/netsuit.png " class="square-element">';
                 } else if (type == ZUORA_SP) {
-                    spimage = '<img src="images/is/zuora.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/zuora.png " class="square-element">';
                 } else if (type == SALESFORCE_SP) {
-                    spimage = '<img src="images/is/salesforce.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/salesforce.png " class="square-element">';
                 } else if (type == AMAZON_SP) {
-                    spimage = '<img src="images/is/aws.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/aws.png " class="square-element">';
                 } else {
-                    spimage = '<img src="images/is/custom.png " class="square-element">';
+                    spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
                 }
+                setCustomImage(appName);
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
                 '                    <div class="cloud-app-listing app-color-one">' +
@@ -130,4 +133,25 @@ function drawList() {
         $('#emptyList').show();
     }
 
+}
+
+
+function setCustomImage(appName) {
+    $.ajax({
+               url: "/dashboard/apps/getApp",
+               type: "GET",
+               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               async: true,
+               success: function (data) {
+                   if (data != null) {
+                       var result = JSON.parse(data);
+                       if (result != null && result.thumbnailUrl != undefined) {
+                           var link = "/store/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
+                           $('#' + appName).attr('src', link);
+                       }
+                   }
+               },
+               error: function (e) {
+               }
+           });
 }

@@ -36,7 +36,7 @@ include("/templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Service Providers
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@ include("/templates/header.jag");
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-ring fw-stack-2x"></i>
                     <i class="fw fw-add fw-stack-1x"></i>
-                </span> <span class="hidden-xs">Add Service Provider</span>
+                </span> <span class="hidden-xs">Add Application</span>
             </a>
 
             <a href="javascript:downloadIDPMetaData()" class="btn-action" data-toggle="tooltip"
@@ -86,7 +86,7 @@ include("/templates/header.jag");
                                 <i class="fw fw-ring fw-stack-2x"></i>
                                 <i class="fw fw-add fw-stack-1x"></i>
                             </span>
-                            <span class="hidden-xs">Add Service Provider</span>
+                            <span class="hidden-xs">Add Application</span>
                         </a>
                     </div>
 

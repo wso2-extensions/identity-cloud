@@ -6,7 +6,7 @@
                <i class="fa fa-reorder"></i>
            </div>
            <div class="breadcrumb-secondary">
-               <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Service Providers
+               <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications
            </div>
        </div>
    </div>

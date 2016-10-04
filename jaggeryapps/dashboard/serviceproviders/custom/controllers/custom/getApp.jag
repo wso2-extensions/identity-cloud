@@ -1,0 +1,30 @@
+<%
+var log = new Log();
+var cookie = request.getParameter("cookie");
+var user = request.getParameter("user");
+var applicationName = request.getParameter("spName");
+var spClient = require('../custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
+var appVersion= "1.0";
+
+getAppDetails();
+
+function getAppDetails() {
+
+    session.put('auth-cookie', cookie);
+    session.put('user', user);
+
+
+    try {
+        var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+        var fieldValues = publisher.getApp(applicationName, appVersion);
+        print(fieldValues);
+    } catch (e) {
+        print(e);
+        log.error(e);
+    }
+}
+
+
+%>

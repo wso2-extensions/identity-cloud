@@ -1,0 +1,19 @@
+{
+  "enabled":true,
+  "restAPI": {
+    "clientRegistration": {
+      "endpoint": "https://127.0.0.1:9443/api/appm/oauth/v1.0/register",
+      "username": "admin",
+      "password": "admin",
+      "clientName": "app-management",
+      "tokenScope": "Production",
+      "owner": "admin",
+      "grantType": "password refresh_token",
+      "saasApp": true,
+      "callbackUrl": "http://localhost:8080/app-management-client"
+    },
+    "publisher": {
+      "endpoint": "https://localhost:9443/api/appm/publisher/v1.1/"
+    }
+  }
+}
