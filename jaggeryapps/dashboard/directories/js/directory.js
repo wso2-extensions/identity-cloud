@@ -12,7 +12,10 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    validateDirectory(name, agentUrl);
+    if(!validateDirectory(name, agentUrl)){
+        return;
+    }
+
     if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
         agentUrl = agentUrl.substring(0, agentUrl.length - 1);
     }
@@ -55,6 +58,8 @@ function validateDirectory(name, agentUrl) {
     } else {
         $('#agentUrl-error').hide();
     }
+
+    return true;
 }
 
 function getDirectories() {
