@@ -12,7 +12,7 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    if(!validateDirectory(name, agentUrl)){
+    if(!validateDirectoryInputs(name, agentUrl)){
         return;
     }
 
@@ -44,7 +44,7 @@ function addOrUpdateUserDirectory() {
         });
 }
 
-function validateDirectory(name, agentUrl) {
+function validateDirectoryInputs(name, agentUrl) {
     if (name.length == 0) {
         message({labelId: 'drName-error', content: 'Directory name can\'t be empty', type: 'error'});
         return false;
