@@ -215,12 +215,14 @@ var domainName = request.getParameter("domain");
 <script src="../js/jquery-1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
+<script src="../js/custom/main.js" type="text/javascript" type="text/javascript" ></script>
 <script src="../js/datatables-1.10.7/jquery.dataTables.min.js"></script>
 <script src="../js/datatables-1.10.7/dataTables.responsive.min.js"></script>
 <script src="../js/datatables-1.10.7/jquery.dataTables.columnFilter.js"></script>
 <!-- include custom js functions -->
 <script src="../js/custom/custom.js"></script>
 <script src="js/directory.js"></script>
+<script src="../js/custom/constants.js"></script>
 
 <script>
     $('.side-pane-trigger').click(function(){
