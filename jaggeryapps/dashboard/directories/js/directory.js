@@ -12,7 +12,10 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    validateDirectory(name, agentUrl);
+    if(!validateDirectoryInputs(name, agentUrl)){
+        return;
+    }
+
     if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
         agentUrl = agentUrl.substring(0, agentUrl.length - 1);
     }
@@ -41,7 +44,7 @@ function addOrUpdateUserDirectory() {
         });
 }
 
-function validateDirectory(name, agentUrl) {
+function validateDirectoryInputs(name, agentUrl) {
     if (name.length == 0) {
         message({labelId: 'drName-error', content: 'Directory name can\'t be empty', type: 'error'});
         return false;
@@ -55,6 +58,8 @@ function validateDirectory(name, agentUrl) {
     } else {
         $('#agentUrl-error').hide();
     }
+
+    return true;
 }
 
 function getDirectories() {
