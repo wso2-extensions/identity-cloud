@@ -91,9 +91,17 @@ function drawAppDetails(data) {
 
     //store properties
     $('#store-app-name').val(data.displayName);
-    $('#store-app-visibility').val(data.visibleRoles);
     $('#store-app-thumbnail-url').val(data.thumbnailUrl);
     $('#store-app-banner-url').val(data.banner);
+
+
+    if (data.visibleRoles.toString().trim() != "") {
+        var existingRoles = data.visibleRoles.toString().split(",");
+        for (var i = 0; i < existingRoles.length; i++) {
+            var role = existingRoles[i];
+            $('#store-app-visibility').tokenInput("add", {id: role, name: role});
+        }
+    }
 
 
     //Set Id for existing apps, if it's new App id will be ""
@@ -104,6 +112,9 @@ function drawAppDetails(data) {
         id = data.id;
     }
     $('#app-id').val(id);
+
+
+
 
 }
 
@@ -417,3 +428,12 @@ function uploadFile(file){
             console.log('completed');
         });
 }
+
+$(document).ready(function(){
+    $('#store-app-visibility').tokenInput('/dashboard/apps/getRoles', {
+        theme: 'facebook',
+        preventDuplicates: true,
+        hintText: "Type in a user role"
+    });
+
+});
