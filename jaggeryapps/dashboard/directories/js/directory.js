@@ -12,7 +12,10 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    validateDirectory(name, agentUrl);
+    if(!validateDirectory(name, agentUrl)){
+        return;
+    }
+
     if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
         agentUrl = agentUrl.substring(0, agentUrl.length - 1);
     }
@@ -20,10 +23,10 @@ function addOrUpdateUserDirectory() {
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
         data = "name=" + name + "&url=" + agentUrl + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
-        url = "/dashboard/directories/update_finish";
+        url = DIRECTORY_UPDATE_FINISH_PATH;
     } else {
         data = "name=" + name + "&url=" + agentUrl;
-        url = "/dashboard/directories/add_finish";
+        url = DIRECTORY_ADD_FINISH_PATH;
     }
     $.ajax({
         url: url,
@@ -31,7 +34,7 @@ function addOrUpdateUserDirectory() {
         data: data,
     })
         .done(function (data) {
-            window.location.href = "/dashboard/directories";
+            window.location.href = DIRECTORY_LIST_PATH;
         })
         .fail(function () {
             message({content: 'Error while adding Directory. ', type: 'servererror'});
@@ -55,12 +58,14 @@ function validateDirectory(name, agentUrl) {
     } else {
         $('#agentUrl-error').hide();
     }
+
+    return true;
 }
 
 function getDirectories() {
     directoryList = null;
     $.ajax({
-        url: "/dashboard/directories/get-directory-list",
+        url: DIRECTORY_GET_LIST_PATH,
         type: "GET",
         data: "",
         success: function (data) {
@@ -113,7 +118,7 @@ function drawList() {
             var spimage = '<img src="images/is/custom.png " class="square-element">';
             output = '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
                 '                    <div class="cloud-app-listing app-color-one">' +
-                '                        <a href="/dashboard/directories/add?domain=' + userstoredomain + '">' +
+                '                        <a href="' + DIRECTORY_ADD_PATH + '?domain=' + userstoredomain + '">' +
                 '                            <div class="app-icon">' +
                 spimage +
                 '                            </div>' +
@@ -125,7 +130,7 @@ function drawList() {
                 '                            <span class="sr-only">Toggle Dropdown</span>' +
                 '                        </a>' +
                 '                        <ul class="dropdown-menu app-extra-menu" role="menu">' +
-                '                            <li><a href="/dashboard/directories/add?domain=' + userstoredomain + '">Edit</a></li>' +
+                '                            <li><a href="' + DIRECTORY_ADD_PATH + '?domain=' + userstoredomain + '">Edit</a></li>' +
                 '                            <li><a href="" onclick = deleteDirectory(\'' + userstoredomain + '\');>Delete</a></li>' +
                 '                        </ul>' +
                 '                    </div>' +
@@ -145,14 +150,13 @@ function drawList() {
 
 function deleteDirectory(domainname) {
 
-    var str = "/dashboard/directories/delete_finish";
     $.ajax({
-        url: str,
+        url: DIRECTORY_DELETE_FINISH_PATH,
         type: "POST",
         data: "domain=" + domainname,
     })
         .done(function (data) {
-            window.location.href = "/dashboard/directories";
+            window.location.href = DIRECTORY_LIST_PATH;
         })
         .fail(function () {
             console.log('Error Occurred');
@@ -166,11 +170,8 @@ function deleteDirectory(domainname) {
 function populateDirectory(domain) {
 
     var directoryName = "";
-    var agentEndpoint = "";
-    var agentUniqueId = "";
-    var agentDisabled = "";
     $.ajax({
-        url: "/dashboard/directories/get-directory-list",
+        url: DIRECTORY_GET_LIST_PATH,
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
@@ -203,12 +204,12 @@ function populateDirectory(domain) {
 
 function downloadAgent() {
     $.ajax({
-        url: "/dashboard/directories/download-finish",
+        url: DIRECTORY_DOWNLOAD_FINISH_PATH,
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
             if (data) {
-                window.location.href = "/dashboard" + data;
+                window.location.href = "/" + ADMIN_PORTAL_NAME + data;
             }
         },
         error: function (e) {
@@ -232,9 +233,8 @@ function testConnection(agenturl) {
         "<span class='alert-content'></span></div>";
     $('.connectionStatus').empty();
 
-    url = "/dashboard/directories/test-connection"
     $.ajax({
-        url: url,
+        url: DIRECTORY_TEST_CONNECTION_PATH,
         type: "GET",
         data: "url=" + agenturl,
         success: function (data) {
@@ -288,18 +288,18 @@ function drawUpdatePage(directoryName, properties) {
 function gotoBack() {
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        window.location.href = "/dashboard/directories/download?domain=" + domain;
+        window.location.href = DIRECTORY_DOWNLOAD_PATH  + "?domain=" + domain;
     } else {
-        window.location.href = "/dashboard/directories/download";
+        window.location.href = DIRECTORY_DOWNLOAD_PATH;
     }
 }
 
 function proceed() {
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        window.location.href = "/dashboard/directories/add?domain=" + domain;
+        window.location.href = DIRECTORY_ADD_PATH + "?domain=" + domain;
     } else {
-        window.location.href = "/dashboard/directories/add";
+        window.location.href = DIRECTORY_ADD_PATH;
     }
 }
 
