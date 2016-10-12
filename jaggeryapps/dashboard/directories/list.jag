@@ -150,6 +150,7 @@ include("/templates/header.jag");
 <script src="js/datatables-1.10.7/jquery.dataTables.columnFilter.js"></script>
 <!-- include custom js functions -->
 <script src="js/custom/custom.js"></script>
+<script src="js/custom/constants.js"></script>
 <script src="directories/js/directory.js"></script>
 
 <script>
