@@ -13,10 +13,14 @@ function getRoles() {
         var matchedRoles = [];
 
         for (var i = 0; i < fieldValues.roleIds.length; i++) {
-            matchedRoles.push({
-                                  id: fieldValues.roleIds[i],
-                                  name: fieldValues.roleIds[i]
-                              });
+            var role = fieldValues.roleIds[i];
+            //do not add admin role (special case) according to AppM existing code
+            if (role != "admin") {
+                matchedRoles.push({
+                                      id: role,
+                                      name: role
+                                  });
+            }
         }
         print(matchedRoles);
     } catch (e) {
