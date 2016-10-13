@@ -1,0 +1,33 @@
+<%
+var log = new Log();
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
+
+getRoles();
+
+function getRoles() {
+
+    try {
+        var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+        var fieldValues = publisher.getRoles();
+        var matchedRoles = [];
+
+        for (var i = 0; i < fieldValues.roleIds.length; i++) {
+            var role = fieldValues.roleIds[i];
+            //do not add admin role (special case) according to AppM existing code
+            if (role != "admin") {
+                matchedRoles.push({
+                                      id: role,
+                                      name: role
+                                  });
+            }
+        }
+        print(matchedRoles);
+    } catch (e) {
+        print("");
+        log.error(e);
+    }
+}
+
+
+%>

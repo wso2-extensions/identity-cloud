@@ -121,6 +121,18 @@ var appManagementClient = function(){
 
     }
 
+    Publisher.prototype.getRoles = function () {
+        var result = get(
+            this.config.publisher.endpoint + 'roles', '',
+            {
+                'WSO2-Identity-User': session.get("user"),
+                'Content-Type': 'application/json'
+            }, 'json'
+        );
+        return result.data;
+
+    };
+
     return {Publisher : Publisher};
 
 }
