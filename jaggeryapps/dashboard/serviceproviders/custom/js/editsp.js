@@ -99,7 +99,7 @@ function drawAppDetails(data) {
         var existingRoles = data.visibleRoles.toString().split(",");
         for (var i = 0; i < existingRoles.length; i++) {
             var role = existingRoles[i];
-            $('#store-app-visibility').tokenInput("add", {id: role, name: role});
+            $("#store-app-visibility").val(role).trigger("change");
         }
     }
 
