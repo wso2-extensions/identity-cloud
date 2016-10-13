@@ -34,7 +34,31 @@ function addOrUpdateUserDirectory() {
         data: data,
     })
         .done(function (data) {
-            window.location.href = DIRECTORY_LIST_PATH;
+
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                window.location.href = DIRECTORY_LIST_PATH;
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+
         })
         .fail(function () {
             message({content: 'Error while adding Directory. ', type: 'servererror'});
