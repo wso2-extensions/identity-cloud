@@ -6,14 +6,8 @@
            <li>
                <a href="directories"><i class="fw fw-folder"></i> Directories</a>
            </li>
-           <li class="selected">
-               <a href=""><i class="fw fw-globe"></i> Applications</a>
-           </li>
            <li>
-               <a href="#"><i class="fw fw-bar-chart"></i> Analytics</a>
-           </li>
-           <li>
-               <a href=""><i class="fw fw-notification"></i> Events</a>
+               <a href="serviceproviders"><i class="fw fw-globe"></i> Applications</a>
            </li>
 
        </ul>
