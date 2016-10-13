@@ -18,7 +18,7 @@ function getRoles() {
             if (role != "admin") {
                 matchedRoles.push({
                                       id: role,
-                                      name: role
+                                      text: role
                                   });
             }
         }

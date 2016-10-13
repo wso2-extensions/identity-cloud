@@ -186,6 +186,14 @@ function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
 
+    //known issue in the controller where it puts ',' in the beginning. This logic is to omit the leading comma
+    var visibleRoles = $('#store-app-visibility').val();
+    if (visibleRoles != "") {
+        if (visibleRoles.indexOf(',') == 0) {
+            visibleRoles = visibleRoles.substring(1, visibleRoles.length)
+        }
+    }
+
     var gatewayProperties = JSON.stringify({
                                                "skipGateway": $('#skipgateway').is(':checked'),
                                                "appContext": $('#gw-app-context').val(),
@@ -196,7 +204,7 @@ function updateCustomSP() {
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
                                              "tags": $('#store-app-tags').val(),
-                                             "visibility": $('#store-app-visibility').val(),
+                                             "visibility": visibleRoles,
                                              "id": $('#app-id').val()
                                          });
 
@@ -429,11 +437,25 @@ function uploadFile(file){
         });
 }
 
-$(document).ready(function(){
-    $('#store-app-visibility').tokenInput('/dashboard/apps/getRoles', {
-        theme: 'facebook',
-        preventDuplicates: true,
-        hintText: "Type in a user role"
-    });
-
+$(document).ready(function () {
+    $("#store-app-visibility").select2({
+                                           data: getRoles(),
+                                           multiple: true,
+                                           allowClear: true,
+                                           placeholder: 'Type in a user role'
+                                       })
 });
+
+function getRoles() {
+    var apiPath = "/dashboard/apps/getRoles";
+    var roles;
+    $.ajax({
+               url: apiPath,
+               type: 'GET',
+               async: false,
+               success: function (data) {
+                   roles = JSON.parse(data);
+               }
+           });
+    return roles
+}

@@ -3316,3 +3316,5 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 .custom-checkbox-white:checked{
     background-color: #FFFFFF;
 }
+.select2-container {color: #333;width: 100% !important;}
+.select2-container input {width: 100% !important;}
