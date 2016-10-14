@@ -186,11 +186,13 @@ function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
 
-    //known issue in the controller where it puts ',' in the beginning. This logic is to omit the leading comma
-    var visibleRoles = $('#store-app-visibility').val();
-    if (visibleRoles != "") {
-        if (visibleRoles.indexOf(',') == 0) {
-            visibleRoles = visibleRoles.substring(1, visibleRoles.length)
+    var visibleRoles = null;
+    var roles = $('#store-app-visibility').select2('data');
+    for (var i = 0; i < roles.length; i++) {
+        if (visibleRoles == null) {
+            visibleRoles = roles[i].text;
+        } else {
+            visibleRoles = visibleRoles + "," + roles[i].text;
         }
     }
 
@@ -204,7 +206,7 @@ function updateCustomSP() {
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
                                              "tags": $('#store-app-tags').val(),
-                                             "visibility": visibleRoles,
+                                             "visibleRoles": visibleRoles,
                                              "id": $('#app-id').val()
                                          });
 
