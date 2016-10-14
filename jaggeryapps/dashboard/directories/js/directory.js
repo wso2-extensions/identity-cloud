@@ -12,7 +12,7 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    if(!validateDirectory(name, agentUrl)){
+    if (!validateDirectory(name, agentUrl)) {
         return;
     }
 
@@ -41,7 +41,7 @@ function addOrUpdateUserDirectory() {
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
                         message({
@@ -98,7 +98,7 @@ function getDirectories() {
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
                         message({
@@ -123,17 +123,6 @@ function getDirectories() {
                 }
                 drawList();
             }
-
-
-//            if (data) {
-//                directoryList = $.parseJSON(data).return;
-//            }
-//            if (directoryList != null && directoryList.constructor !== Array) {
-//                var arr = [];
-//                arr[0] = directoryList;
-//                directoryList = arr;
-//            }
-//            drawList();
         },
         error: function (e) {
             message({
@@ -218,7 +207,7 @@ function deleteDirectory(domainname) {
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
                         message({
@@ -258,7 +247,7 @@ function populateDirectory(domain) {
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
                         message({
@@ -313,7 +302,7 @@ function downloadAgent() {
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
                         message({
@@ -428,7 +417,7 @@ function drawUpdatePage(directoryName, properties) {
 function gotoBack() {
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        window.location.href = DIRECTORY_DOWNLOAD_PATH  + "?domain=" + domain;
+        window.location.href = DIRECTORY_DOWNLOAD_PATH + "?domain=" + domain;
     } else {
         window.location.href = DIRECTORY_DOWNLOAD_PATH;
     }
