@@ -12,7 +12,7 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    if(!validateDirectory(name, agentUrl)){
+    if (!validateDirectory(name, agentUrl)) {
         return;
     }
 
@@ -34,7 +34,31 @@ function addOrUpdateUserDirectory() {
         data: data,
     })
         .done(function (data) {
-            window.location.href = DIRECTORY_LIST_PATH;
+
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                window.location.href = DIRECTORY_LIST_PATH;
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+
         })
         .fail(function () {
             message({content: 'Error while adding Directory. ', type: 'servererror'});
@@ -69,15 +93,36 @@ function getDirectories() {
         type: "GET",
         data: "",
         success: function (data) {
-            if (data) {
+
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
                 directoryList = $.parseJSON(data).return;
+                if (directoryList != null && directoryList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = directoryList;
+                    directoryList = arr;
+                }
+                drawList();
             }
-            if (directoryList != null && directoryList.constructor !== Array) {
-                var arr = [];
-                arr[0] = directoryList;
-                directoryList = arr;
-            }
-            drawList();
         },
         error: function (e) {
             message({
@@ -156,7 +201,29 @@ function deleteDirectory(domainname) {
         data: "domain=" + domainname,
     })
         .done(function (data) {
-            window.location.href = DIRECTORY_LIST_PATH;
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                window.location.href = DIRECTORY_LIST_PATH;
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
         })
         .fail(function () {
             console.log('Error Occurred');
@@ -175,23 +242,45 @@ function populateDirectory(domain) {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
+            var resp = $.parseJSON(data);
 
-            if (data) {
-                directoryList = $.parseJSON(data).return;
-            }
-            if (directoryList != null && directoryList.constructor !== Array) {
-                var arr = [];
-                arr[0] = directoryList;
-                directoryList = arr;
-            }
 
-            for (var i in directoryList) {
-                if (directoryList[i].domainId == domain) {
-                    directoryName = directoryList[i].description;
-                    properties = directoryList[i].properties;
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
                 }
+            } else {
+                if (data) {
+                    directoryList = $.parseJSON(data).return;
+                }
+                if (directoryList != null && directoryList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = directoryList;
+                    directoryList = arr;
+                }
+
+                for (var i in directoryList) {
+                    if (directoryList[i].domainId == domain) {
+                        directoryName = directoryList[i].description;
+                        properties = directoryList[i].properties;
+                    }
+                }
+                drawUpdatePage(directoryName, properties);
             }
-            drawUpdatePage(directoryName, properties);
         },
         error: function (e) {
             message({
@@ -208,7 +297,28 @@ function downloadAgent() {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            if (data) {
+
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
                 window.location.href = "/" + ADMIN_PORTAL_NAME + data;
             }
         },
@@ -244,11 +354,30 @@ function testConnection(agenturl) {
                         .fadeIn('fast').delay(2000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text('The connection to provided URL was successful.');
-                } else {
+                } else if ($.parseJSON(data).return == "false") {
                     $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
                         .fadeIn('fast').delay(2000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text('The connection to provided URL was un-successful.')
+                } else {
+                    var resp = $.parseJSON(data);
+                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                    } else {
+                        if (resp.message != null && resp.message.length > 0) {
+                            message({
+                                content: resp.message, type: 'error', cbk: function () {
+                                }
+                            });
+                        } else {
+                            message({
+                                content: 'Error occurred while loading values for the grid.',
+                                type: 'error',
+                                cbk: function () {
+                                }
+                            });
+                        }
+                    }
                 }
             }
         },
@@ -288,7 +417,7 @@ function drawUpdatePage(directoryName, properties) {
 function gotoBack() {
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        window.location.href = DIRECTORY_DOWNLOAD_PATH  + "?domain=" + domain;
+        window.location.href = DIRECTORY_DOWNLOAD_PATH + "?domain=" + domain;
     } else {
         window.location.href = DIRECTORY_DOWNLOAD_PATH;
     }

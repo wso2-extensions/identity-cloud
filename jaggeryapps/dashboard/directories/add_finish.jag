@@ -48,14 +48,13 @@ function addUserStore(){
 
         webService = new ws.WSRequest();
         callWSInOnly(webService, serverUrl, "urn:addUserStore", createUserStore);
-        print("Success");
+        print('{"success":true}');
 
     }catch(e){
         log.error(e);
-        print("Error occurred while deleting User Store" + getErrorMessage(e.message));
+        print(getErrorMessage(e.message));
 
     }
-
 }
 addUserStore();
 function getErrorMessage(message) {
