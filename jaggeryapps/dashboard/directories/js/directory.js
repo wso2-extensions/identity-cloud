@@ -362,7 +362,7 @@ function testConnection(agenturl) {
                 } else {
                     var resp = $.parseJSON(data);
                     if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/dashboard/logout.jag';
+                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                     } else {
                         if (resp.message != null && resp.message.length > 0) {
                             message({
