@@ -226,5 +226,30 @@ var domainName = request.getParameter("domain");
         }
     });
 </script>
+<script>
+var serverUrl = window.location.host;
+var domain = $('#domain').attr('value');
+    $(function WindowLoad(event) {
+        url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
+        ws = new WebSocket(url);
+
+        ws.onopen = function () {
+            console.log("web Socket onopen. ");
+            ws.send("First Message open");
+        };
+        ws.onmessage = function (event) {
+            var obj = $.parseJSON(event.data);
+            cookie = obj.cookie;
+            userName = obj.user;
+            $("#drName").removeAttr('readonly');
+            if(domain != null && domain != 'null'){
+                populateDirectory(domain);
+            }
+        };
+        ws.onclose = function () {
+            console.log("web Socket onclose. ");
+        };
+    });
+</script>
 </body>
 </html>

@@ -292,14 +292,13 @@ function populateDirectory(domain) {
 }
 
 function downloadAgent() {
+
     $.ajax({
         url: DIRECTORY_DOWNLOAD_FINISH_PATH,
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-
             var resp = $.parseJSON(data);
-
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -319,10 +318,11 @@ function downloadAgent() {
                     }
                 }
             } else {
-                window.location.href = "/" + ADMIN_PORTAL_NAME + data;
+                document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },
         error: function (e) {
+            window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
             message({
                 content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
                 }
