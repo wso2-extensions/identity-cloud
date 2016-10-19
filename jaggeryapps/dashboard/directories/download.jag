@@ -83,6 +83,24 @@ var domainName = request.getParameter("domain");
             <li>
                 <a href=""><i class="fw fw-notification"></i> Events</a>
             </li>
+            <li>
+                <a href="">
+                    <i class="fw fw-view"></i>
+                    Custom theme</a>
+                <ul>
+                    <li>
+                        <a href="customTheme/themeUpload">
+                            <i class="fw fw-upload"></i>
+                            Upload</a>
+                    </li>
+                    <li>
+                        <a href="customTheme/themeList">
+                            <i class="fw fw-list"></i>
+                        </i>
+                        List</a>
+                </li>
+            </ul>
+        </li>
 
         </ul>
     </div>

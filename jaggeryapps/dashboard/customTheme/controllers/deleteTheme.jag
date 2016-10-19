@@ -1,0 +1,43 @@
+<%
+var log = new Log();
+var i18n = session.get("i18n");
+var appManager = require("thememanager");
+var managerHostObj = new appManager.ThemeManager();
+
+
+deleteTheme();
+
+function deleteTheme() {
+    var error = false;
+    var errorMsg = "Theme successfully deleted.";
+
+    var cookie = session.get('auth-cookie');
+    if (cookie == null) {
+        var cookie = request.getParameter("cookie");
+        session.put('auth-cookie', cookie);
+        var userName = request.getParameter("user");
+        session.put("user", userName);
+    }
+    var tenantDomain = "carbon.super"; //todo set correct tenant domain
+    var themeType = request.getParameter("themeType");
+
+
+    try {
+        //delete theme
+        managerHostObj.deleteCustomTheme(tenantDomain, themeType);
+    } catch (e) {
+        var msg = "Could not delete theme : " + type + " of tenant :" + tenantDomain;
+        log.error(msg, e);
+        error = true;
+        errorMsg = msg;
+
+    }
+
+    print({
+              "error": error,
+              "errorMsg": errorMsg
+          });
+}
+
+
+%>

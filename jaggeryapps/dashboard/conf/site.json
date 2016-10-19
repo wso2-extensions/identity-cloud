@@ -4,5 +4,9 @@
         "proxyHTTPSPort" : "",
         "proxyContextPath" : "",
         "servicePath" : "/services"
+    },
+    "customStoreThemeConfig" : {
+        "whitelist" : ["css", "svg"]
     }
+
 }
