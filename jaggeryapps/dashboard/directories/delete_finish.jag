@@ -35,10 +35,10 @@ function deleteUserStore(){
 
         webService = new ws.WSRequest();
         callWSInOnly(webService, serverUrl, "urn:deleteUserStore", deleteUserStore);
-        print("Success");
+        print('{"success":true}');
     }catch(e){
         log.error(e);
-        print("This didn't work" + getErrorMessage(e.message));
+        print(getErrorMessage(e.message));
 
     }
 

@@ -11,41 +11,23 @@ var ws = require('ws');
 var webService = new ws.WSRequest();
 var carbon = require('carbon');
 var PERMISSION_EXECUTE = "ui.execute";
-var multitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
 
-function login(request){
+function login(request) {
     var result = callWSReturnJSON(webService, serverUrl2, "urn:login", new Array(request));
     var isAuthenticated = result.return;
     log.debug("Is Authenticated : " + isAuthenticated);
-    if(isAuthenticated){
+    if (isAuthenticated) {
         //Adding the session id
         var adminSession = webService.getResponseHeader("Set-Cookie");
         adminSessionCopy = adminSession;
         session.put("auth-cookie", adminSession);
     }
 
-    var userName = multitenantUtils.getTenantAwareUsername(session.get("loggedInUser"));
-    var tenantDomain = multitenantUtils.getTenantDomain(session.get("loggedInUser"));
-    session.remove("loggedInUser");
-    var perm = "/permission/admin/manage/humantask/viewtasks";
-
-    if (checkAuthorizationForUser(userName, perm, tenantDomain)) {
-        getBPSSessions(request);
-    } else {
-        session.put("listProfiles", "\"list\" : []");
-    }
-    return isAuthenticated;
-
-}
-
-function getBPSSessions(request){
     var profiles = new XML(getProfileList());
-    var ns = "http://mgt.workflow.identity.carbon.wso2.org/xsd";
     var hostArray = profiles.*::["return"];
     var profileOutputJson = "\"list\" : [";
-    for(var i=0;i<hostArray.length();i++){
-        var webService2 = new ws.WSRequest();
+    for (var i = 0; i < hostArray.length(); i++) {
         var host = hostArray[i].*::workerHostURL[0].text();
         var profileName = hostArray[i].*::profileName[0].text();
         if (identityServerUrl.equals(host + "/SAML2SSOAuthenticationService") || identityServerUrl.equals
@@ -53,31 +35,13 @@ function getBPSSessions(request){
             if (profileOutputJson != "\"list\" : [") {
                 profileOutputJson = profileOutputJson + ",";
             }
-
             profileOutputJson = profileOutputJson + "{\"host\" : \"" + host + "\", \"profile\" : \"" + profileName +
                     "\", \"cookie\" : \"" + session.get("auth-cookie") + "\"}";
-            continue;
-
-        }
-        try {
-            var result = callWSReturnJSON(webService2, host + "/SAML2SSOAuthenticationService", "urn:login", new Array(request));
-            var isAuthenticated = result.return;
-            if (java.lang.Boolean.parseBoolean(isAuthenticated)) {
-                if(profileOutputJson != "\"list\" : ["){
-                    profileOutputJson = profileOutputJson + ",";
-                }
-
-                profileOutputJson = profileOutputJson + "{\"host\" : \"" + host + "\", \"profile\" : \"" + profileName + "\", \"cookie\" : \"" + webService2.getResponseHeader("Set-Cookie") + "\"}";
-            }
-        }catch (e){
-            if (log.isDebugEnabled()) {
-                log.debug(e);
-            }
-            log.error("Error while authenticating from external workflow engine.");
         }
     }
     profileOutputJson = profileOutputJson + "]";
     session.put("listProfiles", profileOutputJson);
+    return isAuthenticated;
 }
 
 function getProfileList(){
