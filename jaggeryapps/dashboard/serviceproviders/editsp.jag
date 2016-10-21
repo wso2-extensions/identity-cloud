@@ -867,6 +867,7 @@ $('.side-pane-trigger').click(function(){
 var cookie = null;
 var json = null;
 var userName = null;
+var userInfo = null;
 //var serverUrl = window.location.host + PROXY_CONTEXT_PATH;
 var serverUrl = window.location.host;
 var appName = $('#appName').attr('value');
@@ -882,6 +883,7 @@ var appName = $('#appName').attr('value');
             var obj = $.parseJSON(event.data);
             cookie = obj.cookie;
             userName = obj.user;
+            userInfo = obj.userInfo;
             preDrawUpdatePage(appName);
             console.log("preDrawUpdatePage invoked. ");
         };

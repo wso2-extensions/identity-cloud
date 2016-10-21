@@ -71,6 +71,7 @@ var appManagementClient = function(){
                       + appVersion);
             return;
         }
+
         var result = get(
             this.config.publisher.endpoint + 'apps/webapp/id/' + appId, '',
             {

@@ -1,7 +1,6 @@
 <%
 
 var log = new Log();
-//var apiProvider = jagg.module('manager').getAPIProviderObj();
 var appmgtProvider = require('appmgtpublisher');
 
 var i18n = session.get("i18n");
@@ -12,6 +11,9 @@ var userName = session.get(LOGGED_IN_USER);
 var appName = request.getParameter("appName");
 var requestType = request.getParameter("requestType");
 
+var getAppProviderObj = function (username) {
+    return new appmgtProvider.APIProvider(String(username));
+};
 
 if (requestType == "GET_ACS_URL") {
     getAscUrl();
@@ -21,8 +23,14 @@ if (requestType == "GET_ACS_URL") {
 
 function getAscUrl() {
     try {
-        var appmgtProviderObj = new appmgtProvider.APIProvider(userName);
-        var ascUrl = appmgtProviderObj.getAscUrl(version, appContext, transport);
+        var appmgtProviderObj = getAppProviderObj(userName);
+        if (appContext != "") {
+            if (appContext.charAt(0) != '/') {
+                appContext = '/' + appContext;
+            }
+        }
+
+        var ascUrl = appmgtProviderObj.getAscUrl(userName, version, appContext, transport);
         print(ascUrl)
     } catch (e) {
         log.error(e);
@@ -34,8 +42,8 @@ function getAscUrl() {
 
 function populateIssuerName() {
     try {
-        var appmgtProviderObj = new appmgtProvider.APIProvider(userName);
-        var issuerName = appmgtProviderObj.populateIssuerName(appName, version);
+        var appmgtProviderObj = getAppProviderObj(userName);
+        var issuerName = appmgtProviderObj.populateIssuerName(userName, appName, version);
         print(issuerName)
     } catch (e) {
         log.error(e);
