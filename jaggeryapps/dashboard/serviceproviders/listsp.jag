@@ -121,6 +121,7 @@ include("/templates/footer.jag");
 <script src="js/bootstrap-3.2.0/bootstrap.min.js"></script>
 <!-- include custom js functions -->
 <script src="js/custom/custom.js"></script>
+<script src="js/custom/constants.js"></script>
 <script>
 
     $('.side-pane-trigger').click(function(){

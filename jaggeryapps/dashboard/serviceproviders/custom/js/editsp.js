@@ -125,20 +125,42 @@ function preDrawUpdatePage(appName) {
 
 function preDrawSPDetails(appName){
     $.ajax({
-               url: "/dashboard/serviceproviders/getsp/" + appName,
-               type: "GET",
-               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
-               success: function (data) {
-                   appdata = $.parseJSON(data).return;
-                   drawSPDetails();
-               },
-               error: function (e) {
-                   message({
-                               content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
-                       }
-                           });
-               }
-           });
+        url: "/dashboard/serviceproviders/getsp/" + appName,
+        type: "GET",
+        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                appdata = resp.return;
+                drawSPDetails();
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
 }
 
 function preDrawAppDetails(appName){
