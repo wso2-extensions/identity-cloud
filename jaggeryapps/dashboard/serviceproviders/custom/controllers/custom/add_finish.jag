@@ -31,9 +31,10 @@ function addSP(){
         '</xsd:serviceProvider>'+
                 '</xsd:createApplication>';
         spClient.createApplication(createApp);
+        print('{"success":true}');
     }catch(e){
         log.error(e);
-        print("This didn't work" + getErrorMessage(e.message));
+        print(getErrorMessage(e.message));
 
     }
 

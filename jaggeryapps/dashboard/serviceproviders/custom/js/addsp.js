@@ -41,7 +41,6 @@ function validateSPName(sptype) {
 }
 
 function registerCustomSP(sptype) {
-//    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/add_finish";
     var str = "/dashboard/serviceproviders/custom/controllers/custom/add_finish";
     $.ajax({
         url: str,
@@ -49,9 +48,30 @@ function registerCustomSP(sptype) {
         data: "spName=" + $('#spName').val() + "&spDesc=" + $('#spType').val() + ']' + $('#spDesc').val() + "&spType=" + sptype + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
     })
         .done(function (data) {
-//            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/editsp.jag?applicationName=" + $('#spName').val() + '&sptype=' + sptype;
-//            window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceprovider/" + $('#spName').val();
-            window.location.href = "/dashboard/serviceprovider/" + $('#spName').val();
+
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                window.location.href = "/dashboard/serviceprovider/" + $('#spName').val();
+            }
         })
         .fail(function () {
             console.log('Error Occurred');
