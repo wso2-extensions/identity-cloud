@@ -18,9 +18,6 @@ function updateSP(){
         if(cookie == null){
             var cookie = request.getParameter("cookie");
             session.put('auth-cookie', cookie);
-            var userName = request.getParameter("user");
-            log.error(userName)
-            session.put("user",userName);
         }
 
         var spName = request.getParameter('spName');
@@ -379,6 +376,17 @@ function addApp(){
 
     var appURL = gatewayProperties.appUrl;
     var context = gatewayProperties.appContext;
+
+    var userInfo = session.get("userInfo");
+    var tenantId = userInfo.tenantId;
+    var tenantDomain = userInfo.tenantDomain;
+
+    if (context != "") {
+        if (context.charAt(0) != '/') {
+            context = '/' + context;
+        }
+    }
+
     if (gatewayProperties.skipGateway) {
         var appURL = getAppAccessURL(storeProperties);
         // This is just to by-pass a faulty validation.
@@ -402,7 +410,7 @@ function addApp(){
               isSite: "false",
               skipGateway : gatewayProperties.skipGateway,
               serviceProviderCreationEnabled : false,
-              context: '/' + context,
+              context: context,
               appUrL: appURL,
               acsUrl: "",
               transport: "http",

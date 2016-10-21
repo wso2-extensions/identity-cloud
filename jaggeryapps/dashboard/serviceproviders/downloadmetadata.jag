@@ -8,7 +8,6 @@ downloadMetadata();
 function downloadMetadata(){
     var cookie = session.get('auth-cookie');
     session.put("user","admin");
-    log.info("cookie : " + cookie);
     if(cookie == null){
         var cookie = request.getParameter("cookie");
         session.put('auth-cookie', cookie);
@@ -19,7 +18,6 @@ function downloadMetadata(){
 
     var cloudSamlClient = require('custom/controllers/custom/cloudSAMLClient.jag');
     var metadata = cloudSamlClient.getSPConfigByMetadata();
-    log.info("######################### downloadMetadata : " + metadata.return);
     print(metadata.return);
 }
 

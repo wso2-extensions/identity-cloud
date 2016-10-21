@@ -313,6 +313,7 @@ include("../templates/footer.jag");
         var cookie = null;
         var json = null;
         var userName = null;
+        var userInfo = null;
         var serverUrl = window.location.host + PROXY_CONTEXT_PATH;
 
         $(function WindowLoad(event) {
@@ -327,6 +328,7 @@ include("../templates/footer.jag");
                 var obj = $.parseJSON(event.data);
                 cookie = obj.cookie;
                 userName = obj.user;
+                userInfo = obj.userInfo;
             };
             ws.onclose = function () {
                 console.log("web Socket onclose. ");

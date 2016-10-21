@@ -7,6 +7,7 @@ var authzFailure ;
 include("/util/constants.jag");
 var util = require("/util/utility.jag");
 var loginClient = require('/controllers/login-logout/SAML2SSOAuthenticationClient.jag');
+var carbon = require('carbon');
 
 var i18n = util.initI18N();
 var log = new Log();
@@ -56,7 +57,6 @@ if (samlResponse != null) {
                 if (sessionObj.sessionIndex != null || sessionObj.sessionIndex != 'undefined') {
                     //session.put("LOGGED_IN_USER", sessionObj.loggedInUser);
                     //session.put("Loged", "true");
-
                     sso_sessions[sessionObj.sessionId] = sessionObj.sessionIndex;
                 	
                 	var success = loginClient.login(samlResponse);
@@ -70,7 +70,20 @@ if (samlResponse != null) {
 					    log.debug(userInfo.UIPermissionOfUser);
 					    log.debug(session.get(LOGGED_IN_USER));
 
-					    
+                        var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+                        var tenantDomain = MultitenantUtils.getTenantDomain(sessionObj.loggedInUser);
+
+                        var tenantId = carbon.server.tenantId({
+                            domain: tenantDomain
+                        });
+
+                        //Add tenantId and tenantdomain into userInfo object.
+                        userInfo.tenantId = tenantId;
+                        userInfo.tenantDomain = tenantDomain;
+
+                        //Set userInfo object in session.
+                        session.put("userInfo", userInfo);
+
 					    //create the header html for the user
 					    var header = util.generateHeader(true, i18n);
 					    

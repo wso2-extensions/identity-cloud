@@ -260,8 +260,7 @@ function updateCustomSP() {
     formData.append('thumbnailUrl', thumbnailUrl);
     formData.append('bannerFile', bannerFile);
     formData.append('bannerUrl', bannerUrl);
-
-
+    
     $.ajax({
         url: str,
         type: "POST",
