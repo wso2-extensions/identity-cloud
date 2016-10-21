@@ -29,15 +29,35 @@ function reloadGrid() {
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
-            if(data) {
-                spList = $.parseJSON(data).return;
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                spList = resp.return;
+                if (spList != null && spList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = spList;
+                    spList = arr;
+                }
+                drawList();
             }
-            if (spList!=null && spList.constructor !== Array) {
-                var arr = [];
-                arr[0] = spList;
-                spList = arr;
-            }
-            drawList();
         },
         error: function (e) {
             message({
