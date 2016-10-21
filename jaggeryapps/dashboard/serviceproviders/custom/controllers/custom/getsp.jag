@@ -13,12 +13,24 @@ function getUser(){
     try{
         var spClient = require('spAdminClient.jag');
         var fieldValues = spClient.getApplication(applicationName);
-        print( fieldValues );
+        print(fieldValues);
     }catch(e){
-        print(e);
         log.error(e);
+        print(getErrorMessage(e.message));
     }
-
+}
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
 }
 
 %>
