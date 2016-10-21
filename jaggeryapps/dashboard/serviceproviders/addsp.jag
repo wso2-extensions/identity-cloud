@@ -246,7 +246,9 @@ include("../templates/footer.jag");
                     $('#'+ dataCount+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }else{
-                    $('#'+ctest+'\\.0').parent().after(appendHtml);
+                    //$('#'+ctest+'\\.0').parent().after(appendHtml);
+                    //temp fix for ui alignment issue when add/remove apps
+                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }
 
