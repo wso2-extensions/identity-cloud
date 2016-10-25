@@ -138,7 +138,7 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-three" id="8.0" data-description="A service provider is a website that hosts applications.Your users can then access other applications directly
+                    <div class="cloud-app-type app-color-three" id="7.0" data-description="A service provider is a website that hosts applications.Your users can then access other applications directly
                          from Salesforce using single sign-on. Single sign-on can be a great help to your users:
                          instead of having to remember many passwords, they only have to remember one. Plus, the
                          applications can be added as tabs to your organization, which means users don’t
@@ -247,9 +247,7 @@ include("../templates/footer.jag");
                     $('#'+ dataCount+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }else{
-                    //$('#'+ctest+'\\.0').parent().after(appendHtml);
-                    //temp fix for ui alignment issue when add/remove apps
-                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
+                    $('#'+ctest+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }
 
