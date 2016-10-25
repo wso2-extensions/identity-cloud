@@ -125,25 +125,47 @@ function preDrawUpdatePage(appName) {
 
 function preDrawSPDetails(appName){
     $.ajax({
-               url: "/dashboard/serviceproviders/getsp/" + appName,
-               type: "GET",
-               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
-               success: function (data) {
-                   appdata = $.parseJSON(data).return;
-                   drawSPDetails();
-               },
-               error: function (e) {
-                   message({
-                               content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
-                       }
-                           });
-               }
-           });
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getsp/" + appName,
+        type: "GET",
+        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                appdata = resp.return;
+                drawSPDetails();
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
 }
 
 function preDrawAppDetails(appName){
     $.ajax({
-               url:  "/dashboard/apps/getApp/" + appName,
+               url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp/" + appName,
                type: "GET",
                data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
                contentType: "multipart/form-data",
@@ -184,7 +206,7 @@ function updateSP() {
 
 function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/edit_finish";
 
     var visibleRoles = null;
     var roles = $('#store-app-visibility').select2('data');
@@ -270,8 +292,7 @@ function updateCustomSP() {
     formData.append('thumbnailUrl', thumbnailUrl);
     formData.append('bannerFile', bannerFile);
     formData.append('bannerUrl', bannerUrl);
-
-
+    
     $.ajax({
         url: str,
         type: "POST",
@@ -280,7 +301,7 @@ function updateCustomSP() {
                data: formData
     })
         .done(function (data) {
-            window.location.href = "/dashboard/serviceproviders";
+            window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
         })
         .fail(function () {
             message({
@@ -351,7 +372,7 @@ function cancelOauthForm() {
 }
 
 function deleteOauthConfig() {
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
+    var str = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
     $.ajax({
         url: str,
         type: "POST",
@@ -377,7 +398,7 @@ function deleteOauthConfig() {
 function saveOauthConfig(){
     console.log('######################## saveOauthConfig');
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     $.ajax({
         url: str,
         type: "POST",
@@ -414,7 +435,7 @@ function uploadFile(file){
 
 
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
     $.ajax({
         url: str,
         type: 'POST',
@@ -438,6 +459,7 @@ function uploadFile(file){
             console.log('completed');
         });
 }
+
 
 $(document).ready(function () {
     $("#store-app-visibility").select2({

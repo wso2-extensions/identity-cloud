@@ -74,7 +74,8 @@ var domainName = request.getParameter("domain");
 
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a href="/dashboard/directories" class="btn-action" data-toggle="tooltip" data-placement="top"
+         <% var url = "/" + ADMIN_PORTAL_NAME + "/directories";%>
+            <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Directories">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-ring fw-stack-2x"></i>
@@ -205,6 +206,31 @@ var domainName = request.getParameter("domain");
             leftPane.animate({"left":"0em"}, "slow");
             $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
         }
+    });
+</script>
+<script>
+var serverUrl = window.location.host;
+var domain = $('#domain').attr('value');
+    $(function WindowLoad(event) {
+        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
+        ws = new WebSocket(url);
+
+        ws.onopen = function () {
+            console.log("web Socket onopen. ");
+            ws.send("First Message open");
+        };
+        ws.onmessage = function (event) {
+            var obj = $.parseJSON(event.data);
+            cookie = obj.cookie;
+            userName = obj.user;
+            $("#drName").removeAttr('readonly');
+            if(domain != null && domain != 'null'){
+                populateDirectory(domain);
+            }
+        };
+        ws.onclose = function () {
+            console.log("web Socket onclose. ");
+        };
     });
 </script>
 </body>

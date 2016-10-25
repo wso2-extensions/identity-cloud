@@ -33,6 +33,7 @@
 <!-- BOF cloud menu -->
 <%
 include("../templates/header.jag");
+require("../util/constants.jag");
 %>
 
 <!-- BOF App  menu -->
@@ -57,7 +58,7 @@ include("../templates/leftpane.jag");
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a href="/dashboard/serviceproviders" class="btn-action">
+            <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders" class="btn-action">
                     <span class="fw-stack fw-lg btn-action-ico">
                         <i class="fw fw-ring fw-stack-2x"></i>
                         <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -134,16 +135,6 @@ include("../templates/leftpane.jag");
                             </div>
                         </div>
                         <div class="type-name" >GoToMeeting</div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type  app-color-two" id="7.0"   data-description="A service provider is a website that hosts applications. You can enable WSO2 Cloud as a service provider. Your users can then access other applications directly from WSO2 Cloud using single sign-on. Single sign-on can be a great help to your users: instead of having to remember many passwords, they only have to remember one. Plus, the applications can be added as tabs to your WSO2 organization, which means users don’t have to switch between programs." data-appname="WSO2 Cloud" >
-                        <div class="thumbnail icon">
-                            <div class="square-element">
-                                <i class="fw fw-wso2 fw-custom-x"></i>
-                            </div>
-                        </div>
-                        <div class="type-name">WSO2 Cloud</div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
@@ -256,7 +247,9 @@ include("../templates/footer.jag");
                     $('#'+ dataCount+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }else{
-                    $('#'+ctest+'\\.0').parent().after(appendHtml);
+                    //$('#'+ctest+'\\.0').parent().after(appendHtml);
+                    //temp fix for ui alignment issue when add/remove apps
+                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
                     $('.longme').fadeIn('slow')
                 }
 
@@ -321,10 +314,11 @@ include("../templates/footer.jag");
         var cookie = null;
         var json = null;
         var userName = null;
+        var userInfo = null;
         var serverUrl = window.location.host + PROXY_CONTEXT_PATH;
 
         $(function WindowLoad(event) {
-            url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
+            url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
             ws = new WebSocket(url);
 
             ws.onopen = function () {
@@ -335,6 +329,7 @@ include("../templates/footer.jag");
                 var obj = $.parseJSON(event.data);
                 cookie = obj.cookie;
                 userName = obj.user;
+                userInfo = obj.userInfo;
             };
             ws.onclose = function () {
                 console.log("web Socket onclose. ");
@@ -343,5 +338,6 @@ include("../templates/footer.jag");
 </script>
 <!-- include custom js functions -->
 <script src="../js/custom/custom.js"></script>
+<script src="../js/custom/constants.js"></script>
 </body>
 </html>

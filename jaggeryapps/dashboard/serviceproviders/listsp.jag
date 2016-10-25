@@ -27,6 +27,7 @@
 <!-- BOF cloud menu -->
 <%
 include("/templates/header.jag");
+require("../util/constants.jag");
 %>
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
@@ -81,7 +82,7 @@ include("/templates/header.jag");
             <div class="row row-centered">
                 <div class="col-centered col-xs-10 col-sm-7  col-md-7 col-lg-6">
                     <div class="add-issue-content">
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="/dashboard/serviceproviders/add">
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders/add">
                             <span class="fw-stack fw-lg btn-action-ico">
                                 <i class="fw fw-ring fw-stack-2x"></i>
                                 <i class="fw fw-add fw-stack-1x"></i>
@@ -121,6 +122,7 @@ include("/templates/footer.jag");
 <script src="js/bootstrap-3.2.0/bootstrap.min.js"></script>
 <!-- include custom js functions -->
 <script src="js/custom/custom.js"></script>
+<script src="js/custom/constants.js"></script>
 <script>
 
     $('.side-pane-trigger').click(function(){
@@ -146,7 +148,7 @@ var userName = null;
 var serverUrl = window.location.host;
 
 $(function WindowLoad(event) {
-    url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
+    url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
     console.log("************ " + url);
     ws = new WebSocket(url);
 

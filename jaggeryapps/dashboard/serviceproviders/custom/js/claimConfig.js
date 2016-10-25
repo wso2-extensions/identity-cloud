@@ -234,7 +234,7 @@ function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
 function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
 
     $.ajax({
-        url: "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag",
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag",
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName + "&clientAction=getClaimURIs",
         success: function (data) {

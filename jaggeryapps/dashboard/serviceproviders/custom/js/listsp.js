@@ -1,5 +1,5 @@
 function deleteCustomSP(applicationName) {
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/delete_finish.jag";
+    var str = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/delete_finish.jag";
     $.ajax({
         url: str,
         type: "POST",
@@ -25,19 +25,39 @@ function deleteCustomSP(applicationName) {
 function reloadGrid() {
     spList = null;
     $.ajax({
-        url: "/dashboard/serviceproviders/getSPList",
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
-            if(data) {
-                spList = $.parseJSON(data).return;
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                spList = resp.return;
+                if (spList != null && spList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = spList;
+                    spList = arr;
+                }
+                drawList();
             }
-            if (spList!=null && spList.constructor !== Array) {
-                var arr = [];
-                arr[0] = spList;
-                spList = arr;
-            }
-            drawList();
         },
         error: function (e) {
             message({
@@ -51,7 +71,7 @@ function reloadGrid() {
 function downloadIDPMetaData() {
     idpMetadata = null;
     $.ajax({
-        url: "/dashboard/serviceproviders/downloadmetadata",
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/downloadmetadata",
         type: "GET",
         data: "",
         success: function (data) {
@@ -109,7 +129,7 @@ function drawList() {
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
                 '                    <div class="cloud-app-listing app-color-one">' +
-                '                        <a href="/dashboard/serviceprovider/'+spList[i].applicationName+'">' +
+                '                        <a href="/'+ ADMIN_PORTAL_NAME +'/serviceprovider/'+spList[i].applicationName+'">' +
                 '                            <div class="app-icon">' +
                 spimage +
                 '                            </div>' +
@@ -121,7 +141,7 @@ function drawList() {
                 '                            <span class="sr-only">Toggle Dropdown</span>' +
                 '                        </a>' +
                 '                        <ul class="dropdown-menu app-extra-menu" role="menu">' +
-                '                            <li><a href="/dashboard/serviceprovider/'+spList[i].applicationName+'">Edit</a></li>' +
+                '                            <li><a href="/'+ ADMIN_PORTAL_NAME +'/serviceprovider/'+spList[i].applicationName+'">Edit</a></li>' +
                 '                            <li><a href="" onclick = deleteCustomSP(\'' + spList[i].applicationName + '\');>Delete</a></li>' +
                 '                        </ul>' +
                 '                    </div>' +
@@ -138,7 +158,7 @@ function drawList() {
 
 function setCustomImage(appName) {
     $.ajax({
-               url: "/dashboard/apps/getApp",
+               url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp",
                type: "GET",
                data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
                async: true,

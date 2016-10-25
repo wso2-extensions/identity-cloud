@@ -112,11 +112,12 @@ include("templates/footer.jag");
 <script src="js/datatables-1.10.7/jquery.dataTables.columnFilter.js"></script>
 <!-- include custom js functions -->
 <script src="js/custom/custom.js"></script>
+<script src="js/custom/constants.js"></script>
 
 <script>
 
 $( document ).ready(function() {
-    window.location.href = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders";
+    window.location.href = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
 });
    $('.side-pane-trigger').click(function(){
        var rightPane = $('.right-pane');

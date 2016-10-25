@@ -30,7 +30,7 @@ function preDrawOAuthConfigPage() {
         $('#oauthRgsterBtn').hide();
         $('#oauthUpdtBtn').show();
         $.ajax({
-            url: "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
+            url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
             type: "GET",
             data: "&cookie=" + cookie + "&user=" + userName + "&appName=" + appdata.applicationName + "&clientID=" + clientID + "&action=getOAuthConfigs",
             success: function (data) {
@@ -53,7 +53,7 @@ function preDrawOAuthConfigPage() {
         $('#oauthRgsterBtn').show();
         $('#oauthUpdtBtn').hide();
         $.ajax({
-            url: "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
+            url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
             type: "GET",
             data: "&cookie=" + cookie + "&user=" + userName + "&action=getOAuthConfigs",
             success: function (data) {

@@ -43,11 +43,6 @@ function setSAML2SSOConfigurations() {
     var transport = "http";
 
     var context = $("#gw-app-context").val();
-    if (context != "") {
-        if (context.charAt(0) != '/') {
-            context = '/' + context;
-        }
-    }
 
     var saml2SsoIssuer = populateIssuerName(appName, appVersion);
     $('#issuer').val(saml2SsoIssuer);
