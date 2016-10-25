@@ -11,20 +11,12 @@ uploadTheme();
 function uploadTheme() {
     var error = false;
     var errorMsg = "Theme was uploaded successfully.";
-
-    var cookie = session.get('auth-cookie');
-    if (cookie == null) {
-        var cookie = request.getParameter("cookie");
-        session.put('auth-cookie', cookie);
-        var userName = request.getParameter("user");
-        session.put("user", userName);
-    }
-
     var themeFile = request.getFile("themeFile");
     var themeType = request.getParameter("themeType");
     var whiteListedExt = getWhiteListedFileExt();
-    var userDomain = "carbon.super"; //todo set the correct user tenant domain
-    if (userDomain == null || userDomain == '') {
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain + "";
+    if (tenantDomain == null || tenantDomain == '') {
         error = true;
         errorMsg = "Tenant is not specified, unable to deploy the theme.";
         log.error("Tenant is not specified, unable to deploy the theme.");
@@ -34,7 +26,7 @@ function uploadTheme() {
         log.error("Theme type : " + themeType + " is invalid");
     } else {
         try {
-            managerHostObj.addCustomTheme(themeFile, userDomain, themeType, whiteListedExt);
+            managerHostObj.addCustomTheme(themeFile, tenantDomain, themeType, whiteListedExt);
         } catch (e) {
             error = true;
             errorMsg = "Error while deploying theme.";

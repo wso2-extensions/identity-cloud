@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function drawThemeList() {
     var str = "/dashboard/customTheme/getThemeList";
     $.ajax({
                url: str,
@@ -38,4 +38,4 @@ $(document).ready(function () {
 
                }
            });
-});
+}

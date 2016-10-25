@@ -171,7 +171,8 @@ var domainName = request.getParameter("domain");
                                                         </script>
                                                         <script>
                                                             var serverUrl = window.location.host;
-                                                            var domain = $('#domain').attr('value');
+                                                            var userName = null;
+                                                            var cookie = null;
                                                             $(function WindowLoad(event) {
                                                             url =
                                                             'wss://' + serverUrl + '/dashboard/session_manager.jag';
@@ -185,10 +186,7 @@ var domainName = request.getParameter("domain");
                                                             var obj = $.parseJSON(event.data);
                                                             cookie = obj.cookie;
                                                             userName = obj.user;
-                                                            $("#drName").removeAttr('readonly');
-                                                            if(domain != null && domain != 'null'){
-                                                            populateDirectory(domain);
-                                                            }
+                                                            drawThemeList();
                                                             };
                                                             ws.onclose = function () {
                                                             console.log("web Socket onclose. ");

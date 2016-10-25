@@ -54,7 +54,7 @@ function uploadTheme() {
 }
 
 
-$(document).ready(function () {
+function loadThemeList() {
     var str = "/dashboard/customTheme/themeTypes";
     $.ajax({
                url: str,
@@ -69,5 +69,4 @@ $(document).ready(function () {
                    });
                }
            });
-
-});
+}

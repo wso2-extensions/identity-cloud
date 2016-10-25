@@ -8,18 +8,10 @@ var managerHostObj = new appManager.ThemeManager();
 loadThemes();
 
 function loadThemes() {
-
-    var cookie = session.get('auth-cookie');
-    if (cookie == null) {
-        var cookie = request.getParameter("cookie");
-        session.put('auth-cookie', cookie);
-        var userName = request.getParameter("user");
-        session.put("user", userName);
-    }
-    var tenantDomain = "carbon.super"; //todo:set the actual value
-
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain + "";
     try {
-        themes = managerHostObj.getDeployedThemes(tenantDomain);
+        var themes = managerHostObj.getDeployedThemes(tenantDomain);
         print(themes);
     } catch (e) {
         error = true;
