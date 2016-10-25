@@ -4,11 +4,28 @@
                <a href="" target="_blank"><i class="fa fa-laptop"></i> Overview</a>
            </li>
            <li>
-               <a href="directories"><i class="fw fw-folder"></i> Directories</a>
+               <a href="/dashboard/directories"><i class="fw fw-folder"></i> Directories</a>
            </li>
            <li>
-               <a href="serviceproviders"><i class="fw fw-globe"></i> Applications</a>
+               <a href="/dashboard/serviceproviders"><i class="fw fw-globe"></i> Applications</a>
            </li>
-
+           <li>
+               <a href="">
+                   <i class="fw fw-view"></i>
+                   Custom theme</a>
+               <ul>
+                   <li>
+                       <a href="/dashboard/customTheme/themeUpload">
+                           <i class="fw fw-upload"></i>
+                           Upload</a>
+                   </li>
+                   <li>
+                       <a href="/dashboard/customTheme/themeList">
+                           <i class="fw fw-list"></i>
+                       </i>
+                       List</a>
+                    </li>
+                </ul>
+             </li>
        </ul>
    </div>

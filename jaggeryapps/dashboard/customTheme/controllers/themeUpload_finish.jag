@@ -1,0 +1,65 @@
+<%
+var log = new Log();
+var i18n = session.get("i18n");
+var appManager = require("thememanager");
+var managerHostObj = new appManager.ThemeManager();
+var allowedThemeTypes = require("../controllers/getThemeTypes.jag");
+
+
+uploadTheme();
+
+function uploadTheme() {
+    var error = false;
+    var errorMsg = "Theme was uploaded successfully.";
+    var themeFile = request.getFile("themeFile");
+    var themeType = request.getParameter("themeType");
+    var whiteListedExt = getWhiteListedFileExt();
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain + "";
+    if (tenantDomain == null || tenantDomain == '') {
+        error = true;
+        errorMsg = "Tenant is not specified, unable to deploy the theme.";
+        log.error("Tenant is not specified, unable to deploy the theme.");
+    } else if (!validateType(themeType)) {
+        error = true;
+        errorMsg = "Please select the correct theme type";
+        log.error("Theme type : " + themeType + " is invalid");
+    } else {
+        try {
+            managerHostObj.addCustomTheme(themeFile, tenantDomain, themeType, whiteListedExt);
+        } catch (e) {
+            error = true;
+            errorMsg = "Error while deploying theme.";
+            log.error(error, e);
+        }
+    }
+
+    print({
+              "error": error,
+              "errorMsg": errorMsg
+          });
+}
+
+//Check if the type is a predefined type
+function validateType(themeType) {
+    var allowedTypes = allowedThemeTypes.getThemeTypes();
+    if (!themeType || (stringify(allowedTypes).indexOf(themeType) == -1)) {
+        return false;
+    }
+    return true;
+}
+
+//Get white listed file extensions
+function getWhiteListedFileExt() {
+    var path = "/conf/site.json";
+    var file = new File(path);
+    file.open("r");
+    var json = "";
+
+    json = file.readAll();
+    file.close();
+    var jsonConf = parse(json);
+    return jsonConf.customStoreThemeConfig.whitelist;
+};
+
+%>

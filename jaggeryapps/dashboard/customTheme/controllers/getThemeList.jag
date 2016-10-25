@@ -1,0 +1,26 @@
+<%
+var log = new Log();
+var i18n = session.get("i18n");
+var appManager = require("thememanager");
+var managerHostObj = new appManager.ThemeManager();
+
+
+loadThemes();
+
+function loadThemes() {
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain + "";
+    try {
+        var themes = managerHostObj.getDeployedThemes(tenantDomain);
+        print(themes);
+    } catch (e) {
+        error = true;
+        errorMsg = "Error while deploying theme.";
+        log.error(error, e);
+        print("");
+    }
+
+}
+
+
+%>

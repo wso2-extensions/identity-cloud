@@ -99,7 +99,7 @@ function drawAppDetails(data) {
         var existingRoles = data.visibleRoles.toString().split(",");
         for (var i = 0; i < existingRoles.length; i++) {
             var role = existingRoles[i];
-            $('#store-app-visibility').tokenInput("add", {id: role, name: role});
+            $("#store-app-visibility").val(role).trigger("change");
         }
     }
 
@@ -208,6 +208,16 @@ function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/edit_finish";
 
+    var visibleRoles = null;
+    var roles = $('#store-app-visibility').select2('data');
+    for (var i = 0; i < roles.length; i++) {
+        if (visibleRoles == null) {
+            visibleRoles = roles[i].text;
+        } else {
+            visibleRoles = visibleRoles + "," + roles[i].text;
+        }
+    }
+
     var gatewayProperties = JSON.stringify({
                                                "skipGateway": $('#skipgateway').is(':checked'),
                                                "appContext": $('#gw-app-context').val(),
@@ -218,7 +228,7 @@ function updateCustomSP() {
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
                                              "tags": $('#store-app-tags').val(),
-                                             "visibility": $('#store-app-visibility').val(),
+                                             "visibleRoles": visibleRoles,
                                              "id": $('#app-id').val()
                                          });
 
@@ -450,11 +460,26 @@ function uploadFile(file){
         });
 }
 
-$(document).ready(function(){
-    $('#store-app-visibility').tokenInput('/'+ ADMIN_PORTAL_NAME +'/apps/getRoles', {
-        theme: 'facebook',
-        preventDuplicates: true,
-        hintText: "Type in a user role"
-    });
 
+$(document).ready(function () {
+    $("#store-app-visibility").select2({
+                                           data: getRoles(),
+                                           multiple: true,
+                                           allowClear: true,
+                                           placeholder: 'Type in a user role'
+                                       })
 });
+
+function getRoles() {
+    var apiPath = "/dashboard/apps/getRoles";
+    var roles;
+    $.ajax({
+               url: apiPath,
+               type: 'GET',
+               async: false,
+               success: function (data) {
+                   roles = JSON.parse(data);
+               }
+           });
+    return roles
+}

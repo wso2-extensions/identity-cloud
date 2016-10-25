@@ -397,7 +397,10 @@ function addApp(){
   // Coverting "a,b,c" => ["a", "b", "c"] for JSON parsing
   var tags = JSON.parse('["' + storeProperties.tags.split(',').join('","') + '"]');
 
-  var visibleRoles = JSON.parse('["' + storeProperties.visibility.split(',').join('","') + '"]');
+    var visibleRoles = null;
+    if (storeProperties.visibleRoles != null) {
+        visibleRoles = JSON.parse('["' + storeProperties.visibleRoles.split(',').join('","') + '"]');
+    }
 
   var app = {
               id: storeProperties.id.toString(),
