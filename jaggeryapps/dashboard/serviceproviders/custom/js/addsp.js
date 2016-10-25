@@ -41,7 +41,7 @@ function validateSPName(sptype) {
 }
 
 function registerCustomSP(sptype) {
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/add_finish";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/add_finish";
     $.ajax({
         url: str,
         type: "POST",
@@ -70,7 +70,7 @@ function registerCustomSP(sptype) {
                     }
                 }
             } else {
-                window.location.href = "/dashboard/serviceprovider/" + $('#spName').val();
+                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
             }
         })
         .fail(function () {

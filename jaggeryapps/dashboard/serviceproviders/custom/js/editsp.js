@@ -125,7 +125,7 @@ function preDrawUpdatePage(appName) {
 
 function preDrawSPDetails(appName){
     $.ajax({
-        url: "/dashboard/serviceproviders/getsp/" + appName,
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getsp/" + appName,
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
         success: function (data) {
@@ -165,7 +165,7 @@ function preDrawSPDetails(appName){
 
 function preDrawAppDetails(appName){
     $.ajax({
-               url:  "/dashboard/apps/getApp/" + appName,
+               url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp/" + appName,
                type: "GET",
                data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
                contentType: "multipart/form-data",
@@ -206,7 +206,7 @@ function updateSP() {
 
 function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/edit_finish";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/edit_finish";
 
     var gatewayProperties = JSON.stringify({
                                                "skipGateway": $('#skipgateway').is(':checked'),
@@ -291,7 +291,7 @@ function updateCustomSP() {
                data: formData
     })
         .done(function (data) {
-            window.location.href = "/dashboard/serviceproviders";
+            window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
         })
         .fail(function () {
             message({
@@ -362,7 +362,7 @@ function cancelOauthForm() {
 }
 
 function deleteOauthConfig() {
-    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
+    var str = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
     $.ajax({
         url: str,
         type: "POST",
@@ -388,7 +388,7 @@ function deleteOauthConfig() {
 function saveOauthConfig(){
     console.log('######################## saveOauthConfig');
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     $.ajax({
         url: str,
         type: "POST",
@@ -425,7 +425,7 @@ function uploadFile(file){
 
 
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-    var str = "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
     $.ajax({
         url: str,
         type: 'POST',
@@ -451,7 +451,7 @@ function uploadFile(file){
 }
 
 $(document).ready(function(){
-    $('#store-app-visibility').tokenInput('/dashboard/apps/getRoles', {
+    $('#store-app-visibility').tokenInput('/'+ ADMIN_PORTAL_NAME +'/apps/getRoles', {
         theme: 'facebook',
         preventDuplicates: true,
         hintText: "Type in a user role"
