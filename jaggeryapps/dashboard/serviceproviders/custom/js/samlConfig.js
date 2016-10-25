@@ -8,7 +8,7 @@ function preDrawSAMLConfigPage(samlsp) {
     digestAlgorithmUriByConfig = null;
 
     $.ajax({
-        url: "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient",
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient",
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
@@ -1023,7 +1023,7 @@ $(document).ready(function() {
 function getACSURL(appContext, appVersion, transport) {
     var ascUrl = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/appmConf",
+               url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
                type: "GET",
                data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
                      + "&transport=" + transport,
@@ -1044,7 +1044,7 @@ function getACSURL(appContext, appVersion, transport) {
 function populateIssuerName(appName, appVersion) {
     var saml2SsoIssuer = "";
     $.ajax({
-               url: "/dashboard/serviceproviders/appmConf",
+               url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
                type: "GET",
                data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
                async: false,

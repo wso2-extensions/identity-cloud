@@ -35,9 +35,10 @@
     <body>
         <!-- BOF cloud menu -->
         <%
+require("../util/constants.jag");
 var matcher = new URIMatcher(request.getRequestURI());
 var applicationName;
-if (matcher.match('/dashboard/serviceprovider/{appname}')) {
+if (matcher.match('/' + ADMIN_PORTAL_NAME + '/serviceprovider/{appname}')) {
     var arguments = matcher.elements();
     applicationName = arguments.appname;
 }
@@ -67,7 +68,7 @@ include("../templates/leftpane.jag");
 <div class="right-pane">
 <!-- BOF App  menu actionbar -->
 <div class="action-bar">
-    <a href="/dashboard/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
+    <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
         title="Back to Overview">
     <span class="fw-stack fw-lg btn-action-ico">
     <i class="fw fw-ring fw-stack-2x"></i>
@@ -873,7 +874,7 @@ var userInfo = null;
 var serverUrl = window.location.host;
 var appName = $('#appName').attr('value');
     $(function WindowLoad(event) {
-        url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
+        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
         ws = new WebSocket(url);
 
         ws.onopen = function () {

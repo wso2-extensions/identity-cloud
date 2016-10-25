@@ -30,4 +30,16 @@ var CONNECTED_ACCOUNTS="connected-accounts";
 
 var AUTHZ_FAILURE="authzFailure";
 
+var ADMIN_PORTAL_NAME = "dashboard";
+var DIRECTORY_PATH = "directories";
+var DIRECTORY_UPDATE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "update_finish";
+var DIRECTORY_ADD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add_finish";
+var DIRECTORY_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH;
+var DIRECTORY_GET_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory-list";
+var DIRECTORY_DELETE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "delete_finish";
+var DIRECTORY_DOWNLOAD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download-finish";
+var DIRECTORY_TEST_CONNECTION_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "test-connection";
+var DIRECTORY_DOWNLOAD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download";
+var DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add";
+
 %>

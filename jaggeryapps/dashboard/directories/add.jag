@@ -45,6 +45,7 @@
 
 <%
 include("/templates/header.jag");
+require("../util/constants.jag");
 %>
 
 <%
@@ -76,7 +77,7 @@ var domainName = request.getParameter("domain");
 
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a href="/dashboard/directories" class="btn-action" data-toggle="tooltip" data-placement="top"
+            <a href="/<%=ADMIN_PORTAL_NAME%>/directories" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Directories">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-ring fw-stack-2x"></i>
@@ -223,7 +224,7 @@ var domainName = request.getParameter("domain");
 var serverUrl = window.location.host;
 var domain = $('#domain').attr('value');
     $(function WindowLoad(event) {
-        url = 'wss://' + serverUrl + '/dashboard/session_manager.jag';
+        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
         ws = new WebSocket(url);
 
         ws.onopen = function () {

@@ -105,7 +105,7 @@ if (samlResponse != null) {
 
 					    response.sendRedirect("index.jag");
 					}else{
-					    response.sendRedirect("/dashboard/samlsso.jag?logout=true&authz_failure=true");
+					    response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
 					}
 
                 }
