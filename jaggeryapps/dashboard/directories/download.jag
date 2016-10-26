@@ -50,6 +50,7 @@ include("/templates/header.jag");
 <%
 var domainName = request.getParameter("domain");
 %>
+<iframe id="ifrmDownload" name="ifrmDownload" hidden="true"></iframe>
 <input type="hidden" value="<%=domainName%>" id="domain">
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
