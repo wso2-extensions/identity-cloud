@@ -47,9 +47,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         var prop = samlsp.properties[i];
         providerProps[prop.name] = prop;
     }
-    //$('#addServiceProvider h4').html(tableTitle);
-
-    $('#issuer').val(providerProps["issuer"].value);
+    //$('#addServiceProvider h4').html(tableTitle); 
+    $('#issuer').val(issuer);
     $('#hiddenIssuer').val(issuer);
     if (isEditSP) {
         $('#issuer').prop('readonly', true);
@@ -486,9 +485,11 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 }
 
 function controlHiddenFields(providerProps) {
+    /*
     if (isHidden(ISSUER, providerProps)) {
         $('#issuerRow').hide();
     }
+    */
     if (isHidden(ACS_URLS, providerProps)) {
         $('#acsRow').hide();
         $('#defaultAssertionConsumerURLRow').hide();
