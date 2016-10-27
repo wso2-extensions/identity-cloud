@@ -1,0 +1,235 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+%>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WSO2 Cloud</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-3.2.0/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontwso2-1.2/css/font-wso2.css">
+    <link href="css/font-awesome-4.2.0/font-awesome.min.css" rel="stylesheet">
+    <link href="css/web-fonts/Roboto.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/dataTables.responsive.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/jquery.dataTables.override.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<%
+include("/templates/header.jag");
+%>
+
+
+<input type="hidden" value="" id="uniqueid">
+<input type="hidden" value="false" id="disabled">
+
+<!-- BOF App  menu -->
+<div class="navbar navbar-secondary">
+    <div class="container-fliud">
+        <div class="row">
+            <div class="side-pane-trigger">
+                <i class="fa fa-reorder"></i>
+            </div>
+            <div class="breadcrumb-secondary">
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Admin Portal / User Directory
+            </div>
+        </div>
+    </div>
+</div><!-- EOF App  menu -->
+<div class="inner-wrapper">
+    <!-- left pane wrapper -->
+    <%include("/templates/leftpane.jag");%>
+    <!-- left pane wrapper -->
+    <div class="right-pane">
+        <!-- BOF App  menu actionbar -->
+        <div class="action-bar">
+         <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
+            <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Back to Directories">
+                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-left-arrow fw-stack-1x"></i>
+                </span> Back to Directories
+            </a>
+        </div><!-- EOF App  menu actionbar-->
+
+         <div class="container-fluid app-content-section">
+            <div class="row padding-bottom-xlg">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
+
+                    <div id="push"></div>
+                         <div class="row" style="margin: 5px; ">
+                            <div class="col-md-3" style="background-color: #DFF2BF;border-style: solid;border-color: black;padding-bottom: 5px">
+                               <div class="row">
+                                        <div class="col-md-4" style="color: #4F8A10"><h4>Connection:</h4>
+                                        </div>
+                                        <div class="col-md-4" style="float: right;color: #4F8A10"  >
+                                                <span class="fw-success custom" style="margin-top: 15px;font-weight: bold;font-size: large" >
+                                                        Verified
+                                                 </span>
+                                        </div>
+                                </div>
+
+                            </div>
+                             <div class="col-md-offset-6">
+                            </div>
+                    </div>
+
+                    <div class="margin-bottom-md">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-tabs-wizard" role="tablist">
+                        </ul>
+
+
+
+                        <!-- Tab panes -->
+                        <div class="tab-content" style="margin-top: -115px">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <div class="row">
+
+                                    <div class="row">
+                                        <div class="col-xs-10 col-sm-7  col-md-7 col-lg-6">
+                                            <div class="add-issue-content">
+                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href=" ">
+                                                    <span class="fw-stack fw-lg btn-action-ico">
+                                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                                        <i class="fw fw-download fw-stack-1x"></i>
+                                                    </span>
+                                                    <span class="hidden-xs">Download Agent App</span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <h5>Note: WSO2 user store agent currently supports only for LDAP</h5>
+                                </div>
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="adirectory"></div>
+
+                             <div role="tabpanel" class="tab-pane-no-color active" id="home">
+                                <div class="row">
+                                    <h5>If you already have a configured URL, you can simply enter it below and save </h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"><h4>Service URL </h4></div>
+                                    <div class="col-md-9">
+
+                                                <input type="text" placeholder="serviceURL" class="form-control" id="serviceURL">
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-default" style="width: 100%">Check</button>
+
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 20px">
+                                <div class="col-md-1">
+                                  <button type="button" class="btn btn-default" style="width: 100%">Update</button>
+                                 </div>
+
+                                <div class="col-md-9">   </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.container -->
+    </div>
+    <div class="clearfix"></div>
+    <div id="push"></div>
+</div>
+<div id="footer">
+    <div class="container-fluid">
+        <div class="footer-text">WSO2 Cloud V: 1.2 . &copy; 2016 <i class="fw fw-wso2 fw-2x"></i> All Rights Reserved.</div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap-3.2.0/bootstrap.min.js"></script>
+<script src="js/custom/constants.js"></script>
+<script src="js/custom/custom.js"></script>
+
+<script>
+    $('.side-pane-trigger').click(function(){
+        var rightPane = $('.right-pane');
+        var leftPane = $('.left-pane');
+        if (rightPane.hasClass('visible')){
+            rightPane.animate({"left":"0em"}, "slow").removeClass('visible');
+            leftPane.animate({"left":"-18em"}, "slow");
+            $(this).find('i').removeClass('fa-arrow-left').addClass('fa-reorder');
+        } else {
+            rightPane.animate({"left":"18em"}, "slow").addClass('visible');
+            leftPane.animate({"left":"0em"}, "slow");
+            $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
+        }
+    });
+</script>
+
+<script>
+var cookie = null;
+var json = null;
+var userName = null;
+var serverUrl = window.location.host;
+$(function WindowLoad(event) {
+    url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
+    console.log("************ " + url);
+    ws = new WebSocket(url);
+
+    ws.onopen = function () {
+        console.log("web Socket onopen. ");
+        ws.send("First Message open");
+    };
+    ws.onmessage = function (event) {
+        var obj = $.parseJSON(event.data);
+        cookie = obj.cookie;
+        userName = obj.user;
+        getDirectories();
+    };
+    ws.onclose = function () {
+        console.log("web Socket onclose. ");
+    };
+
+});
+</script>
+</body>
+</html>
