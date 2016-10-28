@@ -1057,7 +1057,8 @@ a.btn-action {
 
 .block-general {
     margin-top: 1em;
-    background-color: #34495e;
+    /*background-color: #34495e;*/
+    background-color: #0090d9;
     padding-top: 1em;
     padding-bottom: 1em;
     min-height: 33em;
@@ -1424,6 +1425,20 @@ svg .outer {
     font-size: 1.2em;
     font-weight: 300;
 }
+
+.msg-issues-info {
+    background: #0498d5;
+    padding: 40px 20px 10px;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+.msg-issues-warn {
+    background: #bb9700;
+    padding: 40px 20px 10px;
+    font-size: 1.2em;
+    font-weight: 300;
+}
 .gray-hr {
     border-top: 1px solid #666;
     margin-top: 60px;
@@ -1526,12 +1541,12 @@ svg .outer {
     min-height:50px;
 }
 .alert-success{
-    background-color: #27ae60;
-    border-color: #40D47E;
-    border-radius:0px;
+    background-color: #457d94;
+    border-color: #257d94;
+    border-radius: 0px;
     margin: 15px;
-    color:#fff;
-    padding:0px;
+    color: #fff;
+    padding: 0px;
 }
 .alert-info .close{
     color:#666;
@@ -1563,7 +1578,7 @@ svg .outer {
 }
 
 .alert-extra-content{
-    background-color: #50E28E;
+    background-color: #75c3e0;
     padding: 10px 15px;
     color: #333;
 }
@@ -2585,8 +2600,14 @@ th.hide-column-data, td.hide-column-data {
 }
 .nav-tabs-wizard + .tab-content>.tab-pane{
     padding: 20px;
-    background-color:#222;
+    background-color:#282828;
     border-bottom:2px solid #0196d8;
+}
+
+.nav-tabs-wizard + .tab-content>.tab-pane-no-color{
+    padding: 20px;
+    background-color:#282828;
+
 }
 
 .lifecycle-event-history h4{
@@ -3182,6 +3203,25 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     font-weight: 300;
 }
 
+.full-width-mod6 {
+    width: 100%;
+}
+
+.fw-success.custom:before {
+    content: '\e657';
+
+}
+
+.custom-h1 {
+    background-color: #ada90a;
+    border-color: #ada90a;
+}
+
+.custom-b1 {
+    background-color: #f3f077;
+    border-color: #ada90a;
+}
+
 /* ========================================================================
  * Accordion and Collapse styles
  * ======================================================================== */
@@ -3316,5 +3356,3 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 .custom-checkbox-white:checked{
     background-color: #FFFFFF;
 }
-.select2-container {color: #333;width: 100% !important;}
-.select2-container input {width: 100% !important;}
