@@ -286,3 +286,94 @@ $('#cloud-menu-popover,#cloud-menu-popover-xs').on('shown.bs.popover', function 
 $('#cloud-menu-popover,#cloud-menu-popover-xs').on('hidden.bs.popover', function () {
     $('.anim-container').children('.clearfix').nextAll().remove();
 });
+
+/**
+ * This method will check whether user directory is already created
+ * @param domain domain name
+ * @returns {boolean} status of user directory exsist or not
+ */
+function checkDirectory(domain) {
+    var returnval = false;
+    $.ajax({
+        url: DIRECTORY_GET_LIST_PATH,
+        async: false,
+        cache: false,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                if (data) {
+                    directoryList = $.parseJSON(data).return;
+                }
+                returnval = directoryList;
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+
+    return returnval;
+}
+
+/**
+ * This method will resolve what url to navigate based on user click.
+ * @param param
+ */
+function urlResolver(param) {
+    var currentUrl, context, newUrl;
+    currentUrl = window.location.href.toString();
+    if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
+        context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
+
+        switch (param) {
+            case 'configure':
+                newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
+                window.location.href = newUrl;
+                break;
+            case 'agentguide':
+                newUrl = context + ADMIN_PORTAL_NAME + "/directories/agentguide";
+                window.location.href = newUrl;
+                break;
+            case 'applist':
+                newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
+                window.location.href = newUrl;
+                break;
+            case 'overview' :
+                var val = checkDirectory('is-wso2.com');
+                if (val) {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                    window.location.href = newUrl;
+                } else {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
+                    window.location.href = newUrl;
+                }
+                break;
+
+            default:
+        }
+    }
+}
+

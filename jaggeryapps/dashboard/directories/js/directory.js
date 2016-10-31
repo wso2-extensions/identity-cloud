@@ -12,6 +12,16 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
+    var messageContainer = "<div class='alert' role='alert'>" +
+        "<span class='alert-content'></span></div>";
+
+    if (!validateURL(agentUrl)) {
+        $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').delay(2000).
+            fadeOut('fast'));
+        $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
+        return false;
+    }
+
     if (!validateDirectory(name, agentUrl)) {
         return;
     }
@@ -28,15 +38,26 @@ function addOrUpdateUserDirectory() {
         data = "name=" + name + "&url=" + agentUrl;
         url = DIRECTORY_ADD_FINISH_PATH;
     }
+
+    $('#demote-confirm-modal').modal({
+        show: true
+    });
+
+    $("#btn-save").hide();
+    $("#add-directory-loading").show();
+
     $.ajax({
-        url: url,
-        type: "POST",
-        data: data,
-    })
+            url: url,
+            type: "POST",
+            data: data,
+        })
         .done(function (data) {
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
+                while (!checkDirectory('is-wso2.com')) {
+
+                }
                 window.location.href = DIRECTORY_LIST_PATH;
             } else {
 
@@ -61,6 +82,8 @@ function addOrUpdateUserDirectory() {
 
         })
         .fail(function () {
+            $("#btn-save").show();
+            $("#add-directory-loading").hide();
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
@@ -195,15 +218,23 @@ function drawList() {
 
 function deleteDirectory(domainname) {
 
+    $("#btn-progress").show();
+    $("#btn-delete").hide();
+    $("#delete-label-text").text("Please wait... This will take few seconds");
+    $("#delete-heading").text("Deleting User Directory");
+    $("#delete-buttons-block").hide();
     $.ajax({
-        url: DIRECTORY_DELETE_FINISH_PATH,
-        type: "POST",
-        data: "domain=" + domainname,
-    })
+            url: DIRECTORY_DELETE_FINISH_PATH,
+            type: "POST",
+            data: "domain=" + domainname,
+        })
         .done(function (data) {
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-                window.location.href = DIRECTORY_LIST_PATH;
+                while (checkDirectory('is-wso2.com')) {
+
+                }
+                urlResolver('overview');
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -226,6 +257,8 @@ function deleteDirectory(domainname) {
             }
         })
         .fail(function () {
+            $("#btn-progress").hide();
+            $("#btn-delete").show();
             console.log('Error Occurred');
             message({content: 'Error while deleting directory. ', type: 'servererror'});
         })
@@ -318,7 +351,7 @@ function downloadAgent() {
                     }
                 }
             } else {
-                document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
+                document.getElementById('ifrmDownload').src =   DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },
         error: function (e) {
@@ -331,22 +364,78 @@ function downloadAgent() {
     });
 }
 
-function testConnection(agenturl) {
+function downloadAgentRedirect(param) {
+    $.ajax({
+        url: DIRECTORY_DOWNLOAD_FINISH_PATH,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
+                setTimeout(function(){ urlResolver(param); }, 3000);
 
-    if (agenturl.substring(agenturl.length - 1, agenturl.length) == "/") {
-        agenturl = agenturl + "status";
-    } else {
-        agenturl = agenturl + "/" + "status";
-    }
+            }
+        },
+        error: function (e) {
+            window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
 
+function validateURL(textval) {
+    var urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+    return urlregex.test(textval);
+}
+
+
+function testConnection(agentUrl) {
     var messageContainer = "<div class='alert' role='alert'>" +
         "<span class='alert-content'></span></div>";
+
+    if (!validateURL(agentUrl)) {
+        $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+            .fadeIn('fast').delay(2000).fadeOut('fast'));
+        $('.connectionStatus').find('.alert-content')
+            .text('The provided URL is not valied')
+        return false;
+    }
+
+    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
+        agentUrl = agentUrl + "status";
+    } else {
+        agentUrl = agentUrl + "/" + "status";
+    }
+
+
     $('.connectionStatus').empty();
 
     $.ajax({
         url: DIRECTORY_TEST_CONNECTION_PATH,
         type: "GET",
-        data: "url=" + agenturl,
+        data: "url=" + agentUrl,
         success: function (data) {
             if (data) {
                 if ($.parseJSON(data).return == "true") {
@@ -393,7 +482,6 @@ function testConnection(agenturl) {
 
 function drawUpdatePage(directoryName, properties) {
 
-    var directoryName;
     var agentEndpoint;
     var agentUniqueId;
     var agentDisabled;
@@ -407,11 +495,10 @@ function drawUpdatePage(directoryName, properties) {
             agentDisabled = properties[j].value;
         }
     }
-    $('#drName').val(directoryName);
+
     $('#agentUrl').val(agentEndpoint);
     $('#uniqueid').val(agentUniqueId);
     $('#disabled').val(agentDisabled);
-    $('#drName').attr('readonly', true);
 }
 
 function gotoBack() {

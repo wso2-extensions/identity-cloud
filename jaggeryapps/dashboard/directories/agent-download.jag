@@ -73,7 +73,17 @@ include("/templates/header.jag");
 </div><!-- EOF App  menu -->
 <div class="inner-wrapper">
     <!-- left pane wrapper -->
-    <%include("/templates/leftpane.jag");%>
+    <%include("/templates/leftpane.jag");
+    require("../util/constants.jag");
+    %>
+
+    <%
+    var domainName = request.getParameter("domain");
+    %>
+    <iframe id="ifrmDownload" name="ifrmDownload" hidden="true"></iframe>
+    <input type="hidden" value="<%=domainName%>" id="domain">
+
+
     <!-- left pane wrapper -->
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
@@ -90,8 +100,32 @@ include("/templates/header.jag");
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
+                <div class="row-centered" id="progress-icon" hidden>
+                    <div class="app-listing-loader">
+                        <div class="loading-logo">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3em"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
+                        <path class="circle" stroke-width="1.4" stroke-miterlimit="10" d="M6.534,
+                        0.748C7.546,0.683,8.578,0.836,9.508,1.25 c1.903,0.807,3.339,2.615,3.685,4.654c0.244,
+                        1.363,0.028,2.807-0.624,4.031c-0.851,1.635-2.458,2.852-4.266,3.222 c-1.189,0.25-2.45,
+                        0.152-3.583-0.289c-1.095-0.423-2.066-1.16-2.765-2.101C1.213,9.78,0.774,8.568,0.718,
+                        7.335 C0.634,5.866,1.094,4.372,1.993,3.207C3.064,1.788,4.76,0.867,6.534,0.748z"/>
+                        <path class="pulse-line" stroke-width="0.55" stroke-miterlimit="10" d="M12.602,
+                        7.006c-0.582-0.001-1.368-0.001-1.95,0 c-0.491,0.883-0.782,1.4-1.278,2.28C8.572,
+                        7.347,7.755,5.337,6.951,3.399c-0.586,1.29-1.338,3.017-1.923,
+                        4.307 c-1.235,0-2.38-0.002-3.615,0"/>
+                    </svg>
+                            <div class="signal"></div>
+                            <p>Creating ...</p>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms" id="full-content">
+
+                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
+                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
                     <div id="push"></div>
                     <div class="margin-bottom-md">
                         <!-- Nav tabs -->
@@ -109,7 +143,8 @@ include("/templates/header.jag");
                                     <div class="row">
                                         <div class="col-xs-10 col-sm-7  col-md-7 col-lg-6">
                                             <div class="add-issue-content">
-                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href=" ">
+                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue"
+                                                   href="javascript:downloadAgentRedirect('agentguide')">
                                                     <span class="fw-stack fw-lg btn-action-ico">
                                                         <i class="fw fw-ring fw-stack-2x"></i>
                                                         <i class="fw fw-download fw-stack-1x"></i>
@@ -138,13 +173,19 @@ include("/templates/header.jag");
 
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="production-custom"
+                                                <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL">
+
                                                      <span class="input-group-btn">
-                                                           <button class="btn btn-info" type="button">Check</button>
+                                                           <button onclick="testConnection(document.getElementById('agentUrl').value)"
+                                                                   class="btn btn-info" type="button">Check</button>
                                                      </span>
                                             </div>
+                                            <div class="connectionStatus"></div>
+                                            <label id="agentUrl-error" class="error" hidden="" for="issuer">This field
+                                                is required.</label>
                                         </div>
+
 
                                     </div>
 
@@ -154,7 +195,7 @@ include("/templates/header.jag");
                                     <div class="col-mod-12">
                                         <div class="form-group">
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                    id="btn-error">
+                                                    id="btn-save" onclick="addOrUpdateUserDirectory()">
                                 <span class="fw-stack fw-lg fw-save">
                                     <i class="fw fw-ring fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
@@ -163,6 +204,16 @@ include("/templates/header.jag");
                                             </button>
 
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                                    id="add-directory-loading" style="display: none;" disabled>
+                        <span class="fw-stack fw-lg btn-action-ico">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-save fw-stack-1x"></i>
+                        </span>
+                                                Creating ...
+                                            </button>
+
+                                            <button type="button" onclick="urlResolver('applist')"
+                                                    class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-success">
                                 <span class="fw-stack fw-lg fw-list">
                                     <i class="fw fw-ring fw-stack-2x"></i>
@@ -197,12 +248,41 @@ include("/templates/header.jag");
             </div>
         </div>
     </div>
+
+    <!-- MODEL -->
+
+    <div id="demote-confirm-modal" class="modal">
+        <div class="modal-dialog modal-dialog-margin-top-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Creating User Directory</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="demote-reason-text" class="control-label">Please wait. This will take
+                                        few seconds </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../js/jquery-1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
+    <script src="js/directory.js"></script>
 
     <script>
         $('.side-pane-trigger').click(function () {
@@ -218,16 +298,24 @@ include("/templates/header.jag");
                 $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
             }
         });
+
+        $('#btn-delete').on('click', function (e) {
+            $('#demote-confirm-modal').modal({
+                show: true
+            });
+        });
+
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                addOrUpdateUserDirectory();
+            }
+        });
     </script>
 
     <script>
-        var cookie = null;
-        var json = null;
-        var userName = null;
         var serverUrl = window.location.host;
         $(function WindowLoad(event) {
             url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-            console.log("************ " + url);
             ws = new WebSocket(url);
 
             ws.onopen = function () {
@@ -238,12 +326,12 @@ include("/templates/header.jag");
                 var obj = $.parseJSON(event.data);
                 cookie = obj.cookie;
                 userName = obj.user;
-                getDirectories();
+                $("#drName").removeAttr('readonly');
+                populateDirectory('is-wso2.com');
             };
             ws.onclose = function () {
                 console.log("web Socket onclose. ");
             };
-
         });
     </script>
 </body>

@@ -77,22 +77,24 @@ require("../util/constants.jag");
 
         <!--Empty List-->
 
-        <div class="container-fluid app-content-section" id="emptyList" hidden>
-
+         <div class="container-fluid app-content-section" id="emptyList">
             <div class="row row-centered">
+
                 <div class="col-centered col-xs-10 col-sm-7  col-md-7 col-lg-6">
                     <div class="add-issue-content">
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders/add">
-                            <span class="fw-stack fw-lg btn-action-ico">
-                                <i class="fw fw-ring fw-stack-2x"></i>
-                                <i class="fw fw-add fw-stack-1x"></i>
-                            </span>
-                            <span class="hidden-xs">Add Application</span>
+                        <h2>Let's add some applications</h2>
+                        <h4>We will guide you on adding applications just start with below button</h4>
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
+                        <span class="fw-stack fw-lg fw fw-add">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-add fw-stack-1x"></i>
+                        </span>
+                            <span class="hidden-xs" >Add Application</span>
                         </a>
+                        </br></br></br>
+                        <a style="font-size: large;color: white;text-decoration: underline" href="#">Add sample application</a>
                     </div>
-
                 </div>
-
             </div>
         </div><!-- /.container -->
 
