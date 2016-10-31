@@ -73,7 +73,16 @@ include("/templates/header.jag");
 </div><!-- EOF App  menu -->
 <div class="inner-wrapper">
     <!-- left pane wrapper -->
-    <%include("/templates/leftpane.jag");%>
+    <%include("/templates/leftpane.jag");
+    require("../util/constants.jag");
+    %>
+
+    <%
+    var domainName = request.getParameter("domain");
+    %>
+    <iframe id="ifrmDownload" name="ifrmDownload" hidden="true"></iframe>
+    <input type="hidden" value="<%=domainName%>" id="domain">
+
     <!-- left pane wrapper -->
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
@@ -91,6 +100,8 @@ include("/templates/header.jag");
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
+                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
+                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
 
                     <div id="push"></div>
 
@@ -99,7 +110,8 @@ include("/templates/header.jag");
                             <div class="form-group">
                                 <div class="alert alert-warning alert-no-margin" role="alert">
                                 <span class="alert-content">
-                                   <h5>If your download didn't start automatically , <span> <a href="#">click here </a></span> </h5>
+                                   <h5>If your download didn't start automatically , <span> <a href="#"
+                                                                                               onclick="downloadAgent();">click here </a></span> </h5>
                                 </span>
                                 </div>
                             </div>
@@ -152,12 +164,17 @@ include("/templates/header.jag");
                         <div class="col-md-11">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="production-custom"
+                                    <input type="text" class="form-control" id="agentUrl"
                                            placeholder="Enter your service URL">
                                                      <span class="input-group-btn">
-                                                           <button class="btn btn-info" type="button">Check</button>
+                                                           <button class="btn btn-info"
+                                                                   onclick="testConnection(document.getElementById('agentUrl').value)"
+                                                                   class="btn btn-info" type="button">Check</button>
                                                      </span>
                                 </div>
+                                <div class="connectionStatus"></div>
+                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
+                                    required.</label>
                             </div>
                         </div>
 
@@ -168,7 +185,7 @@ include("/templates/header.jag");
                         <div class="col-mod-12">
                             <div class="form-group">
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                        id="btn-error">
+                                        id="btn-save" onclick="addOrUpdateUserDirectory()">
                                 <span class="fw-stack fw-lg fw-save">
                                     <i class="fw fw-ring fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
@@ -177,6 +194,16 @@ include("/templates/header.jag");
                                 </button>
 
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                        id="add-directory-loading" style="display: none;" disabled>
+                        <span class="fw-stack fw-lg btn-action-ico">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-save fw-stack-1x"></i>
+                        </span>
+                                    Creating ...
+                                </button>
+
+                                <button type="button" onclick="urlResolver('applist')"
+                                        class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="btn-success">
                                 <span class="fw-stack fw-lg fw-list">
                                     <i class="fw fw-ring fw-stack-2x"></i>
@@ -207,13 +234,42 @@ include("/templates/header.jag");
             </div>
         </div>
     </div>
+
+
+    <!-- MODEL -->
+
+    <div id="demote-confirm-modal" class="modal">
+        <div class="modal-dialog modal-dialog-margin-top-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Creating User Directory</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="demote-reason-text" class="control-label">Please wait. This will take
+                                        few seconds </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../js/jquery-1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
-
+    <script src="js/directory.js"></script>
     <script>
         $('.side-pane-trigger').click(function () {
             var rightPane = $('.right-pane');
@@ -228,6 +284,18 @@ include("/templates/header.jag");
                 $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
             }
         });
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                addOrUpdateUserDirectory();
+            }
+        });
+
+        $('#btn-delete').on('click', function (e) {
+            $('#demote-confirm-modal').modal({
+                show: true
+            });
+        });
+
     </script>
 
     <script>
@@ -255,6 +323,8 @@ include("/templates/header.jag");
             };
 
         });
+
+
     </script>
 </body>
 </html>

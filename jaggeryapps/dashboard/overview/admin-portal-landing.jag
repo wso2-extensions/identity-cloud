@@ -86,7 +86,7 @@ include("/templates/header.jag");
                         <h2>Hey John looks like its your first time on Identity cloud</h2>
                         <h4>Want us to configure some sample data for you ? or you can just start by setting up your
                             user store</h4>
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="">
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure')">
                         <span class="fw-stack fw-lg fw fw-service">
                             <i class="fw fw-ring fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
