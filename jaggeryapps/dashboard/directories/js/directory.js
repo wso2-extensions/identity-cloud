@@ -12,15 +12,6 @@ function addOrUpdateUserDirectory() {
     var url;
     var data;
 
-    var messageContainer = "<div class='alert' role='alert'>" +
-        "<span class='alert-content'></span></div>";
-
-    if (!validateURL(agentUrl)) {
-        $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').delay(2000).
-            fadeOut('fast'));
-        $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-        return false;
-    }
 
     if (!validateDirectory(name, agentUrl)) {
         return;
@@ -39,16 +30,14 @@ function addOrUpdateUserDirectory() {
         url = DIRECTORY_ADD_FINISH_PATH;
     }
 
-    $('#demote-confirm-modal').modal({
-        show: true
-    });
-
     $("#btn-save").hide();
     $("#add-directory-loading").show();
 
     $.ajax({
             url: url,
             type: "POST",
+            async: false,
+            cache: false,
             data: data,
         })
         .done(function (data) {
@@ -56,7 +45,90 @@ function addOrUpdateUserDirectory() {
             var resp = $.parseJSON(data);
             if (resp.success == true) {
                 while (!checkDirectory('is-wso2.com')) {
+                    setTimeout(function () {
+                        console.log("Waiting for complete ...")
+                    }, 2000);
+                }
+                window.location.href = DIRECTORY_LIST_PATH;
+            } else {
 
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+
+        })
+        .fail(function () {
+            $("#btn-save").show();
+            $("#add-directory-loading").hide();
+            message({content: 'Error while adding Directory. ', type: 'servererror'});
+        })
+        .always(function () {
+            console.log('completed');
+        });
+}
+
+function updateUserDirectory() {
+    // since we are using only one user directory
+    var domain = userstoredomain;
+    var name = document.getElementById("drName").value;
+    var agentUrl = document.getElementById("agentUrl").value;
+    var agentUniqueId = document.getElementById("uniqueid").value;
+    var agentDisabled = document.getElementById("disabled").value;
+    var url;
+    var data;
+
+    if (!validateDirectory(name, agentUrl)) {
+        return;
+    }
+
+    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
+        agentUrl = agentUrl.substring(0, agentUrl.length - 1);
+    }
+
+    if (domain != null && domain != 'null') {
+        data = "name=" + name + "&url=" + agentUrl + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
+        url = DIRECTORY_UPDATE_FINISH_PATH;
+    } else {
+        data = "name=" + name + "&url=" + agentUrl;
+        url = DIRECTORY_ADD_FINISH_PATH;
+    }
+
+
+    $("#btn-save").hide();
+    $("#add-directory-loading").show();
+    var currentUrl = checkDirectory('is-wso2.com').properties[75].value;
+    $.ajax({
+            url: url,
+            type: "POST",
+            async: false,
+            cache: false,
+            data: data,
+        })
+        .done(function (data) {
+
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                while (agentUrl != currentUrl) {
+                    // TODO : need to handle this proper way. This is a temporary solution
+                    setTimeout(function () {
+                        console.log("Waiting for complete ...")
+                    }, 2000);
+                    currentUrl = checkDirectory('is-wso2.com').properties[75].value;
                 }
                 window.location.href = DIRECTORY_LIST_PATH;
             } else {
@@ -351,7 +423,7 @@ function downloadAgent() {
                     }
                 }
             } else {
-                document.getElementById('ifrmDownload').src =   DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
+                document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },
         error: function (e) {
@@ -391,7 +463,9 @@ function downloadAgentRedirect(param) {
                 }
             } else {
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
-                setTimeout(function(){ urlResolver(param); }, 3000);
+                setTimeout(function () {
+                    urlResolver(param);
+                }, 3000);
 
             }
         },
@@ -479,6 +553,70 @@ function testConnection(agentUrl) {
     });
 
 }
+
+
+function verifyConnection(agentUrl) {
+    var messageContainer = "<div class='alert' role='alert'>" +
+        "<span class='alert-content'></span></div>";
+
+    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
+        agentUrl = agentUrl + "status";
+    } else {
+        agentUrl = agentUrl + "/" + "status";
+    }
+
+
+    $('.connectionStatus').empty();
+
+    $.ajax({
+        url: DIRECTORY_TEST_CONNECTION_PATH,
+        type: "GET",
+        data: "url=" + agentUrl,
+        success: function (data) {
+            if (data) {
+                if ($.parseJSON(data).return == "true") {
+                    $("#verified").show();
+                    $("#unverified").hide();
+                    $("#progress-icon").hide();
+                } else if ($.parseJSON(data).return == "false") {
+                    $("#verified").hide();
+                    $("#unverified").show();
+                    $("#progress-icon").hide();
+                } else {
+                    var resp = $.parseJSON(data);
+                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                    } else {
+                        if (resp.message != null && resp.message.length > 0) {
+                            message({
+                                content: resp.message, type: 'error', cbk: function () {
+                                }
+                            });
+                        } else {
+                            message({
+                                content: 'Error occurred while loading values for the grid.',
+                                type: 'error',
+                                cbk: function () {
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        },
+        error: function (e) {
+            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                .fadeIn('fast').delay(2000).fadeOut('fast'));
+            $('.connectionStatus').find('.alert-content')
+                .text('The connection to provided URL was un-successful.')
+            $("#verified").hide();
+            $("#unverified").show();
+            $("#progress-icon").hide();
+        }
+    });
+
+}
+
 
 function drawUpdatePage(directoryName, properties) {
 
