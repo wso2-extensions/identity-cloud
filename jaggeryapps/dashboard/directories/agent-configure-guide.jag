@@ -85,17 +85,6 @@ include("/templates/header.jag");
 
     <!-- left pane wrapper -->
     <div class="right-pane">
-        <!-- BOF App  menu actionbar -->
-        <div class="action-bar">
-            <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
-            <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
-                title="Back to Directories">
-                <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
-                    <i class="fw fw-left-arrow fw-stack-1x"></i>
-                </span> Back to Directories
-            </a>
-        </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
@@ -105,7 +94,7 @@ include("/templates/header.jag");
 
                     <div id="push"></div>
 
-                    <div class="row" style="margin-top: -10px">
+                    <div class="row" style="margin-top: -70px">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="alert alert-warning alert-no-margin" role="alert">
@@ -185,7 +174,7 @@ include("/templates/header.jag");
                         <div class="col-mod-12">
                             <div class="form-group">
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                        id="btn-save" onclick="addOrUpdateUserDirectory()">
+                                        id="btn-save">
                                 <span class="fw-stack fw-lg fw-save">
                                     <i class="fw fw-ring fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
@@ -271,6 +260,9 @@ include("/templates/header.jag");
     <script src="../js/custom/custom.js"></script>
     <script src="js/directory.js"></script>
     <script>
+        var messageContainer = "<div class='alert' role='alert'>" +
+                "<span class='alert-content'></span></div>";
+
         $('.side-pane-trigger').click(function () {
             var rightPane = $('.right-pane');
             var leftPane = $('.left-pane');
@@ -284,17 +276,42 @@ include("/templates/header.jag");
                 $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
             }
         });
-        $(document).keypress(function (e) {
-            if (e.which == 13) {
-                addOrUpdateUserDirectory();
+
+        $('#btn-save').on('click', function (e) {
+            if (validateURL($("#agentUrl").val())) {
+                $('#demote-confirm-modal').modal({
+                    show: true
+                });
+                setTimeout(function () {
+                    addOrUpdateUserDirectory();
+                }, 1000);
+            } else {
+                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
+                delay(2000).fadeOut('fast'));
+                $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
+                return false;
             }
         });
 
-        $('#btn-delete').on('click', function (e) {
-            $('#demote-confirm-modal').modal({
-                show: true
-            });
+        $("#agentUrl").keypress(function (e) {
+            if (e.which == 13) {
+                if (validateURL($("#agentUrl").val())) {
+                    $('#demote-confirm-modal').modal({
+                        show: true
+                    });
+                    setTimeout(function () {
+                        addOrUpdateUserDirectory();
+                    }, 1000);
+                } else {
+                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
+                    delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
+                    return false;
+                }
+
+            }
         });
+
 
     </script>
 
