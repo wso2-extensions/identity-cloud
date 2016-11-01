@@ -143,7 +143,7 @@ include("/templates/header.jag");
                             <span class="fw-success custom"
                                   style="font-weight: bold;font-size: medium;color: #4F8A10;margin-top: 8px; ">
 
-                                   <span style="color: white;font-size: large;">Demo LDAP Configured </span>
+                                   <span style="color: white;font-size: large;">Demo LDAP Configured</span>
 
                                    </span>
                                     </div>
@@ -160,37 +160,21 @@ include("/templates/header.jag");
                         <div class="container" style="float: left">
                             <h4>Sample Users</h4>
 
-                            <table class="table" style="color: black;float: left">
+                            <table id="userTable" name="userTable" class="table" style="color: black;float: left">
                                 <thead>
                                 <tr class="success">
                                     <th>UserName</th>
                                     <th>Password</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr class="info">
-                                    <td>John</td>
-                                    <td>Doe</td>
-
-                                </tr>
-                                <tr class="info">
-                                    <td>Mary</td>
-                                    <td>Moe</td>
-
-                                </tr>
-                                <tr class="info">
-                                    <td>July</td>
-                                    <td>Dooley</td>
-
-                                </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
 
                     <div class="row" style="margin: 10px">
                         <div class="col-md-2">
-                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="add-application">
+                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="add-application" onclick="viewApplications()">
                         <span class="fw-stack fw-lg fw-list">
                             <i class="fw fw-ring fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
@@ -220,6 +204,7 @@ include("/templates/header.jag");
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
+    <script src="../samples/js/samples.js"></script>
 
     <script>
         $('.side-pane-trigger').click(function () {
@@ -255,7 +240,7 @@ include("/templates/header.jag");
                 var obj = $.parseJSON(event.data);
                 cookie = obj.cookie;
                 userName = obj.user;
-                getDirectories();
+                getSampleUsers();
             };
             ws.onclose = function () {
                 console.log("web Socket onclose. ");

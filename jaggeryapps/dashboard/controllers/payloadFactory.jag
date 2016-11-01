@@ -59,6 +59,12 @@ var testConnection = "<xsd:testConnection xmlns:xsd=\"http://org.apache.axis2/xs
 var generateAgentFile = "<xsd:generateAgentFile xmlns:xsd=\"http://org.apache.axis2/xsd\">\n" +
         "</xsd:generateAgentFile>\n";
 
+var createUser = '<xsd:addUser xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://common.mgt.user.carbon.wso2.org/xsd">' +
+        '<xsd1:userName>{0}</xsd1:userName>' +
+        '<xsd1:password>{1}</xsd1:password>' +
+        '<xsd1:roles></xsd1:roles>' +
+        '</xsd:addUser>';
+
 application.put("urn:getUserProfile", getUserProfile);
 application.put("urn:getProfileFieldsForInternalStore", getProfileFieldsForInternalStore);
 application.put("urn:getAppsAuthorizedByUser", getAppsAuthorizedByUser);
@@ -78,6 +84,7 @@ if(!application.get(SAML_ENABLED)){
 application.put("urn:getUserInfo", getUserInfo);
 application.put("urn:testConnection", testConnection);
 application.put("urn:generateAgentFile", generateAgentFile);
+application.put("urn:addUser", createUser);
 
 
 function getPayload(method, param){

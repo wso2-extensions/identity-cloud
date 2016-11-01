@@ -94,7 +94,7 @@ function downloadIDPMetaData() {
     });
 }
 
-function drawList() {
+function    drawList() {
     var output = "";
     $("#listBody").empty();
     if (spList != null) {
