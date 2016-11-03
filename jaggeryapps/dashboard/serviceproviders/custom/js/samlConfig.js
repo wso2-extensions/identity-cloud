@@ -72,7 +72,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             var assertionConsumerURL = acsUrls[i];
 
             var trow = " <tr id=\"acsUrl_" + acsColumnId + "\">\n" +
-                "<td style=\"padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;\">\n" +
+                "<td style=\"padding-left: 15px !important; color: rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;\">\n" +
                 assertionConsumerURL +
                 "</td>" +
                 "<td>" +
@@ -328,7 +328,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             var audience = requestedAudiences[i];
             if (audience != null && "null" != audience) {
                 enableAudienceRestrictionRow = enableAudienceRestrictionRow + '<tr id="audienceRow' + j + '">' +
-                    '                    <td style="padding-left: 15px ! important; color: rgb(119, 119, 119); font-style: italic;">' +
+                    '                    <td style="padding-left: 15px ! important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' +
                     '                    <input type="hidden" name="audiencePropertyName' + j + '"' +
                     '                id="audiencePropertyName' + j + '" value="' + audience + '"/>' + audience +
                     '                    </td>' +
@@ -393,7 +393,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             if (recipient != null && "null" != recipient) {
 
                 enableReceiptValidRow = enableReceiptValidRow + '<tr id="recipientRow' + k + '">' +
-                    '                    <td style="padding-left: 15px ! important; color: rgb(119, 119, 119); font-style: italic;">' +
+                    '                    <td style="padding-left: 15px ! important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' +
                     '                    <input type="hidden" name="recipientPropertyName' + k + '"' +
                     '                id="recipientPropertyName' + k + '" value="' + recipient + '"/>' + recipient +
                     '                    </td>' +
@@ -454,7 +454,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             var returnToURL = idpInitSLOReturnToURLs[i];
             if (returnToURL != null && "null" != returnToURL) {
                 idpSLOReturnToURLInputRow = idpSLOReturnToURLInputRow + '<tr id="returnToUrl_' + returnToColumnId + '">' +
-                    '                    <td style="padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;">' +
+                    '                    <td style="padding-left: 15px !important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' +
                     returnToURL +
                     '                    </td>' +
                     '                    <td>' +
@@ -485,11 +485,9 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 }
 
 function controlHiddenFields(providerProps) {
-    /*
     if (isHidden(ISSUER, providerProps)) {
         $('#issuerRow').hide();
     }
-    */
     if (isHidden(ACS_URLS, providerProps)) {
         $('#acsRow').hide();
         $('#defaultAssertionConsumerURLRow').hide();
@@ -695,7 +693,7 @@ function addAssertionConsumerURL() {
         $("#assertionConsumerURLs").val(assertionConsumerURL);
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td style="padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;">' + assertionConsumerURL +
+            '</td><td style="padding-left: 15px !important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' + assertionConsumerURL +
             '</td><td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="icon-link" style="background-image: url(../admin/images/delete.gif)"> Delete </a></td></tr>';
 
@@ -718,7 +716,7 @@ function addAssertionConsumerURL() {
         $("#assertionConsumerURLs").val(assertionConsumerURLs + "," + assertionConsumerURL);
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td style="padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;">' + assertionConsumerURL +
+            '</td><td style="padding-left: 15px !important; rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' + assertionConsumerURL +
             '</td><td><a onclick="removeAssertionConsumerURL(\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="icon-link" style="background-image: url(../admin/images/delete.gif)"> Delete </a></td></tr>';
 
@@ -796,7 +794,7 @@ function addAudienceFunc() {
     var audienceRow = document.createElement('tr');
     audienceRow.setAttribute('id', 'audienceRow' + i);
     var audiencePropertyTD = document.createElement('td');
-    audiencePropertyTD.setAttribute('style', 'padding-left: 15px ! important; color: rgb(119, 119, 119); font-style: italic;');
+    audiencePropertyTD.setAttribute('style', 'padding-left: 15px ! important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;');
     audiencePropertyTD.innerHTML = "" + audience + "<input type='hidden' name='audiencePropertyName" + i + "' id='audiencePropertyName" + i + "'  value='" + audience + "'/> ";
     var audienceRemoveTD = document.createElement('td');
     audienceRemoveTD.innerHTML = "<a href='#' class='icon-link' style='background-image: url(../admin/images/delete.gif)' onclick='removeAudience(" + i + ");return false;'>" + "Delete" + "</a>";
@@ -869,7 +867,7 @@ function addRecipientFunc() {
     var recipientRow = document.createElement('tr');
     recipientRow.setAttribute('id', 'recipientRow' + i);
     var recipientPropertyTD = document.createElement('td');
-    recipientPropertyTD.setAttribute('style', 'padding-left: 15px ! important; color: rgb(119, 119, 119); font-style: italic;');
+    recipientPropertyTD.setAttribute('style', 'padding-left: 15px ! important; rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;');
     recipientPropertyTD.innerHTML = "" + recipient + "<input type='hidden' name='recipientPropertyName" + i + "' id='recipientPropertyName" + i + "'  value='" + recipient + "'/> ";
     var recipientRemoveTD = document.createElement('td');
     recipientRemoveTD.innerHTML = "<a href='#' class='icon-link' style='background-image: url(../admin/images/delete.gif)' onclick='removeRecipient(" + i + ");return false;'>" + "Delete" + "</a>";
@@ -970,7 +968,7 @@ function addSloReturnToURL() {
         $("#idpSLOURLs").val(returnToURL);
         var row =
             '<tr id="returnToUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td style="padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;">' + returnToURL +
+            '</td><td style="padding-left: 15px !important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' + returnToURL +
             '</td><td><a onclick="removeSloReturnToURL(\'' + returnToURL + '\', \'returnToUrl_' +
             parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="icon-link" style="background-image: url(../admin/images/delete.gif)"> Delete </a></td></tr>';
@@ -992,7 +990,7 @@ function addSloReturnToURL() {
         $("#idpSLOURLs").val(idpInitSLOReturnToURLs + "," + returnToURL);
         var row =
             '<tr id="returnToUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td style="padding-left: 15px !important; color: rgb(119, 119, 119);font-style: italic;">' +
+            '</td><td style="padding-left: 15px !important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;">' +
             returnToURL + '</td><td><a onclick="removeSloReturnToURL(\'' + returnToURL + '\', \'returnToUrl_' + parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="icon-link" style="background-image: url(../admin/images/delete.gif)"> Delete </a></td></tr>';
 

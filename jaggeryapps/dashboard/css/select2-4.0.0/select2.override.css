@@ -19,7 +19,7 @@
     color: #333;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #0498D5;
+    background-color: #0498D5;
 }
 .select2-container .select2-selection--multiple{
     border-radius: 0px;
@@ -52,4 +52,8 @@
 
 .select2-dropdown{
     border-radius: 0px;
+}
+
+.select2-container--open {
+    color: black;
 }
