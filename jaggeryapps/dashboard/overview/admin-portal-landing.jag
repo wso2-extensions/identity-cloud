@@ -94,9 +94,16 @@ include("/templates/header.jag");
                             <span class="hidden-xs">Start Configuring</span>
                         </a>
                         </br></br></br>
-                        <a style="font-size: large;color: white;text-decoration: underline" href="#">Start with sample
+                        <a style="font-size: large;color: white;text-decoration: underline" href="javascript:setupSamples()">Start with sample
                             data</a>
+                        <div hidden="true" id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i></div>
+
+
                     </div>
+
+
+
+
                 </div>
             </div>
         </div><!-- /.container -->
@@ -124,6 +131,8 @@ include("/templates/header.jag");
 <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
 <script src="../js/custom/constants.js"></script>
 <script src="../js/custom/custom.js"></script>
+<script src="../samples/js/samples.js"></script>
+<script src="../modules/appManagementClient.js"></script>
 
 <script>
     $('.side-pane-trigger').click(function () {
@@ -159,7 +168,7 @@ include("/templates/header.jag");
             var obj = $.parseJSON(event.data);
             cookie = obj.cookie;
             userName = obj.user;
-            getDirectories();
+            //getDirectories();
         };
         ws.onclose = function () {
             console.log("web Socket onclose. ");

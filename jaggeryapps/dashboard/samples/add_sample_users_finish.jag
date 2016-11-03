@@ -1,0 +1,109 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+var log = new Log();
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+var serverUrl = util.getServerUrl();
+var sampleUserStoreServerUrl = serverUrl + "/UserAdmin";
+
+var ws = require('ws');
+var webService = new ws.WSRequest();
+var sampleConf;
+
+addUsers();
+
+function addUsers(){
+    try {
+        sampleConf = getSampleConfig();
+        addUser(sampleConf.userstore.domain + "/" + sampleConf.userstore.user1, generatePassword());
+        addUser(sampleConf.userstore.domain + "/" + sampleConf.userstore.user2, generatePassword());
+        print('{"success":true}');
+    }catch(e) {
+        print(getErrorMessage(e.message));
+        log.error(e);
+    }
+}
+
+function generatePassword() {
+    var length = 10,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
+function addUser(user, password){
+    try{
+
+        var createUser = '<xsd:addUser xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://common.mgt.user.carbon.wso2.org/xsd">' +
+                '<xsd:userName>' + user + '</xsd:userName>' +
+                '<xsd:password>' + password + '</xsd:password>' +
+                '<xsd:roles></xsd:roles>' +
+                '<xsd:profileName></xsd:profileName>' +
+                '</xsd:addUser>';
+
+        webService = new ws.WSRequest();
+        callWSInOnly(webService, sampleUserStoreServerUrl, "urn:addUser", createUser);
+    }catch(e){
+        log.error(e);
+        throw e;
+    }
+}
+
+function getSampleConfig() {
+    var path = "/sample.json";
+    var file = new File(path);
+    file.open("r");
+    var json = "";
+
+    json = file.readAll();
+    file.close();
+    var jsonConf = parse(json);
+    return jsonConf;
+};
+
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
+}
+
+function getSampleConfig() {
+    var path = "/conf/sample.json";
+    var file = new File(path);
+    file.open("r");
+    var json = "";
+
+    json = file.readAll();
+    file.close();
+    var jsonConf = parse(json);
+    return jsonConf;
+};
+
+%>
