@@ -320,8 +320,6 @@ function updateSP(){
                 '</xsd1:spProperties>'+
                 '</xsd:serviceProvider>'+
                 '</xsd:updateApplication>';
-
-        log.info("### : updateSp : " + updateSp);
         spClient.updateApplicationData(updateSp);
     } catch (e) {
         log.error(e);
