@@ -3191,7 +3191,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     border-top: none;
 }
 .inverse .form-group label{
-    color: #000;
+    color: #f8f8f8;
 }
 
 .form-horizontal .form-group{
@@ -3256,7 +3256,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 
 .accordion .panel-body, .collapse .panel-body {
     padding: 10px;
-    border: 1px solid #e2e2e2;
+    border: 1px solid #353a43;
 }
 
 .accordion h4 input[type=checkbox], .accordion h4 input[type=radio],
@@ -3355,4 +3355,32 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 }
 .custom-checkbox-white:checked{
     background-color: #FFFFFF;
+}
+
+.panel-body {
+    background-color: #525252;
+}
+
+.panel {
+    border-color: #525252 !important;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }

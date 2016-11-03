@@ -71,7 +71,7 @@ function drawSPDetails() {
 
 function drawAppDetails(data) {
     //gw properties
-    $('#skipgateway').prop('checked', (data.skipGateway == "true"));
+    // $('#skipgateway').prop('checked', (data.skipGateway == "true"));
 
     if ($('#skipgateway').is(':checked')) {
         $("#gw-config input").val("");
@@ -103,7 +103,6 @@ function drawAppDetails(data) {
         }
     }
 
-
     //Set Id for existing apps, if it's new App id will be ""
     var id;
     if (data == null) {
@@ -112,15 +111,96 @@ function drawAppDetails(data) {
         id = data.id;
     }
     $('#app-id').val(id);
-
-
-
-
 }
 
 function preDrawUpdatePage(appName) {
     preDrawSPDetails(appName);
     preDrawAppDetails(appName);
+}
+
+function renderCustomPage(data) {
+    var type = null;
+    if (data && data.description && data.description.indexOf("]") > -1) {
+        type = data.description.split(']') [0];
+    }
+
+    if (type) {
+        switch (type) {
+            case "custom":
+                $("#app-name").text(capitalizeFirstLetter(data.applicationName));
+                $("#app-desc-name").text(type);
+                $("#sp-img").attr('src', resolveImageIcon(type));
+                hideAllCustomFields();
+
+                $("#customConfig").show();
+                var dropdown = $("#custom-app-dropdown");
+                dropdown.show();
+                $("#custom-apptype-content").append(dropdown);
+                break;
+            default:
+                var clonex = $("#samlconfig").clone();
+                $("#samlconfig").remove();
+                clonex.removeClass("panel-collapse collapse");
+                $("#dynamic-sso-config").html(clonex).show();
+                $("#security-accordion").hide();
+                $("#storeconfig").removeClass("panel-collapse collapse");
+                $("#span-head-security").removeClass("clickable");
+                $("#up-icon").removeClass("fw fw-up");
+                $("#storeconfig-header").remove();
+                //remove more details in samal sso web configurations
+                $("#samal-dynamic-hide").hide();
+                $("#sso-thumb").hide();
+                $("#sso-banner").hide();
+                $("#sso-config-label").show();
+
+                $("#app-name").text(capitalizeFirstLetter(data.applicationName));
+                $("#app-desc-name").text(type);
+                $("#sp-img").attr('src', resolveImageIcon(type));
+
+                // show dropdown for upload file/manual config
+                var dropdown = $("#sso-drop-down");
+                dropdown.show();
+                $("#addServiceProvider").prepend(dropdown);
+                break;
+        }
+    }
+}
+
+function hideAllCustomFields() {
+    $("#gw-config-section").hide();
+    $("#security-accordion").hide();
+    // keep expand store config
+    $("#storeconfig").removeClass("panel-collapse collapse");
+    $("#storeconfig-header").remove();
+}
+
+function resolveImageIcon(type) {
+    var spimage = null;
+    if (type == CUSTOM_SP) {
+        spimage = '../images/is/custom.png';
+    } else if (type == CONCUR_SP) {
+        spimage = '../images/is/concur.png';
+    } else if (type == GOTOMEETING_SP) {
+        spimage = '../images/is/gotomeeting.png';
+    } else if (type == NETSUIT_SP) {
+        spimage = '../images/is/netsuit.png';
+    } else if (type == ZUORA_SP) {
+        spimage = '../images/is/zuora.png';
+    } else if (type == SALESFORCE_SP) {
+        spimage = '../images/is/salesforce.png';
+    } else if (type == AMAZON_SP) {
+        spimage = '../images/is/aws.png';
+    } else {
+        spimage = '../images/is/custom.png';
+    }
+    return spimage;
+}
+
+function capitalizeFirstLetter(str) {
+    var formattedType = str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+        return letter.toUpperCase();
+    });
+    return formattedType;
 }
 
 function preDrawSPDetails(appName){
@@ -152,6 +232,7 @@ function preDrawSPDetails(appName){
             } else {
                 appdata = resp.return;
                 drawSPDetails();
+                renderCustomPage(appdata);
             }
         },
         error: function (e) {
@@ -207,7 +288,6 @@ function updateSP() {
 function updateCustomSP() {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/edit_finish";
-
     var visibleRoles = null;
     var roles = $('#store-app-visibility').select2('data');
     for (var i = 0; i < roles.length; i++) {
@@ -463,11 +543,13 @@ function uploadFile(file){
 
 $(document).ready(function () {
     $("#store-app-visibility").select2({
-                                           data: getRoles(),
-                                           multiple: true,
-                                           allowClear: true,
-                                           placeholder: 'Type in a user role'
-                                       })
+        data: getRoles(),
+        multiple: true,
+        allowClear: true,
+        placeholder: 'Type in a user role',
+        width: '100%',
+        theme: "classic"
+    })
 });
 
 function getRoles() {
@@ -483,3 +565,6 @@ function getRoles() {
            });
     return roles
 }
+
+
+
