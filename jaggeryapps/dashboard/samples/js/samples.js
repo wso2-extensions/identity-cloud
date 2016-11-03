@@ -18,7 +18,6 @@ function setupSamples(){
                     }, 2000);
                 }
                 addSampleUsers();
-                //checkUserStoreExist(resp.domain);
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -85,13 +84,6 @@ function checkUserStoreExist(domain){
                 if(resp.return != ""){
                     result = true;
                 }
-
-//                if(resp.return != ""){
-//                    result = resp.return;
-//                    addSampleUsers();
-//                }else{
-//                    checkUserStoreExist(domain);
-//                }
             }
 
         })

@@ -33,7 +33,6 @@ var domain = request.getParameter("domain");
 getDirectory();
 function getDirectory(){
     try{
-        log.info("###################### getDirectory : " + domain);
         webService = new ws.WSRequest();
         var result = callWSReturnJSON(webService, serverUrl, "urn:getSecondaryRealmConfigurations", null);
         print(result);
