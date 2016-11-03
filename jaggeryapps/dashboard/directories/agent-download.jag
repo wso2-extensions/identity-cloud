@@ -163,7 +163,7 @@ include("/templates/header.jag");
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your service URL">
+                                                       placeholder="Enter your service URL" white-list-patterns="url">
 
                                                      <span class="input-group-btn">
                                                            <button onclick="testConnection(document.getElementById('agentUrl').value)"
@@ -271,7 +271,9 @@ include("/templates/header.jag");
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
+    <script src="../js/custom/identity-validate.js"></script>
     <script src="js/directory.js"></script>
+
 
     <script>
         var messageContainer = "<div class='alert' role='alert'>" +
