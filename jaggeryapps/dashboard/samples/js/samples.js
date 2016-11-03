@@ -12,13 +12,13 @@ function setupSamples(){
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-//                while (!checkUserStoreExist(resp.domain)) {
-//                    setTimeout(function () {
-//                        console.log("Waiting for complete ...")
-//                    }, 2000);
-//                }
-                //addSampleUsers();
-                checkUserStoreExist(resp.domain);
+                while (!checkUserStoreExist(resp.domain)) {
+                    setTimeout(function () {
+                        console.log("Waiting for complete ...")
+                    }, 2000);
+                }
+                addSampleUsers();
+                //checkUserStoreExist(resp.domain);
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -56,6 +56,7 @@ function checkUserStoreExist(domain){
     $.ajax({
         url: url,
         type: "POST",
+        async: false,
         data: "",
     })
         .done(function (data) {
@@ -81,16 +82,16 @@ function checkUserStoreExist(domain){
                     }
                 }
             } else {
+                if(resp.return != ""){
+                    result = true;
+                }
+
 //                if(resp.return != ""){
 //                    result = resp.return;
+//                    addSampleUsers();
+//                }else{
+//                    checkUserStoreExist(domain);
 //                }
-
-                if(resp.return != ""){
-                    result = resp.return;
-                    addSampleUsers();
-                }else{
-                    checkUserStoreExist(domain);
-                }
             }
 
         })
@@ -101,7 +102,7 @@ function checkUserStoreExist(domain){
         .always(function () {
             console.log('completed');
         });
-    //return result;
+    return result;
 }
 
 function addSampleUsers(){
