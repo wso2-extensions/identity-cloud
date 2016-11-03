@@ -30,15 +30,6 @@ var i18n = session.get("i18n");
 getSampleUsers();
 function getSampleUsers(){
     try{
-        var user = "sample-wso2.com/demo";
-        var createUser = '<ser:getUserClaimValues xmlns:ser="http://service.ws.um.carbon.wso2.org">' +
-                '<ser:userName>' + user + '</ser:userName>' +
-                '<ser:profileName>null</ser:profileName>' +
-                '</ser:getUserClaimValues>';
-        webService = new ws.WSRequest();
-        var result = callWSReturnJSON(webService, serverUrl, "urn:getUserClaimValues", null , createUser);
-        log.info("############ result : " + JSON.stringify(result));
-
         result = '[{"name": "demo1", "password": "demo1"}, {"name": "demo2", "password": "demo2"}]';
         print(result);
     }catch(e){

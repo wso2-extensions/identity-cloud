@@ -62,8 +62,6 @@ function addUser(user, password){
 
         webService = new ws.WSRequest();
         callWSInOnly(webService, sampleUserStoreServerUrl, "urn:addUser", createUser);
-        log.info("#################### User added : " + user);
-
     }catch(e){
         log.error(e);
         throw e;

@@ -12,6 +12,12 @@ function setupSamples(){
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
+//                while (!checkUserStoreExist(resp.domain)) {
+//                    setTimeout(function () {
+//                        console.log("Waiting for complete ...")
+//                    }, 2000);
+//                }
+                //addSampleUsers();
                 checkUserStoreExist(resp.domain);
             } else {
 
@@ -44,6 +50,8 @@ function setupSamples(){
 }
 
 function checkUserStoreExist(domain){
+
+    var result = false;
     var url = DIRECTORY_GET_PATH + "?domain=" + domain;
     $.ajax({
         url: url,
@@ -54,6 +62,7 @@ function checkUserStoreExist(domain){
 
             var resp = $.parseJSON(data);
             if (resp.success == false) {
+                console.log("checking user store  : " + resp.success);
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
@@ -72,7 +81,12 @@ function checkUserStoreExist(domain){
                     }
                 }
             } else {
+//                if(resp.return != ""){
+//                    result = resp.return;
+//                }
+
                 if(resp.return != ""){
+                    result = resp.return;
                     addSampleUsers();
                 }else{
                     checkUserStoreExist(domain);
@@ -87,6 +101,7 @@ function checkUserStoreExist(domain){
         .always(function () {
             console.log('completed');
         });
+    //return result;
 }
 
 function addSampleUsers(){
