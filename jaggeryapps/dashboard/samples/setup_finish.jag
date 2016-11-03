@@ -1,0 +1,377 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+var log = new Log();
+include("../controllers/wsUtil.jag");
+var util = require("../util/utility.jag");
+var spClient = require('/serviceproviders/custom/controllers/custom/spAdminClient.jag');
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
+var serverUrl = util.getServerUrl();
+var userStoreServerUrl = serverUrl + "/UserStoreConfigAdminService";
+var applicationMgtServerUrl = serverUrl + "/IdentityApplicationManagementService";
+var sampleUserStoreServerUrl = serverUrl + "/SampleJDBCUserStoreAdminService";
+
+var ws = require('ws');
+var webService = new ws.WSRequest();
+var sampleConf;
+
+setupSample();
+
+function setupSample(){
+
+    try{
+    sampleConf = getSampleConfig();
+    addUserStore();
+
+    /*adding sample application 1*/
+    addApplication(sampleConf.apps.app1.name, sampleConf.apps.app1.description, sampleConf.apps.app1.type);
+    updateSP(sampleConf.apps.app1);
+    addApp(sampleConf.apps.app1);
+
+    /*adding sample application 2*/
+    addApplication(sampleConf.apps.app2.name, sampleConf.apps.app2.description, sampleConf.apps.app2.type);
+    updateSP(sampleConf.apps.app2);
+    addApp(sampleConf.apps.app2);
+    var resp = '{"success":true, "domain" : "' + sampleConf.userstore.domain + '"}';
+    print(resp);
+    //print('{"success":true, "domain" : "sample"}');
+    } catch (e) {
+        log.error(e);
+        print(getErrorMessage(e.message));
+    }
+}
+
+function generatePassword() {
+    var length = 10,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
+function addApplication(name, description, type){
+    var createApp = '<xsd:createApplication xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">'+
+            '<xsd:serviceProvider xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">'+
+            '<xsd1:applicationName>'+name+'</xsd1:applicationName>'+
+            '<xsd1:description>'+description+'</xsd1:description>'+
+            '<xsd1:spProperties>'+
+            '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
+            '<xsd1:name>appType</xsd1:name>'+
+            '<xsd1:value>'+type+'</xsd1:value>'+
+            '</xsd1:spProperties>'+
+            '</xsd:serviceProvider>'+
+            '</xsd:createApplication>';
+    webService = new ws.WSRequest();
+    callWSInOnly(webService, applicationMgtServerUrl, "urn:createApplication", createApp);
+
+}
+
+function updateSP(sampleConf){
+    try{
+
+        var cookie = session.get('auth-cookie');
+        if(cookie == null){
+            var cookie = request.getParameter("cookie");
+            session.put('auth-cookie', cookie);
+        }
+
+        var spName = sampleConf.name;
+        var oldSPName = sampleConf.name;
+        var spDesc = sampleConf.description;
+        var dialect = request.getParameter('claim_dialect');
+        var subjectClaim = request.getParameter('subject_claim_uri');
+        var roleClaim = request.getParameter('roleClaim');
+        var claimsNumber = request.getParameter('number_of_claimmappings') - 1; //includes the header row also
+        var sptype=sampleConf.type;
+
+
+        var localClaimDialect = false;
+        if(dialect == 'local'){
+            localClaimDialect = true;
+        }
+
+        var serviceProviderDTO = {};
+
+        var isEditingSP = false;
+        if (request.getParameter('isEditSP') == 'true') {
+            isEditingSP = true;
+        }
+
+        serviceProviderDTO["issuer"] = sampleConf.issuer;
+        serviceProviderDTO["assertionConsumerURLs"] = sampleConf.assertionConsumerURLs;
+        serviceProviderDTO["acsindex"] = "";
+        serviceProviderDTO["defaultAssertionConsumerURL"] = sampleConf.assertionConsumerURLs;
+        serviceProviderDTO["nameIdFormat"] = sampleConf.nameIdFormat;
+        serviceProviderDTO["alias"] = "";
+        serviceProviderDTO["signingAlgorithm"] = sampleConf.signingAlgorithm;
+        serviceProviderDTO["digestAlgorithm"] = sampleConf.digestAlgorithm;
+        serviceProviderDTO["enableResponseSignature"] = sampleConf.enableResponseSignature;
+        serviceProviderDTO["enableSigValidation"] = sampleConf.enableSigValidation;
+        serviceProviderDTO["enableEncAssertion"] = sampleConf.enableEncAssertion;
+        serviceProviderDTO["enableSingleLogout"] = sampleConf.enableSingleLogout;
+        serviceProviderDTO["sloResponseURL"] = sampleConf.sloResponseURL;
+        serviceProviderDTO["sloRequestURL"] = sampleConf.sloRequestURL;
+        serviceProviderDTO["enableAssertionSignature"] = sampleConf.enableAssertionSignature;
+        serviceProviderDTO["enableAttributeProfile"] = sampleConf.enableAttributeProfile;
+        serviceProviderDTO["enableDefaultAttributeProfile"] = sampleConf.enableDefaultAttributeProfile;
+        serviceProviderDTO["enableAudienceRestriction"] = sampleConf.enableAudienceRestriction;
+        serviceProviderDTO["audienceURLs"] = sampleConf.audienceURLs;
+        serviceProviderDTO["enableRecipients"] = sampleConf.enableRecipients;
+        serviceProviderDTO["receipientURLs"] = sampleConf.receipientURLs;
+        serviceProviderDTO["enableIdPInitSSO"] = sampleConf.enableIdPInitSSO;
+        serviceProviderDTO["enableIdPInitSLO"] = sampleConf.enableIdPInitSLO;
+        serviceProviderDTO["idpSLOURLs"] = sampleConf.idpSLOURLs;
+        serviceProviderDTO["hiddenFields"] = sampleConf.hiddenFields;
+        serviceProviderDTO["appType"] = sampleConf.type;
+
+
+        if (sampleConf.nameIdFormat != null && sampleConf.nameIdFormat.length > 0) {
+            serviceProviderDTO["nameIdFormat"] = serviceProviderDTO["nameIdFormat"].replace(":", "/");
+        }
+
+        var spAdminClient = require('/serviceproviders/custom/controllers/custom/spAdminClient.jag');
+        var serviceProvider = spAdminClient.getApplication(oldSPName).return;
+
+        var updateSp = '<xsd:updateApplication xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">'+
+                '<xsd:serviceProvider>'+
+                '<xsd1:applicationID>'+serviceProvider.applicationID+'</xsd1:applicationID>'+
+                '<xsd1:applicationName>'+spName+'</xsd1:applicationName>';
+
+        var inboundConfigs = serviceProvider.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
+        if(inboundConfigs.constructor !== Array){
+            inboundConfigs = [inboundConfigs];
+        }
+        var samlConfig = null;
+        for (var i in inboundConfigs){
+            var conf = inboundConfigs[i];
+            if(conf.inboundAuthType == SAML_SSO){
+                samlConfig = conf;
+                break;
+            }
+        }
+        updateSp = updateSp + '<xsd1:inboundAuthenticationConfig>';
+        if(samlConfig != null){
+            updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>'+
+                    '<xsd1:friendlyName>' + samlConfig.friendlyName + '</xsd1:friendlyName>'+
+                    '<xsd1:inboundAuthKey>' + serviceProviderDTO["issuer"] + '</xsd1:inboundAuthKey>'+
+                    '<xsd1:inboundAuthType>' + samlConfig.inboundAuthType+'</xsd1:inboundAuthType>';
+            var props = samlConfig.properties;
+            //props can't be null
+            if(props.constructor !== Array) {
+                props = [props];
+            }
+            for (var i in props) {
+                var prop = props[i];
+                var propval = serviceProviderDTO[prop.name];
+                updateSp = updateSp + '<xsd1:properties>' +
+                        '<xsd1:confidential>' + prop.confidential + '</xsd1:confidential>' +
+                        '<xsd1:defaultValue>' + prop.defaultValue + '</xsd1:defaultValue>' +
+                        '<xsd1:description>' + prop.description + '</xsd1:description>' +
+                        '<xsd1:displayName>' + prop.displayName + '</xsd1:displayName>' +
+                        '<xsd1:displayOrder>' + prop.displayOrder + '</xsd1:displayOrder>' +
+                        '<xsd1:name>' + prop.name + '</xsd1:name>' +
+                        '<xsd1:required>' + prop.required + '</xsd1:required>' +
+                        '<xsd1:type>' + prop.type + '</xsd1:type>' +
+                        '<xsd1:value>' + propval + '</xsd1:value>' +
+                        '</xsd1:properties>';
+            }
+            updateSp = updateSp + '</xsd1:inboundAuthenticationRequestConfigs>';
+        }
+        updateSp = updateSp + '</xsd1:inboundAuthenticationConfig>';
+
+        updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
+                '<xsd1:dumbMode>false</xsd1:dumbMode>'+
+                '<xsd1:provisioningEnabled>false</xsd1:provisioningEnabled>'+
+                '<xsd1:provisioningUserStore></xsd1:provisioningUserStore>'+
+                '</xsd1:inboundProvisioningConfig>'+
+
+                '<xsd1:outboundProvisioningConfig>'+
+                '<xsd1:provisionByRoleList></xsd1:provisionByRoleList>'+
+                '</xsd1:outboundProvisioningConfig>'
+
+        updateSp = updateSp + '<xsd1:permissionAndRoleConfig></xsd1:permissionAndRoleConfig>'+
+                '<xsd1:spProperties>'+
+                '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
+                '<xsd1:name>appType</xsd1:name>'+
+                '<xsd1:value>custom</xsd1:value>'+
+                '</xsd1:spProperties>'+
+                '</xsd:serviceProvider>'+
+                '</xsd:updateApplication>';
+
+        spClient.updateApplicationData(updateSp);
+    } catch (e) {
+        log.error(e);
+        throw e;
+    }
+}
+
+function addApp(sampleConf){
+
+    var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+
+    // Check whether there is an OAuth app registered for ReST API calls.
+    // If not the publisher module will create one.
+    var oauthApp = getOAuthAppForRestAPI();
+
+    publisher.init(oauthApp);
+
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var userInfo = session.get("userInfo");
+    var tenantId = userInfo.tenantId;
+    var tenantDomain = userInfo.tenantDomain;
+
+
+    var app = {
+        name: sampleConf.name,
+        version: "1.0",
+        displayName: sampleConf.displayName,
+        description: sampleConf.description,
+        isSite: "false",
+        context: sampleConf.name,
+        appUrL: sampleConf.assertionConsumerURLs,
+        acsUrl: "",
+        isDefaultVersion: true,
+        trackingCode: sampleConf.name,
+        skipGateway : true,
+        serviceProviderCreationEnabled : false,
+        transport: "http",
+        policyGroups: [
+            {
+                policyGroupName: "default",
+                description: "Default policy",
+                throttlingTier: "Unlimited",
+                allowAnonymousAccess: "false"
+            }
+        ],
+        uriTemplates: [
+            {
+                urlPattern: "/*",
+                httpVerb: "GET",
+                policyGroupName: "default"
+            },
+            {
+                urlPattern: "/*",
+                httpVerb: "POST",
+                policyGroupName: "default"
+            },
+            {
+                urlPattern: "/*",
+                httpVerb: "PUT",
+                policyGroupName: "default"
+            }
+        ],
+        customProperties:[]
+    };
+    publisher.addApp(app);
+}
+
+function getOAuthAppForRestAPI(){
+
+    var createdServiceProviders = spClient.getAllCustomSPs().return;
+
+    var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
+    var oauthAppExists = false;
+
+    for(var i = 0; i < createdServiceProviders.length; i++){
+        if(createdServiceProviders[i].applicationName === oauthAppName){
+            oauthAppExists = true;
+            break;
+        }
+    }
+
+    var oauthApp;
+    if(oauthAppExists){
+        oauthApp = spClient.getApplication(oauthAppName).return;
+    }
+
+    return oauthApp;
+}
+
+function addUserStore(){
+
+    try{
+        var createUserStore = '<xsd:addUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
+                '<xsd:userStoreDTO>' +
+                '<xsd1:className>org.wso2.carbon.identity.user.store.jdbc.sample.CloudSampleJDBCUserStoreManager</xsd1:className>' +
+                '<xsd1:description>' + sampleConf.userstore.name + '</xsd1:description>' +
+                '<xsd1:disabled>false</xsd1:disabled>' +
+                '<xsd1:domainId>' + sampleConf.userstore.domain + '</xsd1:domainId>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>driverName</xsd1:name>' +
+                '<xsd1:value>' + sampleConf.userstore.driverName + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>url</xsd1:name>' +
+                '<xsd1:value>' + sampleConf.userstore.url + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>userName</xsd1:name>' +
+                '<xsd1:value>' + sampleConf.userstore.userName + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>password</xsd1:name>' +
+                '<xsd1:value>' + sampleConf.userstore.password + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '</xsd:userStoreDTO>' +
+                '</xsd:addUserStore>';
+
+        webService = new ws.WSRequest();
+        callWSInOnly(webService, userStoreServerUrl, "urn:addUserStore", createUserStore);
+    }catch(e){
+        log.error(e);
+        throw e;
+    }
+}
+
+function getErrorMessage(message) {
+    if (message != null && message.length > 0) {
+        if (message.indexOf('401 Error: Unauthorized') > -1) {
+            return '{"success":false, "reLogin":true}';
+        } else {
+            var msg = message.split(':');
+            if (msg.length > 0) {
+                return '{"success":false, "message":"' + msg[1] + '"}';
+            }
+        }
+    }
+    return '{"success":false, "message":null}';
+}
+
+function getSampleConfig() {
+    var path = "/conf/sample.json";
+    var file = new File(path);
+    file.open("r");
+    var json = "";
+
+    json = file.readAll();
+    file.close();
+    var jsonConf = parse(json);
+    return jsonConf;
+};
+
+%>

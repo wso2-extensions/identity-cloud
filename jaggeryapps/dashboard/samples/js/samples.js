@@ -1,0 +1,203 @@
+
+function setupSamples(){
+
+    $('#process-icon').show()
+    var url = SAMPLE_DIRECTORY_ADD_PATH;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: "",
+    })
+        .done(function (data) {
+
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                checkUserStoreExist(resp.domain);
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+        })
+        .fail(function () {
+            $('#process-icon').hide()
+            message({content: 'Error while adding Directory. ', type: 'servererror'});
+        })
+        .always(function () {
+            console.log('completed');
+        });
+}
+
+function checkUserStoreExist(domain){
+    var url = DIRECTORY_GET_PATH + "?domain=" + domain;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: "",
+    })
+        .done(function (data) {
+
+            var resp = $.parseJSON(data);
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                if(resp.return != ""){
+                    addSampleUsers();
+                }else{
+                    checkUserStoreExist(domain);
+                }
+            }
+
+        })
+        .fail(function () {
+            $('#process-icon').hide();
+            message({content: 'Error while adding Directory. ', type: 'servererror'});
+        })
+        .always(function () {
+            console.log('completed');
+        });
+}
+
+function addSampleUsers(){
+
+    var url = SAMPLE_ADD_USERS_FINISH_PATH;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: "",
+    })
+        .done(function (data) {
+
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                window.location.href = SAMPLE_USERS_LIST_PATH;
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+            $('#process-icon').hide()
+
+        })
+        .fail(function () {
+            $('#process-icon').hide();
+            message({content: 'Error while adding Directory. ', type: 'servererror'});
+        })
+        .always(function () {
+            console.log('completed');
+        });
+
+}
+
+
+function getSampleUsers(){
+    userList = null;
+    $.ajax({
+        url: "/" + ADMIN_PORTAL_NAME + "/directories/get-sample-user-list",
+        type: "GET",
+        data: "&cookie=" + cookie + "&user=" + userName,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                userList = resp;
+                if (userList != null && userList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = userList;
+                    userList = arr;
+                }
+                drawList();
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
+
+function drawList() {
+    var output = "";
+    if (userList != null) {
+        for (var i = 0; i < userList.length; i++) {
+            console.log(userList[i].name);
+            var table = document.getElementById("userTable").getElementsByTagName('tbody')[0];
+            var row = table.insertRow(0);
+            row.className = "info";
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = userList[i].name;
+            cell2.innerHTML = userList[i].password;
+        }
+    }
+}
+
+function viewApplications(){
+    window.location.href = "../serviceproviders";
+}

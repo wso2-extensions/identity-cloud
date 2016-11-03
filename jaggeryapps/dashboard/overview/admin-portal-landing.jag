@@ -96,7 +96,14 @@ include("/templates/header.jag");
                         </br></br></br>
                         <a style="font-size: large;color: white;text-decoration: underline" href="javascript:setupSamples()">Start with sample
                             data</a>
+                        <div hidden="true" id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i></div>
+
+
                     </div>
+
+
+
+
                 </div>
             </div>
         </div><!-- /.container -->

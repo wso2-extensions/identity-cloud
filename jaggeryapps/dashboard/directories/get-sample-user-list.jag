@@ -18,25 +18,28 @@
  */
 
 var log = new Log();
-
 include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
-serverUrl = serverUrl + "/UserStoreConfigAdminService";
+serverUrl = serverUrl + "/RemoteUserStoreManagerService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var i18n = session.get("i18n");
 
-var domain = request.getParameter("domain");
-
-getDirectory();
-function getDirectory(){
+getSampleUsers();
+function getSampleUsers(){
     try{
-        log.info("###################### getDirectory : " + domain);
+        var user = "sample-wso2.com/demo";
+        var createUser = '<ser:getUserClaimValues xmlns:ser="http://service.ws.um.carbon.wso2.org">' +
+                '<ser:userName>' + user + '</ser:userName>' +
+                '<ser:profileName>null</ser:profileName>' +
+                '</ser:getUserClaimValues>';
         webService = new ws.WSRequest();
-        var result = callWSReturnJSON(webService, serverUrl, "urn:getSecondaryRealmConfigurations", null);
-        //log.info("###################### getDirectory  Result : " + JSON.stringify(result));
+        var result = callWSReturnJSON(webService, serverUrl, "urn:getUserClaimValues", null , createUser);
+        log.info("############ result : " + JSON.stringify(result));
+
+        result = '[{"name": "demo1", "password": "demo1"}, {"name": "demo2", "password": "demo2"}]';
         print(result);
     }catch(e){
         print(getErrorMessage(e.message));
@@ -57,5 +60,4 @@ function getErrorMessage(message) {
     }
     return '{"success":false, "message":null}';
 }
-
 %>
