@@ -124,9 +124,9 @@ include("../templates/leftpane.jag");
                   <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select App Type<span
                           class="caret"></span></a>
                   <ul class="dropdown-menu">
-                      <li><a href="#">Agent Type</a></li>
-                      <li><a href="#">Proxy Type</a></li>
-                      <li><a href="#">Shortcut</a></li>
+                      <li><a id="agenttype" href="#">Agent Type</a></li>
+                      <li><a id="proxytype" href="#">Proxy Type</a></li>
+                      <li><a id="shortcut" href="#">Shortcut</a></li>
                   </ul>
               </div>
               <!--EO Dropdown for custom app config-->
@@ -172,9 +172,9 @@ include("../templates/leftpane.jag");
                                               <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                                  href="#">Select Security Protocol <span class="caret"></span></a>
                                               <ul class="dropdown-menu">
-                                                  <li><a href="#">SAML2 Web SSO Configuration</a></li>
-                                                  <li><a href="#">OAuth/OpenID Connect Configuration</a></li>
-                                                  <li><a href="#">WS-Federation (Passive) Configuration</a></li>
+                                                  <li><a id="SAML2WebLink" href="#">SAML2 Web SSO Configuration</a></li>
+                                                  <li><a id="oAuthOPenIdLink" href="#">OAuth/OpenID Connect Configuration</a></li>
+                                                  <li><a id="wsFedLink" href="#">WS-Federation (Passive) Configuration</a></li>
                                               </ul>
                                           </div>
 
@@ -206,8 +206,8 @@ include("../templates/leftpane.jag");
                            <form class="form-horizontal" role="form" id="gatewayConfigForm">
                               <div class="form-group">
                                  <div class="col-md-12">
-                                    <div class="checkbox">
-                                       <label><input type="checkbox" class="custom-checkbox custom-checkbox-white"  value="true" id="skipgateway" name="skipgateway"><span>Skip the Gateway</span></label>
+                                    <div class="checkbox" id="skipgateway-check">
+                                       <label ><input type="checkbox" class="custom-checkbox custom-checkbox-white"  value="true" id="skipgateway" name="skipgateway"><span>Skip the Gateway</span></label>
                                     </div>
                                  </div>
                               </div>
@@ -915,11 +915,12 @@ include("../templates/leftpane.jag");
                                        <input type="text" class="form-control" id="store-app-visibility" name="store-app-visibility" >
                                     </div>
                                  </div>
-                                 <div class="form-group" id="sso-thumb">
+                                      <div class="form-group" id="sso-thumb">
                                     <div class="col-md-12">
                                         <label>App Icon</label>
                                         <div class="row"> </div>
-                                        <img style="width: 60px;margin-top: 10px;background-color: #525252;" id="sp-img" src="../images/is/custom.png" alt="thumbnail image" title="wso2" class="logo">
+                                        <div id="thumb-img-ele"></div>
+                                        <img style="width: 60px;margin-top: 10px;background-color: #525252;" id="sp-img-thumb" src="../images/is/custom.png" alt="thumbnail image" title="wso2" class="logo">
                                         <span class="btn btn-default btn-file"> Upload an image
                                         <input type="file" class="form-control" id="store-app-thumbnail" name="store-app-thumbnail" accept="image/gif, image/jpeg, image/png, image/jpg" >
                                         </span>
@@ -932,7 +933,8 @@ include("../templates/leftpane.jag");
                                     <div class="col-md-12">
                                         <label>Banner</label>
                                          <div class="row"> </div>
-                                        <img style="width: 100%;height:70px;margin-top: 10px;background-color: #525252;" id="sp-img"   alt="banner image" title="wso2" class="logo">
+                                         <div id="banner-img-ele"></div>
+                                        <img style="width: 100%;height:70px;margin-top: 10px;background-color: #525252;" id="sp-img-banner"   alt="banner image" title="wso2" class="logo">
                                          <div class="row"> </div>
 
                                         <span class="btn btn-default btn-file" style="margin-top: 5px"> Upload an image
@@ -968,6 +970,35 @@ include("../templates/leftpane.jag");
    </div>
    <!--row-->
 </div>
+    <!-- BOF add loading overlay -->
+    <div id="img-loader" class="loading-overlay">
+        <div class="loader">
+            <div class="row-centered" id="progress-icon">
+                <div class="app-listing-loader">
+                    <div class="loading-logo">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3em"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
+                        <path class="circle" stroke-width="1.4" stroke-miterlimit="10" d="M6.534,
+                        0.748C7.546,0.683,8.578,0.836,9.508,1.25 c1.903,0.807,3.339,2.615,3.685,4.654c0.244,
+                        1.363,0.028,2.807-0.624,4.031c-0.851,1.635-2.458,2.852-4.266,3.222 c-1.189,0.25-2.45,
+                        0.152-3.583-0.289c-1.095-0.423-2.066-1.16-2.765-2.101C1.213,9.78,0.774,8.568,0.718,
+                        7.335 C0.634,5.866,1.094,4.372,1.993,3.207C3.064,1.788,4.76,0.867,6.534,0.748z"/>
+                        <path class="pulse-line" stroke-width="0.55" stroke-miterlimit="10" d="M12.602,
+                        7.006c-0.582-0.001-1.368-0.001-1.95,0 c-0.491,0.883-0.782,1.4-1.278,2.28C8.572,
+                        7.347,7.755,5.337,6.951,3.399c-0.586,1.29-1.338,3.017-1.923,
+                        4.307 c-1.235,0-2.38-0.002-3.615,0"/>
+                    </svg>
+                        <div class="signal"></div>
+                        <p>Loading..</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- EOF add loading overlay --
+
 <!-- /.container -->
 <div id="push"></div>
 </div>
@@ -975,6 +1006,7 @@ include("../templates/leftpane.jag");
 <div id="tempStore">
 
 </div>
+
 </div>
 <!--Inner Wrapper-->
 <%
@@ -1068,7 +1100,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             break;
         case 'Proxy Type':
             $("#skipgateway").prop('checked', false);
-            $("#skipgateway").hide();
+            $("#skipgateway-check").hide();
 
             $("#security-type").hide();
             $("#gw-config-section").show();
@@ -1146,9 +1178,58 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
     }
 });
 
+$(document).ready(function () {
+    var intervalVar = setInterval(function () {
+
+        $("#img-loader").hide();
+        clearTimeout(intervalVar);
+    }, 600);
+});
+
+
+$("#store-app-thumbnail").change(function (e) {
+    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+        var file = e.originalEvent.srcElement.files[i];
+        var img = document.createElement("img");
+        var ele = $('<img/>');
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            ele.attr('src', reader.result);
+            ele.attr('style', 'width: 60px;margin-top: 10px;background-color: #525252;');
+            ele.attr('id', 'dynamic-upld-imgt');
+        };
+        reader.readAsDataURL(file);
+        $("#dynamic-upld-imgt").remove();
+        $("#thumb-img-ele").after(ele);
+        $("#banner-img").remove();
+        $("#sp-img-thumb").remove();
+    }
+});
+
+
+$("#store-app-banner").change(function (e) {
+    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+        var file = e.originalEvent.srcElement.files[i];
+        var img = document.createElement("img");
+        var ele = $('<img/>');
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            ele.attr('src', reader.result);
+            ele.attr('style', 'width: 100%;height:70px;margin-top: 10px;background-color: #525252;');
+            ele.attr('id', 'dynamic-upld-imgb');
+
+        };
+        reader.readAsDataURL(file);
+        $("#dynamic-upld-imgb").remove();
+        $("#banner-img-ele").after(ele);
+        $("#banner-img").remove();
+        $("#sp-img-banner").remove();
+    }
+});
+
+
 function reAppend(source, object) {
     var elements = $("#security-type").find("#" + source);
-    debugger;
     if (elements && elements.length === 1) {
         $("#tempStore").append(object);
     }

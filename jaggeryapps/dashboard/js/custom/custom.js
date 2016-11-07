@@ -26,8 +26,6 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
         if( input.length ) {
             input.val(log);
-        } else {
-            if( log ) alert(log);
         }
 });
 
