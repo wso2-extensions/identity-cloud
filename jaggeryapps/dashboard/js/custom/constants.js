@@ -1,7 +1,7 @@
 const ADMIN_PORTAL_NAME = "dashboard";
 const DIRECTORY_PATH = "directories";
 const SAMPLE_PATH = "samples";
-
+const APP_DETAIL_TIMEOUT = 400;
 const DIRECTORY_UPDATE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "update_finish";
 const DIRECTORY_ADD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add_finish";
 const DIRECTORY_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH;

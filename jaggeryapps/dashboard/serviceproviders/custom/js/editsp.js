@@ -1,3 +1,4 @@
+var inboundAuthType,appType = null;
 function drawSPDetails() {
     if (appdata != null) {
         $('#spName').val(appdata.applicationName);
@@ -32,6 +33,8 @@ function drawSPDetails() {
             if (appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs.constructor !== Array) {
                 appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs = [appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs];
             }
+            // drop down selection (inbound security drop down selection)
+            inboundAuthType = appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs[0].inboundAuthType;
             for (var i in appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs) {
                 var inboundConfig = appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs[i];
                 if (inboundConfig.inboundAuthType == PASSIVE_STS && inboundConfig.inboundAuthKey.length > 0) {
@@ -70,9 +73,6 @@ function drawSPDetails() {
 }
 
 function drawAppDetails(data) {
-    //gw properties
-    // $('#skipgateway').prop('checked', (data.skipGateway == "true"));
-
     if ($('#skipgateway').is(':checked')) {
         $("#gw-config input").val("");
         $("#gw-config").hide();
@@ -111,6 +111,50 @@ function drawAppDetails(data) {
         id = data.id;
     }
     $('#app-id').val(id);
+    // add images to edit view
+    $("#sp-img-thumb").attr('src',data.thumbnailUrl);
+
+    if (appType == "custom") {
+        if (data && data.skipGateway == "false") {
+            //gateway type
+            $("#custom-app-dropdown").click();
+            $("#custom-app-dropdown #proxytype").click();
+
+            $("#skipgateway").prop('checked', false);
+            $("#skipgateway").hide();
+
+            $("#security-type").hide();
+            $("#gw-config-section").show();
+            $("#gatewayconfig").attr('class', '');
+            $("#gw-config-section").find('.panel-heading').remove();
+        } else {
+            //Agent type
+            $("#custom-app-dropdown").click();
+            $("#custom-app-dropdown #agenttype").click();
+
+            $("#skipgateway").prop('checked', true);
+            $("#gw-config-section").hide();
+            $("#security-type").show();
+
+            var timeout = setInterval(function () {
+                // drop down selection (inbound security drop down selection)
+                if (inboundAuthType === "samlssocloud") {
+                    $("#custom-security-dropdown").click();
+                    $("#SAML2WebLink").click();
+                } else if (inboundAuthType === "oauth2") {
+                    $("#custom-security-dropdown").click();
+                    $("#oAuthOPenIdLink").click();
+
+                } else if (inboundAuthType === "passivests") {
+                    $("#custom-security-dropdown").click();
+                    $("#wsFedLink").click();
+
+                }
+                clearTimeout(timeout);
+            }, APP_DETAIL_TIMEOUT);
+
+        }
+    }
 }
 
 function preDrawUpdatePage(appName) {
@@ -119,17 +163,16 @@ function preDrawUpdatePage(appName) {
 }
 
 function renderCustomPage(data) {
-    var type = null;
-    if (data && data.description && data.description.indexOf("]") > -1) {
-        type = data.description.split(']') [0];
+    if (data) {
+        appType = data.spProperties.value;
     }
 
-    if (type) {
-        switch (type) {
+    if (appType) {
+        switch (appType) {
             case "custom":
                 $("#app-name").text(capitalizeFirstLetter(data.applicationName));
-                $("#app-desc-name").text(type);
-                $("#sp-img").attr('src', resolveImageIcon(type));
+                $("#app-desc-name").text(appType);
+                $("#sp-img").attr('src', resolveImageIcon(appType));
                 hideAllCustomFields();
 
                 $("#customConfig").show();
@@ -154,8 +197,8 @@ function renderCustomPage(data) {
                 $("#sso-config-label").show();
 
                 $("#app-name").text(capitalizeFirstLetter(data.applicationName));
-                $("#app-desc-name").text(type);
-                $("#sp-img").attr('src', resolveImageIcon(type));
+                $("#app-desc-name").text(appType);
+                $("#sp-img").attr('src', resolveImageIcon(appType));
 
                 // show dropdown for upload file/manual config
                 var dropdown = $("#sso-drop-down");
@@ -205,6 +248,7 @@ function capitalizeFirstLetter(str) {
 
 function preDrawSPDetails(appName){
     $.ajax({
+        async: false,
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getsp/" + appName,
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
@@ -246,6 +290,7 @@ function preDrawSPDetails(appName){
 
 function preDrawAppDetails(appName){
     $.ajax({
+               async: false,
                url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp/" + appName,
                type: "GET",
                data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
@@ -406,7 +451,6 @@ function validateSPName() {
         return false;
     } else {
         updateCustomSP();
-
     }
 }
 
