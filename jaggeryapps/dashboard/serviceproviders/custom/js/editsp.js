@@ -179,6 +179,7 @@ function renderCustomPage(data) {
                 var dropdown = $("#custom-app-dropdown");
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);
+                setCustomImage(data.applicationName);
                 break;
             default:
                 var clonex = $("#samlconfig").clone();
@@ -207,6 +208,27 @@ function renderCustomPage(data) {
                 break;
         }
     }
+}
+
+function setCustomImage(appName) {
+    $.ajax({
+        url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp",
+        type: "GET",
+        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+        async: true,
+        success: function (data) {
+            if (data != null) {
+                var result = JSON.parse(data);
+                if (result != null && result.thumbnailUrl != undefined) {
+                    var link = "/store/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
+                    $('#sp-img-thumb').attr('src', link);
+                    $('#sp-img').attr('src', link);
+                }
+            }
+        },
+        error: function (e) {
+        }
+    });
 }
 
 function hideAllCustomFields() {
