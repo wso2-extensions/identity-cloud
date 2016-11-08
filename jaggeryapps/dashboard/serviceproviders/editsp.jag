@@ -1106,7 +1106,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-type").hide();
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
-            $("#gw-config-section").find('.panel-heading').remove();\
+            $("#gw-config-section").find('.panel-heading').remove();
             //show claim config
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
