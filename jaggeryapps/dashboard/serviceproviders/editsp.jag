@@ -1097,6 +1097,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
             $("#security-type").show();
+            $("#security-accordion").hide();
             break;
         case 'Proxy Type':
             $("#skipgateway").prop('checked', false);
@@ -1106,10 +1107,14 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
             $("#gw-config-section").find('.panel-heading').remove();
+            //show claim config
+            $("#security-accordion").show();
+            $("#cladimconfig-header").remove();
+            $("#inbound-auth-header").hide();
             break;
         case 'Shortcut' :
             $("#skipgateway").prop('checked', false);
-
+            $("#security-accordion").hide();
             break;
         default:
     }
