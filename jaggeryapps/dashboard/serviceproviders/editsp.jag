@@ -125,7 +125,7 @@ include("../templates/leftpane.jag");
               <div class="btn-group" id="custom-app-dropdown" style="display: none;">
                   <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" id="app-type-dropdown">Select App Type<span
                           class="caret"></span></a>
-                  <ul class="dropdown-menu" id="">
+                  <ul class="dropdown-menu">
                       <li><a id="agenttype" href="#">Agent Type</a></li>
                       <li><a id="proxytype" href="#">Proxy Type</a></li>
                       <li><a id="shortcut" href="#">Shortcut</a></li>
@@ -182,7 +182,8 @@ include("../templates/leftpane.jag");
                                               </ul>
 
                                               <div class="security-drop-down-status" style="margin-top: 35px"></div>
-                                        <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
+                                              <label id="agentUrl-error" class="error" hidden="">This field is
+                                                  required.</label>
                                           </div>
 
                                           <!--EO Dropdown for custom app config-->
