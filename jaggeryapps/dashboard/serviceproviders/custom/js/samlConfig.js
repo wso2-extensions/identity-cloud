@@ -27,6 +27,7 @@ function preDrawSAMLConfigPage(samlsp) {
             spConfigDigestAlgos = samlClient.digestAlgos;
             signingAlgorithmUriByConfig = samlClient.signingAlgo;
             digestAlgorithmUriByConfig = samlClient.digestAlgo;
+            samlClient.storeUrl = samlClient.storeUrl + issuer;
             drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp);
         },
         error: function (e) {
@@ -47,7 +48,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         var prop = samlsp.properties[i];
         providerProps[prop.name] = prop;
     }
-    //$('#addServiceProvider h4').html(tableTitle); 
+    //$('#addServiceProvider h4').html(tableTitle);
     $('#issuer').val(issuer);
     $('#hiddenIssuer').val(issuer);
     if (isEditSP) {

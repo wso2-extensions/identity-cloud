@@ -19,21 +19,20 @@ function preDrawClaimConfig() {
 }
 
 function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
-    if(isLocalClaimsSelected){
+    if (isLocalClaimsSelected) {
         $("#claim_dialect_wso2").prop("checked", true);
         $('#addClaimUrisLbl').text('Requested Claims:');
         $('#spccol').hide();
         $('#rccol').hide();
         $('#roleMappingSelection').hide();
 
-    }else{
+    } else {
         $("#claim_dialect_custom").prop("checked", true);
         $('#addClaimUrisLbl').text('Identity Provider Claim URIs:');
         $('#spccol').show();
         $('#rccol').show();
         $('#roleMappingSelection').show();
     }
-
     if (claimMapping == null || claimMapping.length <= 0) {
         $('#claimMappingAddTable').hide();
     } else {
@@ -84,7 +83,7 @@ function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
             requestedClaimTableBody = requestedClaimTableBody + row;
         }
         $('#claimMappingAddBody').empty();
-        $('#claimMappingAddBody').append( requestedClaimTableBody );
+        $('#claimMappingAddBody').append(requestedClaimTableBody);
 
     }
     var subjectClaimUri = appdata.localAndOutBoundAuthenticationConfig.subjectClaimUri;
@@ -191,7 +190,7 @@ function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
                 resetRoleClaims();
             });
         }
-
+        $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
     });
 
     $("[name=claim_dialect]").click(function () {
@@ -229,6 +228,7 @@ function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
         //    changeDialectUIs(element);
         //}
     });
+    $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
 }
 
 function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
