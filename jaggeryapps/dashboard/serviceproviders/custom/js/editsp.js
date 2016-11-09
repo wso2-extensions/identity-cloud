@@ -452,10 +452,10 @@ function updateCustomSP() {
             window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
         })
         .fail(function () {
-                  message({
-             content: 'Error while updating Profile', type: 'error', cbk: function () {
-             }
-             });
+            message({
+                content: 'Error while updating Profile', type: 'error', cbk: function () {
+                }
+            });
 
             $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
                 .fadeIn('fast').delay(2000).fadeOut('fast'));
