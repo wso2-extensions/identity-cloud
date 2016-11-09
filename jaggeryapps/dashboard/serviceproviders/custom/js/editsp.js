@@ -1,4 +1,5 @@
 var inboundAuthType,appType = null;
+var messageContainer = "<div class='alert' role='alert'><span class='alert-content'></span></div>";
 function drawSPDetails() {
     if (appdata != null) {
         $('#spName').val(appdata.applicationName);
@@ -451,10 +452,14 @@ function updateCustomSP() {
             window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
         })
         .fail(function () {
-            message({
-                content: 'Error while updating Profile', type: 'error', cbk: function () {
-                }
-            });
+                  message({
+             content: 'Error while updating Profile', type: 'error', cbk: function () {
+             }
+             });
+
+            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                .fadeIn('fast').delay(2000).fadeOut('fast'));
+            $('.connectionStatus').find('.alert-content').text('Error while updating Profile');
 
         })
         .always(function () {

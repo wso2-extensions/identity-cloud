@@ -16,6 +16,8 @@
        <script src="../js/jquery-1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="../serviceproviders/custom/serverinfo.jag"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/editsp.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../serviceproviders/custom/js/validations.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../serviceproviders/custom/js/jquery.validate.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/gatewayConfig.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/claimConfig.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/samlConfig.js" type="text/javascript"></script>
@@ -121,13 +123,15 @@ include("../templates/leftpane.jag");
 
 
               <div class="btn-group" id="custom-app-dropdown" style="display: none;">
-                  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select App Type<span
+                  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" id="app-type-dropdown">Select App Type<span
                           class="caret"></span></a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" id="">
                       <li><a id="agenttype" href="#">Agent Type</a></li>
                       <li><a id="proxytype" href="#">Proxy Type</a></li>
                       <li><a id="shortcut" href="#">Shortcut</a></li>
                   </ul>
+                   <div class="app-drop-down-status" style="margin-top: 35px"></div>
+                   <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
               </div>
               <!--EO Dropdown for custom app config-->
 
@@ -136,7 +140,7 @@ include("../templates/leftpane.jag");
               <div id="customConfig" class="panel panel-default" hidden>
                   <div role="tabpanel" aria-labelledby="gatewayconfig-header">
                       <div class="panel-body inverse">
-                          <form class="form-horizontal" role="form" id="gatewayConfigForm">
+                          <form class="form-horizontal" role="form" id="custom-config-form" name="custom-config-form">
                               <div class="form-group">
                                   <div class="col-md-12">
                                       <label>Select App Type <span class="required">*</span> <i
@@ -157,7 +161,7 @@ include("../templates/leftpane.jag");
               <div id="security-type" class="panel panel-default" hidden>
                   <div role="tabpanel" aria-labelledby="gatewayconfig-header">
                       <div class="panel-body inverse">
-                          <form class="form-horizontal" role="form" id="gatewayConfigForm">
+                          <form class="form-horizontal" role="form">
                               <div class="form-group">
                                   <div class="col-md-12">
                                       <label>Select Security Protocol <span class="required">*</span> <i
@@ -176,6 +180,9 @@ include("../templates/leftpane.jag");
                                                   <li><a id="oAuthOPenIdLink" href="#">OAuth/OpenID Connect Configuration</a></li>
                                                   <li><a id="wsFedLink" href="#">WS-Federation (Passive) Configuration</a></li>
                                               </ul>
+
+                                              <div class="security-drop-down-status" style="margin-top: 35px"></div>
+                                        <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
                                           </div>
 
                                           <!--EO Dropdown for custom app config-->
@@ -203,7 +210,7 @@ include("../templates/leftpane.jag");
                      <!--Make panel-collapse collapse in to keep it expanded at beginning-->
                      <div id="gatewayconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="gatewayconfig-header" >
                         <div class="panel-body inverse">
-                           <form class="form-horizontal" role="form" id="gatewayConfigForm">
+                           <form class="form-horizontal" role="form" id="gatewayConfigForm" name="gatewayConfigForm">
                               <div class="form-group">
                                  <div class="col-md-12">
                                     <div class="checkbox" id="skipgateway-check">
@@ -242,15 +249,8 @@ include("../templates/leftpane.jag");
             <div class="panel-group property-accordion accordion" id="security-accordion">
             <label for="service-provider-description" >Security Configuration </label>
                <div class="panel panel-default">
-                  <div class="panel-heading" role="tab" id="securityconfig-header" data-toggle="collapse" href="#securityconfig" aria-controls="securityconfig">
-                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#securityconfig">
-                        Security Configuration
-                        <span class="pull-right clickable"><i class="fw fw-up"></i></span>
-                        </a>
-                     </h4>
-                  </div>
-                  <div id="securityconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="securityconfig-header" >
+
+                  <div id="securityconfig"  role="tabpanel" aria-labelledby="securityconfig-header" >
                      <div class="panel-body">
                         <div class="panel panel-default">
                            <div class="panel-heading" role="tab" id="cladimconfig-header" data-toggle="collapse" href="#claimconfig" aria-controls="claimconfig">
@@ -262,7 +262,7 @@ include("../templates/leftpane.jag");
                               </h4>
                            </div>
                            <!--BOF Claim Config-->
-                           <div id="claimconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="claimconfig-header" >
+                           <div id="claimconfig"   role="tabpanel" aria-labelledby="claimconfig-header" >
                               <div class="panel-body inverse">
                                  <form class="form-horizontal" role="form" id="claimConfigForm">
                                     <div class="form-group">
@@ -400,7 +400,7 @@ include("../templates/leftpane.jag");
                                           </div>
                                           <div id="samlconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlconfig-header" >
                                              <div class="panel-body inverse">
-                                                <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" hidden>
+                                                <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" hidden action="">
                                                    <!--<h4>New Service Provider</h4>-->
                                                    <input type="hidden" id="hiddenFields" name="hiddenFields" value="">
                                                    <!--Issuer-->
@@ -887,7 +887,7 @@ include("../templates/leftpane.jag");
                      <!--Make panel-collapse collapse in to keep it expanded at beginning-->
                      <div id="storeconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="storeconfig-header" >
                         <div class="panel-body inverse">
-                           <form class="form-horizontal" role="form" id="storeConfigForm">
+                           <form class="form-horizontal" role="form" id="storeConfigForm" name="storeConfigForm">
                               <div id="gw-config">
                                  <div class="form-group">
                                     <div class="col-md-12">
@@ -953,7 +953,9 @@ include("../templates/leftpane.jag");
             </div>
             <!--EOF Store Config-->
             <div class="form-group" style="margin-top: -60px;margin-bottom: 50px" id="btn-main-update">
-               <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="updateSP()">
+                                       <div class="connectionStatus"></div>
+                                        <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
+               <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
                <span class="fw-stack btn-action-ico">
                <i class="fw fw-ring fw-stack-2x"></i>
                <i class="fw fw-save fw-stack-1x"></i>
@@ -961,8 +963,6 @@ include("../templates/leftpane.jag");
                Update
                </button>
             </div>
-
-
 
             </div>
          </div>
@@ -1017,6 +1017,7 @@ include("/templates/footer.jag");
 <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
 <!-- include custom js functions -->
 <script src="../js/custom/custom.js"></script>
+<script src="../js/custom/jquery.validate.min.js"></script>
 <script src="../js/custom/constants.js"></script>
 <script>
 $('.side-pane-trigger').click(function(){
@@ -1107,6 +1108,12 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
             $("#gw-config-section").find('.panel-heading').remove();
+
+            $("#gatewayConfigForm").validate(); //sets up the validator since dynamically added elements here
+            $("input[id*=gw-app-context]").rules("add", "required");
+            $("input[id*=gw-app-url]").rules("add", "required");
+            $("input[id*=gw-app-url]").rules("add", "url");
+
             //show claim config
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
@@ -1185,7 +1192,6 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
 
 $(document).ready(function () {
     var intervalVar = setInterval(function () {
-
         $("#img-loader").hide();
         clearTimeout(intervalVar);
     }, 600);
