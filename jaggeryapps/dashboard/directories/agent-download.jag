@@ -152,6 +152,7 @@ include("/templates/header.jag");
                             <div role="tabpanel" class="tab-pane" id="adirectory"></div>
 
                             <div role="tabpanel" class="tab-pane-no-color active" id="home">
+                            <form id="agent-download-form" name="agent-download-form" role="form">
                                 <div class="row">
                                     <h5>If you already have a configured URL, you can simply enter it below and
                                         save </h5>
@@ -163,16 +164,15 @@ include("/templates/header.jag");
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your service URL" white-list-patterns="url">
+                                                       placeholder="Enter your service URL"  name="agentUrl"> </input>
 
                                                      <span class="input-group-btn">
-                                                           <button onclick="testConnection(document.getElementById('agentUrl').value)"
-                                                                   class="btn btn-info" type="button">Check</button>
+                                                           <button   class="btn btn-info" onclick="validateBeforeSubmit();"> Check </button>
                                                      </span>
                                             </div>
                                             <div class="connectionStatus"></div>
-                                            <label id="agentUrl-error" class="error" hidden="" for="issuer">This field
-                                                is required.</label>
+                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
+                                    required.</label>
                                         </div>
 
 
@@ -219,6 +219,8 @@ include("/templates/header.jag");
 
                                     </div>
                                 </div>
+
+                                </form>
                             </div>
 
                         </div>
@@ -240,7 +242,7 @@ include("/templates/header.jag");
 
     <!-- MODEL -->
 
-    <div id="demote-confirm-modal" class="modal">
+    <div id="connection-popup-modal" class="modal">
         <div class="modal-dialog modal-dialog-margin-top-md">
             <div class="modal-content">
                 <div class="modal-header">
@@ -253,7 +255,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" class="control-label">Please wait. This will take
+                                    <label for="demote-reason-text" id="model-text" class="control-label">Please wait. This will take
                                         few seconds </label>
 
                                 </div>
@@ -273,6 +275,7 @@ include("/templates/header.jag");
     <script src="../js/custom/custom.js"></script>
     <script src="../js/custom/identity-validate.js"></script>
     <script src="js/directory.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
 
 
     <script>
@@ -294,45 +297,34 @@ include("/templates/header.jag");
         });
 
         $('#btn-delete').on('click', function (e) {
-            $('#demote-confirm-modal').modal({
+            $('#connection-popup-modal').modal({
                 show: true
             });
         });
 
         $('#btn-save').on('click', function (e) {
-            if (validateURL($("#agentUrl").val())) {
-                $('#demote-confirm-modal').modal({
+         initValidate();
+            if ($("#agent-download-form").valid()) {
+                $('#connection-popup-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
                     addOrUpdateUserDirectory();
                 }, 1000);
-            } else {
-                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                delay(2000).fadeOut('fast'));
-                $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                return false;
             }
         });
 
         $("#agentUrl").keypress(function (e) {
+         initValidate();
             if (e.which == 13) {
-
-
-                if (validateURL($("#agentUrl").val())) {
-                    $('#demote-confirm-modal').modal({
+                if ($("#agent-download-form").valid()) {
+                    $('#connection-popup-modal').modal({
                         show: true
                     });
                     setTimeout(function () {
                         addOrUpdateUserDirectory();
                     }, 1000);
-                } else {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                    delay(2000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                    return false;
                 }
-
             }
         });
     </script>

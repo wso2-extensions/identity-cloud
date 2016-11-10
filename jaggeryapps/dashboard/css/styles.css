@@ -1541,10 +1541,9 @@ svg .outer {
     min-height:50px;
 }
 .alert-success{
-    background-color: #457d94;
-    border-color: #257d94;
+    background-color: #28c242;
+    border-color: #0b5e0b;
     border-radius: 0px;
-    margin: 15px;
     color: #fff;
     padding: 0px;
 }
