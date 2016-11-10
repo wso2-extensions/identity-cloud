@@ -134,7 +134,7 @@ include("/templates/header.jag");
                         </div>
                     </div>
 
-
+                    <form id="agent-download-form" name="agent-download-form" role="form">
                     <div class="row" style="padding-left: 20px;">
                         <div class="col-mod-12">
                             <h2> Step 2 :</h2>
@@ -154,11 +154,10 @@ include("/templates/header.jag");
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="agentUrl"
-                                           placeholder="Enter your service URL">
+                                                       placeholder="Enter your service URL" name="agentUrl">
                                                      <span class="input-group-btn">
-                                                           <button class="btn btn-info"
-                                                                   onclick="testConnection(document.getElementById('agentUrl').value)"
-                                                                   class="btn btn-info" type="button">Check</button>
+                                                           <button class="btn btn-info" type="button"
+                                                                   onclick="validateBeforeSubmit()">Check</button>
                                                      </span>
                                 </div>
                                 <div class="connectionStatus"></div>
@@ -169,7 +168,7 @@ include("/templates/header.jag");
 
 
                     </div>
-
+                    </form>
                     <div class="row" style="padding-left: 20px">
                         <div class="col-mod-12">
                             <div class="form-group">
@@ -259,6 +258,7 @@ include("/templates/header.jag");
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
     <script src="js/directory.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
     <script>
         var messageContainer = "<div class='alert' role='alert'>" +
                 "<span class='alert-content'></span></div>";
@@ -278,35 +278,28 @@ include("/templates/header.jag");
         });
 
         $('#btn-save').on('click', function (e) {
-            if (validateURL($("#agentUrl").val())) {
+            initValidate();
+            if ($("#agent-download-form").valid()) {
                 $('#demote-confirm-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
                     addOrUpdateUserDirectory();
                 }, 1000);
-            } else {
-                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                delay(2000).fadeOut('fast'));
-                $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                return false;
             }
         });
 
         $("#agentUrl").keypress(function (e) {
+            initValidate();
             if (e.which == 13) {
-                if (validateURL($("#agentUrl").val())) {
+                if ($("#agent-download-form").valid()) {
+
                     $('#demote-confirm-modal').modal({
                         show: true
                     });
                     setTimeout(function () {
                         addOrUpdateUserDirectory();
                     }, 1000);
-                } else {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                    delay(2000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                    return false;
                 }
 
             }

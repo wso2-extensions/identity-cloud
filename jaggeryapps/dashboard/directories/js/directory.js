@@ -489,23 +489,13 @@ function testConnection(agentUrl) {
     var messageContainer = "<div class='alert' role='alert'>" +
         "<span class='alert-content'></span></div>";
 
-    if (!validateURL(agentUrl)) {
-        $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-            .fadeIn('fast').delay(2000).fadeOut('fast'));
-        $('.connectionStatus').find('.alert-content')
-            .text('The provided URL is not valied')
-        return false;
-    }
-
     if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
         agentUrl = agentUrl + "status";
     } else {
         agentUrl = agentUrl + "/" + "status";
     }
 
-
-    $('.connectionStatus').empty();
-
+    var returnVal = false;
     $.ajax({
         url: DIRECTORY_TEST_CONNECTION_PATH,
         type: "GET",
@@ -513,16 +503,11 @@ function testConnection(agentUrl) {
         success: function (data) {
             if (data) {
                 if ($.parseJSON(data).return == "true") {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-success').hide()
-                        .fadeIn('fast').delay(2000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content')
-                        .text('The connection to provided URL was successful.');
+                    returnVal = true;
                 } else if ($.parseJSON(data).return == "false") {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                        .fadeIn('fast').delay(2000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content')
-                        .text('The connection to provided URL was un-successful.')
+                    returnVal = true;
                 } else {
+                    returnVal = false;
                     var resp = $.parseJSON(data);
                     if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                         window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -545,12 +530,10 @@ function testConnection(agentUrl) {
             }
         },
         error: function (e) {
-            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                .fadeIn('fast').delay(2000).fadeOut('fast'));
-            $('.connectionStatus').find('.alert-content')
-                .text('The connection to provided URL was un-successful.')
+            returnVal = false;
         }
     });
+    return returnVal;
 
 }
 
@@ -665,3 +648,42 @@ function cancel() {
 }
 
 
+function initValidate() {
+
+    $("#agent-download-form").validate();
+    jQuery.validator.addMethod("connection", function () {
+        return testConnection(document.getElementById('agentUrl').value);
+    }, "wrong nic number");
+
+    $.validator.addMethod("url2", function (value, element) {
+        return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
+    }, $.validator.messages.url);
+
+
+    $("input[id*=agentUrl]").rules("add", {
+        required: true,
+        url2: true,
+        connection: true,
+        messages: {
+            required: "This field cannot be empty",
+            url: "Please enter valid URL",
+            connection: "Connection is not valid"
+        }
+    });
+}
+
+
+function validateBeforeSubmit() {
+    initValidate();
+    if ($("#agent-download-form").valid()) {
+
+        $('.connectionStatus').append($(messageContainer).addClass('alert-success').hide()
+            .fadeIn('fast').delay(2000).fadeOut('fast'));
+        $('.connectionStatus').find('.alert-content')
+            .text('The connection to provided URL was successful.');
+    }
+}
+
+$("#agent-download-form").submit(function(e) {
+    e.preventDefault();
+});

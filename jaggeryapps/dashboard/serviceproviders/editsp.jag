@@ -94,14 +94,15 @@ include("../templates/leftpane.jag");
             <input type="hidden" value="custom" id="spType" name="spType" />
          </div>
           <div class="row">
-              <div class="col-md-2 col-lg-2" style="padding-bottom: 20px;">
-                  <img style="width: 120px;margin-top: 10px;background-color: #525252;padding: 10px" id="sp-img"
+              <div class="col-md-12" style="padding-bottom: 20px;">
+                  <img style="width: 120px;margin-top: 10px;margin-right: 10px;background-color: #525252;padding: 10px;float: left" id="sp-img"
                        src="../images/sample-app-image.png" alt="wso2" title="wso2" class="logo">
-              </div>
-              <div class="col-md-9 col-lg-10">
-                  <h3 id="app-name"> Salesforce </h3>
-                  <h5> Use <span id="app-desc-name"> salesforce </span> settings to add application </h5>
-              </div>
+                       <div style="padding: 20px">
+                         <h3 id="app-name"> Salesforce </h3>
+                         <h5 > Use <span id="app-desc-name"> salesforce </span> settings to add application </h5>
+                       </div>
+
+               </div>
           </div>
 
 

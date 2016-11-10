@@ -195,6 +195,7 @@ include("/templates/header.jag");
                             <div role="tabpanel" class="tab-pane" id="adirectory"></div>
 
                             <div role="tabpanel" class="tab-pane-no-color active" id="home">
+                             <form id="agent-download-form" name="agent-download-form" role="form">
                                 <div class="row">
                                     <h5>If you already have a configured URL, you can simply enter it below and
                                         save </h5>
@@ -207,10 +208,10 @@ include("/templates/header.jag");
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your service URL">
+                                                       placeholder="Enter your service URL" name="agentUrl">
                                                      <span class="input-group-btn">
                                                            <button class="btn btn-info" type="button"
-                                                                   onclick="testConnection(document.getElementById('agentUrl').value)">Check</button>
+                                                                   onclick="validateBeforeSubmit()">Check</button>
                                                      </span>
                                             </div>
                                             <div class="connectionStatus"></div>
@@ -238,6 +239,8 @@ include("/templates/header.jag");
                                     <div id="push"></div>
                                     <div id="push"></div>
                                 </div>
+
+                                </form>
                             </div>
 
                         </div>
@@ -324,6 +327,7 @@ include("/templates/header.jag");
     <script src="js/custom/custom.js"></script>
     <script src="js/custom/identity-validate.js"></script>
     <script src="directories/js/directory.js"></script>
+    <script src="directories/js/jquery.validate.min.js"></script>
     <script>
         var messageContainer = "<div class='alert' role='alert'>" +
                 "<span class='alert-content'></span></div>";
@@ -349,41 +353,38 @@ include("/templates/header.jag");
         });
 
         $('#btn-update').on('click', function (e) {
-            if (validateURL($("#agentUrl").val())) {
+            initValidate();
+            if ($("#agent-download-form").valid()) {
                 $('#update-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
                     updateUserDirectory();
                 }, 1000);
-            } else {
-                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                delay(2000).fadeOut('fast'));
-                $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                return false;
             }
         });
 
         $("#agentUrl").keypress(function (e) {
+            initValidate();
             if (e.which == 13) {
-                if (validateURL($("#agentUrl").val())) {
+                if ($("#agent-download-form").valid()) {
                     $('#update-modal').modal({
                         show: true
                     });
                     setTimeout(function () {
                         updateUserDirectory();
                     }, 1000);
-                } else {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide().fadeIn('fast').
-                    delay(2000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content').text('The provided URL is not valied');
-                    return false;
                 }
             }
         });
 
         $(document).ready(function () {
-            verifyConnection(document.getElementById('agentUrl').value);
+        var timeout = setInterval(function () {
+              verifyConnection(document.getElementById('agentUrl').value);
+
+                clearTimeout(timeout);
+            }, 400);
+
         });
 
     </script>
