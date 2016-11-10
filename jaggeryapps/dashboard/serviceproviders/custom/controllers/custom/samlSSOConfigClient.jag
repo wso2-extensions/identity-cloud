@@ -43,6 +43,8 @@ function getsamlClient() {
     samlClient['signingAlgo'] = signingAlgo;
     samlClient['digestAlgos'] = digestAlgos;
     samlClient['digestAlgo'] = digestAlgo;
+    samlClient['storeUrl'] = application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+            + "/identity?spEntityID=";
     print(samlClient);
 }
 

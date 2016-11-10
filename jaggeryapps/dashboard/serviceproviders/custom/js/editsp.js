@@ -78,29 +78,35 @@ function drawAppDetails(data) {
         $("#gw-config input").val("");
         $("#gw-config").hide();
         if ($("#enableIdPInitSSO").is(':checked')) {
-            $('#store-app-url').val(getIDPInitiatedSSOURL(issuer));
+            $('#store-app-url').val(samlClient.storeUrl);
         } else {
             $("#store-app-url-sec").show();
-            $('#store-app-url').val(data.appUrL);
+            if (data != null && data.appUrL != null) {
+                $('#store-app-url').val(data.appUrL);
+            }
         }
     } else {
         $("#gw-config").show();
-        $('#gw-app-context').val(data.context);
-        $('#gw-app-url').val(data.appUrL);
-        $('#store-app-url').val(data.appUrL);
+        if (data != null) {
+            $('#gw-app-context').val(data.context);
+            $('#gw-app-url').val(data.appUrL);
+            $('#store-app-url').val(data.appUrL);
+        }
     }
 
-    //store properties
-    $('#store-app-name').val(data.displayName);
-    $('#store-app-thumbnail-url').val(data.thumbnailUrl);
-    $('#store-app-banner-url').val(data.banner);
+    if (data != null) {
+        //store properties
+        $('#store-app-name').val(data.displayName);
+        $('#store-app-thumbnail-url').val(data.thumbnailUrl);
+        $('#store-app-banner-url').val(data.banner);
 
 
-    if (data.visibleRoles.toString().trim() != "") {
-        var existingRoles = data.visibleRoles.toString().split(",");
-        for (var i = 0; i < existingRoles.length; i++) {
-            var role = existingRoles[i];
-            $("#store-app-visibility").val(role).trigger("change");
+        if (data.visibleRoles.toString().trim() != "") {
+            var existingRoles = data.visibleRoles.toString().split(",");
+            for (var i = 0; i < existingRoles.length; i++) {
+                var role = existingRoles[i];
+                $("#store-app-visibility").val(role).trigger("change");
+            }
         }
     }
 
@@ -110,10 +116,11 @@ function drawAppDetails(data) {
         id = "";
     } else {
         id = data.id;
+        $("#sp-img-thumb").attr('src',data.thumbnailUrl);
     }
     $('#app-id').val(id);
     // add images to edit view
-    $("#sp-img-thumb").attr('src',data.thumbnailUrl);
+
 
     if (appType == "custom") {
         if (data && data.skipGateway == "false") {
@@ -394,11 +401,6 @@ function updateCustomSP() {
 
     var formData = new FormData();
 
-    formData.append('claim_dialect', $('#claim_dialect').val());
-    formData.append('subject_claim_uri', $('#subject_claim_uri').val());
-    formData.append('number_of_claimmappings', $('#number_of_claimmappings').val());
-    formData.append('roleClaim', $('#roleClaim').val());
-
     formData.append('oldSPName', $('#oldSPName').val());
     formData.append('spName', $('#spName').val());
     formData.append('spType', $('#spType').val());
@@ -421,6 +423,12 @@ function updateCustomSP() {
     formData.append('receipientURLs',$('#receipientURLs').val());
     formData.append('idpSLOURLs',$('#idpSLOURLs').val());
     formData.append('attributeConsumingServiceIndex',$('#attributeConsumingServiceIndex').val());
+
+    var claimsform = $('#claimConfigForm').serializeArray();
+    for(var field in claimsform){
+        var claimField = claimsform[field];
+        formData.append(claimField.name,claimField.value);
+    }
 
 
 
@@ -470,7 +478,6 @@ function updateCustomSP() {
 function validateSPName() {
     var spName = $("input[id='spName']").val();
     if (spName.length == 0) {
-        alert('Error occured. PLease provide the message box properly. Dev Issue');
         message({
             content: 'Please provide Service Provider ID', type: 'error', cbk: function () {
             }
@@ -547,7 +554,6 @@ function deleteOauthConfig() {
 }
 
 function saveOauthConfig(){
-    console.log('######################## saveOauthConfig');
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     $.ajax({
