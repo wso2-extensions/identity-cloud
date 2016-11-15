@@ -28,11 +28,27 @@ var webService = new ws.WSRequest();
 var i18n = session.get("i18n");
 
 getSampleUsers();
-function getSampleUsers(){
-    try{
-        result = '[{"name": "demo1", "password": "demo1"}, {"name": "demo2", "password": "demo2"}]';
-        print(result);
-    }catch(e){
+function getSampleUsers() {
+    try {
+        var getUser = '<xsd:listUsers xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://common.mgt.user.carbon.wso2.org/xsd">' +
+                '<xsd:filter>' + "filter" + '</xsd:filter>' +
+                '<xsd:limit>' + "-1" + '</xsd:limit>' +
+                '</xsd:listUsers>';
+
+        webService = new ws.WSRequest();
+        var users = callWSReturnJSON(webService, sampleUserStoreServerUrl, "urn:listUsers", null, getUser);
+        
+        var user,jsonAry = [];
+        for (var i = 0; i < users.return.length; i++) {
+            user = {};
+            if (users.return[i].indexOf("/") > -1) {
+                user.name = users.return[i].split("/")[1];
+                user.password = users.return[i].split("/")[2];
+            }
+            jsonAry.push(user);
+        }
+        print(jsonAry);
+    } catch (e) {
         print(getErrorMessage(e.message));
         log.error(e);
     }
