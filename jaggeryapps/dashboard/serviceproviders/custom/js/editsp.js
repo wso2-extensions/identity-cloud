@@ -423,6 +423,10 @@ function updateCustomSP() {
     formData.append('receipientURLs',$('#receipientURLs').val());
     formData.append('idpSLOURLs',$('#idpSLOURLs').val());
     formData.append('attributeConsumingServiceIndex',$('#attributeConsumingServiceIndex').val());
+    var checkBoxArr= $("#addServiceProvider input:checkbox");
+    for(var checkbox in checkBoxArr){
+        formData.append(checkBoxArr[checkbox].id,checkBoxArr[checkbox].value);
+    }
 
     var claimsform = $('#claimConfigForm').serializeArray();
     for(var field in claimsform){
