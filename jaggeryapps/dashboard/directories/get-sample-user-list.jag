@@ -22,6 +22,7 @@ include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
+var sampleUserStoreServerUrl = serverUrl + "/UserAdmin";
 serverUrl = serverUrl + "/RemoteUserStoreManagerService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
