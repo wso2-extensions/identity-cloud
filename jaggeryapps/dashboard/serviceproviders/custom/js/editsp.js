@@ -200,7 +200,7 @@ function renderCustomPage(data) {
                 $("#up-icon").removeClass("fw fw-up");
                 $("#storeconfig-header").remove();
                 //remove more details in samal sso web configurations
-                $("#samal-dynamic-hide").hide();
+                //$("#samal-dynamic-hide").hide();
                 $("#sso-thumb").hide();
                 $("#sso-banner").hide();
                 $("#sso-config-label").show();

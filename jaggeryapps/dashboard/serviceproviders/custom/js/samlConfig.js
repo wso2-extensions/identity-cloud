@@ -16,7 +16,7 @@ function preDrawSAMLConfigPage(samlsp) {
             var tableTitle = "Configurations For " + samlsp.friendlyName;
             var isEditSP = false;
             var issuer = samlsp.inboundAuthKey;
-            if(samlsp.inboundAuthKey != null && samlsp.inboundAuthKey.length > 0){
+            if (samlsp.inboundAuthKey != null && samlsp.inboundAuthKey.length > 0) {
                 isEditSP = true;
             }
             //have to set
@@ -49,6 +49,9 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         providerProps[prop.name] = prop;
     }
     //$('#addServiceProvider h4').html(tableTitle);
+    if (providerProps["issuer"] != null && providerProps["issuer"].value.length > 0) {
+        issuer = providerProps["issuer"].value;
+    }
     $('#issuer').val(issuer);
     $('#hiddenIssuer').val(issuer);
     if (isEditSP) {
@@ -63,7 +66,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
         var acsColumnId = 0;
         var defaultAssertionConsumerURLRow = "<option value=\"\">---Select---</option>\n";
-        var acsUrls=[];
+        var acsUrls = [];
         if (providerProps["assertionConsumerURLs"].value.indexOf(',') > -1) {
             acsUrls = providerProps["assertionConsumerURLs"].value.split(',');
         } else {
@@ -172,7 +175,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     var digestAlgorithmRow = "";
     var digestAlgorithm = "";
-    if (providerProps["digestAlgorithm"] != null && providerProps["digestAlgorithm"].value.length > 0 ) {
+    if (providerProps["digestAlgorithm"] != null && providerProps["digestAlgorithm"].value.length > 0) {
         digestAlgorithm = providerProps["digestAlgorithm"].value;
     } else {
         digestAlgorithm = digestAlgorithmUriByConfig;
@@ -207,7 +210,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#enableSigValidation').prop('checked', false);
         $('#enableSigValidation').val(false);
     }
-    if (providerProps["enableEncAssertion"]!= null && providerProps["enableEncAssertion"].value == 'true') {
+    if (providerProps["enableEncAssertion"] != null && providerProps["enableEncAssertion"].value == 'true') {
         $('#enableEncAssertion').prop('checked', true);
         $('#enableEncAssertion').val(true);
     } else {
@@ -222,7 +225,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         if (providerProps["sloResponseURL"] != null && providerProps["sloResponseURL"].value.length > 0) {
             $('#sloResponseURL').val(providerProps["sloResponseURL"].value);
         }
-        if(providerProps["sloRequestURL"] != null && providerProps["sloRequestURL"].value.length > 0) {
+        if (providerProps["sloRequestURL"] != null && providerProps["sloRequestURL"].value.length > 0) {
             $('#sloRequestURL').val(providerProps["sloRequestURL"].value);
         }
     } else {
@@ -263,7 +266,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     }
     if (show) {
         if (providerProps["enableAttributeProfile"] != null && providerProps["enableAttributeProfile"].value == 'true') {
-            if(providerProps["acsindex"] != null && providerProps["acsindex"].value.length > 0) {
+            if (providerProps["acsindex"] != null && providerProps["acsindex"].value.length > 0) {
                 $('#acsindex').val(providerProps["acsindex"].value);
             }
             $('#enableAttributeProfile').prop("checked", true);
@@ -297,12 +300,12 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     var enableAudienceRestrictionRow = "";
     if (providerProps["enableAudienceRestriction"] != null && providerProps["enableAudienceRestriction"].value == 'true') {
-        $('#enableAudienceRestriction').prop("checked",true);
+        $('#enableAudienceRestriction').prop("checked", true);
         $('#enableAudienceRestriction').val(true);
         $("#addAudience").prop('disabled', false);
         $('#audience').prop('disabled', false);
     } else {
-        $('#enableAudienceRestriction').prop("checked",false);
+        $('#enableAudienceRestriction').prop("checked", false);
         $('#enableAudienceRestriction').val(false);
         $("#addAudience").prop('disabled', true);
         $('#audience').prop('disabled', true);
@@ -346,12 +349,12 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     }
     $('#audiencePropertyCounter').val(j);
-    if(providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value != null) {
+    if (providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value != null) {
         $('#audienceURLs').val(providerProps["audienceURLs"].value);
     }
     enableAudienceRestrictionRow = enableAudienceRestrictionRow +
         '        </tbody>' +
-        '        </table>' ;
+        '        </table>';
     $('#audienceTblRow').empty();
     $('#audienceTblRow').append(enableAudienceRestrictionRow);
 
@@ -359,12 +362,12 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     var enableReceiptValidRow = "";
 
     if (providerProps["enableRecipients"] != null && providerProps["enableRecipients"].value == 'true') {
-        $('#enableRecipients').prop("checked",true);
+        $('#enableRecipients').prop("checked", true);
         $('#enableRecipients').val(true);
         $('#recipient').prop('disabled', false);
         $("#addRecipient").prop('disabled', false);
     } else {
-        $('#enableRecipients').prop("checked",false);
+        $('#enableRecipients').prop("checked", false);
         $('#enableRecipients').val(false);
         $('#recipient').prop('disabled', true);
         $("#addRecipient").prop('disabled', true);
@@ -411,35 +414,35 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     }
     $('#recipientPropertyCounter').val(k);
-    if(providerProps["receipientURLs"] != null && providerProps["receipientURLs"].value !== null) {
+    if (providerProps["receipientURLs"] != null && providerProps["receipientURLs"].value !== null) {
         $('#receipientURLs').val(providerProps["receipientURLs"].value);
     }
     enableReceiptValidRow = enableReceiptValidRow +
         '        </tbody>' +
-        '        </table>' ;
+        '        </table>';
     $('#recptTblRow').empty();
     $('#recptTblRow').append(enableReceiptValidRow);
 
-    if (providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value =='true') {
-        $('#enableIdPInitSSO').prop("checked",true);
+    if (providerProps["enableIdPInitSSO"] != null && providerProps["enableIdPInitSSO"].value == 'true') {
+        $('#enableIdPInitSSO').prop("checked", true);
         $('#enableIdPInitSSO').val(true);
         //Store app access url should be constructed
         $("#store-app-url-sec").hide();
     } else {
-        $('#enableIdPInitSSO').prop("checked",false);
+        $('#enableIdPInitSSO').prop("checked", false);
         $('#enableIdPInitSSO').val(false);
     }
 
     if (providerProps["enableIdPInitSLO"] != null && providerProps["enableIdPInitSLO"].value == 'true') {
-        $('#enableIdPInitSLO').prop("checked",true);
+        $('#enableIdPInitSLO').prop("checked", true);
         $('#enableIdPInitSLO').val(true);
-        $('#returnToURLTxtBox').prop("disabled",false);
-        $('#addReturnToURL').prop("disabled",false);
+        $('#returnToURLTxtBox').prop("disabled", false);
+        $('#addReturnToURL').prop("disabled", false);
     } else {
-        $('#enableIdPInitSLO').prop("checked",false);
+        $('#enableIdPInitSLO').prop("checked", false);
         $('#enableIdPInitSLO').val(false);
-        $('#returnToURLTxtBox').prop("disabled",true);
-        $('#addReturnToURL').prop("disabled",true);
+        $('#returnToURLTxtBox').prop("disabled", true);
+        $('#addReturnToURL').prop("disabled", true);
     }
     var idpSLOReturnToURLInputRow = '<table id="idpSLOReturnToURLsTbl" style="margin-bottom: 3px;" class="styledInner table table-bordered col-sm-offset-1">\n' +
         '            <tbody id="idpSLOReturnToURLsTblBody">\n';
@@ -472,7 +475,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     }
     idpSLOReturnToURLInputRow = idpSLOReturnToURLInputRow + '</tbody>' +
         '        </table>';
-    if(providerProps["idpSLOURLs"] != null && providerProps["idpSLOURLs"].value != null) {
+    if (providerProps["idpSLOURLs"] != null && providerProps["idpSLOURLs"].value != null) {
         $('#idpSLOURLs').val(providerProps["idpSLOURLs"].value);
     }
     $('#currentReturnToColumnId').val(returnToColumnId);
@@ -534,8 +537,8 @@ function controlHiddenFields(providerProps) {
     }
 }
 
-function isHidden(fieldName, providerProps){
-    if(providerProps[fieldName] == null || providerProps[fieldName].type == "hidden"){
+function isHidden(fieldName, providerProps) {
+    if (providerProps[fieldName] == null || providerProps[fieldName].type == "hidden") {
         return true;
     }
     return false;
@@ -551,7 +554,7 @@ function onClickAddACRUrl() {
 }
 
 function disableAttributeProfile(chkbx) {
-    if(chkbx.checked){
+    if (chkbx.checked) {
         $('#enableDefaultAttributeProfile').prop("disabled", false);
         $('#enableAttributeProfile').val(true);
         $('#acsindex').val($('#attributeConsumingServiceIndex').val());
@@ -681,7 +684,7 @@ function addAssertionConsumerURL() {
             '        <table id="assertionConsumerURLsTable" style="margin-bottom: 3px;" class="styledInner table table-bordered">' +
             '            <tbody id="assertionConsumerURLsTableBody">' +
             '            </tbody>' +
-            '        </table>' ;
+            '        </table>';
         $('#assertionConsumerURLTblRow').append(row);
         $('#assertionConsumerURLs').val("");
         $('#currentColumnId').val("0");
@@ -808,7 +811,7 @@ function addAudienceFunc() {
 function removeAudience(i) {
     var newAudienceUrls = "";
     var audienceUrls = $("#audienceURLs").val();
-    var audience = $("#audiencePropertyName"+i).val();
+    var audience = $("#audiencePropertyName" + i).val();
     var propRow = document.getElementById("audienceRow" + i);
     if (propRow != undefined && propRow != null) {
         var parentTBody = propRow.parentNode;
@@ -820,7 +823,7 @@ function removeAudience(i) {
             }
         }
     }
-    if(audienceUrls != null && audienceUrls.trim().length > 0){
+    if (audienceUrls != null && audienceUrls.trim().length > 0) {
         $.each(audienceUrls.split(","), function (index, value) {
             if (value === audience) {
                 return true;
@@ -834,7 +837,7 @@ function removeAudience(i) {
         });
     }
     $("#audienceURLs").val(newAudienceUrls);
-    if(newAudienceUrls.length == 0){
+    if (newAudienceUrls.length == 0) {
         $('#audiencePropertyCounter').val("0");
     }
 }
@@ -881,7 +884,7 @@ function addRecipientFunc() {
 function removeRecipient(i) {
     var newReceipientUrls = "";
     var receipientUrls = $("#receipientURLs").val();
-    var receipient = $("#recipientPropertyName"+i).val();
+    var receipient = $("#recipientPropertyName" + i).val();
     var propRow = document.getElementById("recipientRow" + i);
     if (propRow != undefined && propRow != null) {
         var parentTBody = propRow.parentNode;
@@ -893,7 +896,7 @@ function removeRecipient(i) {
             }
         }
     }
-    if(receipientUrls != null && receipientUrls.trim().length > 0){
+    if (receipientUrls != null && receipientUrls.trim().length > 0) {
         $.each(receipientUrls.split(","), function (index, value) {
             if (value === receipient) {
                 return true;
@@ -907,7 +910,7 @@ function removeRecipient(i) {
         });
     }
     $("#receipientURLs").val(newReceipientUrls);
-    if(newReceipientUrls.length == 0){
+    if (newReceipientUrls.length == 0) {
         $('#recipientPropertyCounter').val("0");
     }
 }
@@ -954,12 +957,12 @@ function addSloReturnToURL() {
         return false;
     }
 
-    if ($("#idpSLOReturnToURLsTbl").length==0) {
+    if ($("#idpSLOReturnToURLsTbl").length == 0) {
         var row =
             '        <table id="idpSLOReturnToURLsTbl" style="margin-bottom: 3px;" class="styledInner table table-bordered col-sm-offset-1">' +
             '            <tbody id="idpSLOReturnToURLsTblBody">' +
             '            </tbody>' +
-            '        </table>' ;
+            '        </table>';
         $('#idpSLOReturnToURLInputRow').append(row);
         $('#currentReturnToColumnId').val("0");
     }
@@ -1001,7 +1004,7 @@ function addSloReturnToURL() {
     $("#currentReturnToColumnId").val(parseInt(currentColumnId) + 1);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     //IDP initiated sso check box check/uncheck event
     $("#enableIdPInitSSO").change(function () {
         if (this.checked) {
@@ -1023,41 +1026,41 @@ $(document).ready(function() {
 function getACSURL(appContext, appVersion, transport) {
     var ascUrl = "";
     $.ajax({
-               url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
-               type: "GET",
-               data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
-                     + "&transport=" + transport,
-               async: false,
-               success: function (data) {
-                   ascUrl = data;
-               },
-               error: function (e) {
-                   message({
-                               content: 'Error occurred while getting the configuration: Issuer details',
-                               type: 'error'
-                           });
-               }
-           });
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
+        type: "GET",
+        data: "&requestType=GET_ACS_URL&appContext=" + appContext + "&version=" + appVersion
+        + "&transport=" + transport,
+        async: false,
+        success: function (data) {
+            ascUrl = data;
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while getting the configuration: Issuer details',
+                type: 'error'
+            });
+        }
+    });
     return ascUrl;
 }
 
 function populateIssuerName(appName, appVersion) {
     var saml2SsoIssuer = "";
     $.ajax({
-               url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
-               type: "GET",
-               data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
-               async: false,
-               success: function (data) {
-                   saml2SsoIssuer = data;
-               },
-               error: function (e) {
-                   message({
-                               content: 'Error occurred while getting the configuration: Issuer details',
-                               type: 'error'
-                           });
-               }
-           });
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/appmConf",
+        type: "GET",
+        data: "&requestType=POPULATE_ISSUER_NAME&appName=" + appName + "&version=" + appVersion,
+        async: false,
+        success: function (data) {
+            saml2SsoIssuer = data;
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while getting the configuration: Issuer details',
+                type: 'error'
+            });
+        }
+    });
     return saml2SsoIssuer;
 }
 
