@@ -39,7 +39,12 @@ function validateInputs() {
             //security-drop-down-status
             return false;
         } else if (selected.trim() == "Agent Type".trim() && secSelected.trim() == "SAML2 Web SSO Configuration".trim()) {
-            $("#addServiceProvider").validate(); //sets up the validator since dynamically added elements here
+            $("#addServiceProvider").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            }); //sets up the validator since dynamically added elements here
             $("input[id*=issuer]").rules("add", "required");
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
@@ -52,7 +57,12 @@ function validateInputs() {
             }
         }
     } else {
-        $("#addServiceProvider").validate(); //sets up the validator since dynamically added elements here
+        $("#addServiceProvider").validate({
+            focusInvalid: true,
+            invalidHandler: function(form, validator) {
+                $(validator.errorList[0].element).focus();
+            }
+        }); //sets up the validator since dynamically added elements here
         $("input[id*=issuer]").rules("add", "required");
         if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
             updateSP();

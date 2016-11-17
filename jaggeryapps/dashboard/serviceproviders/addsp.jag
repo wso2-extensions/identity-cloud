@@ -70,7 +70,8 @@ include("../templates/leftpane.jag");
 
         <div class="container-fluid app-type-listing">
             <div class="row listing padding-bottom-xlg" data-count="8.0">
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
+
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
                     <div class="cloud-app-type app-color-one cloud-app-type-max" id="1.0"
                          data-description="A service provider is a website that hosts applications. You can enable
                          Salesforce as a service provider. Your users can then access other applications directly
@@ -138,21 +139,20 @@ include("../templates/leftpane.jag");
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-three" id="7.0" data-description="A service provider is a website that hosts applications.Your users can then access other applications directly
+                    <div class="cloud-app-type app-color-nine add-custom-app" id="7.0" data-description="A service provider is a website that hosts applications.Your users can then access other applications directly
                          from Salesforce using single sign-on. Single sign-on can be a great help to your users:
                          instead of having to remember many passwords, they only have to remember one. Plus, the
                          applications can be added as tabs to your organization, which means users don’t
                          have to switch between programs." data-appname="Custom Application" sp-type="custom">
                         <div class="thumbnail icon">
                             <div class="square-element">
-                                <i class="fw fw fw-globe fw-custom-x"></i>
+                                <img class="" src="../images/is/custom-app.png" alt="">
                             </div>
                         </div>
 
                         <div class="type-name">Custom Application</div>
                     </div>
                 </div>
-
             </div>
 
         </div><!-- /.container -->

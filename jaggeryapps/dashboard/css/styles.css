@@ -367,6 +367,13 @@ a.btn-action {
     font-size: 11px;
 }
 
+@media (max-width: 480px) {
+    .cu-btn {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+}
 
 @media (min-width: 768px) {
     .menu-right {
@@ -605,6 +612,10 @@ a.btn-action {
 .app-color-eight{
     background-color: #F57B20;
     border-color: #F57B20;
+}
+.app-color-nine{
+    background-color: #333;
+    border-color: #333;
 }
 .longme h2 {
     font-weight: 300;
@@ -2474,6 +2485,9 @@ th.hide-column-data, td.hide-column-data {
     border: none;
     z-index: 10;
 }
+.input-group-btn-check {
+    vertical-align: top;
+}
 .btn-gray{
     color: #fff;
     background-color: #464646;
@@ -3382,4 +3396,8 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.add-custom-app {
+    border: 2px dashed #676767;
 }

@@ -165,53 +165,41 @@ include("/templates/header.jag");
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL"  name="agentUrl"> </input>
-
-                                                     <span class="input-group-btn">
-                                                           <button   class="btn btn-info" onclick="validateBeforeSubmit();"> Check </button>
+                                                     <span class="input-group-btn input-group-btn-check">
+                                                           <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Check </button>
                                                      </span>
                                             </div>
                                             <div class="connectionStatus"></div>
-                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
-                                    required.</label>
+                                            <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
                                         </div>
-
-
                                     </div>
-
                                 </div>
-
                                 <div class="row">
-                                    <div class="col-mod-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-save">
-                                <span class="fw-stack fw-lg fw-save">
-                                    <i class="fw fw-ring fw-stack-2x"></i>
-                                    <i class="fw fw-add fw-stack-1x"></i>
-                                </span>
+                                                <span class="fw-stack fw-lg fw-save">
+                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                </span>
                                                 Save
                                             </button>
-
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="add-directory-loading" style="display: none;" disabled>
-                        <span class="fw-stack fw-lg btn-action-ico">
-                            <i class="fw fw-ring fw-stack-2x"></i>
-                            <i class="fw fw-save fw-stack-1x"></i>
-                        </span>
+                                                <span class="fw-stack fw-lg btn-action-ico">
+                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                    <i class="fw fw-save fw-stack-1x"></i>
+                                                </span>
                                                 Creating ...
                                             </button>
-
                                             <button type="button" onclick="urlResolver('applist')"
                                                     class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-success">
-                                <span class="fw-stack fw-lg fw-list">
-                                    <i class="fw fw-ring fw-stack-2x"></i>
-                                    <i class="fw fw-add fw-stack-1x"></i>
-                                </span>
+                                                <span class="fw-stack fw-lg fw-list">
+                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                </span>
                                                 Skip to application list
                                             </button>
-
-
                                         </div>
                                         <div class="clearfix"></div>
                                         <div id="push"></div>
