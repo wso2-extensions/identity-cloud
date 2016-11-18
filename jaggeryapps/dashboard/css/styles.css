@@ -1324,6 +1324,11 @@ svg .outer {
     background-color: #464646;
     min-height: 24em;
 }
+.block-msg{
+    background-color: #464646;
+    font-size: 1em;
+    padding: 15px;
+}
 .block-action-button {
     width: 100%;
     margin-top:10px;
