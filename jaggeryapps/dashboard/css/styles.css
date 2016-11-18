@@ -3402,6 +3402,26 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     border: 2px dashed #676767;
 }
 
+.link-white, .link-white:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link-store {
+    margin-right: 29px;
+    line-height: 3.5em;
+}
+
+.link-white, .link-white:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link-store {
+    margin-right: 29px;
+    line-height: 3.5em;
+}
+
 table tbody tr:nth-child(odd) {
     background-color: #696969;
 }
