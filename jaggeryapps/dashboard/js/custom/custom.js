@@ -155,7 +155,9 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
             }
         });
     }
-    
+
+    //adding go to store link
+    $('.navbar-secondary .container-fliud .row').append('<div class="pull-right"><a href="../../store" target="_blank" class="link-white link-store"><i class="fw fw-deploy"></i> Go to Store</a></div>');
 }(jQuery));
 
 

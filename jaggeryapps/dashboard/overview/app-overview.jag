@@ -93,37 +93,28 @@ include("/templates/header.jag");
 
                     <div id="push"></div>
 
-                    <div class="row" style="margin: 0px; ">
-
-                        <div class="col-md-4" style="margin-left: -30px">
-                            <div class="alert alert-success custom-h1" role="alert">
-                                <!--<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                <span class="alert-content">
-                    <i class="fa fa-check-circle-o"></i> <strong> User Store Configurations</strong>
-                </span>
-                                <div class='alert-extra-content custom-b1'>
-                                    <div class="row">
-                                        <div class="col-md-4"><h5>User Directory</h5>
-                                        </div>
-                                        <div class="col-md-4" style="float: right;color: #4F8A10">
-                                                <span class="fw-success custom"
-                                                      style=" font-weight: bold;font-size: medium;margin-top: 10px">
-                                                        Configured
-                                                 </span>
-                                        </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="block-msg">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <span>User Directory</span>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4"><h5>Type:Sample Store </h5>
-                                        </div>
-                                        <div class="col-md-4" style="float: right; "><h5><a href="#">Edit </a></h5>
-                                        </div>
-
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <span class="fw-success custom" style=" color: #4F8A10"></span>
+                                        <span>Configured</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <h5>Type:Sample Store </h5>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <h5><a href="#">Edit </a></h5>
+                                    </div>
 
-                        <div class="col-md-offset-6">
+                                </div>
+                            </div>
                         </div>
                     </div>
 

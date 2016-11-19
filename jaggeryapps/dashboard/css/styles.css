@@ -1324,6 +1324,11 @@ svg .outer {
     background-color: #464646;
     min-height: 24em;
 }
+.block-msg{
+    background-color: #464646;
+    font-size: 1em;
+    padding: 15px;
+}
 .block-action-button {
     width: 100%;
     margin-top:10px;
@@ -1551,9 +1556,9 @@ svg .outer {
     border-radius: 0px;
     min-height:50px;
 }
-.alert-success{
-    background-color: #28c242;
-    border-color: #0b5e0b;
+.alert-success {
+    background-color: #27ae60;
+    border-color: #40D47E;
     border-radius: 0px;
     color: #fff;
     padding: 0px;
@@ -1587,8 +1592,8 @@ svg .outer {
     font-size: 16px;
 }
 
-.alert-extra-content{
-    background-color: #75c3e0;
+.alert-extra-content {
+    background-color: #50E28E;
     padding: 10px 15px;
     color: #333;
 }
@@ -3400,4 +3405,31 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 
 .add-custom-app {
     border: 2px dashed #676767;
+}
+
+.link-white, .link-white:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link-store {
+    margin-right: 29px;
+    line-height: 3.5em;
+}
+
+.link-white, .link-white:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link-store {
+    margin-right: 29px;
+    line-height: 3.5em;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #696969;
+}
+table tbody tr:nth-child(even) {
+    background-color: #777777;
 }
