@@ -228,7 +228,7 @@ function setCustomImage(appName) {
             if (data != null) {
                 var result = JSON.parse(data);
                 if (result != null && result.thumbnailUrl != undefined) {
-                    var link = "/store/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
+                    var link = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
                     $('#sp-img-thumb').attr('src', link);
                     $('#sp-img').attr('src', link);
                 }
