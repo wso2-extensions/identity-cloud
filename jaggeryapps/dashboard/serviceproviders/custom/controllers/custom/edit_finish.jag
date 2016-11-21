@@ -298,8 +298,8 @@ function updateSP(){
                     '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
                     '<xsd1:authenticationType>default</xsd1:authenticationType>' +
                     '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
-                    '<xsd1:useTenantDomainInLocalSubjectIdentifier>false</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
-                    '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>false</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
+                    '<xsd1:useTenantDomainInLocalSubjectIdentifier>true</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
+                    '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>true</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
                     '</xsd1:localAndOutBoundAuthenticationConfig>';
         }
         updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
