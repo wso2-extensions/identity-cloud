@@ -217,7 +217,7 @@ function updateSP(){
         var samlConfig = null;
         for (var i in inboundConfigs){
             var conf = inboundConfigs[i];
-            if(conf.inboundAuthType == SAML_SSO){
+            if(conf.inboundAuthType == SAML_SSO && sptype == getAppType(conf) ){
                 samlConfig = conf;
                 break;
             }
@@ -516,5 +516,18 @@ function getIDPInitiatedSSOURL(issuer) {
     return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
     + "/samlsso?spEntityID=" +issuer;
 
+}
+
+function getAppType(samlAuthenticator) {
+    var properties = samlAuthenticator.properties;
+    if (properties != null && properties.constructor !== Array) {
+        properties = [properties];
+    }
+    for(var prop in properties){
+        var property = properties[prop];
+        if(property.name == APP_TYPE ){
+            return property.value;
+        }
+    }
 }
 %>
