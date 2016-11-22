@@ -14,6 +14,7 @@ var DEFAULT_SUBJECT_CLAIM_URI = "http://wso2.org/claims/emailaddress";
 //Form Fields
 var ISSUER = "issuer";
 var ACS_URLS = "assertionConsumerURLs";
+var APP_TYPE = "appType";
 var NAME_ID_FORMAT = "nameIdFormat";
 var ALIAS = "alias";
 var SIGN_ALGO = "signingAlgorithm";

@@ -5,19 +5,7 @@ function drawSPDetails() {
         $('#spName').val(appdata.applicationName);
         $('#oldSPName').val(appdata.applicationName);
         var spDescription = appdata.description;
-        var sptype = CUSTOM_SP;
-        var spProperties = appdata.spProperties;
-        if(spProperties != null) {
-            if (spProperties.constructor !== Array) {
-                spProperties = [spProperties];
-            }
-            for (var i in spProperties) {
-                var property = spProperties[i];
-                if (property.name == WELLKNOWN_APPLICATION_TYPE && property.value != null && property.value.length > 0) {
-                    sptype = property.value;
-                }
-            }
-        }
+        var sptype = getAppType(appdata);
         if (spDescription.indexOf(']') > -1) {
             spDescription = spDescription.split(']') [1];
         }
@@ -172,7 +160,7 @@ function preDrawUpdatePage(appName) {
 
 function renderCustomPage(data) {
     if (data) {
-        appType = data.spProperties.value;
+        appType = getAppType(data);
     }
 
     if (appType) {
@@ -398,7 +386,13 @@ function updateCustomSP() {
     if ($('#store-app-banner').val() != "") {
         bannerFile = $('#store-app-banner')[0].files[0];
     }
-
+    if($("#app-type-dropdown").html().indexOf("Proxy") !== -1){
+        $('#enableDefaultAttributeProfileHidden').val(true);
+        $('#enableAttributeProfile').prop("checked",true);
+        $('#enableAttributeProfile').val(true);
+        $('#enableDefaultAttributeProfile').prop("checked",true);
+        $('#enableDefaultAttributeProfile').val(true);
+    }
     var formData = new FormData();
 
     formData.append('oldSPName', $('#oldSPName').val());
@@ -647,5 +641,22 @@ function getRoles() {
     return roles
 }
 
+function getAppType(appdata){
+    var sptype = CUSTOM_SP;
+    var spProperties = appdata.spProperties;
+    if(spProperties != null) {
+        if (spProperties.constructor !== Array) {
+            spProperties = [spProperties];
+        }
+        for (var i in spProperties) {
+            var property = spProperties[i];
+            if (property.name == WELLKNOWN_APPLICATION_TYPE && property.value != null && property.value.length > 0) {
+                sptype = property.value;
+                break;
+            }
+        }
+    }
+    return sptype;
+}
 
 
