@@ -5,7 +5,7 @@ var user = session.get('user');
 var log = new Log();
 var util = require("/util/utility.jag");
 var authzFailure = request.getParameter("authz_failure");
-
+var tenantDomain = "";
 util.setServerURL("true");
 
 if (user == null) {
@@ -26,7 +26,15 @@ if (proxyContextPath === 'null' || proxyContextPath == null || proxyContextPath.
     proxyContextPath = '';
 }
 
+var userInfo = session.get("userInfo");
+if (userInfo) {
+    tenantDomain = userInfo.tenantDomain;
+}
 %>
+<script>
+    //solving user-portal link
+      const USER_PORTAL_LINK = '<%="/user-portal/t/" + tenantDomain%>';
+</script>
 <!-- BOF cloud menu -->
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

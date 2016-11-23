@@ -307,12 +307,14 @@ include("../templates/leftpane.jag");
                                              </table>
                                           </div>
                                        </div>
-                                       <div class="form-group">
-                                          <div class="col-md-12">
-                                             <label id="subjectClaimURILbl">Subject Claim URI :</label>
-                                             <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
-                                             </select>
-                                          </div>
+                                       <div id="subjectMappingSelection">
+                                           <div class="form-group">
+                                              <div class="col-md-12">
+                                                 <label id="subjectClaimURILbl">Subject Claim URI :</label>
+                                                 <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
+                                                 </select>
+                                              </div>
+                                           </div>
                                        </div>
                                        <input type="hidden" name="number_of_claimmappings" id="number_of_claimmappings" value="1">
                                        <div id="localClaimsList" style="display: none;">
@@ -1117,6 +1119,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("input[id*=gw-app-url]").rules("add", "url");
 
             //show claim config
+            $("#subjectMappingSelection").hide();
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();

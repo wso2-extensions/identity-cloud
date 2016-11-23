@@ -42,4 +42,6 @@ var DIRECTORY_TEST_CONNECTION_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_P
 var DIRECTORY_DOWNLOAD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download";
 var DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add";
 
+var APP_TYPE = "appType";
+
 %>
