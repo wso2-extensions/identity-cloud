@@ -57,19 +57,19 @@ include("templates/leftpane.jag");
     <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
        title="Back to Overview">
             <span class="fw-stack fw-lg btn-action-ico">
-                <i class="fw fw-ring fw-stack-2x"></i>
+                <i class="fw fw-circle-outline fw-stack-2x"></i>
                 <i class="fw fw-left-arrow fw-stack-1x"></i>
             </span> Back to Overview
     </a>
     <a href="serviceproviders/add" class="btn-action" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
             <span class="fw-stack fw-lg btn-action-ico">
-                <i class="fw fw-ring fw-stack-2x"></i>
+                <i class="fw fw-circle-outline fw-stack-2x"></i>
                 <i class="fw fw-add fw-stack-1x"></i>
             </span> <span class="hidden-xs">Add Application</span>
     </a>
     <a href="serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
             <span class="fw-stack fw-lg btn-action-ico">
-                <i class="fw fw-ring fw-stack-2x"></i>
+                <i class="fw fw-circle-outline fw-stack-2x"></i>
                 <i class="fw fw-list fw-stack-1x"></i>
             </span> <span class="hidden-xs">Add Application</span>
     </a>
@@ -83,7 +83,7 @@ include("templates/leftpane.jag");
             <div class="add-issue-content">
                 <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
                     <span class="fw-stack fw-lg btn-action-ico">
-                        <i class="fw fw-ring fw-stack-2x"></i>
+                        <i class="fw fw-circle-outline fw-stack-2x"></i>
                         <i class="fw fw-add fw-stack-1x"></i>
                     </span>
                     <span class="hidden-xs">Add Service Provider</span>

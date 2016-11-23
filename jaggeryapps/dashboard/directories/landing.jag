@@ -85,7 +85,7 @@ include("/templates/header.jag");
                             store</h4>
                         <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="">
                         <span class="fw-stack fw-lg fw fw-settings">
-                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
                         </span>
                             <span class="hidden-xs">Connect your user store</span>

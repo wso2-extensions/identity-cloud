@@ -91,14 +91,14 @@ include("/templates/header.jag");
             <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Delete Connection" id="btn-delete">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-delete fw-stack-1x"></i>
                 </span> Delete Connection
             </a>
             <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
                id="btn-progress" style="display: none" disabled>
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-delete fw-stack-1x"></i>
                 </span> Deleting ...
             </a>
@@ -178,7 +178,7 @@ include("/templates/header.jag");
                                             <div class="add-issue-content">
                                                 <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href=" ">
                                                     <span class="fw-stack fw-lg btn-action-ico">
-                                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                         <i class="fw fw-download fw-stack-1x"></i>
                                                     </span>
                                                     <span class="hidden-xs">Download Agent App</span>
@@ -226,7 +226,7 @@ include("/templates/header.jag");
                                         <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                 id="btn-update">
                                 <span class="fw-stack fw-lg fw-save">
-                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
                                 </span>
                                             Update Details

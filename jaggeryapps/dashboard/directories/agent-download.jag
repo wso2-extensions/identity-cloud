@@ -133,7 +133,7 @@ include("/templates/header.jag");
                                             <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue"
                                                href="javascript:downloadAgentRedirect('agentguide')">
                                                 <span class="fw-stack fw-lg btn-action-ico">
-                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-download fw-stack-1x"></i>
                                                 </span>
                                                 <span class="hidden-xs">Download Agent App</span>
@@ -175,14 +175,14 @@ include("/templates/header.jag");
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-save">
                                                 <span class="fw-stack fw-lg fw-save">
-                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 </span>
                                                 Save
                                             </button>
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="add-directory-loading" style="display: none;" disabled>
                                                 <span class="fw-stack fw-lg btn-action-ico">
-                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-save fw-stack-1x"></i>
                                                 </span>
                                                 Creating ...
@@ -191,7 +191,7 @@ include("/templates/header.jag");
                                                     class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-success">
                                                 <span class="fw-stack fw-lg fw-list">
-                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 </span>
                                                 Skip to application list
                                             </button>

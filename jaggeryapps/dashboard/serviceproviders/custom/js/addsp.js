@@ -15,7 +15,7 @@ function drawAddSP(sptype) {
         '<div class="form-group">'+
         '<button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateSPName(\''+sptype+'\');return false;" >'+
         '<span class="fw-stack fw-lg btn-action-ico">'+
-        '<i class="fw fw-ring fw-stack-2x"></i>'+
+        '<i class="fw fw-circle-outline fw-stack-2x"></i>'+
         '<i class="fw fw-register fw-stack-1x"></i>'+
         '</span>'+
         ' Register'+
