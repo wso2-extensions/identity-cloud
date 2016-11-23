@@ -26,7 +26,12 @@ if (proxyContextPath === 'null' || proxyContextPath == null || proxyContextPath.
     proxyContextPath = '';
 }
 
+var tenantDomain = session.get("userInfo").tenantDomain;
 %>
+<script>
+    //solving user-portal link
+      const USER_PORTAL_LINK = '<%="/user-portal/t/" + tenantDomain%>';
+</script>
 <!-- BOF cloud menu -->
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
