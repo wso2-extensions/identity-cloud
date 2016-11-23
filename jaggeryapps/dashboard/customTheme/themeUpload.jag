@@ -64,7 +64,7 @@ var domainName = request.getParameter("domain");
                                                                 </div>
                                                                 <div class="breadcrumb-secondary">
                                                                     <i class="fw fw-security "></i>
-                                                                    <span class="hidden-xs">Identity Cloud </span>
+                                                                    <span class="hidden-xs">Identity Cloud&nbsp;</span>
                                                                     / Custom Theme / Add
                                                                 </div>
                                                             </div>
@@ -85,7 +85,7 @@ var domainName = request.getParameter("domain");
                                                                 <a href="/dashboard/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
                                                                     title="Back to Overview">
                                                                     <span class="fw-stack fw-lg btn-action-ico">
-                                                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                                         <i class="fw fw-left-arrow fw-stack-1x"></i>
                                                                     </span>
                                                                     Back to Overview
@@ -129,7 +129,7 @@ var domainName = request.getParameter("domain");
                                                                                 <div class="form-group">
                                                                                     <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="uploadTheme();">
                                                                                         <span class="fw-stack btn-action-ico">
-                                                                                            <i class="fw fw-ring fw-stack-2x"></i>
+                                                                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                                                             <i class="fw fw-save fw-stack-1x"></i>
                                                                                         </span>
                                                                                         Update

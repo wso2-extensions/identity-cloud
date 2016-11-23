@@ -60,7 +60,7 @@ var domainName = request.getParameter("domain");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Directories / Add
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Directories / Add
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@ var domainName = request.getParameter("domain");
             <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Directories">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Directories
             </a>
@@ -136,7 +136,7 @@ var domainName = request.getParameter("domain");
                                             <div class="add-issue-content">
                                                 <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgent()">
                                                     <span class="fw-stack fw-lg btn-action-ico">
-                                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                         <i class="fw fw-download fw-stack-1x"></i>
                                                     </span>
                                                     <span class="hidden-xs">Download Agent</span>
@@ -153,7 +153,7 @@ var domainName = request.getParameter("domain");
                                         <div class="form-group">
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="demote-application" onclick="proceed()">
                                             <span class="fw-stack fw-lg btn-action-ico">
-                                                <i class="fw fw-ring fw-stack-2x"></i>
+                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 <i class="fw fw-right-arrow fw-stack-1x"></i>
                                             </span>
                                                 Proceed

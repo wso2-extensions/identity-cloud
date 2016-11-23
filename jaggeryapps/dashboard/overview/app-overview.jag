@@ -65,7 +65,7 @@ include("/templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span>
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@ include("/templates/header.jag");
             <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
                 title="Back to Directories">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Directories
             </a>
@@ -142,7 +142,7 @@ include("/templates/header.jag");
                                         <a>
                                             <div class="block-action-button">
                                         <span class="fw-stack fw-lg fw-add ">
-                                            <i class="fw fw-ring fw-stack-2x"></i>
+                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
 
                                         </span> Add Application
                                             </div>
@@ -153,7 +153,7 @@ include("/templates/header.jag");
                                         <a>
                                             <div class="block-action-button">
                                         <span class="fw-stack fw-lg fw-view ">
-                                            <i class="fw fw-ring fw-stack-2x"></i>
+                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
 
                                         </span> View Applications
                                             </div>

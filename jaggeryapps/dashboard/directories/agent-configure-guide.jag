@@ -147,15 +147,15 @@ include("/templates/header.jag");
                         </div>
                     </div>
                     <div class="row" style="padding: 20px">
-                        <div class="col-md-1"><h4>Service URL </h4></div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
 
 
-                        <div class="col-md-11">
+                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL" name="agentUrl">
-                                                     <span class="input-group-btn">
+                                                     <span class="input-group-btn input-group-btn-check">
                                                            <button class="btn btn-info" type="button"
                                                                    onclick="validateBeforeSubmit()">Check</button>
                                                      </span>
@@ -175,7 +175,7 @@ include("/templates/header.jag");
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="btn-save">
                                 <span class="fw-stack fw-lg fw-save">
-                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
                                 </span>
                                     Save
@@ -184,7 +184,7 @@ include("/templates/header.jag");
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="add-directory-loading" style="display: none;" disabled>
                         <span class="fw-stack fw-lg btn-action-ico">
-                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-save fw-stack-1x"></i>
                         </span>
                                     Creating ...
@@ -194,7 +194,7 @@ include("/templates/header.jag");
                                         class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="btn-success">
                                 <span class="fw-stack fw-lg fw-list">
-                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
                                 </span>
                                     Skip to application list

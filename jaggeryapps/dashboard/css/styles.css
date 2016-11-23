@@ -370,7 +370,6 @@ a.btn-action {
 @media (max-width: 480px) {
     .cu-btn {
         width: 100%;
-        text-align: left;
         margin-bottom: 5px;
     }
 }
@@ -1491,10 +1490,17 @@ svg .outer {
 .add-issue-content {
     margin-top: 6em;
 }
+.add-issue-content h1, .add-issue-content h4 {
+    font-weight: 300;
+}
 .add-issue-content #add-issue-button {
     margin-top: 2em;
     font-size: 30px;
     padding: 10px 30px;
+}
+.add-issue-content #start-sample-btn {
+    font-size: 18px;
+    text-decoration: underline;
 }
 .add-issue-content #add-issue-button span.fw-stack {
     font-size: 20px;
@@ -3411,12 +3417,6 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     color: #fff;
     text-decoration: none;
 }
-
-.link-store {
-    margin-right: 29px;
-    line-height: 3.5em;
-}
-
 .link-white, .link-white:hover {
     color: #fff;
     text-decoration: none;
@@ -3424,6 +3424,8 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 
 .link-store {
     margin-right: 29px;
+}
+.link-store i {
     line-height: 3.5em;
 }
 

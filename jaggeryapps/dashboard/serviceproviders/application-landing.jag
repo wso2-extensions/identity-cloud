@@ -65,7 +65,7 @@ include("/templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@ include("/templates/header.jag");
                         <h4>We will guide you on adding applications just start with below button</h4>
                         <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="">
                         <span class="fw-stack fw-lg fw fw-add">
-                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
                         </span>
                             <span class="hidden-xs">Add Application</span>

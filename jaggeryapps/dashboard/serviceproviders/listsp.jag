@@ -37,7 +37,7 @@ require("../util/constants.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span>/ Applications
             </div>
         </div>
     </div>
@@ -52,23 +52,24 @@ require("../util/constants.jag");
             <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Overview">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Overview
             </a>
             <a href="serviceproviders/add" class="btn-action" data-toggle="tooltip"
                data-placement="top" title="Tooltip on top">
-                <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                <span class="fw-stack fw-lg ">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-add fw-stack-1x"></i>
-                </span> <span class="hidden-xs">Add Application</span>
+                </span>
+                <span class="hidden-xs">Add Application</span>
             </a>
 
             <a href="javascript:downloadIDPMetaData()" class="btn-action" data-toggle="tooltip"
                data-placement="top" title="Tooltip on top">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
-                    <i class="fw fw-add fw-stack-1x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-download fw-stack-1x"></i>
                 </span> <span class="hidden-xs">Download Metadata</span>
             </a>
 
@@ -86,7 +87,7 @@ require("../util/constants.jag");
                         <h4>We will guide you on adding applications just start with below button</h4>
                         <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
                         <span class="fw-stack fw-lg fw fw-add">
-                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
                         </span>
                             <span class="hidden-xs" >Add Application</span>

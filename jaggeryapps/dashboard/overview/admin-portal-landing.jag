@@ -65,7 +65,7 @@ include("/templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Landing
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Landing
                 page
             </div>
         </div>
@@ -76,34 +76,23 @@ include("/templates/header.jag");
     <%include("/templates/leftpane.jag");%>
     <!-- left pane wrapper -->
     <div class="right-pane">
-
-
         <div class="container-fluid app-content-section" id="emptyList">
             <div class="row row-centered">
-
-                <div class="col-centered col-xs-10 col-sm-7  col-md-7 col-lg-6">
+                <div class="col-centered col-xs-12 col-sm-9  col-md-9 col-lg-9">
                     <div class="add-issue-content">
-                        <h2>Hey <span style="color: #81cae7"><%=session.get("userInfo").userName %> </span> looks like its your first time on Identity cloud</h2>
+                        <h1>Hey <span><i><%=session.get("userInfo").userName %></i></span>, looks like its your first time on Identity cloud</h1>
+                        </br>
                         <h4>Want us to configure some sample data for you ? or you can just start by setting up your
                             user store</h4>
                         <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure')">
-                        <span class="fw-stack fw-lg fw fw-service">
-                            <i class="fw fw-ring fw-stack-2x"></i>
-                            <i class="fw fw-add fw-stack-1x"></i>
-                        </span>
-                            <span class="hidden-xs">Start Configuring</span>
+                            <i class="fw fw fw-service"></i>
+                            <span>Start Configuring</span>
                         </a>
-                        </br></br></br>
-                        <a style="font-size: large;color: white;text-decoration: underline" href="javascript:setupSamples()">Start with sample
-                            data</a>
+                        </br></br>
+                        <a id="start-sample-btn" href="javascript:setupSamples()"><span>Start with sample data</span></a>
+                        </br>
                         <div hidden="true" id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i></div>
-
-
                     </div>
-
-
-
-
                 </div>
             </div>
         </div><!-- /.container -->

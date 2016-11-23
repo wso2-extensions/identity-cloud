@@ -63,7 +63,7 @@ var domainName = request.getParameter("domain");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Directories / Add
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Directories / Add
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@ var domainName = request.getParameter("domain");
             <a href="/<%=ADMIN_PORTAL_NAME%>/directories" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Directories">
                 <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Directories
             </a>
@@ -156,7 +156,7 @@ var domainName = request.getParameter("domain");
 
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="demote-application" onclick="gotoBack()">
                                             <span class="fw-stack fw-lg btn-action-ico">
-                                                <i class="fw fw-ring fw-stack-2x"></i>
+                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 <i class="fw fw-left-arrow fw-stack-1x"></i>
                                             </span>
                                                 Back
@@ -164,7 +164,7 @@ var domainName = request.getParameter("domain");
 
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="addUpdate" onclick="addOrUpdateUserDirectory()">
                                             <span class="fw-stack fw-lg btn-action-ico">
-                                                <i class="fw fw-ring fw-stack-2x"></i>
+                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 <i class="fw-save fw-stack-1x"></i>
                                             </span>
                                                 Save

@@ -44,7 +44,7 @@ require("../util/constants.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications / Add
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications / Add
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@ include("../templates/leftpane.jag");
         <div class="action-bar">
             <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders" class="btn-action">
                     <span class="fw-stack fw-lg btn-action-ico">
-                        <i class="fw fw-ring fw-stack-2x"></i>
+                        <i class="fw fw-circle-outline fw-stack-2x"></i>
                         <i class="fw fw-left-arrow fw-stack-1x"></i>
                     </span> <span class="hidden-xs">Back to Applications</span>
             </a>
@@ -177,7 +177,7 @@ include("../templates/leftpane.jag");
                             <!--<div class="col-sm-4 col-md-4 col-lg-5 description-action">-->
                                 <!--<a href="" class="cu-btn cu-btn-md cu-btn-blue" onclick="drawAddSP();return false">-->
                                    <!--<span class="fw-stack fw-lg btn-action-ico">-->
-                                   <!--<i class="fw fw-ring fw-stack-2x"></i>-->
+                                   <!--<i class="fw fw-circle-outline fw-stack-2x"></i>-->
                                    <!--<i class="fw fw-add fw-stack-1x"></i>-->
                                    <!--</span> Continue...</a>-->
                             <!--</div>-->
@@ -230,10 +230,10 @@ include("../templates/footer.jag");
 
         var drawadd = '<div class="col-sm-4 col-md-4 col-lg-5 description-action">'+
                                 '<a href="" class="cu-btn cu-btn-md cu-btn-blue" onclick="drawAddSP(\''+sptype+'\');return false">'+
+                                   '<span>Continue </span>'+
                                    '<span class="fw-stack fw-lg btn-action-ico">'+
-                                   '<i class="fw fw-ring fw-stack-2x"></i>'+
-                                   '<i class="fw fw-add fw-stack-1x"></i>'+
-                                   '</span> Continue...</a>'+
+                                   '<i class="fw fw-circle-outline fw-stack-2x"></i>'+
+                                   '<i class="fw fw-right-arrow fw-stack-1x"></i></span></a>'+
                             '</div>';
            $('.app-type-info-template').find('.drawAdd').html(drawadd);
         var appendHtml =$('.app-type-info-template').html();
