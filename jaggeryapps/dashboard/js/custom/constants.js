@@ -17,3 +17,7 @@ const DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" 
 const SAMPLE_DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + SAMPLE_PATH + "/" + "setup";
 const SAMPLE_ADD_USERS_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + SAMPLE_PATH + "/" + "add_sample_users_finish";
 const SAMPLE_USERS_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "sampleusers";
+
+const APP_AGENT_TYPE = "agent";
+const APP_PROXY_TYPE = "proxy";
+const APP_SHORTCUT_TYPE = "shortcut";

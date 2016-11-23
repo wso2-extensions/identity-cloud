@@ -55,6 +55,12 @@ function validateInputs() {
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
+        } else if (selected.trim() == "Shortcut".trim()) {
+            $('#gw-app-context').val($('#store-app-name').val());
+            $('#gw-app-url').val($('#store-app-url').val());
+            if ($("#storeConfigForm").valid()) {
+                updateSP();
+            }
         }
     } else {
         $("#addServiceProvider").validate({

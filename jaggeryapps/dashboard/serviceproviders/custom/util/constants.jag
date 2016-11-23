@@ -20,4 +20,8 @@ var SAML_PROPERTIES = "saml.config"
 var SAML_SSO = "samlssocloud";
 var APP_TYPE = "appType";
 var PASSIVE_STS = "passivests";
+
+var APP_AGENT_TYPE = "agent";
+var APP_PROXY_TYPE = "proxy";
+var APP_SHORTCUT_TYPE = "shortcut";
 %>
