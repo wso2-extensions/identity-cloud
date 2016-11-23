@@ -63,7 +63,7 @@ var domainName = request.getParameter("domain");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Directories / Add
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Directories / Add
             </div>
         </div>
     </div>

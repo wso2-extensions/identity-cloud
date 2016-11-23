@@ -37,7 +37,7 @@ include("templates/header.jag");
                <i class="fa fa-reorder"></i>
            </div>
            <div class="breadcrumb-secondary">
-               <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud </span> / Applications
+               <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications
            </div>
        </div>
    </div>
