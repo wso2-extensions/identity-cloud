@@ -407,6 +407,7 @@ include("../templates/leftpane.jag");
                                                 <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" hidden action="">
                                                    <!--<h4>New Service Provider</h4>-->
                                                    <input type="hidden" id="hiddenFields" name="hiddenFields" value="">
+                                                   <input type="hidden" id="storeAppType" name="storeAppType" value="">
                                                    <!--Issuer-->
                                                    <div class="form-group" id="issuerRow">
                                                       <div class="col-md-12">
@@ -1126,7 +1127,9 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             break;
         case 'Shortcut' :
             $("#skipgateway").prop('checked', false);
+            $("#security-type").hide();
             $("#security-accordion").hide();
+            $("#gw-config-section").hide();
             break;
         default:
     }

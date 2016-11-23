@@ -392,12 +392,20 @@ function updateCustomSP() {
     if ($('#store-app-banner').val() != "") {
         bannerFile = $('#store-app-banner')[0].files[0];
     }
-    if($("#app-type-dropdown").html().indexOf("Proxy") !== -1){
+
+    var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim();
+    debugger;
+    if(selected.trim() == "Proxy Type".trim()){
+        $('#storeAppType').val(APP_PROXY_TYPE);
         $('#enableDefaultAttributeProfileHidden').val(true);
         $('#enableAttributeProfile').prop("checked",true);
         $('#enableAttributeProfile').val(true);
         $('#enableDefaultAttributeProfile').prop("checked",true);
         $('#enableDefaultAttributeProfile').val(true);
+    } else if(selected.trim() == "Shortcut".trim()){
+        $('#storeAppType').val(APP_SHORTCUT_TYPE);
+    } else if(selected.trim() == "Agent Type".trim()){
+        $('#storeAppType').val(APP_AGENT_TYPE);
     }
     var formData = new FormData();
 
@@ -405,6 +413,7 @@ function updateCustomSP() {
     formData.append('spName', $('#spName').val());
     formData.append('spType', $('#spType').val());
     formData.append('spDesc', $('#spType').val() + ']' + $('#sp-description').val());
+    formData.append('storeAppType', $('#storeAppType').val());
 
     formData.append('hiddenFields',$('#hiddenFields').val());
     formData.append('issuer',$('#issuer').val());
