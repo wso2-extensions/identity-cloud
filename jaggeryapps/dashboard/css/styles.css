@@ -370,7 +370,6 @@ a.btn-action {
 @media (max-width: 480px) {
     .cu-btn {
         width: 100%;
-        text-align: left;
         margin-bottom: 5px;
     }
 }
@@ -1491,10 +1490,17 @@ svg .outer {
 .add-issue-content {
     margin-top: 6em;
 }
+.add-issue-content h1, .add-issue-content h4 {
+    font-weight: 300;
+}
 .add-issue-content #add-issue-button {
     margin-top: 2em;
     font-size: 30px;
     padding: 10px 30px;
+}
+.add-issue-content #start-sample-btn {
+    font-size: 18px;
+    text-decoration: underline;
 }
 .add-issue-content #add-issue-button span.fw-stack {
     font-size: 20px;
