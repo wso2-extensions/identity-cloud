@@ -161,12 +161,18 @@ function preDrawUpdatePage(appName) {
 function renderCustomPage(data) {
     if (data) {
         appType = getAppType(data);
+        //setting store name as app name
+        var storeName = $("#store-app-name");
+        if (!$(storeName).val()) {
+            $(storeName).val(data.applicationName);
+
+        }
     }
 
     if (appType) {
         switch (appType) {
             case "custom":
-                $("#app-name").text(capitalizeFirstLetter(data.applicationName));
+                $("#app-name").text(data.applicationName);
                 $("#app-desc-name").text(appType);
                 $("#sp-img").attr('src', resolveImageIcon(appType));
                 hideAllCustomFields();
@@ -193,7 +199,7 @@ function renderCustomPage(data) {
                 $("#sso-banner").hide();
                 $("#sso-config-label").show();
 
-                $("#app-name").text(capitalizeFirstLetter(data.applicationName));
+                $("#app-name").text(data.applicationName);
                 $("#app-desc-name").text(appType);
                 $("#sp-img").attr('src', resolveImageIcon(appType));
 
