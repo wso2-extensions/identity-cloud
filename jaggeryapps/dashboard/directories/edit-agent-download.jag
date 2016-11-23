@@ -176,7 +176,7 @@ include("/templates/header.jag");
                                     <div class="row">
                                         <div class="col-xs-10 col-sm-7  col-md-7 col-lg-6">
                                             <div class="add-issue-content">
-                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href=" ">
+                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href=" " >
                                                     <span class="fw-stack fw-lg btn-action-ico">
                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                         <i class="fw fw-download fw-stack-1x"></i>
@@ -188,7 +188,7 @@ include("/templates/header.jag");
                                         </div>
 
                                     </div>
-                                    <h5>Note: WSO2 user store agent currently supports only for LDAP</h5>
+                                    <h5>Note:Only LDAP is supported as a WSO2 userstore agent.</h5>
                                 </div>
 
                             </div>
@@ -197,8 +197,7 @@ include("/templates/header.jag");
                             <div role="tabpanel" class="tab-pane-no-color active" id="home">
                              <form id="agent-download-form" name="agent-download-form" role="form">
                                 <div class="row">
-                                    <h5>If you already have a configured URL, you can simply enter it below and
-                                        save </h5>
+                                    <h5>If you already have a configured URL, you can simply enter it below and click <b>Update</b>.</h5>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
@@ -210,7 +209,7 @@ include("/templates/header.jag");
                                                        placeholder="Enter your service URL" name="agentUrl">
                                                      <span class="input-group-btn input-group-btn-check">
                                                            <button class="btn btn-info" type="button"
-                                                                   onclick="validateBeforeSubmit()">Check</button>
+                                                                   onclick="validateBeforeSubmit()">Test Connection</button>
                                                      </span>
                                             </div>
                                             <div class="connectionStatus"></div>
@@ -305,8 +304,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" class="control-label" id="delete-label-text">Please
-                                        wait... This will take few seconds. </label>
+                                    <label for="demote-reason-text" class="control-label" id="delete-label-text">Please wait. This will take a few seconds.</label>
 
                                 </div>
                             </div>
