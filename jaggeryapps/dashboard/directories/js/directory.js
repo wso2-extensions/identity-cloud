@@ -3,6 +3,7 @@ var endpointurl = "EndPointURL";
 var uniqueId = "UniqueID";
 var disabled = "Disabled";
 var properties = null;
+const CONNECTION_NOT_ESTABLISHED_MSG = "The connection to the provided URL could not be established.";
 
 function addOrUpdateUserDirectory() {
     var name = document.getElementById("drName").value;
@@ -292,7 +293,7 @@ function deleteDirectory(domainname) {
 
     $("#btn-progress").show();
     $("#btn-delete").hide();
-    $("#delete-label-text").text("Please wait... This will take few seconds");
+    $("#delete-label-text").text("Please wait. This will take a few seconds");
     $("#delete-heading").text("Deleting User Directory");
     $("#delete-buttons-block").hide();
     $.ajax({
@@ -495,7 +496,7 @@ function testConnection(agentUrl) {
         agentUrl = agentUrl + "/" + "status";
     }
 
-    var returnVal = false;
+
     $.ajax({
         url: DIRECTORY_TEST_CONNECTION_PATH,
         type: "GET",
@@ -503,11 +504,20 @@ function testConnection(agentUrl) {
         success: function (data) {
             if (data) {
                 if ($.parseJSON(data).return == "true") {
-                    returnVal = true;
+                    $('.connectionStatus').append($(messageContainer).addClass('alert-success').hide()
+                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').find('.alert-content')
+                        .text('The connection to provided URL was successful.');
                 } else if ($.parseJSON(data).return == "false") {
-                    returnVal = true;
+                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').find('.alert-content')
+                        .text(CONNECTION_NOT_ESTABLISHED_MSG);
                 } else {
-                    returnVal = false;
+                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').find('.alert-content')
+                        .text(CONNECTION_NOT_ESTABLISHED_MSG);
                     var resp = $.parseJSON(data);
                     if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                         window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -530,10 +540,12 @@ function testConnection(agentUrl) {
             }
         },
         error: function (e) {
-            returnVal = false;
+            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                .fadeIn('fast').delay(2000).fadeOut('fast'));
+            $('.connectionStatus').find('.alert-content')
+                .text(CONNECTION_NOT_ESTABLISHED_MSG);
         }
     });
-    return returnVal;
 
 }
 
@@ -591,7 +603,7 @@ function verifyConnection(agentUrl) {
             $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
                 .fadeIn('fast').delay(2000).fadeOut('fast'));
             $('.connectionStatus').find('.alert-content')
-                .text('The connection to provided URL was un-successful.')
+                .text(CONNECTION_NOT_ESTABLISHED_MSG)
             $("#verified").hide();
             $("#unverified").show();
             $("#progress-icon").hide();
@@ -663,7 +675,6 @@ function initValidate() {
     $("input[id*=agentUrl]").rules("add", {
         required: true,
         url2: true,
-        connection: true,
         messages: {
             required: "This field cannot be empty",
             url: "Please enter valid URL",
@@ -676,11 +687,8 @@ function initValidate() {
 function validateBeforeSubmit() {
     initValidate();
     if ($("#agent-download-form").valid()) {
+        testConnection(document.getElementById('agentUrl').value);
 
-        $('.connectionStatus').append($(messageContainer).addClass('alert-success').hide()
-            .fadeIn('fast').delay(2000).fadeOut('fast'));
-        $('.connectionStatus').find('.alert-content')
-            .text('The connection to provided URL was successful.');
     }
 }
 
