@@ -3417,12 +3417,6 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     color: #fff;
     text-decoration: none;
 }
-
-.link-store {
-    margin-right: 29px;
-    line-height: 3.5em;
-}
-
 .link-white, .link-white:hover {
     color: #fff;
     text-decoration: none;
@@ -3430,6 +3424,8 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 
 .link-store {
     margin-right: 29px;
+}
+.link-store i {
     line-height: 3.5em;
 }
 

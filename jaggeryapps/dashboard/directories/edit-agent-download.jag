@@ -201,10 +201,9 @@ include("/templates/header.jag");
                                         save </h5>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-1"><h4>Service URL </h4></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
 
-
-                                    <div class="col-md-11">
+                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
