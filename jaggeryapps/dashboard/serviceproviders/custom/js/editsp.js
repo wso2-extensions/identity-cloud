@@ -112,19 +112,29 @@ function drawAppDetails(data) {
 
     if (appType == "custom") {
         if (data && data.skipGateway == "false") {
-            //gateway type
-            $("#custom-app-dropdown").click();
-            $("#custom-app-dropdown #proxytype").click();
-
+            var storeAppType = getStoreAppType(data);
             $("#skipgateway").prop('checked', false);
             $("#skipgateway").hide();
-
+            $("#custom-app-dropdown").click();
             $("#security-type").hide();
-            $("#gw-config-section").show();
-            $("#gatewayconfig").attr('class', '');
-            $("#gw-config-section").find('.panel-heading').remove();
+            if (storeAppType == APP_PROXY_TYPE) {
+                //proxy type
+                $('#storeAppType').val(APP_PROXY_TYPE);
+                $("#custom-app-dropdown #proxytype").click();
+                $("#gw-config-section").show();
+                $("#gatewayconfig").attr('class', '');
+                $("#gw-config-section").find('.panel-heading').remove();
+            } else {
+                //shortcut type
+                $('#storeAppType').val(APP_SHORTCUT_TYPE);
+                $("#custom-app-dropdown #shortcut").click();
+                $("#security-type").hide();
+                $("#security-accordion").hide();
+                $("#gw-config-section").hide();
+            }
         } else {
             //Agent type
+            $('#storeAppType').val(APP_AGENT_TYPE);
             $("#custom-app-dropdown").click();
             $("#custom-app-dropdown #agenttype").click();
 
@@ -394,7 +404,6 @@ function updateCustomSP() {
     }
 
     var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim();
-    debugger;
     if(selected.trim() == "Proxy Type".trim()){
         $('#storeAppType').val(APP_PROXY_TYPE);
         $('#enableDefaultAttributeProfileHidden').val(true);
@@ -672,6 +681,20 @@ function getAppType(appdata){
         }
     }
     return sptype;
+}
+
+function getStoreAppType(data){
+    var customProperties = data.customProperties;
+    if (customProperties != null && customProperties.constructor !== Array){
+        customProperties = [customProperties];
+    }
+    for(var prop in customProperties){
+        var property = customProperties[prop];
+        if(property.name == STORE_APP_TYPE){
+            return property.value;
+        }
+    }
+    return APP_AGENT_TYPE;
 }
 
 
