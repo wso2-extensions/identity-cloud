@@ -96,23 +96,19 @@ include("/templates/header.jag");
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="alert alert-success" role="alert">
-                                <span class="alert-content-block">
-                                    <i class="fa fa-check-circle-o"></i> <strong> Congratulations..</strong> You connected to a sample user store.
-                                </span>
-                                <div class="alert-extra-content">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <h5> You are running with a sample user store. Don't forget to connect actual user store </h5>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button class="btn btn-default" style="float:left;"> Connect your user store
-                                                <span class="fw-stack fw-lg fw-settings">
-                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                    <i class="fw fw-add fw-stack-1x"></i>
-                                                </span>
-                                            </button>
-                                        </div>
+                            <div class="alert alert-info" role="alert">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <i class="fw fw-info fw-lg"></i>
+                                        <span class="alert-connect"> You are running with a sample user store. Don't forget to connect actual user store </span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-default"> Connect your user store
+                                            <span class="fw-stack fw-lg">
+                                                <i class="fw fw-settings fw-stack-1x"></i>
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -120,99 +116,95 @@ include("/templates/header.jag");
                     </div>
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                            <div class="block-msg">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <span>User Directory</span>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <span class="fw-success custom" style=" color: #4F8A10"></span>
-                                            <span>Configured</span>
-                                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="block-msg config-details">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                        <span>User Directory</span>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <h5>Type:Sample Store </h5>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <h5><a href="#">Edit </a></h5>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    <div class="block-general">
-                        <div class="row" style="padding : 15px">
-
-                            <div class="col-xs-12 col-md-5 col-lg-5">
-                                <div class="block-life-cycle">
-                                    <div class="block-number  ">
-                                        <strong style="font-size: 120%"> 2</strong>
-                                    </div>
-                                    <div class="block-icon pull-left">
-                                        <i class="fw  " style="font-size: 8em;"></i>
-                                    </div>
-                                    <div class="block-number">
-                                        <strong>Sample</strong> Applications
-
-                                    </div>
-                                    <div class="clearfix"></div>
-
-                                    <!-- BOF permission based icon section -->
-                                    <div class="clearfix"></div>
-                                    <div class="permission-change-block">
-                                        <a>
-                                            <div class="block-action-button">
-                                        <span class="fw-stack fw-lg fw-delete ">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <span class="fw-stack btn-action-ico noti-success">
                                             <i class="fw fw-circle-outline fw-stack-2x"></i>
-
-                                        </span> Remove Samples
-                                            </div>
-                                        </a>
+                                            <i class="fw fw-check fw-stack-1x"></i>
+                                        </span>
+                                        <span>Configured</span>
                                     </div>
+                                </div>
 
-                                    <!-- EOF permission based icon section -->
+                                </br>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                        <span>Type:Sample Store </span>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <span><a href="#">Edit </a></span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="block-general">
+                                <div class="row" style="padding : 15px">
 
-                            <div class="col-xs-12 col-md-7 col-lg-7">
-
-                                <div class="row row-centered app-listing" style="top:1em">
-                                    <!-- BOF listing block -->
-                                    <div class="col-xs-6 col-sm-4  col-md-4 col-lg-42 pull-right">
-                                        <a href="009_cloud_app_details_initial.html">
-                                            <div class="cloud-app-listing app-color-one">
-                                                <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
-                                                   title="Java Application"></i>
-                                                <div class="app-icon">
-                                                    <img src="../images/dark-app-iconx256.jpg" class="square-element">
-                                                </div>
-                                                <div class="app-name">JAVA Web Application</div>
+                                    <div class="col-xs-12 col-md-5 col-lg-5">
+                                        <div class="block-life-cycle">
+                                            <div class="block-number  ">
+                                                <strong style="font-size: 120%"> 2</strong>
                                             </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 pull-right">
-                                        <a href="009_cloud_app_details_initial.html">
-                                            <div class="cloud-app-listing app-color-one">
-                                                <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
-                                                   title="Java Application"></i>
-                                                <div class="app-icon">
-                                                    <img src="../images/dark-app-iconx256.jpg" class="square-element">
-                                                </div>
-                                                <div class="app-name">JAVA Web Application</div>
+                                            <div class="block-icon pull-left">
+                                                <i class="fw  " style="font-size: 8em;"></i>
                                             </div>
-                                        </a>
+                                            <div class="block-text">Sample Applications</div>
+                                            <div class="clearfix"></div>
+                                            </br>
+                                            <!-- BOF permission based icon section -->
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                                    <div class="permission-change-block">
+                                                        <a class="block-action-button">
+                                                            <span class="fw-stack fw-delete ">
+                                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
+
+                                                            </span> Remove Samples
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- EOF permission based icon section -->
+                                        </div>
                                     </div>
 
+                                    <div class="col-xs-12 col-md-7 col-lg-7">
+
+                                        <div class="row row-centered app-listing" style="top:1em">
+                                            <!-- BOF listing block -->
+                                            <div class="col-xs-6 col-sm-4  col-md-4 col-lg-42 pull-right">
+                                                <a href="009_cloud_app_details_initial.html">
+                                                    <div class="cloud-app-listing app-color-one">
+                                                        <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
+                                                           title="Java Application"></i>
+                                                        <div class="app-icon">
+                                                            <img src="../images/dark-app-iconx256.jpg" class="square-element">
+                                                        </div>
+                                                        <div class="app-name">JAVA Web Application</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 pull-right">
+                                                <a href="009_cloud_app_details_initial.html">
+                                                    <div class="cloud-app-listing app-color-one">
+                                                        <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
+                                                           title="Java Application"></i>
+                                                        <div class="app-icon">
+                                                            <img src="../images/dark-app-iconx256.jpg" class="square-element">
+                                                        </div>
+                                                        <div class="app-name">JAVA Web Application</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-
                     </div>
                 </div><!-- /.container -->
             </div>
