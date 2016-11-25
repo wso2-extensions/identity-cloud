@@ -21,3 +21,4 @@ const SAMPLE_USERS_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + 
 const APP_AGENT_TYPE = "agent";
 const APP_PROXY_TYPE = "proxy";
 const APP_SHORTCUT_TYPE = "shortcut";
+const STORE_APP_TYPE = "storeAppType";

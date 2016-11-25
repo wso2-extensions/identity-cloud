@@ -448,7 +448,7 @@ function addApp(){
                   policyGroupName: "default"
                 }
               ],
-              customProperties:[]
+              customProperties: [{name: "storeAppType", value: storeAppType}]
             };
 
     if (app.id == "") {

@@ -1121,6 +1121,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
 
             //show claim config
             $("#subjectMappingSelection").hide();
+            $('#subject_claim_uri').val('')
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
