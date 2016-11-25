@@ -110,14 +110,10 @@ include("/templates/header.jag");
 
 
                         <div class="col-mod-12">
-                            <h2> Step 1 :</h2>
+                            <h2>Option 1:</h2>
                             <ul style="margin-top: 15px">
-                                <li><h4> Move the downloaded wso2 user store agent application to your server where user
-                                    store is</h4></li>
-                                <li><h4> Run the application and configure it to create secure connection to wso2
-                                    identity cloud</h4></li>
-                                <li style="list-style: none"><h5> Tip: See below examples for configuration guide. For
-                                    more details see <span> <a href="#">README </a></span></h5></li>
+                                <li><h4> Move the downloaded WSO2 userstore agent application to the server where the userstore is located.</h4></li>
+                                <li><h4> Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. For more details, see the <a href="#">README</a>.</h4></li>
                             </ul>
                         </div>
                     </div>
@@ -137,11 +133,10 @@ include("/templates/header.jag");
                     <form id="agent-download-form" name="agent-download-form" role="form">
                     <div class="row" style="padding-left: 20px;">
                         <div class="col-mod-12">
-                            <h2> Step 2 :</h2>
+                            <h2>Option 2:</h2>
                             <ul>
                                 <li>
-                                    <h4>If you already have a configured URL, you can simply enter it below and
-                                        save </h4>
+                                    <h4>If you already have a configured URL, you can simply enter it below and click Save.</h4>
                                 </li>
                             </ul>
                         </div>
@@ -171,7 +166,7 @@ include("/templates/header.jag");
                     </form>
                     <div class="row" style="padding-left: 20px">
                         <div class="col-mod-12">
-                            <div class="form-group">
+                            <div class="form-group" id="action-buttons">
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="btn-save">
                                 <span class="fw-stack fw-lg fw-save">
@@ -191,7 +186,7 @@ include("/templates/header.jag");
                                 </button>
 
                                 <button type="button" onclick="urlResolver('applist')"
-                                        class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                        class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn"
                                         id="btn-success">
                                 <span class="fw-stack fw-lg fw-list">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -226,27 +221,35 @@ include("/templates/header.jag");
 
     <!-- MODEL -->
 
-    <div id="demote-confirm-modal" class="modal">
+  <div id="connection-popup-modal" class="modal">
         <div class="modal-dialog modal-dialog-margin-top-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                    <button id="btn-close" type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Creating User Directory</h4>
+                    <h4 id="model-title" class="modal-title">Creating User Directory</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" class="control-label">Please wait. This will take a few seconds.</label>
-
+                                    <label for="demote-reason-text" id="model-text" class="control-label">Please wait. This will take a few seconds.</label>
+                                         <div id="verified" style="display: none" hidden>
+                                              <span class="fw-stack fw-lg btn-action-ico noti-success">
+                                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                    <i class="fw fw-check fw-stack-1x"></i>
+                                                </span>
+                                             <span class="connection-status">Connection Verified</span>
+                                        </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div id="model-button-ok" class="modal-footer" id="delete-buttons-block" hidden>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = APP_LIST_PATH;">OK</button>
+                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
@@ -279,7 +282,7 @@ include("/templates/header.jag");
         $('#btn-save').on('click', function (e) {
             initValidate();
             if ($("#agent-download-form").valid()) {
-                $('#demote-confirm-modal').modal({
+                $('#connection-popup-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
@@ -293,7 +296,7 @@ include("/templates/header.jag");
             if (e.which == 13) {
                 if ($("#agent-download-form").valid()) {
 
-                    $('#demote-confirm-modal').modal({
+                    $('#connection-popup-modal').modal({
                         show: true
                     });
                     setTimeout(function () {
