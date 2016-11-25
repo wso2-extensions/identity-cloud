@@ -50,7 +50,19 @@ function addOrUpdateUserDirectory() {
                         console.log("Waiting for complete ...")
                     }, 2000);
                 }
-                window.location.href = DIRECTORY_LIST_PATH;
+                // when success connection creation
+                $("#model-button-ok").show();
+                $("#model-text").hide();
+                $("#verified").show();
+                $("#model-title").text("User Directory");
+                $("#btn-close").hide();
+                $("#add-directory-loading").hide();
+                if (!$("#btn-success").is(':visible')) {
+                    $("#action-buttons").html('<a class="cu-btn cu-btn-md cu-btn-blue" ' +
+                        'href="javascript:urlResolver(&#39applist&#39)"> <span class="fw-stack fw-lg btn-action-ico"> ' +
+                        '<i class="fw fw-circle-outline fw-stack-2x"></i> <i class="fw fw-list fw-stack-1x"></i> </span> ' +
+                        '<span>Skip to application list</span> </a>');
+                }
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
