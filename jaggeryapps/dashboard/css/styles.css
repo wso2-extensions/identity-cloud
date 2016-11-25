@@ -1441,10 +1441,11 @@ svg .outer {
 /* issues page */
 
 .msg-issues {
-    background: #c19629;
+    background: #d9edf7;
     padding: 40px 20px 10px;
     font-size: 1.2em;
     font-weight: 300;
+    color: #31708f
 }
 
 .msg-issues-info {
@@ -3469,4 +3470,10 @@ table tbody tr:nth-child(even) {
 .alert-connect {
     font-size: 16px;
     line-height: 3em;
+}
+.search-margin{
+    margin-top: 40px;
+}
+.alert-connect {
+    line-height: 2.3em;
 }
