@@ -411,6 +411,7 @@ function updateCustomSP() {
         $('#enableAttributeProfile').val(true);
         $('#enableDefaultAttributeProfile').prop("checked",true);
         $('#enableDefaultAttributeProfile').val(true);
+        $("#subject_claim_uri").val('');
     } else if(selected.trim() == "Shortcut".trim()){
         $('#storeAppType').val(APP_SHORTCUT_TYPE);
     } else if(selected.trim() == "Agent Type".trim()){
