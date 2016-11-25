@@ -143,7 +143,7 @@ include("/templates/header.jag");
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                            <h5>Note: WSO2 user store agent currently supports only for LDAP</h5>
+                            <h5>Note:Only LDAP is supported as a WSO2 userstore agent.</h5>
                         </div>
                     </div>
 
@@ -162,7 +162,7 @@ include("/templates/header.jag");
                                                 <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL"  name="agentUrl"> </input>
                                                      <span class="input-group-btn input-group-btn-check">
-                                                           <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Check </button>
+                                                           <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
                                                      </span>
                                             </div>
                                             <div class="connectionStatus"></div>
@@ -229,8 +229,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" id="model-text" class="control-label">Please wait. This will take
-                                        few seconds </label>
+                                    <label for="demote-reason-text" id="model-text" class="control-label">Please wait. This will take a few seconds.</label>
 
                                 </div>
                             </div>

@@ -164,7 +164,7 @@ include("/templates/header.jag");
 
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h5>Note: WSO2 user store agent currently supports only for LDAP</h5>
+                                <h5>Note:Only LDAP is supported as a WSO2 userstore agent.</h5>
                             </div>
                         </div>
 
@@ -173,7 +173,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                  <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <h4>If you already have a configured URL, you can simply enter it below and save </h4>
+                                    <h4>If you already have a configured URL, you can simply enter it below and click Update</h4>
                                     </br>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
@@ -184,7 +184,7 @@ include("/templates/header.jag");
                                                            placeholder="Enter your service URL" name="agentUrl">
                                                          <span class="input-group-btn input-group-btn-check">
                                                                <button class="btn btn-info" type="button"
-                                                                       onclick="validateBeforeSubmit()">Check</button>
+                                                                       onclick="validateBeforeSubmit()">Test Connection</button>
                                                          </span>
                                                 </div>
                                                 <div class="connectionStatus"></div>
@@ -272,8 +272,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" class="control-label" id="delete-label-text">Please
-                                        wait... This will take few seconds. </label>
+                                    <label for="demote-reason-text" class="control-label" id="delete-label-text">Please wait. This will take a few seconds.</label>
 
                                 </div>
                             </div>

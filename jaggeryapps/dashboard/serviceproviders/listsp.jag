@@ -79,13 +79,16 @@ require("../util/constants.jag");
         <!--Empty List-->
 
          <div class="container-fluid app-content-section" id="emptyList">
+         <div class="row" id="msg-issue-element" hidden>
+            <div  id="msg-issue" class="col-md-12 msg-issues" style="margin-top: -20px"></div>
+         </div>
             <div class="row row-centered">
 
                 <div class="col-centered col-xs-10 col-sm-7  col-md-7 col-lg-6">
                     <div class="add-issue-content">
-                        <h2>Let's add some applications</h2>
-                        <h4>We will guide you on adding applications just start with below button</h4>
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
+                        <h2>Let's add some applications!</h2>
+                        <h4>We will guide you on adding applications.Get started by clicking the button below.</h4>
+                        <a style="margin-top: 15px" id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
                         <span class="fw-stack fw-lg fw fw-add">
                             <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
@@ -93,7 +96,7 @@ require("../util/constants.jag");
                             <span class="hidden-xs" >Add Application</span>
                         </a>
                         </br></br></br>
-                        <a style="font-size: large;color: white;text-decoration: underline" href="#">Add sample application</a>
+                        <a style="font-size: large;color: white;text-decoration: underline" href="#">Add Sample Application</a>
                     </div>
                 </div>
             </div>
@@ -103,7 +106,7 @@ require("../util/constants.jag");
         <div class="container-fluid" id="spList" hidden>
             <div class="row row-centered app-sort-bar">
                 <div class="col-centered col-md-5 search">
-                    <input type="text" class="form-control" id="search-apps" placeholder="Search service provider">
+                    <input type="text" class="form-control" id="search-apps" placeholder="Search Application">
                     <i class="fa fa-2x fa-search"></i>
                 </div>
             </div>
@@ -139,6 +142,18 @@ include("/templates/footer.jag");
             rightPane.animate({"left":"18em"}, "slow").addClass('visible');
             leftPane.animate({"left":"0em"}, "slow");
             $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
+        }
+    });
+
+    $(document).ready(function () {
+        if (!checkDirectory('is-wso2.com').properties) {
+            $("#msg-issue-element").show();
+            var warning = $('<div class="col-md-10"><h5> You are running with a sample userstore. Dont forget to ' +
+             'connect to an actual userstore.</h5></div><div class="col-md-2"><a ' +
+              'href="/dashboard/directories/downloadagent" class="btn btn-default" style="float:left;"> ' +
+               'Connect your Userstore <span class="fw-stack fw-md fw-settings"><i class="fw fw-circle-outline ' +
+                'fw-stack-2x"></i><i class="fw fw-add fw-stack-1x"></i></span></a></div>');
+             $("#msg-issue").html( warning);
         }
     });
 

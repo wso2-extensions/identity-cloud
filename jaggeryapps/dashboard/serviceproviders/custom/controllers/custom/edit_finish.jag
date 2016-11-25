@@ -5,8 +5,10 @@ var appManagementClient = require('/modules/appManagementClient.js').appManageme
 var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
-updateSP();
-
+var storeAppType = request.getParameter('storeAppType');
+if (storeAppType == APP_AGENT_TYPE || storeAppType == APP_PROXY_TYPE) {
+    updateSP();
+}
 if(appManagementIntegrationConfig.enabled){
   addApp();
 }
