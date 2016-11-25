@@ -111,46 +111,49 @@ include("/templates/header.jag");
                         </div>
                     </div>
                 </div>
-                 <input id="drName" name="drName" type="text" value="Default" class="form-control"
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="full-content">
+
+                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
                            placeholder="Enter directory name" autofocus style="visibility: hidden"/>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms" id="full-content">
-
                     <div class="margin-bottom-md">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs nav-tabs-wizard" role="tablist">
-                            <div style="background-color: white; height: 200px;">Image goes here</div>
-                        </ul>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div style="background-color: white; height: 200px">Image goes here</div>
+                        </div>
+                    </div>
+                    </br>
 
-                        <!-- Tab panes -->
-                        <div class="tab-content" >
-                            <div role="tabpanel" class="tab-pane active" id="home">
-                                <div class="row">
-                                    <div class="row" style="margin-top: -50px">
-                                        <div class="col-xs-10 col-sm-7  col-md-7 col-lg-6">
-                                            <div class="add-issue-content">
-                                                <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue"
-                                                   href="javascript:downloadAgentRedirect('agentguide')">
-                                                    <span class="fw-stack fw-lg btn-action-ico">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                        <i class="fw fw-download fw-stack-1x"></i>
-                                                    </span>
-                                                    <span class="hidden-xs">Download Agent App</span>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <h5>Note:Only LDAP is supported as a WSO2 userstore agent.</h5>
-                                </div>
-
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="add-issue-content">
+                                <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
+                                    <span class="fw-stack fw-lg btn-action-ico">
+                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                        <i class="fw fw-download fw-stack-1x"></i>
+                                    </span>
+                                    <span>Download Agent App</span>
+                                </a>
+                                <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
+                                    <span class="fw-stack fw-lg btn-action-ico">
+                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                        <i class="fw fw-list fw-stack-1x"></i>
+                                    </span>
+                                    <span>Skip to application list</span>
+                                </a>
                             </div>
-                            <div role="tabpanel" class="tab-pane" id="adirectory"></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
+                            <h5>Note:Only LDAP is supported as a WSO2 userstore agent.</h5>
+                        </div>
+                    </div>
 
-                            <div role="tabpanel" class="tab-pane-no-color active" id="home">
+                    <div class="blue-hr"></div>
+
+                    <div class="row">
+                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <form id="agent-download-form" name="agent-download-form" role="form">
-                                <div class="row">
-                                    <h5>If you already have a configured URL, you can simply enter it below and click <b>Save</b>.</h5>
-                                </div>
+                                <h4>If you already have a configured URL, you can simply enter it below and save </h4>
+                                </br>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
                                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
@@ -167,6 +170,7 @@ include("/templates/header.jag");
                                         </div>
                                     </div>
                                 </div>
+                                </br>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -185,33 +189,22 @@ include("/templates/header.jag");
                                                 </span>
                                                 Creating ...
                                             </button>
-                                            <button type="button" onclick="urlResolver('applist')"
-                                                    class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                    id="btn-success">
-                                                <span class="fw-stack fw-lg fw-list">
-                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                </span>
-                                                Skip to Application List
-                                            </button>
                                         </div>
                                         <div class="clearfix"></div>
                                         <div id="push"></div>
                                         <div id="push"></div>
-
                                     </div>
                                 </div>
-
-                                </form>
-                            </div>
-
-                        </div>
+                            </form>
+                         </div>
                     </div>
-
+                    </div>
                 </div>
-            </div><!-- /.container -->
-        </div>
-        <div class="clearfix"></div>
-        <div id="push"></div>
+            </div>
+        </div><!-- /.container -->
+    </div>
+    <div class="clearfix"></div>
+    <div id="push"></div>
     </div>
     <div id="footer">
         <div class="container-fluid">

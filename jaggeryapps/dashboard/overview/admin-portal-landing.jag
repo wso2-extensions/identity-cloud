@@ -82,9 +82,10 @@ include("/templates/header.jag");
                     <div class="add-issue-content">
                         <h1>Hey <span><i><%=session.get("userInfo").userName %></i></span>, looks like its your first time on Identity cloud</h1>
                         </br>
-                        <h4 style="margin-top: -10px">Want us to configure some sample data for you ? or you can just start by setting up your
+                        <h4>Want us to configure some sample data for you ? or you can just start by setting up your
                             user store</h4>
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure')" style="margin-top: 20px">
+                        </br>
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure')">
                             <i class="fw fw fw-service"></i>
                             <span>Start Configuring</span>
                         </a>

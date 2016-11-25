@@ -94,25 +94,29 @@ include("/templates/header.jag");
                     <div id="push"></div>
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                            <div class="block-msg">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="block-msg config-details">
                                 <div class="row">
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
                                         <span>User Directory</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <span class="fw-success custom" style=" color: #4F8A10"></span>
+                                        <span class="fw-stack btn-action-ico noti-success">
+                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                            <i class="fw fw-check fw-stack-1x"></i>
+                                        </span>
                                         <span>Configured</span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <h5>Type:Sample Store </h5>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <h5><a href="#">Edit </a></h5>
-                                    </div>
 
+                                </br>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                        <span>Type:Sample Store </span>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <span><a href="#">Edit </a></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,39 +131,34 @@ include("/templates/header.jag");
                                     <div class="block-number  ">
                                         <strong style="font-size: 120%"> 14</strong>
                                     </div>
-                                    <div class="block-icon pull-left">
-                                        <i class="fw  " style="font-size: 8em;"></i>
-                                    </div>
-                                    <div class="block-number">
-                                        Applications <strong>Enabled</strong>
+                                    <div class="block-text">
+                                        Applications Enabled
 
                                     </div>
                                     <div class="clearfix"></div>
-
+                                    </br></br>
+                                    <div class="row">
                                     <!-- BOF permission based icon section -->
-                                    <div class="clearfix"></div>
-                                    <div class="permission-change-block">
-                                        <a>
-                                            <div class="block-action-button">
-                                        <span class="fw-stack fw-lg fw-add ">
-                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-
-                                        </span> Add Application
+                                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                            <div class="permission-change-block">
+                                                <a class="block-action-button">
+                                                    <span class="fw-stack fw-add ">
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                    </span> Add Application
+                                                </a>
                                             </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="permission-change-block" style="margin-top: 5px">
-                                        <a>
-                                            <div class="block-action-button">
-                                        <span class="fw-stack fw-lg fw-view ">
-                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-
-                                        </span> View Applications
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                            <div class="permission-change-block">
+                                                <a class="block-action-button">
+                                                    <span class="fw-stack fw-view ">
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                    </span> View Applications
+                                                </a>
                                             </div>
-                                        </a>
-                                    </div>
+                                        </div>
                                     <!-- EOF permission based icon section -->
+                                    </div>
                                 </div>
                             </div>
 

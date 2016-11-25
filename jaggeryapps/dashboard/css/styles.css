@@ -785,7 +785,7 @@ a.btn-action {
 }
 
 .app-listing-loader{
-    margin-top: 10%;
+    margin-top: -10px;
 }
 #search-apps {
     border-radius: 0px;
@@ -1335,6 +1335,11 @@ svg .outer {
     float: right;
     padding: 8px;
     cursor: pointer;
+    background-color: #034A6F;
+    text-decoration: none;
+}
+.block-action-button:hover {
+    text-decoration: none;
 }
 .block-database,
 .block-team {
@@ -1344,6 +1349,9 @@ svg .outer {
     font-size: 5em;
     font-weight: 300;
     margin-top: -14px;
+}
+.block-text {
+    font-size: 40px;
 }
 .block-number-sm {
     font-size: 4em;
@@ -1372,7 +1380,7 @@ svg .outer {
 .block-database .block-icon {
     margin-top: 1em;
 }
-.block-apis .block-text{
+.block-apis {
     margin-top:20px;
 }
 .btn-create-version {
@@ -1415,8 +1423,6 @@ svg .outer {
 .permission-change-block {
     background-color: #034A6F;
     width: 100%;
-    height: 50px;
-    margin-top: 3em;
 }
 
 .permission-change-block .block-action-button{
@@ -1458,6 +1464,11 @@ svg .outer {
     border-top: 1px solid #666;
     margin-top: 60px;
 }
+.blue-hr {
+    border-top: 1px solid #0498d5;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 .dotted{
     border-top:2px dotted #666;
 }
@@ -1488,20 +1499,27 @@ svg .outer {
     border-color: transparent #353535 transparent transparent;
 }
 .add-issue-content {
-    margin-top: 6em;
+    margin-top: 2em;
 }
 .add-issue-content h1, .add-issue-content h4 {
     font-weight: 300;
 }
-.add-issue-content #add-issue-button {
-    font-size: 30px;
+.add-issue-content a {
+    margin-top: 2px;
+    font-size: 25px;
     padding: 10px 30px;
+    text-align: center;
+}
+@media (max-width: 480px) {
+    .add-issue-content a {
+        font-size: 20px;
+    }
 }
 .add-issue-content #start-sample-btn {
     font-size: 18px;
     text-decoration: underline;
 }
-.add-issue-content #add-issue-button span.fw-stack {
+.add-issue-content a span.fw-stack {
     font-size: 20px;
 }
 .form-group label.error {
@@ -3433,4 +3451,22 @@ table tbody tr:nth-child(odd) {
 }
 table tbody tr:nth-child(even) {
     background-color: #777777;
+}
+
+.secondary-btn {
+    background-color: #525252;
+}
+
+.connection-status, .config-details{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.alert .btn-default {
+    margin-left: 87px;
+}
+
+.alert-connect {
+    font-size: 16px;
+    line-height: 3em;
 }
