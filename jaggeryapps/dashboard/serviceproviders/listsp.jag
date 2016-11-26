@@ -104,8 +104,8 @@ require("../util/constants.jag");
 
         <!--/Empty List-->
         <div class="container-fluid" id="spList" hidden>
-            <div class="row row-centered app-sort-bar">
-                <div class="col-centered col-md-5 search">
+            <div id="searchBar" class="row row-centered app-sort-bar">
+                <div id="searchBox" class="col-centered col-md-5 search">
                     <input type="text" class="form-control" id="search-apps" placeholder="Search Application">
                     <i class="fa fa-2x fa-search"></i>
                 </div>
@@ -146,11 +146,12 @@ include("/templates/footer.jag");
     });
 
     $(document).ready(function () {
-        if (!checkDirectory('is-wso2.com').properties) {
+    var directoryList = checkDirectory('is-wso2.com');
+       if (directoryList &&  "sample-wso2.com" === directoryList.domainId) {
             $("#msg-issue-element").show();
-            var warning = $('<div class="col-md-10"><h5> You are running with a sample userstore. Dont forget to ' +
+            var warning = $('<div class="col-md-10"><h5 class="pull-left"  > You are running with a sample userstore. Dont forget to ' +
              'connect to an actual userstore.</h5></div><div class="col-md-2"><a ' +
-              'href="/dashboard/directories/downloadagent" class="btn btn-default" style="float:left;"> ' +
+              'href="/dashboard/directories/downloadagent" class="btn btn-default" style="float:left;margin-top: -10px"> ' +
                'Connect your Userstore <span class="fw-stack fw-md fw-settings"><i class="fw fw-circle-outline ' +
                 'fw-stack-2x"></i><i class="fw fw-add fw-stack-1x"></i></span></a></div>');
              $("#msg-issue").html( warning);

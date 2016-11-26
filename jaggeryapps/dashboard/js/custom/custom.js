@@ -1,3 +1,6 @@
+const DEFAULT_USER_STORE_DOMAIN  = "is-wso2.com";
+const SAMPLE_USER_STORE_DOMAIN = "sample-wso2.com";
+
 $('.cloud-menu-popover').popover({
     html : true,
     title: function() {
@@ -271,14 +274,14 @@ $('#cloud-menu-popover,#cloud-menu-popover-xs').on('shown.bs.popover', function 
             'top': $('.clickedParent').position().top,
             'left': $('.clickedParent').position().left
         }, {
-                duration: 200,
-                complete: function() {
+            duration: 200,
+            complete: function() {
                 $(greatGrandpa).css('height', 'auto');
                 $(grandpa).remove();
                 $(this).children('.forward-btn').show();
                 $('.clickedParent').removeClass('clickedParent');
             }
-      });
+        });
     }
 
 });
@@ -288,6 +291,7 @@ $('#cloud-menu-popover,#cloud-menu-popover-xs').on('hidden.bs.popover', function
 });
 
 /**
+ * this method using service providers and directories so keep it in custom.js
  * This method will check whether user directory is already created
  * @param domain domain name
  * @returns {boolean} status of user directory exsist or not
@@ -322,9 +326,8 @@ function checkDirectory(domain) {
                 }
             } else {
                 if (data) {
-                    directoryList = $.parseJSON(data).return;
+                    returnval =  $.parseJSON(data).return;
                 }
-                returnval = directoryList;
             }
         },
         error: function (e) {
@@ -362,10 +365,42 @@ function urlResolver(param) {
                 window.location.href = newUrl;
                 break;
             case 'overview' :
-                var val = checkDirectory('is-wso2.com');
-                if (val) {
-                    newUrl = context + ADMIN_PORTAL_NAME + "/directories";
-                    window.location.href = newUrl;
+                var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                var isSampleExist = false;
+                var currrentDomain = false;
+                if (directoryList && directoryList.length >= 1) {
+                    $.each(directoryList, function (list, value) {
+                        if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                            currrentDomain = DEFAULT_USER_STORE_DOMAIN;
+                        } else if (value.domainId === SAMPLE_USER_STORE_DOMAIN) {
+                            isSampleExist = true;
+                        }
+                    });
+
+                    if (currrentDomain === DEFAULT_USER_STORE_DOMAIN) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                        window.location.href = newUrl;
+                    } else if (isSampleExist) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories/sampleusers";
+                        window.location.href = newUrl;
+                    }
+
+                } else if (directoryList) {
+
+                    if (directoryList.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                        currrentDomain = DEFAULT_USER_STORE_DOMAIN;
+                    } else if (directoryList.domainId === SAMPLE_USER_STORE_DOMAIN) {
+                        isSampleExist = true;
+                    }
+
+                    if (currrentDomain === DEFAULT_USER_STORE_DOMAIN) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                        window.location.href = newUrl;
+                    } else if (isSampleExist) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories/sampleusers";
+                        window.location.href = newUrl;
+                    }
+
                 } else {
                     newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
                     window.location.href = newUrl;

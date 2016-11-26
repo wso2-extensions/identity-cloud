@@ -94,23 +94,15 @@ include("/templates/header.jag");
 
                     <div id="push"></div>
 
-                    <div class="row">
+                       <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="alert alert-info" role="alert">
+                            <div class="alert alert-info clearfix" role="alert">
+                                <i class="fw fw-info fw-lg"></i>
+                                <span class="alert-connect" > You are running with a sample user store. Don't forget to connect actual user store </span>
 
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <i class="fw fw-info fw-lg"></i>
-                                        <span class="alert-connect"> You are running with a sample user store. Don't forget to connect actual user store </span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-default"> Connect your user store
-                                            <span class="fw-stack fw-lg">
-                                                <i class="fw fw-settings fw-stack-1x"></i>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
+                                <button class="btn btn-default pull-right" onclick="window.location.href='/<%=ADMIN_PORTAL_NAME%>/directories/downloadagent'"> <span class="hidden-xs">Connect your userstore</span>
+                                    <i class="fw fw-settings fw-lg"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

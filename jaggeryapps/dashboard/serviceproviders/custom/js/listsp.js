@@ -1,10 +1,10 @@
 function deleteCustomSP(applicationName) {
     var str = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/delete_finish.jag";
     $.ajax({
-        url: str,
-        type: "POST",
-        data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
-    })
+            url: str,
+            type: "POST",
+            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+        })
         .done(function (data) {
             reloadGrid();
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
@@ -153,6 +153,12 @@ function    drawList() {
         $('#emptyList').show();
     }
 
+    if ($("#searchBar").is(':visible')) {
+        var cloneElement = $("#msg-issue-element").clone();
+        $("#msg-issue-element").remove();
+        $("#searchBox").addClass("search-margin");
+        $("#searchBar").prepend(cloneElement);
+    }
 }
 
 

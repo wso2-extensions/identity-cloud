@@ -24,3 +24,5 @@ const APP_AGENT_TYPE = "agent";
 const APP_PROXY_TYPE = "proxy";
 const APP_SHORTCUT_TYPE = "shortcut";
 const STORE_APP_TYPE = "storeAppType";
+const DEFAULT_USER_STORE_DOMAIN  = "is-wso2.com";
+const SAMPLE_USER_STORE_DOMAIN = "sample-wso2.com";

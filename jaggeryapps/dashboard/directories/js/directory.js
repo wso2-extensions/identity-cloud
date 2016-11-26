@@ -45,7 +45,7 @@ function addOrUpdateUserDirectory() {
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-                while (!checkDirectory('is-wso2.com')) {
+                while (!checkDirectory(DEFAULT_USER_STORE_DOMAIN)) {
                     setTimeout(function () {
                         console.log("Waiting for complete ...")
                     }, 2000);
@@ -124,7 +124,7 @@ function updateUserDirectory() {
 
     $("#btn-save").hide();
     $("#add-directory-loading").show();
-    var currentUrl = checkDirectory('is-wso2.com').properties[75].value;
+    var currentUrl = checkDirectory(DEFAULT_USER_STORE_DOMAIN).properties[75].value;
     $.ajax({
             url: url,
             type: "POST",
@@ -141,7 +141,18 @@ function updateUserDirectory() {
                     setTimeout(function () {
                         console.log("Waiting for complete ...")
                     }, 2000);
-                    currentUrl = checkDirectory('is-wso2.com').properties[75].value;
+
+                    var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    if (directoryList && directoryList.properties) {
+                        currentUrl = directoryList.properties[75].value;
+                    } else if (directoryList.length >= 1){
+                        $.each( directoryList, function( key, value ) {
+                            if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                                currentUrl = value.properties[75].value;
+                            }
+                        });
+                    }
+
                 }
                 window.location.href = DIRECTORY_LIST_PATH;
             } else {
@@ -308,6 +319,7 @@ function deleteDirectory(domainname) {
     $("#delete-label-text").text("Please wait. This will take a few seconds");
     $("#delete-heading").text("Deleting User Directory");
     $("#delete-buttons-block").hide();
+    var directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
     $.ajax({
             url: DIRECTORY_DELETE_FINISH_PATH,
             type: "POST",
@@ -316,8 +328,29 @@ function deleteDirectory(domainname) {
         .done(function (data) {
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-                while (checkDirectory('is-wso2.com')) {
 
+                var directoryLength = 0,newDirectoryLength = 0 ;
+                if (directoryStatus && directoryStatus.domainId) {
+                    directoryLength = newDirectoryLength = 1;
+                } else if (directoryStatus) {
+                    directoryLength = newDirectoryLength = directoryStatus.length;
+                } else {
+                    directoryLength = newDirectoryLength = 0;
+                }
+
+                while (directoryLength == newDirectoryLength) {
+                    setTimeout(function () {
+                        console.log("Waiting for complete ...")
+                    }, 2000);
+                    directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+
+                    if (directoryStatus && directoryStatus.domainId) {
+                        newDirectoryLength = 1;
+                    } else if (directoryStatus) {
+                        newDirectoryLength = directoryStatus.length;
+                    } else {
+                        newDirectoryLength = -1;
+                    }
                 }
                 urlResolver('overview');
             } else {
@@ -595,10 +628,9 @@ function verifyConnection(agentUrl) {
                         window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                     } else {
                         if (resp.message != null && resp.message.length > 0) {
-                            message({
-                                content: resp.message, type: 'error', cbk: function () {
-                                }
-                            });
+                            $("#verified").hide();
+                            $("#unverified").show();
+                            $("#progress-icon").hide();
                         } else {
                             message({
                                 content: 'Error occurred while loading values for the grid.',
