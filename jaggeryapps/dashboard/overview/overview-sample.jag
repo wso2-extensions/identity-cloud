@@ -139,12 +139,12 @@ include("/templates/header.jag");
                                     <div class="col-xs-12 col-md-5 col-lg-5">
                                         <div class="block-life-cycle">
                                             <div class="block-number  ">
-                                                <strong style="font-size: 120%"> 2</strong>
+                                                <strong id="appCount" style="font-size: 120%"> 2</strong>
                                             </div>
                                             <div class="block-icon pull-left">
                                                 <i class="fw  " style="font-size: 8em;"></i>
                                             </div>
-                                            <div class="block-text">Sample Applications</div>
+                                            <div class="block-text" id="appText">Sample Applications</div>
                                             <div class="clearfix"></div>
                                             </br>
                                             <!-- BOF permission based icon section -->
@@ -216,6 +216,8 @@ include("/templates/header.jag");
         <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
         <script src="../js/custom/constants.js"></script>
         <script src="../js/custom/custom.js"></script>
+        <script src="../js/custom/custom.js"></script>
+       <script src="../serviceproviders/custom/js/listsp.js" type="text/javascript"></script>
 
         <script>
             $('.side-pane-trigger').click(function () {
@@ -251,13 +253,37 @@ include("/templates/header.jag");
                     var obj = $.parseJSON(event.data);
                     cookie = obj.cookie;
                     userName = obj.user;
-                    getDirectories();
+
                 };
                 ws.onclose = function () {
                     console.log("web Socket onclose. ");
                 };
 
             });
+
+           // this method is using above user name and cookie. So need to wait until it loads. Need to handle proper way
+           $(document).ready(function(){
+
+            var intervalVar = setInterval(function () {
+            var appList = checkAppList(cookie,userName);
+            if (appList) {
+                if (appList.length  == 2 && appList[0].applicationName === "App1" &&
+                                                    appList[1].applicationName === "App2") {
+                    $("#appCount").html("2");
+                    $("#appText").html("Sample Apps Enabled");
+                } else {
+                    $("#appCount").html(appList.length);
+                    $("#appText").html("Application Enabled");
+                }
+            } else {
+                    $("#appCount").html("0");
+                    $("#appText").html("Application Enabled");
+            }
+                clearTimeout(intervalVar);
+            }, 200);
+
+
+           });
         </script>
 </body>
 </html>

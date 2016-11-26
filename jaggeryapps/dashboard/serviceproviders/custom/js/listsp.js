@@ -68,6 +68,37 @@ function reloadGrid() {
     });
 }
 
+function checkAppList(cookie,userName) {
+    var spList = null;
+    $.ajax({
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
+        type: "GET",
+        async:false,
+        data: "&cookie=" + cookie + "&user=" + userName,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+            if (resp.success == false) {
+
+            } else {
+                spList = resp.return;
+                if (spList != null && spList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = spList;
+                    spList = arr;
+                }
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+
+    return spList;
+}
 function downloadIDPMetaData() {
     idpMetadata = null;
     $.ajax({
