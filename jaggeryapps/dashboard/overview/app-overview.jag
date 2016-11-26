@@ -129,9 +129,9 @@ include("/templates/header.jag");
                             <div class="col-xs-12 col-md-5 col-lg-5">
                                 <div class="block-life-cycle">
                                     <div class="block-number  ">
-                                        <strong style="font-size: 120%"> 14</strong>
+                                        <strong id="appCount" style="font-size: 120%"> 14</strong>
                                     </div>
-                                    <div class="block-text">
+                                    <div class="block-text" id="appText">
                                         Applications Enabled
 
                                     </div>
@@ -141,7 +141,7 @@ include("/templates/header.jag");
                                     <!-- BOF permission based icon section -->
                                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                                             <div class="permission-change-block">
-                                                <a class="block-action-button">
+                                                <a class="block-action-button" onclick="urlResolver('addApp')">
                                                     <span class="fw-stack fw-add ">
                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     </span> Add Application
@@ -150,7 +150,7 @@ include("/templates/header.jag");
                                         </div>
                                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                                             <div class="permission-change-block">
-                                                <a class="block-action-button">
+                                                <a class="block-action-button" onclick="urlResolver('applist')">
                                                     <span class="fw-stack fw-view ">
                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     </span> View Applications
@@ -226,6 +226,7 @@ include("/templates/header.jag");
         <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
         <script src="../js/custom/constants.js"></script>
         <script src="../js/custom/custom.js"></script>
+       <script src="../serviceproviders/custom/js/listsp.js" type="text/javascript"></script>
 
         <script>
             $('.side-pane-trigger').click(function () {
@@ -268,6 +269,28 @@ include("/templates/header.jag");
                 };
 
             });
+
+          // this method is using above user name and cookie. So need to wait until it loads. Need to handle proper way
+          $(document).ready(function(){
+            var intervalVar = setInterval(function () {
+            var appList = checkAppList(cookie,userName);
+            if (appList) {
+                if (appList.length  == 2 && appList[0].applicationName === "App1" && appList[1].applicationName === "App2") {
+                    $("#appCount").html("2");
+                    $("#appText").html("Sample Apps Enabled");
+                } else {
+                    $("#appCount").html(appList.length);
+                    $("#appText").html("Application Enabled");
+                }
+            } else {
+                    $("#appCount").html("0");
+                    $("#appText").html("Application Enabled");
+            }
+                clearTimeout(intervalVar);
+             }, 200);
+
+
+           });
         </script>
 </body>
 </html>

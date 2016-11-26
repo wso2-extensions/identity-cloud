@@ -33,7 +33,9 @@ function addOrUpdateUserDirectory() {
 
     $("#btn-save").hide();
     $("#add-directory-loading").show();
-
+    var dirList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+    var currentCount = 0 ;
+    var newCount = 0 ;
     $.ajax({
             url: url,
             type: "POST",
@@ -45,7 +47,24 @@ function addOrUpdateUserDirectory() {
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-                while (!checkDirectory(DEFAULT_USER_STORE_DOMAIN)) {
+
+                if (dirList && dirList.domainId) {
+                    currentCount =  newCount = 1;
+                } else if (dirList && dirList.length > 0) {
+                    currentCount = newCount = dirList.length;
+                } else {
+                    currentCount = newCount = 0;
+                }
+                while (currentCount == newCount ) {
+                    dirList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+
+                    if (dirList && dirList.domainId) {
+                        newCount = 1;
+                    } else if (dirList && dirList.length > 0) {
+                        newCount = dirList.length;
+                    } else {
+                        newCount = 0;
+                    }
                     setTimeout(function () {
                         console.log("Waiting for complete ...")
                     }, 2000);

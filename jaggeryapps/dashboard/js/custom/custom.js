@@ -362,6 +362,10 @@ function urlResolver(param) {
                 newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
                 window.location.href = newUrl;
                 break;
+            case 'addApp':
+                newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders/add";
+                window.location.href = newUrl;
+                break;
             case 'directory' :
                 directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
                 isSampleExist = false;
