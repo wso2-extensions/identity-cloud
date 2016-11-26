@@ -85,6 +85,14 @@ include("/templates/header.jag");
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Directories
             </a>
+
+            <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Delete Connection" id="btn-delete">
+                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-delete fw-stack-1x"></i>
+                </span> Delete Sample Userstore
+            </a>
         </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
@@ -170,6 +178,38 @@ include("/templates/header.jag");
             </div>
         </div>
     </div>
+
+
+    <div id="demote-confirm-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-margin-top-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 id="delete-heading" class="modal-title">Delete Directory</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="demote-reason-text" class="control-label" id="delete-label-text">Are you
+                                        sure , you want to delete the sample user directory ? </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="delete-buttons-block">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-confirm" type="button" onclick="deleteDirectory('sample-wso2.com');"
+                            class="btn btn-primary">Confirm
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../js/jquery-1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -192,6 +232,13 @@ include("/templates/header.jag");
                 $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
             }
         });
+
+          $('#btn-delete').on('click', function (e) {
+            $('#demote-confirm-modal').modal({
+                show: true
+            });
+        });
+
     </script>
 
     <script>

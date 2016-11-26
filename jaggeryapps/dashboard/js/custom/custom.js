@@ -1,5 +1,3 @@
-const DEFAULT_USER_STORE_DOMAIN  = "is-wso2.com";
-const SAMPLE_USER_STORE_DOMAIN = "sample-wso2.com";
 
 $('.cloud-menu-popover').popover({
     html : true,
@@ -346,7 +344,7 @@ function checkDirectory(domain) {
  * @param param
  */
 function urlResolver(param) {
-    var currentUrl, context, newUrl;
+    var currentUrl, context, newUrl, directoryList, isSampleExist, currrentDomain;
     currentUrl = window.location.href.toString();
     if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
         context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
@@ -364,10 +362,10 @@ function urlResolver(param) {
                 newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
                 window.location.href = newUrl;
                 break;
-            case 'overview' :
-                var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
-                var isSampleExist = false;
-                var currrentDomain = false;
+            case 'directory' :
+                directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                isSampleExist = false;
+                currrentDomain = false;
                 if (directoryList && directoryList.length >= 1) {
                     $.each(directoryList, function (list, value) {
                         if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
@@ -406,9 +404,130 @@ function urlResolver(param) {
                     window.location.href = newUrl;
                 }
                 break;
+            case 'overview':
 
+                directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                isSampleExist = false;
+                currrentDomain = false;
+                if (directoryList && directoryList.length >= 1) {
+                    $.each(directoryList, function (list, value) {
+                        if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                            currrentDomain = DEFAULT_USER_STORE_DOMAIN;
+                        } else if (value.domainId === SAMPLE_USER_STORE_DOMAIN) {
+                            isSampleExist = true;
+                        }
+                    });
+
+                    if (currrentDomain === DEFAULT_USER_STORE_DOMAIN) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/overview/appoverview";
+                        window.location.href = newUrl;
+                    } else if (isSampleExist) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/overview/sampleoverview";
+                        window.location.href = newUrl;
+                    }
+
+                } else if (directoryList) {
+
+                    if (directoryList.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                        currrentDomain = DEFAULT_USER_STORE_DOMAIN;
+                    } else if (directoryList.domainId === SAMPLE_USER_STORE_DOMAIN) {
+                        isSampleExist = true;
+                    }
+
+                    if (currrentDomain === DEFAULT_USER_STORE_DOMAIN) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/overview/appoverview";
+                        window.location.href = newUrl;
+                    } else if (isSampleExist) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/overview/sampleoverview";
+                        window.location.href = newUrl;
+                    }
+
+                } else {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/overview/landing";
+                    window.location.href = newUrl;
+                }
+
+                break;
             default:
         }
     }
+}
+
+/**
+ * This method is using globally since directory.js can't load inside sample user store pages
+ * deleting the user store for given domain name
+ * @param domainname
+ */
+function deleteDirectory(domainname) {
+
+    $("#btn-progress").show();
+    $("#btn-delete").hide();
+    $("#delete-label-text").text("Please wait. This will take a few seconds");
+    $("#delete-heading").text("Deleting User Directory");
+    $("#delete-buttons-block").hide();
+    var directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+    $.ajax({
+            url: DIRECTORY_DELETE_FINISH_PATH,
+            type: "POST",
+            data: "domain=" + domainname,
+        })
+        .done(function (data) {
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+
+                var directoryLength = 0, newDirectoryLength = 0;
+                if (directoryStatus && directoryStatus.domainId) {
+                    directoryLength = newDirectoryLength = 1;
+                } else if (directoryStatus) {
+                    directoryLength = newDirectoryLength = directoryStatus.length;
+                } else {
+                    directoryLength = newDirectoryLength = 0;
+                }
+
+                while (directoryLength == newDirectoryLength) {
+                    setTimeout(function () {
+                        console.log("Waiting for complete ...")
+                    }, 2000);
+                    directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+
+                    if (directoryStatus && directoryStatus.domainId) {
+                        newDirectoryLength = 1;
+                    } else if (directoryStatus) {
+                        newDirectoryLength = directoryStatus.length;
+                    } else {
+                        newDirectoryLength = -1;
+                    }
+                }
+                urlResolver('overview');
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+        })
+        .fail(function () {
+            $("#btn-progress").hide();
+            $("#btn-delete").show();
+            console.log('Error Occurred');
+            message({content: 'Error while deleting directory. ', type: 'servererror'});
+        })
+        .always(function () {
+            console.log('completed');
+        });
 }
 

@@ -3,10 +3,10 @@
 <div class="left-pane">
        <ul>
            <li>
-               <a href="/<%=ADMIN_PORTAL_NAME%>/overview/landing"  ><i class="fa fa-laptop"></i> Overview</a>
+               <a onclick="urlResolver('overview');"  ><i class="fa fa-laptop"></i> Overview</a>
            </li>
            <li>
-               <a onclick="urlResolver('overview');" ><i class="fw fw-folder"></i> Directories</a>
+               <a onclick="urlResolver('directory');" ><i class="fw fw-folder"></i> Directories</a>
            </li>
            <li>
                <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders"><i class="fw fw-globe"></i> Applications</a>
