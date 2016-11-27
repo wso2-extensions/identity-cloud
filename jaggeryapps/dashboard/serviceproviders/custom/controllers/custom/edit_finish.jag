@@ -6,7 +6,7 @@ var appManagementIntegrationConfig = require('/conf/app_management_integration.j
 include("../../../util/constants.jag");
 var i18n = session.get("i18n");
 var storeAppType = request.getParameter('storeAppType');
-if (storeAppType == APP_AGENT_TYPE || storeAppType == APP_PROXY_TYPE) {
+if (storeAppType == APP_AGENT_TYPE || storeAppType == APP_PROXY_TYPE || storeAppType == WELL_KNOWN_APP) {
     updateSP();
 }
 if(appManagementIntegrationConfig.enabled){
