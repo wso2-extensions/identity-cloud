@@ -151,7 +151,7 @@ include("/templates/footer.jag");
             $("#msg-issue-element").show();
             var warning = $('<div class="col-md-10"><h5 class="pull-left"  > You are running with a sample userstore. Dont forget to ' +
              'connect to an actual userstore.</h5></div><div class="col-md-2"><a ' +
-              'href="/dashboard/directories/downloadagent" class="btn btn-default" style="float:left;margin-top: -10px"> ' +
+              'href="/admin-portal/directories/downloadagent" class="btn btn-default" style="float:left;margin-top: -10px"> ' +
                'Connect your Userstore <span class="fw-stack fw-md fw-settings"><i class="fw fw-circle-outline ' +
                 'fw-stack-2x"></i><i class="fw fw-add fw-stack-1x"></i></span></a></div>');
              $("#msg-issue").html( warning);
