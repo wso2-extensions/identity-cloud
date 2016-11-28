@@ -112,10 +112,10 @@ include("/templates/header.jag");
                                 </br>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                                        <span>Type:Sample Store </span>
+                                        <span>Type:User Store </span>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <span><a href="#">Edit </a></span>
+                                        <span><a href="#" onclick="urlResolver('directory');">Edit </a></span>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@ include("/templates/header.jag");
                             <div class="col-xs-12 col-md-5 col-lg-5">
                                 <div class="block-life-cycle">
                                     <div class="block-number  ">
-                                        <strong id="appCount" style="font-size: 120%"> 14</strong>
+                                        <strong id="appCount" style="font-size: 120%"> 0</strong>
                                     </div>
                                     <div class="block-text" id="appText">
                                         Applications Enabled
@@ -262,7 +262,6 @@ include("/templates/header.jag");
                     var obj = $.parseJSON(event.data);
                     cookie = obj.cookie;
                     userName = obj.user;
-                    getDirectories();
                 };
                 ws.onclose = function () {
                     console.log("web Socket onclose. ");

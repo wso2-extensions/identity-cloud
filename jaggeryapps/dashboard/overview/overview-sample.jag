@@ -129,7 +129,7 @@ include("/templates/header.jag");
                                         <span>Type:Sample Store </span>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <span><a href="#">Edit </a></span>
+                                        <span><a href="#" onclick="urlResolver('directory');">Edit </a></span>
                                     </div>
                                 </div>
                             </div>
