@@ -116,30 +116,31 @@ include("/templates/header.jag");
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="alert alert-warning alert-no-margin" role="alert">
-                                <span class="alert-content">
+                            <div class="help-note">
                                    Note: This sample user directory screen may change once you connect an actual userstore.
-                                </span>
                             </div>
                         </div>
                     </div>
 
                     </br>
                     <div class="row">
-                        <div class="col-xs-6 col-sm-2 col-md-2 col-lg-1"><span class="connection-status">Connection: </span></div>
-                        <div class="col-xs-6 col-sm-10 col-md-10 col-lg-11">
-                            <span class="fw-stack fw-lg btn-action-ico noti-success">
-                                <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                <i class="fw fw-check fw-stack-1x"></i>
-                            </span>
-                            <span class="connection-status">&nbsp;Demo LDAP Configured</span>
-
+                        <div class="connection-block">
+                            <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="connection-status">Connection </span></div>
+                            <div class="col-xs-8 col-sm-10 col-md-10 col-lg-11">
+                                <div class="noti-success connection-check sample-check">
+                                    <span class="fw-stack btn-action-ico noti-success">
+                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                        <i class="fw fw-check fw-stack-1x"></i>
+                                    </span>
+                                    <span class="connection-status">&nbsp;Demo LDAP Configured</span>
+                                </div>
+                            </div>
+                            </div>
                         </div>
-                    </div>
                     </br>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <h3>Sample Users</h3>
+                            <h4>Sample Users</h4>
                             <table id="userTable" name="userTable" class="dataTable display no-footer" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -154,8 +155,8 @@ include("/templates/header.jag");
                     </br>
                     <div class="row">
                         <div class="col-md-2">
-                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue" id="add-application" onclick="viewApplications()">
-                        <span class="fw-stack fw-lg">
+                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="add-application" onclick="viewApplications()">
+                        <span class="fw-stack">
                             <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-list fw-stack-1x"></i>
                         </span>

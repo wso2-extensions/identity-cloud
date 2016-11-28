@@ -109,27 +109,29 @@ include("/templates/header.jag");
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="block-msg config-details">
+                            <div class="block-msg">
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                                        <span>User Directory</span>
+                                        <span class="config-details">User Directory</span>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <span class="fw-stack btn-action-ico noti-success">
-                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                            <i class="fw fw-check fw-stack-1x"></i>
-                                        </span>
-                                        <span>Configured</span>
+                                        <div class="noti-success connection-check">
+                                            <span class="fw-stack btn-action-ico noti-success">
+                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                <i class="fw fw-check fw-stack-1x"></i>
+                                            </span>
+                                            <span class="connection-status config-details">Configured</span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 </br>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                                        <span>Type:Sample Store </span>
+                                        <span class="config-details">Type:Sample Store </span>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <span><a href="#" onclick="urlResolver('directory');">Edit </a></span>
+                                        <span class=" config-details"><a href="#" onclick="urlResolver('directory');">Edit </a></span>
                                     </div>
                                 </div>
                             </div>
