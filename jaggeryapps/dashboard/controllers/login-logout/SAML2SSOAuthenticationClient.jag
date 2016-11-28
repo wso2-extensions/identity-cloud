@@ -11,6 +11,8 @@ var ws = require('ws');
 var webService = new ws.WSRequest();
 var carbon = require('carbon');
 var PERMISSION_EXECUTE = "ui.execute";
+var ADMIN_LOGIN_PERMISSION = "/permission/admin/login";
+var userInfoClient = require('/controllers/login-logout/loggedUserInfoAdminClient.jag');
 
 
 function login(request) {
@@ -41,6 +43,30 @@ function login(request) {
     }
     profileOutputJson = profileOutputJson + "]";
     session.put("listProfiles", profileOutputJson);
+    var userInfo = userInfoClient.getUserInfo();
+    if (isAuthenticated === "true") {
+        if (userInfo == null) {
+            isAuthenticated = false;
+        } else {
+            if (userInfo.UIPermissionOfUser == null) {
+                isAuthenticated = false;
+            }
+            else {
+                isAuthenticated = false;
+                var permissions = userInfo.UIPermissionOfUser;
+                if (permissions.constructor !== Array) {
+                    permissions = [permissions];
+                }
+                for (var perm in permissions) {
+                    var permission = permissions[perm];
+                    if (permission == ADMIN_LOGIN_PERMISSION) {
+                        isAuthenticated = "true";
+                        break;
+                    }
+                }
+            }
+        }
+    }
     return isAuthenticated;
 }
 
