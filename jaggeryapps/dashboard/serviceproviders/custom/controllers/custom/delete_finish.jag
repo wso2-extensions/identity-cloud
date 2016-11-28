@@ -42,11 +42,12 @@ function getOAuthAppForRestAPI(){
 
     var oauthAppName = appManagementIntegrationConfig.restAPI.clientRegistration.clientName;
     var oauthAppExists = false;
-
-    for(var i = 0; i < createdServiceProviders.length; i++){
-        if(createdServiceProviders[i].applicationName === oauthAppName){
-            oauthAppExists = true;
-            break;
+    if (createdServiceProviders != null) {
+        for (var i = 0; i < createdServiceProviders.length; i++) {
+            if (createdServiceProviders[i].applicationName === oauthAppName) {
+                oauthAppExists = true;
+                break;
+            }
         }
     }
 
