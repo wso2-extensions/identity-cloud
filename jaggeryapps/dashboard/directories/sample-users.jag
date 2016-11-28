@@ -78,14 +78,6 @@ include("/templates/header.jag");
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
             <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
-            <a href=<%=url%> class="btn-action" data-toggle="tooltip" data-placement="top"
-                title="Back to Directories">
-                <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                    <i class="fw fw-left-arrow fw-stack-1x"></i>
-                </span> Back to Directories
-            </a>
-
             <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Delete Connection" id="btn-delete">
                 <span class="fw-stack fw-lg btn-action-ico">

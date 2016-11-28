@@ -411,8 +411,19 @@ function urlResolver(param) {
             case 'overview':
 
                 directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                var appList  = checkAppList(cookie,userName);
                 isSampleExist = false;
                 currrentDomain = false;
+                if (!appList && directoryList) {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
+                    window.location.href = newUrl;
+                    return;
+                } else if (!appList && !directoryList) {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/overview/landing";
+                    window.location.href = newUrl;
+                    return;
+                }
+
                 if (directoryList && directoryList.length >= 1) {
                     $.each(directoryList, function (list, value) {
                         if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
@@ -534,4 +545,43 @@ function deleteDirectory(domainname) {
             console.log('completed');
         });
 }
+/**
+ * This method will return list of applications. This is method can use directory pages and service provider pages
+ * @param cookie
+ * @param userName
+ * @returns list of applications
+ */
+function checkAppList(cookie,userName) {
+    var spList = null;
+    $.ajax({
+        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
+        type: "GET",
+        async:false,
+        data: "&cookie=" + cookie + "&user=" + userName,
+        success: function (data) {
+            if (data) {
+                var resp = $.parseJSON(data);
 
+                if (resp.success == false) {
+
+                } else {
+                    spList = resp.return;
+                    if (spList != null && spList.constructor !== Array) {
+                        var arr = [];
+                        arr[0] = spList;
+                        spList = arr;
+                    }
+                }
+            }
+
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+
+    return spList;
+}

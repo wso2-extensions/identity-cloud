@@ -30,7 +30,7 @@ function validateInputs() {
             $(window).scrollTop($('.app-drop-down-status').position().top);
 
             return false;
-        } else if (selected.trim() == "Agent Type".trim() && secSelected.trim() == "Select Security Protocol".trim()) {
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "Select Security Protocol".trim()) {
 
             $('.security-drop-down-status').append($(messageContainer).addClass('alert-error').hide()
                 .fadeIn('fast').delay(2000).fadeOut('fast'));
@@ -38,7 +38,7 @@ function validateInputs() {
             $(window).scrollTop($('.app-drop-down-status').position().top);
             //security-drop-down-status
             return false;
-        } else if (selected.trim() == "Agent Type".trim() && secSelected.trim() == "SAML2 Web SSO Configuration".trim()) {
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "SAML2 Web SSO".trim()) {
             $("#addServiceProvider").validate({
                 focusInvalid: true,
                 invalidHandler: function(form, validator) {
@@ -51,7 +51,7 @@ function validateInputs() {
                 updateSP();
             }
 
-        } else if (selected.trim() == "Proxy Type".trim()) {
+        } else if (selected.trim() == "Proxy".trim()) {
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }

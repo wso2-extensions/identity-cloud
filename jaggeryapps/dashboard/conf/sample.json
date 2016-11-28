@@ -1,11 +1,11 @@
 {
     "apps" : {
       "app1" : {
-          "name": "App1",
-          "description": "App1",
-          "displayName": "App1",
+          "name": "SampleApp1",
+          "description": "Sample App1",
+          "displayName": "Sample App1",
           "type": "custom",
-          "issuer" : "app1",
+          "issuer" : "Sampleapp1",
           "assertionConsumerURLs" : "http://localhost:8080/app1.com/home.jsp",
           "nameIdFormat" : "nameIdFormat",
           "signingAlgorithm" : "signingAlgorithm",
@@ -30,11 +30,11 @@
           "appType" : "custom"
       },
       "app2" : {
-            "name": "App2",
-            "description": "App2",
-            "displayName": "App2",
+            "name": "SampleApp2",
+            "description": "Sample App2",
+            "displayName": "Sample App2",
             "type": "custom",
-            "issuer" : "app2",
+            "issuer" : "Sampleapp2",
             "assertionConsumerURLs" : "http://localhost:8080/app2.com/home.jsp",
             "nameIdFormat" : "nameIdFormat",
             "signingAlgorithm" : "signingAlgorithm",
