@@ -77,6 +77,7 @@ function drawAppDetails(data) {
         $("#gw-config").show();
         if (data != null) {
             $('#gw-app-context').val(data.context);
+            $("#gw-app-context").attr('disabled','disabled');
             $('#gw-app-url').val(data.appUrL);
             $('#store-app-url').val(data.appUrL);
         }
@@ -160,6 +161,8 @@ function drawAppDetails(data) {
             }, APP_DETAIL_TIMEOUT);
 
         }
+    }else{
+        $('#storeAppType').val(WELL_KNOWN_APP);
     }
 }
 
