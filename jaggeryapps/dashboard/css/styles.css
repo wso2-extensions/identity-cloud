@@ -776,12 +776,11 @@ a.btn-action {
     cursor: pointer;
 }
 .app-sort-bar {
-    top: 9em;
     position: relative;
 }
 .app-listing {
     position: relative;
-    top: 11em;
+    top: 5em;
 }
 
 .app-listing-loader{
@@ -3463,15 +3462,6 @@ table tbody tr:nth-child(even) {
     font-weight: 400;
 }
 
-.alert .btn-default {
-    margin-left: 87px;
-}
-
-.alert-connect {
-    font-size: 16px;
-    line-height: 3em;
-}
-
 .connection-block {
     padding-top: 40px;
     padding-bottom: 65px;
@@ -3488,5 +3478,10 @@ table tbody tr:nth-child(even) {
     margin-top: 40px;
 }
 .alert-connect {
-    line-height: 2.3em;
+    font-size: 16px;
+    line-height: 2.6em;
+}
+
+.connect-btn {
+    font-weight: 400;
 }
