@@ -68,37 +68,6 @@ function reloadGrid() {
     });
 }
 
-function checkAppList(cookie,userName) {
-    var spList = null;
-    $.ajax({
-        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
-        type: "GET",
-        async:false,
-        data: "&cookie=" + cookie + "&user=" + userName,
-        success: function (data) {
-            var resp = $.parseJSON(data);
-
-            if (resp.success == false) {
-
-            } else {
-                spList = resp.return;
-                if (spList != null && spList.constructor !== Array) {
-                    var arr = [];
-                    arr[0] = spList;
-                    spList = arr;
-                }
-            }
-        },
-        error: function (e) {
-            message({
-                content: 'Error occurred while loading values for the grid.', type: 'error', cbk: function () {
-                }
-            });
-        }
-    });
-
-    return spList;
-}
 function downloadIDPMetaData() {
     idpMetadata = null;
     $.ajax({
@@ -189,6 +158,67 @@ function    drawList() {
         $("#msg-issue-element").remove();
         $("#searchBox").addClass("search-margin");
         $("#searchBar").prepend(cloneElement);
+    }
+}
+
+function drawListOverview(spList) {
+    var output = "";
+    var count = 0;
+    $("#ovr-app-listing").empty();
+    if (spList != null) {
+        $('#spList').show();
+        $('#emptyList').hide();
+        for (var i in spList) {
+            count += 1;
+            if (count <= 3){
+                var spdesc = spList[i].description;
+                var spimage = '<img src="../images/is/custom.png " class="square-element">';
+                if (spList[i].description.indexOf(']') > -1) {
+                    spdesc = spList[i].description.split(']') [1];
+                    var type = spList[i].description.split(']') [0];
+                    var appName = spList[i].applicationName;
+
+                    if (type == CUSTOM_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/custom.png " class="square-element">';
+                    } else if (type == CONCUR_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/concur.png " class="square-element">';
+                    } else if (type == GOTOMEETING_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/gotomeeting.png " class="square-element">';
+                    } else if (type == NETSUIT_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/netsuit.png " class="square-element">';
+                    } else if (type == ZUORA_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/zuora.png " class="square-element">';
+                    } else if (type == SALESFORCE_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/salesforce.png " class="square-element">';
+                    } else if (type == AMAZON_SP) {
+                        spimage = '<img id=' + appName + ' src="../images/is/aws.png " class="square-element">';
+                    } else {
+                        spimage = '<img id=' + appName + ' src="../images/is/custom.png " class="square-element">';
+                    }
+                    setCustomImage(appName);
+                }
+                output = output + '<div class="col-xs-6 col-sm-4  col-md-4 col-lg-42 pull-right">' +
+                    '                    <div class="cloud-app-listing app-color-one">' +
+                    '                        <a href="/' + ADMIN_PORTAL_NAME + '/serviceprovider/' + spList[i].applicationName + '">' +
+                    '                            <div class="app-icon">' +
+                    spimage +
+                    '                            </div>' +
+                    '                            <div class="app-name" >' + spList[i].applicationName +
+                    '                            </div>' +
+                    '                        </a>' +
+                    '                        <a class="dropdown-toggle app-extra" data-toggle="dropdown">' +
+                    '                            <i class="fa fa-ellipsis-v"></i>' +
+                    '                            <span class="sr-only">Toggle Dropdown</span>' +
+                    '                        </a>' +
+                    '                        <ul class="dropdown-menu app-extra-menu" role="menu">' +
+                    '                            <li><a href="/' + ADMIN_PORTAL_NAME + '/serviceprovider/' + spList[i].applicationName + '">Edit</a></li>' +
+                    '                        </ul>' +
+                    '                    </div>' +
+                    '               </div>';
+            }
+
+        }
+        $("#ovr-app-listing").append(output);
     }
 }
 

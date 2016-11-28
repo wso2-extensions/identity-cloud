@@ -139,7 +139,7 @@ include("/templates/header.jag");
                                     <div class="col-xs-12 col-md-5 col-lg-5">
                                         <div class="block-life-cycle">
                                             <div class="block-number  ">
-                                                <strong id="appCount" style="font-size: 120%"> 2</strong>
+                                                <strong id="appCount" style="font-size: 120%"> 0</strong>
                                             </div>
                                             <div class="block-icon pull-left">
                                                 <i class="fw  " style="font-size: 8em;"></i>
@@ -166,33 +166,8 @@ include("/templates/header.jag");
 
                                     <div class="col-xs-12 col-md-7 col-lg-7">
 
-                                        <div class="row row-centered app-listing" style="top:1em">
+                                        <div id="ovr-app-listing" class="row row-centered app-listing" style="top:1em">
                                             <!-- BOF listing block -->
-                                            <div class="col-xs-6 col-sm-4  col-md-4 col-lg-42 pull-right">
-                                                <a href="009_cloud_app_details_initial.html">
-                                                    <div class="cloud-app-listing app-color-one">
-                                                        <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
-                                                           title="Java Application"></i>
-                                                        <div class="app-icon">
-                                                            <img src="../images/dark-app-iconx256.jpg" class="square-element">
-                                                        </div>
-                                                        <div class="app-name">JAVA Web Application</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 pull-right">
-                                                <a href="009_cloud_app_details_initial.html">
-                                                    <div class="cloud-app-listing app-color-one">
-                                                        <i class="fw fw-java fw-2x" data-toggle="tooltip" data-placement="right"
-                                                           title="Java Application"></i>
-                                                        <div class="app-icon">
-                                                            <img src="../images/dark-app-iconx256.jpg" class="square-element">
-                                                        </div>
-                                                        <div class="app-name">JAVA Web Application</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +191,7 @@ include("/templates/header.jag");
         <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
         <script src="../js/custom/constants.js"></script>
         <script src="../js/custom/custom.js"></script>
-        <script src="../js/custom/custom.js"></script>
+        <script src="../serviceproviders/custom/js/constants.js" type="text/javascript"></script>
        <script src="../serviceproviders/custom/js/listsp.js" type="text/javascript"></script>
 
         <script>
@@ -267,13 +242,15 @@ include("/templates/header.jag");
             var intervalVar = setInterval(function () {
             var appList = checkAppList(cookie,userName);
             if (appList) {
-                if (appList.length  == 2 && appList[0].applicationName === "App1" &&
-                                                    appList[1].applicationName === "App2") {
+                if (appList.length  == 2 && appList[0].applicationName === "SampleApp1" &&
+                                                    appList[1].applicationName === "SampleApp2") {
                     $("#appCount").html("2");
                     $("#appText").html("Sample Apps Enabled");
+                    drawListOverview(appList);
                 } else {
                     $("#appCount").html(appList.length);
                     $("#appText").html("Application Enabled");
+                     drawListOverview(appList);
                 }
             } else {
                     $("#appCount").html("0");
