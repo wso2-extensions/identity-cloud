@@ -407,7 +407,7 @@ function updateCustomSP() {
     }
 
     var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim();
-    if(selected.trim() == "Proxy Type".trim()){
+    if(selected.trim() == "Proxy".trim()){
         $('#storeAppType').val(APP_PROXY_TYPE);
         $('#enableDefaultAttributeProfileHidden').val(true);
         $('#enableAttributeProfile').prop("checked",true);
@@ -417,7 +417,7 @@ function updateCustomSP() {
         $("#subject_claim_uri").val('');
     } else if(selected.trim() == "Shortcut".trim()){
         $('#storeAppType').val(APP_SHORTCUT_TYPE);
-    } else if(selected.trim() == "Agent Type".trim()){
+    } else if(selected.trim() == "Agent".trim()){
         $('#storeAppType').val(APP_AGENT_TYPE);
     }
     var formData = new FormData();

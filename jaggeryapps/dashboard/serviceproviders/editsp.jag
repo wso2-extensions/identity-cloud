@@ -127,8 +127,8 @@ include("../templates/leftpane.jag");
                   <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" id="app-type-dropdown">Select App Type<span
                           class="caret"></span></a>
                   <ul class="dropdown-menu">
-                      <li><a id="agenttype" href="#">Agent Type</a></li>
-                      <li><a id="proxytype" href="#">Proxy Type</a></li>
+                      <li><a id="agenttype" href="#">Agent</a></li>
+                      <li><a id="proxytype" href="#">Proxy</a></li>
                       <li><a id="shortcut" href="#">Shortcut</a></li>
                   </ul>
                    <div class="app-drop-down-status" style="margin-top: 35px"></div>
@@ -177,9 +177,9 @@ include("../templates/leftpane.jag");
                                               <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                                  href="#">Select Security Protocol <span class="caret"></span></a>
                                               <ul class="dropdown-menu">
-                                                  <li><a id="SAML2WebLink" href="#">SAML2 Web SSO Configuration</a></li>
-                                                  <li><a id="oAuthOPenIdLink" href="#">OAuth/OpenID Connect Configuration</a></li>
-                                                  <li><a id="wsFedLink" href="#">WS-Federation (Passive) Configuration</a></li>
+                                                  <li><a id="SAML2WebLink" href="#">SAML2 Web SSO</a></li>
+                                                  <li><a id="oAuthOPenIdLink" href="#">OAuth/OpenID Connect</a></li>
+                                                  <li><a id="wsFedLink" href="#">WS-Federation (Passive)</a></li>
                                               </ul>
 
                                               <div class="security-drop-down-status" style="margin-top: 35px"></div>
@@ -1099,13 +1099,13 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
     $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
 
     switch (selText) {
-        case 'Agent Type':
+        case 'Agent':
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
             $("#security-type").show();
             $("#security-accordion").hide();
             break;
-        case 'Proxy Type':
+        case 'Proxy':
             $("#skipgateway").prop('checked', false);
             $("#skipgateway-check").hide();
 
@@ -1143,7 +1143,7 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
     $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
 
     switch (selText) {
-        case 'SAML2 Web SSO Configuration':
+        case 'SAML2 Web SSO':
             $("#custom-security-dropdown").nextAll().remove();
             $("#security-type").find("#oauthConfig").remove();
             reAppend("oauthConfig", oauthconf);
@@ -1165,7 +1165,7 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
             $("#security-type").append(samlconf).show();
 
             break;
-        case 'OAuth/OpenID Connect Configuration':
+        case 'OAuth/OpenID Connect':
             $("#custom-security-dropdown").nextAll().remove();
             // remove already added
             $("#security-type").find("#wsfed").remove();
@@ -1180,7 +1180,7 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
             oauthconf.removeClass("panel-collapse collapse");
             $("#security-type").append(oauthconf).show();
             break;
-        case 'WS-Federation (Passive) Configuration' :
+        case 'WS-Federation (Passive)' :
             $("#custom-security-dropdown").nextAll().remove();
             $("#security-type").find("#oauthConfig").remove();
             reAppend("oauthConfig", oauthconf);
