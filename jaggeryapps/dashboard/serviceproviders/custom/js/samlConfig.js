@@ -523,8 +523,14 @@ function controlHiddenFields(providerProps) {
     if (isHidden(ENABLE_ATTR_PROF, providerProps)) {
         $('#attributeRow').hide();
     }
+    if(isHidden(ENABLE_DEFAULT_ATTR_PROF,providerProps)){
+        $('#enableDefaultAttributeProfileRow').hide();
+    }
     if (isHidden(ENABLE_AUDIENCE_RESTRICTION, providerProps)) {
         $('#audienceRestrictionRow').hide();
+    }
+    if (isHidden(ACS_INDEX, providerProps)) {
+        $('#acsindexRow').hide();
     }
     if (isHidden(ENABLE_RECEIPIENTS, providerProps)) {
         $('#receipientRow').hide();
@@ -556,12 +562,15 @@ function onClickAddACRUrl() {
 function disableAttributeProfile(chkbx) {
     if (chkbx.checked) {
         $('#enableDefaultAttributeProfile').prop("disabled", false);
+        $('#enableDefaultAttributeProfile').prop("checked", true);
+        $('#enableDefaultAttributeProfile').val(true);
         $('#enableAttributeProfile').val(true);
         $('#acsindex').val($('#attributeConsumingServiceIndex').val());
     } else {
         $('#enableDefaultAttributeProfile').prop("checked", false);
         $('#enableDefaultAttributeProfile').prop("disabled", true);
         $('#enableAttributeProfile').val(false);
+        $('#enableDefaultAttributeProfile').val(false);
         $('#acsindex').val("");
     }
 }
