@@ -556,7 +556,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--Include Attributes in the response always-->
-                                                      <div class="form-group">
+                                                      <div class="form-group" id="enableDefaultAttributeProfileRow">
                                                          <div class="col-md-12">
                                                             <input id="enableDefaultAttributeProfileHidden" type="hidden" name="enableDefaultAttributeProfileHidden"/>
                                                             <div class="checkbox">
@@ -564,7 +564,7 @@ include("../templates/leftpane.jag");
                                                             </div>
                                                          </div>
                                                       </div>
-                                                      <div class="form-group ">
+                                                      <div class="form-group " id="acsindexRow">
                                                          <div class="col-md-12">
                                                             <label for="acsindex">Attribute Consuming Service Index</label>
                                                             <input type="text" class="form-control" id="acsindex" disabled="disabled">
