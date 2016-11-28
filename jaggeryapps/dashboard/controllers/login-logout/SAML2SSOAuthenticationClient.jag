@@ -43,8 +43,8 @@ function login(request) {
     }
     profileOutputJson = profileOutputJson + "]";
     session.put("listProfiles", profileOutputJson);
-    var userInfo = userInfoClient.getUserInfo();
     if (isAuthenticated === "true") {
+        var userInfo = userInfoClient.getUserInfo();
         if (userInfo == null) {
             isAuthenticated = false;
         } else {
