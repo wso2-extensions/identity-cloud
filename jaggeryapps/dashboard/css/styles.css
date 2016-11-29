@@ -1067,7 +1067,7 @@ a.btn-action {
 .block-general {
     margin-top: 1em;
     /*background-color: #34495e;*/
-    background-color: #0090d9;
+    background-color: #2f343a;
     padding-top: 1em;
     padding-bottom: 1em;
     min-height: 33em;
@@ -1302,7 +1302,7 @@ svg .outer {
     background-color: #0090d9;
 }
 .block-life-cycle {
-    background-color: #0090d9;
+    background-color: #2f343a;
     min-height: 24em;
 }
 
@@ -1334,7 +1334,7 @@ svg .outer {
     float: right;
     padding: 8px;
     cursor: pointer;
-    background-color: #034A6F;
+    background-color: #383d44;
     text-decoration: none;
 }
 .block-action-button:hover {
@@ -1394,7 +1394,7 @@ svg .outer {
     width: 100%;
 }
 .block-life-cycle .block-action-button:hover {
-    background-color: rgb(0, 95, 143);
+    background-color: #424850;
     color: rgba(255,255,255,0.75);
 }
 
