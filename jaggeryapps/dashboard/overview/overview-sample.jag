@@ -155,8 +155,8 @@ include("/templates/header.jag");
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                     <div class="permission-change-block">
-                                                        <a class="block-action-button">
-                                                            <span class="fw-stack fw-delete ">
+                                                       <a class="block-action-button" onclick="deleteCustomSPWithoutRefresh(APP_NAME1);deleteCustomSPWithoutRefresh(APP_NAME2);deleteDirectory(SAMPLE_USER_STORE_DOMAIN);urlResolver('overview')">
+                                                              <span class="fw-stack fw-delete ">
                                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
 
                                                             </span> Remove Samples

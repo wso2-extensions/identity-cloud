@@ -21,6 +21,33 @@ function deleteCustomSP(applicationName) {
             console.log('completed');
         });
 }
+/**
+ * This method will delete a given application without page refresh
+ * @param applicationName
+ */
+function deleteCustomSPWithoutRefresh(applicationName) {
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/delete_finish.jag";
+    $.ajax({
+            url: str,
+            async: false,
+            type: "POST",
+            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+        })
+        .done(function (data) {
+
+
+        })
+        .fail(function () {
+            message({
+                content: 'Error while updating Profile', type: 'error', cbk: function () {
+                }
+            });
+
+        })
+        .always(function () {
+            console.log('completed');
+        });
+}
 
 function reloadGrid() {
     spList = null;
