@@ -82,7 +82,7 @@ var domainName = request.getParameter("domain");
 
                                                             <!-- BOF App  menu actionbar -->
                                                             <div class="action-bar">
-                                                                <a href="/admin-portal/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
+                                                                <a href="/dashboard/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
                                                                     title="Back to Overview">
                                                                     <span class="fw-stack fw-lg btn-action-ico">
                                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -196,7 +196,7 @@ var domainName = request.getParameter("domain");
 
                                                              $(function WindowLoad(event) {
                                                             url =
-                                                            'wss://' + serverUrl + '/admin-portal/session_manager.jag';
+                                                            'wss://' + serverUrl + '/dashboard/session_manager.jag';
                                                             ws = new WebSocket(url);
 
                                                             ws.onopen = function () {

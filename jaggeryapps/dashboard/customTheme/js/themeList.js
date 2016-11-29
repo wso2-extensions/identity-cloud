@@ -1,5 +1,5 @@
 function drawThemeList() {
-    var str = "/admin-portal/customTheme/getThemeList";
+    var str = "/dashboard/customTheme/getThemeList";
     $.ajax({
                url: str,
                type: 'GET',
@@ -17,7 +17,7 @@ function drawThemeList() {
 
                            //bind delete event
                            $("#" + key).bind("click", function () {
-                               var str = "/admin-portal/customTheme/deleteTheme";
+                               var str = "/dashboard/customTheme/deleteTheme";
                                $.ajax({
                                           url: str,
                                           type: 'POST',

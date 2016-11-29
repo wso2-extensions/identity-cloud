@@ -30,7 +30,7 @@ var CONNECTED_ACCOUNTS="connected-accounts";
 
 var AUTHZ_FAILURE="authzFailure";
 
-var ADMIN_PORTAL_NAME = "admin-portal";
+var ADMIN_PORTAL_NAME = "dashboard";
 var DIRECTORY_PATH = "directories";
 var DIRECTORY_UPDATE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "update_finish";
 var DIRECTORY_ADD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add_finish";
