@@ -1,5 +1,5 @@
 {
-    "context" : "/admin-portal",
+    "context" : "/dashboard",
     "login-required" : "true",
     "pages" :[
         {"url" : "account_recovery.jag", "dashboard-styles" : "icon-rotate-left icon-rotate-left-dashboard icon-marketing-styles",
