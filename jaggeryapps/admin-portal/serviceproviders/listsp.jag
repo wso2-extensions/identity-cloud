@@ -74,15 +74,17 @@ require("../util/constants.jag");
             </a>
 
         </div>
-        </br>
         <!-- EOF App  menu actionbar-->
 
         <!--Empty List-->
 
          <div class="container-fluid app-content-section" id="emptyList">
+         <div class="row" id="msg-issue-element" hidden>
+            <div  id="msg-issue" class="col-md-12 msg-issues" style="margin-top: -20px"></div>
+         </div>
+            <div class="row row-centered">
 
-             <div class="row row-centered">
-                <div class="col-centered col-xs-10 col-sm-9  col-md-9 col-lg-9">
+                <div class="col-centered col-xs-10 col-sm-7  col-md-7 col-lg-6">
                     <div class="add-issue-content">
                         <h2>Let's add some applications!</h2>
                         <h4>We will guide you on adding applications.Get started by clicking the button below.</h4>
@@ -91,41 +93,26 @@ require("../util/constants.jag");
                             <i class="fw fw-circle-outline fw-stack-2x"></i>
                             <i class="fw fw-add fw-stack-1x"></i>
                         </span>
-                            <span class="hidden-xs">Add Application</span>
+                            <span class="hidden-xs" >Add Application</span>
                         </a>
                         </br></br></br>
-                        <a id="start-sample-btn" href="#">Add Sample Application</a>
+                        <a style="font-size: large;color: white;text-decoration: underline" href="#">Add Sample Application</a>
                     </div>
                 </div>
-             </div>
+            </div>
         </div><!-- /.container -->
 
         <!--/Empty List-->
-        <div class="container-fluid app-content-section" id="spList">
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div id="msg-issue"></div>
+        <div class="container-fluid" id="spList" hidden>
+            <div id="searchBar" class="row row-centered app-sort-bar">
+                <div id="searchBox" class="col-centered col-md-5 search">
+                    <input type="text" class="form-control" id="search-apps" placeholder="Search Application">
+                    <i class="fa fa-2x fa-search"></i>
                 </div>
             </div>
-
-            <div class="row row-centered">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div id="searchBar" class="app-sort-bar">
-                        <div id="searchBox" class="col-centered col-md-5 search">
-                            <input type="text" class="form-control" id="search-apps" placeholder="Search Application">
-                            <i class="fa fa-2x fa-search"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="row row-centered app-listing" id = "listBody">
+                <!-- BOF listing block -->
             </div>
-
-            <div class="row row-centered">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="app-listing" id = "listBody"></div>
-                </div>
-            </div>
-            <!-- BOF listing block -->
         </div>
         <!-- /.container -->
         <div id="push"></div>
@@ -162,16 +149,11 @@ include("/templates/footer.jag");
     var directoryList = checkDirectory('is-wso2.com');
        if (directoryList &&  "sample-wso2.com" === directoryList.domainId) {
             $("#msg-issue-element").show();
-            var warning = $(
-                    '<div class="alert alert-info clearfix" role="alert">' +
-                        '<i class="fw fw-info fw-lg"></i>' +
-                        '<span class="alert-connect" > You are running with a sample user store. Don\'t forget to connect actual user store </span>'+
-                        '<a class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" href="/dashboard/directories/downloadagent">'+
-                            '<span class="hidden-xs">Connect your userstore&nbsp;&nbsp;'+
-                                '<i class="fw fw-settings fw-lg"></i>'+
-                            '</span>'+
-                        '</a>'+
-                    '</div>');
+            var warning = $('<div class="col-md-10"><h5 class="pull-left"  > You are running with a sample userstore. Dont forget to ' +
+             'connect to an actual userstore.</h5></div><div class="col-md-2"><a ' +
+              'href="/admin-portal/directories/downloadagent" class="btn btn-default" style="float:left;margin-top: -10px"> ' +
+               'Connect your Userstore <span class="fw-stack fw-md fw-settings"><i class="fw fw-circle-outline ' +
+                'fw-stack-2x"></i><i class="fw fw-add fw-stack-1x"></i></span></a></div>');
              $("#msg-issue").html( warning);
         }
     });
@@ -186,6 +168,7 @@ var serverUrl = window.location.host;
 
 $(function WindowLoad(event) {
     url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
+    console.log("************ " + url);
     ws = new WebSocket(url);
 
     ws.onopen = function () {

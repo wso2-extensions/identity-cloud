@@ -31,7 +31,7 @@ function uploadTheme() {
         formData.append('themeType', themeType);
         formData.append('fileName', fileName);
 
-        var str = "/dashboard/customTheme/themeUpload_finish";
+        var str = "/admin-portal/customTheme/themeUpload_finish";
         $.ajax({
                    url: str,
                    type: 'POST',
@@ -55,7 +55,7 @@ function uploadTheme() {
 
 
 function loadThemeList() {
-    var str = "/dashboard/customTheme/themeTypes";
+    var str = "/admin-portal/customTheme/themeTypes";
     $.ajax({
                url: str,
                type: 'GET',
