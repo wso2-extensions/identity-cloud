@@ -27,3 +27,5 @@ const WELL_KNOWN_APP = "wellKnownApp";
 const STORE_APP_TYPE = "storeAppType";
 const DEFAULT_USER_STORE_DOMAIN  = "is-wso2.com";
 const SAMPLE_USER_STORE_DOMAIN = "sample-wso2.com";
+const APP_NAME1 = "SampleApp1";
+const APP_NAME2 = "SampleApp2";
