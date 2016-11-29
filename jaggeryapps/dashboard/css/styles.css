@@ -3485,3 +3485,26 @@ table tbody tr:nth-child(even) {
 .connect-btn {
     font-weight: 400;
 }
+
+.block-heading {
+    font-size: 24px;
+    color: #0498d5;
+    font-weight: 300;
+    padding-bottom: 8px;
+}
+.steps-text {
+    font-size: 18px;
+    font-weight: 300;
+}
+.conf-guide ul {
+    padding-left: 0;
+}
+.conf-guide li {
+    padding: 8px 0 8px 0;
+}
+.conf-guide .help-block{
+    margin-left: 18px;
+}
+.steps-text i {
+    color: #0498d5;
+}

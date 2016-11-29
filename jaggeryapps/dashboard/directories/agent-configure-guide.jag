@@ -86,39 +86,39 @@ include("/templates/header.jag");
     <!-- left pane wrapper -->
     <div class="right-pane">
 
-        <div class="container-fluid app-content-section">
+        <div class="container-fluid app-content-section conf-guide">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
                     <input id="drName" name="drName" type="text" value="Default" class="form-control"
                            placeholder="Enter directory name" autofocus style="visibility: hidden"/>
 
-                    <div id="push"></div>
-
                     <div class="row" style="margin-top: -70px">
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="alert alert-warning alert-no-margin" role="alert">
-                                <span class="alert-content">
-                                   <h5>If your download didn't start automatically , <span> <a href="#"
-                                                                                               onclick="downloadAgent();">click here </a></span> </h5>
-                                </span>
-                                </div>
+                            <div class="alert alert-info alert-no-margin" role="alert">
+                            <span class="alert-content">
+                               <h5>If your download didn't start automatically, <span> <a href="#"
+                                   onclick="downloadAgent();">click here </a></span> </h5>
+                            </span>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="padding-left: 20px;margin-top: -30px">
 
 
-                        <div class="col-mod-12">
-                            <h2>Option 1:</h2>
-                            <ul style="margin-top: 15px">
-                                <li><h4> Move the downloaded WSO2 userstore agent application to the server where the userstore is located.</h4></li>
-                                <li><h4> Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. For more details, see the <a href="#">README</a>.</h4></li>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p>Follow below guide to connect your local user store.</p>
+                            </br>
+                            <div class="block-heading">Step 1</div>
+                            <ul style="list-style: none;">
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Move the downloaded WSO2 userstore agent application to the server where the userstore is located.</span></li>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. </span>
+                                    <div class="help-block" >Tip: See below examples for configuration guide. For more details, see the <a href="#">README</a>.</div>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="row" style="margin: 15px 15px">
-                        <div class="col-mod-12">
+                        <div class="col-md-12">
                             <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
                                                        style="width:90%;height:200px;"></div>
                             <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
@@ -131,12 +131,12 @@ include("/templates/header.jag");
                     </div>
 
                     <form id="agent-download-form" name="agent-download-form" role="form">
-                    <div class="row" style="padding-left: 20px;">
-                        <div class="col-mod-12">
-                            <h2>Option 2:</h2>
-                            <ul>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="block-heading">Step 2</div>
+                            <ul style="list-style: none;">
                                 <li>
-                                    <h4>If you already have a configured URL, you can simply enter it below and click Save.</h4>
+                                    <span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>  &nbsp;If you already have a configured URL, you can simply enter it below and click Save.</span>
                                 </li>
                             </ul>
                         </div>
@@ -169,7 +169,7 @@ include("/templates/header.jag");
                             <div class="form-group" id="action-buttons">
                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                         id="btn-save">
-                                <span class="fw-stack fw-lg fw-save">
+                                <span class="fw-stack fw-save">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-stack-1x"></i>
                                 </span>
@@ -188,7 +188,7 @@ include("/templates/header.jag");
                                 <button type="button" onclick="urlResolver('applist')"
                                         class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn"
                                         id="btn-success">
-                                <span class="fw-stack fw-lg fw-list">
+                                <span class="fw-stack fw-list">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-stack-1x"></i>
                                 </span>
