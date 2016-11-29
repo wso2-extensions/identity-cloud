@@ -3488,7 +3488,6 @@ table tbody tr:nth-child(even) {
 
 .block-heading {
     font-size: 24px;
-    color: #0498d5;
     font-weight: 300;
     padding-bottom: 8px;
 }
@@ -3507,4 +3506,22 @@ table tbody tr:nth-child(even) {
 }
 .steps-text i {
     color: #0498d5;
+}
+.cloud-app-listing .app-sample-icon {
+    display: block;
+    background: rgba(0, 0, 0, .3);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    z-index: 1;
+}
+.app-sample-icon {
+    /*position: absolute;*/
+    top: 0px;
+    right: 0px;
+    opacity: 1;
+}
+.cloud-app-listing .app-sample-icon i {
+    margin-top: 12px;
 }

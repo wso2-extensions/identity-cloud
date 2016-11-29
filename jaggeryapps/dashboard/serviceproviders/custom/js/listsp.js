@@ -107,6 +107,9 @@ function    drawList() {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
                 var appName = spList[i].applicationName;
+                var sampleIcon = '';
+
+                console.log(spList[i]);
 
                 if (type == CUSTOM_SP) {
                     spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
@@ -126,9 +129,14 @@ function    drawList() {
                     spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
                 }
                 setCustomImage(appName);
+                if(appName == "SampleApp1" || appName == "SampleApp2") {
+                    sampleIcon ='<span class="app-sample-icon" title="Sample"><i class="fw fw-prototype fw-lg"></i></span>';
+                }
+
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
                 '                    <div class="cloud-app-listing app-color-one">' +
+                                        sampleIcon +
                 '                        <a href="/'+ ADMIN_PORTAL_NAME +'/serviceprovider/'+spList[i].applicationName+'">' +
                 '                            <div class="app-icon">' +
                 spimage +
