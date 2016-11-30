@@ -141,7 +141,7 @@ function    drawList() {
             if(appName == APP_NAME1 || appName == APP_NAME2) {
                 sampleIcon ='<span class="app-sample-icon" title="Sample"><i class="fw fw-prototype fw-lg"></i></span>';
             }
-            if (spList[i].description.indexOf(']') > -1) {
+            if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
                 var sampleIcon = '';
@@ -215,7 +215,7 @@ function drawListOverview(spList) {
             if (count <= 3){
                 var spdesc = spList[i].description;
                 var spimage = '<img src="../images/is/custom.png " class="square-element">';
-                if (spList[i].description.indexOf(']') > -1) {
+                if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
                     spdesc = spList[i].description.split(']') [1];
                     var type = spList[i].description.split(']') [0];
                     var appName = spList[i].applicationName;
