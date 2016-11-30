@@ -246,8 +246,8 @@ include("/templates/header.jag");
             var intervalVar = setInterval(function () {
             var appList = checkAppList(cookie,userName);
             if (appList) {
-                if (appList.length  == 2 && appList[0].applicationName === "SampleApp1" &&
-                                                    appList[1].applicationName === "SampleApp2") {
+                if (appList.length  == 2 && appList[0].applicationName === APP_NAME1 &&
+                                                    appList[1].applicationName === APP_NAME2) {
                     $("#appCount").html("2");
                     $("#appText").html("Sample Apps Enabled");
                     drawListOverview(appList);
