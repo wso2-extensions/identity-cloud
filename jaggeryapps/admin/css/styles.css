@@ -3509,12 +3509,11 @@ table tbody tr:nth-child(even) {
 }
 .cloud-app-listing .app-sample-icon {
     display: block;
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, .55);
     color: #fff;
-    width: 40px;
-    height: 40px;
     position: absolute;
     z-index: 1;
+    padding: 10px;
 }
 .app-sample-icon {
     /*position: absolute;*/
@@ -3522,9 +3521,15 @@ table tbody tr:nth-child(even) {
     right: 0px;
     opacity: 1;
 }
+.app-sample-icon span {
+    opacity: 0.8;
+}
 .cloud-app-listing .app-sample-icon i {
     margin-top: 12px;
 }
 .add-on {
     background-color: #0288c0;
+}
+.sample {
+    opacity: 0.6;
 }

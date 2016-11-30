@@ -137,16 +137,15 @@ function    drawList() {
             var appName = spList[i].applicationName;
             var spdesc = spList[i].description;
             var spimage = '<img src="images/is/custom.png " class="square-element">';
-            
+            var sampleIcon = '';
+
             if(appName == APP_NAME1 || appName == APP_NAME2) {
-                sampleIcon ='<span class="app-sample-icon" title="Sample"><i class="fw fw-prototype fw-lg"></i></span>';
+                sampleIcon ='<div class="app-sample-icon" title="Sample"><span>Sample</span></div>';
             }
-            if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
+
+            if (spList[i].description.indexOf(']') > -1 ) {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
-                var sampleIcon = '';
-
-                console.log(spList[i]);
 
                 if (type == CUSTOM_SP) {
                     spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
@@ -162,11 +161,16 @@ function    drawList() {
                     spimage = '<img id=' + appName + ' src="images/is/salesforce.png " class="square-element">';
                 } else if (type == AMAZON_SP) {
                     spimage = '<img id=' + appName + ' src="images/is/aws.png " class="square-element">';
+                } else if (type == "sample") {
+                    if (appName == APP_NAME1) {
+                        spimage = '<img src="images/is/sample/sampleApp1.jpg" class="sample square-element">';
+                    } else if (appName == APP_NAME2) {
+                        spimage = '<img  src="images/is/sample/sampleApp2.jpg " class="sample square-element">';
+                    }
                 } else {
                     spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
                 }
                 setCustomImage(appName);
-
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
                 '                    <div class="cloud-app-listing app-color-one">' +
@@ -211,11 +215,18 @@ function drawListOverview(spList) {
         $('#spList').show();
         $('#emptyList').hide();
         for (var i in spList) {
+            var appName = spList[i].applicationName;
             count += 1;
             if (count <= 3){
                 var spdesc = spList[i].description;
                 var spimage = '<img src="../images/is/custom.png " class="square-element">';
-                if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
+                var sampleIcon = '';
+
+                if(appName == APP_NAME1 || appName == APP_NAME2) {
+                    sampleIcon ='<div class="app-sample-icon" title="Sample"><span>Sample</span></div>';
+                }
+
+                if (spList[i].description.indexOf(']') > -1) {
                     spdesc = spList[i].description.split(']') [1];
                     var type = spList[i].description.split(']') [0];
                     var appName = spList[i].applicationName;
@@ -234,13 +245,20 @@ function drawListOverview(spList) {
                         spimage = '<img id=' + appName + ' src="../images/is/salesforce.png " class="square-element">';
                     } else if (type == AMAZON_SP) {
                         spimage = '<img id=' + appName + ' src="../images/is/aws.png " class="square-element">';
+                    } else if (type == "sample") {
+                        if (appName == APP_NAME1) {
+                            spimage = '<img src = "../images/is/sample/sampleApp1.jpg" class="sample square-element">';
+                        } else if (appName == APP_NAME2) {
+                            spimage = '<img  src = "../images/is/sample/sampleApp2.jpg " class="sample square-element">';
+                        }
                     } else {
                         spimage = '<img id=' + appName + ' src="../images/is/custom.png " class="square-element">';
                     }
                     setCustomImage(appName);
                 }
-                output = output + '<div class="col-xs-6 col-sm-4  col-md-4 col-lg-42 pull-right">' +
+                output = output + '<div class="col-xs-6 col-sm-4  col-md-4 col-lg-4 pull-right">' +
                     '                    <div class="cloud-app-listing app-color-one">' +
+                                            sampleIcon +
                     '                        <a href="/' + ADMIN_PORTAL_NAME + '/serviceprovider/' + spList[i].applicationName + '">' +
                     '                            <div class="app-icon">' +
                     spimage +
