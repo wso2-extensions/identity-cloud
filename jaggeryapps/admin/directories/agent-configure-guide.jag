@@ -110,7 +110,7 @@ include("/templates/header.jag");
                             </br>
                             <div class="block-heading">Step 1</div>
                             <ul style="list-style: none;">
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Move the downloaded WSO2 userstore agent application to the server where the userstore is located.</span></li>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Move the downloaded WSO2 user store agent application to the server where the userstore is located.</span></li>
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. </span>
                                     <div class="help-block" >Tip: See below examples for configuration guide. For more details, see the <a href="#">README</a>.</div>
                                 </li>

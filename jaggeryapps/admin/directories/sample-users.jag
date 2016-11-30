@@ -83,7 +83,7 @@ include("/templates/header.jag");
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-delete fw-stack-1x"></i>
-                </span> Delete Sample Userstore
+                </span> Delete sample user store
             </a>
         </div><!-- EOF App  menu actionbar-->
 
@@ -109,7 +109,7 @@ include("/templates/header.jag");
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="help-note">
-                                   Note: This sample user directory screen may change once you connect an actual userstore.
+                                   Note: This sample user directory screen may change once you connect an actual user store.
                             </div>
                         </div>
                     </div>
