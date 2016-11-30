@@ -101,7 +101,7 @@ include("/templates/header.jag");
                                 <span class="alert-connect" > You are running with a sample user store. Don't forget to connect actual user store </span>
 
                                 <button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href='/<%=ADMIN_PORTAL_NAME%>/directories/downloadagent'">
-                                    <span class="hidden-xs">Connect your userstore&nbsp;&nbsp;
+                                    <span class="hidden-xs">Connect your user store&nbsp;&nbsp;
                                         <i class="fw fw-settings fw-lg"></i>
                                     </span>
                                 </button>
@@ -233,6 +233,22 @@ include("/templates/header.jag");
                     cookie = obj.cookie;
                     userName = obj.user;
 
+                    var appList = checkAppList(cookie,userName);
+                    if (appList) {
+                          if (appList.length  == 2 && appList[0].applicationName === APP_NAME1 &&
+                                                    appList[1].applicationName === APP_NAME2) {
+                                $("#appCount").html("2");
+                                $("#appText").html("Sample Apps Enabled");
+                                drawListOverview(appList);
+                          } else {
+                                $("#appCount").html(appList.length);
+                                $("#appText").html("Application Enabled");
+                                drawListOverview(appList);
+                          }
+                    } else {
+                         $("#appCount").html("0");
+                         $("#appText").html("Application Enabled");
+                     }
                 };
                 ws.onclose = function () {
                     console.log("web Socket onclose. ");
@@ -246,8 +262,8 @@ include("/templates/header.jag");
             var intervalVar = setInterval(function () {
             var appList = checkAppList(cookie,userName);
             if (appList) {
-                if (appList.length  == 2 && appList[0].applicationName === "SampleApp1" &&
-                                                    appList[1].applicationName === "SampleApp2") {
+                if (appList.length  == 2 && appList[0].applicationName === APP_NAME1 &&
+                                                    appList[1].applicationName === APP_NAME2) {
                     $("#appCount").html("2");
                     $("#appText").html("Sample Apps Enabled");
                     drawListOverview(appList);

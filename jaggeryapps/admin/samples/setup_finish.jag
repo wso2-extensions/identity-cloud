@@ -151,7 +151,8 @@ function updateSP(sampleConf){
         var updateSp = '<xsd:updateApplication xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://org.apache.axis2/xsd" xmlns:xsd1="http://model.common.application.identity.carbon.wso2.org/xsd">'+
                 '<xsd:serviceProvider>'+
                 '<xsd1:applicationID>'+serviceProvider.applicationID+'</xsd1:applicationID>'+
-                '<xsd1:applicationName>'+spName+'</xsd1:applicationName>';
+                '<xsd1:applicationName>'+spName+'</xsd1:applicationName>'+
+                '<xsd1:description>'+spDesc+'</xsd1:description>';
 
         var inboundConfigs = serviceProvider.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
         if(inboundConfigs.constructor !== Array){

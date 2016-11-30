@@ -56,34 +56,39 @@ function reloadGrid() {
         type: "GET",
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            if (data) {
+                var resp = $.parseJSON(data);
 
-            if (resp.success == false) {
-                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
-                } else {
-                    if (resp.message != null && resp.message.length > 0) {
-                        message({
-                            content: resp.message, type: 'error', cbk: function () {
-                            }
-                        });
+                if (resp.success == false) {
+                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                     } else {
-                        message({
-                            content: 'Error occurred while loading values for the grid.',
-                            type: 'error',
-                            cbk: function () {
-                            }
-                        });
+                        if (resp.message != null && resp.message.length > 0) {
+                            message({
+                                content: resp.message, type: 'error', cbk: function () {
+                                }
+                            });
+                        } else {
+                            message({
+                                content: 'Error occurred while loading values for the grid.',
+                                type: 'error',
+                                cbk: function () {
+                                }
+                            });
+                        }
                     }
+                } else {
+                    spList = resp.return;
+                    if (spList != null && spList.constructor !== Array) {
+                        var arr = [];
+                        arr[0] = spList;
+                        spList = arr;
+                    }
+                    drawList();
                 }
             } else {
-                spList = resp.return;
-                if (spList != null && spList.constructor !== Array) {
-                    var arr = [];
-                    arr[0] = spList;
-                    spList = arr;
-                }
-                drawList();
+                $('#spList').hide();
+                $('#emptyList').show();
             }
         },
         error: function (e) {
@@ -128,12 +133,17 @@ function    drawList() {
         $('#spList').show();
         $('#emptyList').hide();
         for (var i in spList) {
+            var sampleIcon ='';
+            var appName = spList[i].applicationName;
             var spdesc = spList[i].description;
             var spimage = '<img src="images/is/custom.png " class="square-element">';
-            if (spList[i].description.indexOf(']') > -1) {
+            
+            if(appName == APP_NAME1 || appName == APP_NAME2) {
+                sampleIcon ='<span class="app-sample-icon" title="Sample"><i class="fw fw-prototype fw-lg"></i></span>';
+            }
+            if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
                 spdesc = spList[i].description.split(']') [1];
                 var type = spList[i].description.split(']') [0];
-                var appName = spList[i].applicationName;
                 var sampleIcon = '';
 
                 console.log(spList[i]);
@@ -156,9 +166,6 @@ function    drawList() {
                     spimage = '<img id=' + appName + ' src="images/is/custom.png " class="square-element">';
                 }
                 setCustomImage(appName);
-                if(appName == "SampleApp1" || appName == "SampleApp2") {
-                    sampleIcon ='<span class="app-sample-icon" title="Sample"><i class="fw fw-prototype fw-lg"></i></span>';
-                }
 
             }
             output = output + '<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">' +
@@ -208,7 +215,7 @@ function drawListOverview(spList) {
             if (count <= 3){
                 var spdesc = spList[i].description;
                 var spimage = '<img src="../images/is/custom.png " class="square-element">';
-                if (spList[i].description.indexOf(']') > -1) {
+                if (spList[i].description.indexOf(']') > -1 && spList[i].description.split(']') [0] !== CUSTOM_SP) {
                     spdesc = spList[i].description.split(']') [1];
                     var type = spList[i].description.split(']') [0];
                     var appName = spList[i].applicationName;

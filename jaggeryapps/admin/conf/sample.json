@@ -1,11 +1,11 @@
 {
     "apps" : {
       "app1" : {
-          "name": "SampleApp1",
-          "description": "Sample App1",
-          "displayName": "Sample App1",
+          "name": "Italiano(SampleApp)",
+          "description": "sample]Italiano (Sample App)",
+          "displayName": "Italiano(Sample App)",
           "type": "custom",
-          "issuer" : "Sampleapp1",
+          "issuer" : "Italiano (Sample App)",
           "assertionConsumerURLs" : "http://localhost:8080/app1.com/home.jsp",
           "nameIdFormat" : "nameIdFormat",
           "signingAlgorithm" : "signingAlgorithm",
@@ -30,11 +30,11 @@
           "appType" : "custom"
       },
       "app2" : {
-            "name": "SampleApp2",
-            "description": "Sample App2",
-            "displayName": "Sample App2",
+            "name": "CafeLebens(SampleApp)",
+            "description": "sample]CafeLebens (Sample App)",
+            "displayName": "CafeLebens (Sample App)",
             "type": "custom",
-            "issuer" : "Sampleapp2",
+            "issuer" : "CafeLebens (Sample App)",
             "assertionConsumerURLs" : "http://localhost:8080/app2.com/home.jsp",
             "nameIdFormat" : "nameIdFormat",
             "signingAlgorithm" : "signingAlgorithm",
