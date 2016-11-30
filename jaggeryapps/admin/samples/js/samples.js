@@ -201,8 +201,23 @@ function drawList() {
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             cell1.innerHTML = userList[i].name;
-            cell2.innerHTML = userList[i].password;
+            cell2.innerHTML = '<div class="input-append input-group"><input id="password" class="form-control" type="password" value="'+ userList[i].password + '" placeholder="password" style="display: block;"> <span tabindex="100" title="Click here show/hide password" onclick="togglePassword(this);" class="add-on input-group-addon " style="cursor: pointer;"><i class="fw  fw-hide">   </i></span></div>';
         }
+    }
+}
+
+/**
+ * This method will toggle password text to visible/hide status
+ * @param element
+ */
+function togglePassword(element) {
+    var relatedTextBox = $($(element).parent().find('input')[0]);
+    if ($(relatedTextBox).attr('type') === "text") {
+        $(relatedTextBox).attr('type', 'password');
+        $($(element).find('i')[0]).removeClass('fw-view').addClass('fw-hide');
+    } else if ($(relatedTextBox).attr('type') === "password") {
+        $(relatedTextBox).attr('type', 'text');
+        $($(element).find('i')[0]).removeClass('fw-hide').addClass('fw-view');
     }
 }
 

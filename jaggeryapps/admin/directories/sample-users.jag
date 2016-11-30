@@ -136,7 +136,7 @@ include("/templates/header.jag");
                             <table id="userTable" name="userTable" class="dataTable display no-footer" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>UserName</th>
+                                        <th>Username</th>
                                         <th>Password</th>
                                     </tr>
                                 </thead>
