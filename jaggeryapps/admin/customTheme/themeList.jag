@@ -65,7 +65,7 @@ var domainName = request.getParameter("domain");
                                                                 <div class="breadcrumb-secondary">
                                                                     <i class="fw fw-security "></i>
                                                                     <span class="hidden-xs">Identity Cloud&nbsp;</span>
-                                                                    / Custom Theme / Add
+                                                                    / Custom Theme / List
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -82,7 +82,7 @@ var domainName = request.getParameter("domain");
 
                                                             <!-- BOF App  menu actionbar -->
                                                             <div class="action-bar">
-                                                                <a href="/dashboard/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
+                                                                <a href="/admin/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
                                                                     title="Back to Overview">
                                                                     <span class="fw-stack fw-lg btn-action-ico">
                                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -96,58 +96,38 @@ var domainName = request.getParameter("domain");
 
                                                             <div class="container-fluid app-content-section">
                                                                 <div class="row padding-bottom-xlg">
-                                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
+                                                                    <div class="col-xs-12 col-sm-12 col-md-6 forms">
 
-                                                                        <div class="margin-bottom-md margin-top-2x">
+                                                                        <div class="margin-bottom-md">
                                                                             <!-- Nav tabs -->
-                                                                            <div class="row">
-                                                                            <div class="col-sm-12 col-md-5">
 
 
                                                                                 <div class="form-group">
-
-                                                                                        <label>Theme Type
-                                                                                            <span class="required">*</span>
-                                                                                        </label>
-                                                                                        <label id="themeType-error" class="error" hidden="">This field is required.</label>
-                                                                                        <select name="themeType" class="form-control" id="themeType">
-                                                                                            <option selected="true" disabled="disabled">---Choose---</option>
-                                                                                        </select>
-
-                                                                                </div>
-                                                                                <div class="form-group">
-
-                                                                                        <label>Theme File
-                                                                                            <span class="required">*</span>
-                                                                                        </label>
-                                                                                        <label id="themeFile-error" class="error" hidden="">This field is required.</label>
-                                                                                        <input type="file" name="themeFile" size="40" id="themeFile" class="form-control" accept='application/zip,application/rar'>
-
-
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="uploadTheme();">
-                                                                                        <span class="fw-stack btn-action-ico">
-                                                                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                                                            <i class="fw fw-save fw-stack-1x"></i>
-                                                                                        </span>
-                                                                                        Update
-                                                                                    </button>
-                                                                                </div>
-
+                                                                                    <div id="themesDiv">
+                                                                                        <fieldset class="theme-list" >
+                                                                                            <table id="themeTypesTbl" class="margin-top-2x table table-bordered table-condensed">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th>Theme Type</th>
+                                                                                                        <th>Action</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </fieldset>
+                                                                                    </div>
                                                                                 </div>
 
 
                                                                                 <!-- Tab panes -->
 
-                                                                            </div>
+
                                                                         </div>
 
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.container -->
-
 
                                                             </div>
                                                             <div class="clearfix"></div>
@@ -173,7 +153,7 @@ var domainName = request.getParameter("domain");
                                                         <script src="js/directory.js"></script>
                                                         <script src="../js/custom/constants.js"></script>
 
-                                                        <script src="../customTheme/js/themeUpload.js"></script>
+                                                        <script src="../customTheme/js/themeList.js"></script>
                                                         <script>
                                                             $('.side-pane-trigger').click(function(){
                                                             var rightPane = $('.right-pane');
@@ -191,12 +171,11 @@ var domainName = request.getParameter("domain");
                                                         </script>
                                                         <script>
                                                             var serverUrl = window.location.host;
-                                                            var cookie = null;
                                                             var userName = null;
-
-                                                             $(function WindowLoad(event) {
+                                                            var cookie = null;
+                                                            $(function WindowLoad(event) {
                                                             url =
-                                                            'wss://' + serverUrl + '/dashboard/session_manager.jag';
+                                                            'wss://' + serverUrl + '/admin/session_manager.jag';
                                                             ws = new WebSocket(url);
 
                                                             ws.onopen = function () {
@@ -207,7 +186,7 @@ var domainName = request.getParameter("domain");
                                                             var obj = $.parseJSON(event.data);
                                                             cookie = obj.cookie;
                                                             userName = obj.user;
-                                                            loadThemeList();
+                                                            drawThemeList();
                                                             };
                                                             ws.onclose = function () {
                                                             console.log("web Socket onclose. ");

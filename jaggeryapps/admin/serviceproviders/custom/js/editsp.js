@@ -656,7 +656,7 @@ $(document).ready(function () {
 });
 
 function getRoles() {
-    var apiPath = "/dashboard/apps/getRoles";
+    var apiPath = "/admin/apps/getRoles";
     var roles;
     $.ajax({
                url: apiPath,

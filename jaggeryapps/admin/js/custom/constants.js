@@ -1,4 +1,4 @@
-const ADMIN_PORTAL_NAME = "dashboard";
+const ADMIN_PORTAL_NAME = "admin";
 const DIRECTORY_PATH = "directories";
 const APP_LIST = "serviceproviders";
 const SAMPLE_PATH = "samples";
