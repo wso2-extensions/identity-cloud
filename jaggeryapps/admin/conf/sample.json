@@ -2,8 +2,8 @@
     "apps" : {
       "app1" : {
           "name": "Italiano(SampleApp)",
-          "description": "Italiano (Sample App)",
-          "displayName": "Italiano (Sample App)",
+          "description": "sample]Italiano (Sample App)",
+          "displayName": "Italiano(Sample App)",
           "type": "custom",
           "issuer" : "Italiano (Sample App)",
           "assertionConsumerURLs" : "http://localhost:8080/app1.com/home.jsp",
@@ -31,7 +31,7 @@
       },
       "app2" : {
             "name": "CafeLebens(SampleApp)",
-            "description": "CafeLebens (Sample App)",
+            "description": "sample]CafeLebens (Sample App)",
             "displayName": "CafeLebens (Sample App)",
             "type": "custom",
             "issuer" : "CafeLebens (Sample App)",
