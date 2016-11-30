@@ -127,18 +127,18 @@ include("/templates/header.jag");
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="add-issue-content">
                                 <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
-                                    <span class="fw-stack fw-lg btn-action-ico">
+                                    <span class="fw-stack btn-action-ico">
                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                         <i class="fw fw-download fw-stack-1x"></i>
                                     </span>
-                                    <span>Download Agent</span>
+                                    <span class="btn-content">Download Agent</span>
                                 </a>
                                 <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
-                                    <span class="fw-stack fw-lg btn-action-ico">
+                                    <span class="fw-stack btn-action-ico">
                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                         <i class="fw fw-list fw-stack-1x"></i>
                                     </span>
-                                    <span>Skip to application list</span>
+                                    <span class="btn-content">Skip to Application List</span>
                                 </a>
                             </div>
                         </div>
@@ -176,14 +176,14 @@ include("/templates/header.jag");
                                         <div class="form-group" id="action-buttons">
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="btn-save">
-                                                <span class="fw-stack fw-lg fw-save">
+                                                <span class="fw-stack fw-save">
                                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 </span>
                                                 Save
                                             </button>
                                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                     id="add-directory-loading" style="display: none;" disabled>
-                                                <span class="fw-stack fw-lg btn-action-ico">
+                                                <span class="fw-stack btn-action-ico">
                                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-save fw-stack-1x"></i>
                                                 </span>
