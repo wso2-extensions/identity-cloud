@@ -233,6 +233,22 @@ include("/templates/header.jag");
                     cookie = obj.cookie;
                     userName = obj.user;
 
+                    var appList = checkAppList(cookie,userName);
+                    if (appList) {
+                          if (appList.length  == 2 && appList[0].applicationName === APP_NAME1 &&
+                                                    appList[1].applicationName === APP_NAME2) {
+                                $("#appCount").html("2");
+                                $("#appText").html("Sample Apps Enabled");
+                                drawListOverview(appList);
+                          } else {
+                                $("#appCount").html(appList.length);
+                                $("#appText").html("Application Enabled");
+                                drawListOverview(appList);
+                          }
+                    } else {
+                         $("#appCount").html("0");
+                         $("#appText").html("Application Enabled");
+                     }
                 };
                 ws.onclose = function () {
                     console.log("web Socket onclose. ");

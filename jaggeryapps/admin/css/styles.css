@@ -3525,3 +3525,6 @@ table tbody tr:nth-child(even) {
 .cloud-app-listing .app-sample-icon i {
     margin-top: 12px;
 }
+.add-on {
+    background-color: #0288c0;
+}
