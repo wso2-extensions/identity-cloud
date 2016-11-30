@@ -1,0 +1,13 @@
+<svg width="160" height="100" xmlns="http://www.w3.org/2000/svg">
+ <style>.st0{fill:none}.st1{fill:#fff}.st2,.st3{stroke:#fff;stroke-miterlimit:10}.st2{stroke-linecap:round;stroke-linejoin:round;fill:none;stroke-width:.6362}.st3{fill:#fff;stroke-width:.2137}</style>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_13" y="78.749769" x="32.50038" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#ffffff">Italiano</text>
+  <path id="svg_14" d="m22.500461,38.250094c0,0 -4.249966,-23.499812 33.249734,-28.499772c37.4997,-4.99996 81.749345,51.249589 81.748708,51.24919c0.000637,0.000399 -36.49907,-37.999297 -56.998906,-37.499301c-20.499836,0.499996 -57.999535,14.749882 -57.999535,14.749882z" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#ffffff"/>
+ </g>
+</svg>
