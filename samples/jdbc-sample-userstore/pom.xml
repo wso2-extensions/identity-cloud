@@ -21,14 +21,14 @@
     <parent>
         <groupId>org.wso2</groupId>
         <artifactId>wso2</artifactId>
-        <version>${identity.cloud.version}</version>
-        <relativePath>../../pom.xml</relativePath>
+        <version>1</version>
     </parent>
 
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.identity.userstore.jdbc.sample</groupId>
     <artifactId>identity-userstore-jdbc-sample</artifactId>
+    <version>${identity.cloud.version}</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon JDBC Sample Userstore Module</name>
     <description>
