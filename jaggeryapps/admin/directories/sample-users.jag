@@ -100,7 +100,7 @@ include("/templates/header.jag");
                                 <span class="alert-connect" > You are running with a sample user store. Don't forget to connect actual user store </span>
 
                                 <button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href='/<%=ADMIN_PORTAL_NAME%>/directories/downloadagent'">
-                                <span class="hidden-xs">Connect your userstore &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>
+                                <span class="hidden-xs">Connect your user store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>
                                 </button>
                             </div>
                         </div>
