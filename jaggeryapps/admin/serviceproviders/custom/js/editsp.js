@@ -110,8 +110,7 @@ function drawAppDetails(data) {
     $('#app-id').val(id);
     // add images to edit view
 
-
-    if (appType == "custom") {
+    if (appType == CUSTOM_SP || SAMPLE_SP) {
         if (data && data.skipGateway == "false") {
             var storeAppType = getStoreAppType(data);
             $("#skipgateway").prop('checked', false);
@@ -184,7 +183,7 @@ function renderCustomPage(data) {
 
     if (appType) {
         switch (appType) {
-            case "custom":
+            case CUSTOM_SP:
                 $("#app-name").text(data.applicationName);
                 $("#app-desc-name").text(appType);
                 $("#sp-img").attr('src', resolveImageIcon(appType));
@@ -195,6 +194,17 @@ function renderCustomPage(data) {
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);
                 setCustomImage(data.applicationName);
+                break;
+            case SAMPLE_SP:
+                $("#app-name").text(data.applicationName);
+                $("#app-desc-name").text(appType);
+                $("#sp-img").attr('src', resolveImageIcon(appType));
+                hideAllCustomFields();
+
+                $("#customConfig").show();
+                var dropdown = $("#custom-app-dropdown");
+                dropdown.show();
+                $("#custom-apptype-content").append(dropdown);
                 break;
             default:
                 var clonex = $("#samlconfig").clone();
@@ -270,6 +280,8 @@ function resolveImageIcon(type) {
         spimage = '../images/is/salesforce.png';
     } else if (type == AMAZON_SP) {
         spimage = '../images/is/aws.png';
+    } else if (type == SAMPLE_SP) {
+        spimage = '../images/is/sample/sampleApp2.jpg';
     } else {
         spimage = '../images/is/custom.png';
     }
