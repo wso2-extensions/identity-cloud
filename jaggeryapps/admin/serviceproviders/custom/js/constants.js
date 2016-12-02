@@ -10,6 +10,7 @@ var ZUORA_SP = "zuora";
 var SALESFORCE_SP = "salesforce";
 var WELLKNOWN_APPLICATION_TYPE = "appType";
 var DEFAULT_SUBJECT_CLAIM_URI = "http://wso2.org/claims/emailaddress";
+var SAMPLE_SP = "sample";
 
 //Form Fields
 var ISSUER = "issuer";
