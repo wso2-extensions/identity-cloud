@@ -64,7 +64,7 @@ if (samlResponse != null) {
 					{
 						session.put(LOGGED_IN_USER, sessionObj.loggedInUser);
 						log.debug(sessionObj.loggedInUser);
-						
+
 					    var userInfo = userInfoClient.getUserInfo();
 					    session.put(UI_USER_PERMISSIONS, userInfo.UIPermissionOfUser);
 					    log.debug(userInfo.UIPermissionOfUser);
@@ -104,9 +104,11 @@ if (samlResponse != null) {
                         }
 
 					    response.sendRedirect("index.jag");
-					}else{
-					    response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
-					}
+                    } else if (success === NO_ADMIN_PERMISSION) {
+                        response.sendRedirect("error.jag");
+                    } else {
+                        response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
+                    }
 
                 }
         }

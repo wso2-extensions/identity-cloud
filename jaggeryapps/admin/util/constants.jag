@@ -43,5 +43,7 @@ var DIRECTORY_DOWNLOAD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "
 var DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add";
 
 var APP_TYPE = "appType";
+var NO_ADMIN_PERMISSION = "noAdminPermission";
+var ADMIN_LOGIN_PERMISSION = "/permission";
 
 %>
