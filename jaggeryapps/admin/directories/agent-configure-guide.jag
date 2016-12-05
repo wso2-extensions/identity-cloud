@@ -137,6 +137,7 @@ include("/templates/header.jag");
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
+                                    <div class="connectionStatus"></div>
                                     <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL" name="agentUrl">
                                                      <span class="input-group-btn input-group-btn-check">
@@ -144,7 +145,6 @@ include("/templates/header.jag");
                                                                    onclick="validateBeforeSubmit()">Test Connection</button>
                                                      </span>
                                 </div>
-                                <div class="connectionStatus"></div>
                                 <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
                                     required.</label>
                             </div>
