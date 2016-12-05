@@ -3481,7 +3481,9 @@ table tbody tr:nth-child(even) {
     font-size: 16px;
     line-height: 2.6em;
 }
-
+.alert-connect a {
+    text-decoration: underline;
+}
 .connect-btn {
     font-weight: 400;
 }

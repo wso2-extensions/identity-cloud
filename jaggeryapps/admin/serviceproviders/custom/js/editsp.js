@@ -195,6 +195,7 @@ function renderCustomPage(data) {
                 $("#custom-apptype-content").append(dropdown);
                 setCustomImage(data.applicationName);
                 break;
+
             case SAMPLE_SP:
                 $("#app-name").text(data.applicationName);
                 $("#app-desc-name").text(appType);
@@ -206,6 +207,7 @@ function renderCustomPage(data) {
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);
                 break;
+
             default:
                 var clonex = $("#samlconfig").clone();
                 $("#samlconfig").remove();
@@ -713,4 +715,12 @@ function getStoreAppType(data){
     return APP_AGENT_TYPE;
 }
 
-
+function showGotoStoreMsg() {
+    var gotoStoreMsg = $(
+        '<div class="alert alert-info clearfix" role="alert">' +
+        '<i class="fw fw-info fw-lg"></i>' +
+        '<span class="alert-connect" > You can test SSO on sample applications by visiting the <a href="/user-portal" target="_blank">user portal</a> with ' +
+        '<a href="../directories/sampleusers" target="_blank" >sample user credentials</a> on a private window or by login out.</span>'+
+        '</div>');
+    $("#goto-store-msg").html( gotoStoreMsg);
+}

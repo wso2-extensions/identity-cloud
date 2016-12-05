@@ -90,8 +90,8 @@ function reloadGrid() {
                     drawList();
                 }
             } else {
-                $('#spList').hide();
-                $('#emptyList').show();
+                $('#spList').addClass('hide');
+                $('#emptyList').removeClass('hide');
                 $('#searchBox').hide();
             }
         },
@@ -134,8 +134,8 @@ function    drawList() {
     var output = "";
     $("#listBody").empty();
     if (spList != null) {
-        $('#spList').show();
-        $('#emptyList').hide();
+        $('#spList').removeClass('hide');
+        $('#emptyList').addClass('hide');
         for (var i in spList) {
             var sampleIcon ='';
             var appName = spList[i].applicationName;
@@ -199,8 +199,8 @@ function    drawList() {
         }
         $("#listBody").append(output);
     } else {
-        $('#spList').hide();
-        $('#emptyList').show();
+        $('#spList').addClass('hide');
+        $('#emptyList').removeClass('hide');
     }
 
     if ($("#searchBar").is(':visible')) {
