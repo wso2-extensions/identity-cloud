@@ -110,9 +110,11 @@ include("/templates/header.jag");
                             </br>
                             <div class="block-heading">Step 1</div>
                             <ul style="list-style: none;">
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Move the downloaded WSO2 user store agent application to the server where the userstore is located.</span></li>
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. </span>
-                                    <div class="help-block" >Tip: See below examples for configuration guide. For more details, see the <a href="#">DOCUMENTATION</a>.</div>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded zip file.</span></li>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the server. </span>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Once the server starts, REST endpoints are available through https://&lthostname&gt:8888/wso2agent</span>
+                                    <div class="help-block" >Tip:For more details, see the <a href="#">DOCUMENTATION</a>.</div>
                                 </li>
                             </ul>
                         </div>
@@ -125,7 +127,7 @@ include("/templates/header.jag");
                             <div class="block-heading">Step 2</div>
                             <ul style="list-style: none;">
                                 <li>
-                                    <span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>  &nbsp;If you already have a configured URL, you can simply enter it below and click Save.</span>
+                                    <span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>  &nbsp;If you have an agent configured, enter the connection url bellow and click Save.</span>
                                 </li>
                             </ul>
                         </div>
