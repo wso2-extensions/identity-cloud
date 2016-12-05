@@ -225,7 +225,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                    <label for="demote-reason-text" id="model-text" class="control-label">Please wait. This will take a few seconds.</label>
+                                     <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
                                          <div id="verified" style="display: none" hidden>
                                               <span class="fw-stack fw-lg btn-action-ico noti-success">
                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
