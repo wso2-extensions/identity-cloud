@@ -10,6 +10,7 @@ var ZUORA_SP = "zuora";
 var SALESFORCE_SP = "salesforce";
 var WELLKNOWN_APPLICATION_TYPE = "appType";
 var DEFAULT_SUBJECT_CLAIM_URI = "http://wso2.org/claims/emailaddress";
+var SAMPLE_SP = "sample";
 
 //Form Fields
 var ISSUER = "issuer";
@@ -40,3 +41,4 @@ var AWS_EMAIL_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/RoleSessi
 //claim Dialects
 var WSO2_EMAIL = "http://wso2.org/claims/emailaddress";
 var PROXY_CONTEXT_PATH = "ProxyContextPath";
+const APP_LIMIT = 20;

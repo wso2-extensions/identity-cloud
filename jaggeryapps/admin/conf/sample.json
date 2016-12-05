@@ -4,9 +4,9 @@
           "name": "Italiano-Sample",
           "description": "sample]Italiano-Sample",
           "displayName": "Italiano-Sample",
-          "type": "custom",
+          "type": "sample",
           "issuer" : "Italiano-Sample",
-          "assertionConsumerURLs" : "http://localhost:8080/app1.com/home.jsp",
+          "assertionConsumerURLs" : "http://wso2cloud-italiano-sample.wso2apps.com/italiano.com/index.jsp",
           "nameIdFormat" : "nameIdFormat",
           "signingAlgorithm" : "signingAlgorithm",
           "digestAlgorithm" : "digestAlgorithm",
@@ -27,15 +27,15 @@
           "enableIdPInitSLO" : "false",
           "idpSLOURLs" : "",
           "hiddenFields" : "",
-          "appType" : "custom"
+          "appType" : "sample"
       },
       "app2" : {
             "name": "CafeLebens-Sample",
             "description": "sample]CafeLebens-Sample",
             "displayName": "CafeLebens-Sample",
-            "type": "custom",
+            "type": "sample",
             "issuer" : "CafeLebens-Sample",
-            "assertionConsumerURLs" : "http://localhost:8080/app2.com/home.jsp",
+            "assertionConsumerURLs" : "http://wso2cloud-cafelebens-sample.wso2apps.com/cafelebens.com/index.jsp",
             "nameIdFormat" : "nameIdFormat",
             "signingAlgorithm" : "signingAlgorithm",
             "digestAlgorithm" : "digestAlgorithm",
@@ -56,7 +56,7 @@
             "enableIdPInitSLO" : "false",
             "idpSLOURLs" : "",
             "hiddenFields" : "",
-            "appType" : "custom"
+            "appType" : "sample"
       }
     },
     "userstore" : {

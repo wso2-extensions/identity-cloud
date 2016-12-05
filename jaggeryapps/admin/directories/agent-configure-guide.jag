@@ -112,25 +112,14 @@ include("/templates/header.jag");
                             <ul style="list-style: none;">
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Move the downloaded WSO2 user store agent application to the server where the userstore is located.</span></li>
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the application and configure it to create a secure connection to the WSO2 Identity Cloud. </span>
-                                    <div class="help-block" >Tip: See below examples for configuration guide. For more details, see the <a href="#">README</a>.</div>
+                                    <div class="help-block" >Tip: See below examples for configuration guide. For more details, see the <a href="#">DOCUMENTATION</a>.</div>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row" style="margin: 15px 15px">
-                        <div class="col-md-12">
-                            <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
-                                                       style="width:90%;height:200px;"></div>
-                            <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
-                                                       style="width:90%;height:200px;"></div>
-                            <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
-                                                       style="width:90%;height:200px;"></div>
-                            <div class="col-md-3"><img src="pic_mountainss.jpg" alt="Image"
-                                                       style="width:90%;height:200px;"></div>
-                        </div>
-                    </div>
 
-                    <form id="agent-download-form" name="agent-download-form" role="form">
+
+                    <form id="agent-download-form" name="agent-download-form" role="form" style="margin-top: 40px">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="block-heading">Step 2</div>

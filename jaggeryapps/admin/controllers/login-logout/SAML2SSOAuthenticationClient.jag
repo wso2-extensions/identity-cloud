@@ -1,5 +1,6 @@
 <%
 include("../wsUtil.jag");
+include("../../util/constants.jag");
 var util = require("../../util/utility.jag");
 var identityUtil = Packages.org.wso2.carbon.identity.core.util.IdentityUtil;
 
@@ -11,7 +12,6 @@ var ws = require('ws');
 var webService = new ws.WSRequest();
 var carbon = require('carbon');
 var PERMISSION_EXECUTE = "ui.execute";
-var ADMIN_LOGIN_PERMISSION = "/permission/admin/login";
 var userInfoClient = require('/controllers/login-logout/loggedUserInfoAdminClient.jag');
 
 
@@ -65,6 +65,11 @@ function login(request) {
                     }
                 }
             }
+        }
+        if (isAuthenticated !== "true") {
+            var payload = '<sso:logout xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org"/>'
+            callWSInOnly(webService, serverUrl2, "urn:logout", payload );
+            isAuthenticated = NO_ADMIN_PERMISSION;
         }
     }
     return isAuthenticated;

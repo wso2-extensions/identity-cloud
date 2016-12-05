@@ -84,11 +84,15 @@ function reloadGrid() {
                         arr[0] = spList;
                         spList = arr;
                     }
+                    if (spList.length <= APP_LIMIT) {
+                        $('#searchBox').hide();
+                    }
                     drawList();
                 }
             } else {
                 $('#spList').addClass('hide');
                 $('#emptyList').removeClass('hide');
+                $('#searchBox').hide();
             }
         },
         error: function (e) {

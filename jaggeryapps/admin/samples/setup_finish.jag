@@ -169,9 +169,9 @@ function updateSP(sampleConf){
         updateSp = updateSp + '<xsd1:inboundAuthenticationConfig>';
         if(samlConfig != null){
             updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>'+
-                    '<xsd1:friendlyName>' + samlConfig.friendlyName + '</xsd1:friendlyName>'+
+                    '<xsd1:friendlyName>'+sampleConf.type+'</xsd1:friendlyName>'+
                     '<xsd1:inboundAuthKey>' + serviceProviderDTO["issuer"] + '</xsd1:inboundAuthKey>'+
-                    '<xsd1:inboundAuthType>' + samlConfig.inboundAuthType+'</xsd1:inboundAuthType>';
+                    '<xsd1:inboundAuthType>samlssocloud</xsd1:inboundAuthType>';
             var props = samlConfig.properties;
             //props can't be null
             if(props.constructor !== Array) {
@@ -204,13 +204,13 @@ function updateSP(sampleConf){
 
                 '<xsd1:outboundProvisioningConfig>'+
                 '<xsd1:provisionByRoleList></xsd1:provisionByRoleList>'+
-                '</xsd1:outboundProvisioningConfig>'
+                '</xsd1:outboundProvisioningConfig>';
 
         updateSp = updateSp + '<xsd1:permissionAndRoleConfig></xsd1:permissionAndRoleConfig>'+
                 '<xsd1:spProperties>'+
                 '<xsd1:displayName>WellKnown Application Type</xsd1:displayName>'+
                 '<xsd1:name>appType</xsd1:name>'+
-                '<xsd1:value>custom</xsd1:value>'+
+                '<xsd1:value>'+sampleConf.appType+'</xsd1:value>'+
                 '</xsd1:spProperties>'+
                 '</xsd:serviceProvider>'+
                 '</xsd:updateApplication>';
