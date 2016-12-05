@@ -194,6 +194,11 @@ function renderCustomPage(data) {
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);
                 setCustomImage(data.applicationName);
+
+                if(data.applicationName == APP_NAME1 || data.applicationName == APP_NAME2) {
+                    disableForm();
+                    showGotoStoreMsg();
+                }
                 break;
 
             default:
@@ -699,6 +704,10 @@ function getStoreAppType(data){
         }
     }
     return APP_AGENT_TYPE;
+}
+
+function disableForm(){
+    $('.app-edit-form').find('input, textarea, button, select, a').attr('disabled','disabled');
 }
 
 function showGotoStoreMsg() {
