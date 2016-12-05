@@ -73,6 +73,7 @@ function addOrUpdateUserDirectory() {
                 $("#model-button-ok").show();
                 $("#model-text").hide();
                 $("#verified").show();
+                $("#process-icon").hide();
                 $("#model-title").text("User Directory");
                 $("#btn-close").hide();
                 $("#add-directory-loading").hide();
@@ -635,6 +636,7 @@ function verifyConnection(agentUrl) {
             if (data) {
                 if ($.parseJSON(data).return == "true") {
                     $("#verified").show();
+                    $("#process-icon").hide();
                     $("#unverified").hide();
                     $("#progress-icon").hide();
                 } else if ($.parseJSON(data).return == "false") {
