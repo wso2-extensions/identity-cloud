@@ -59,7 +59,7 @@ function login(request) {
                 }
                 for (var perm in permissions) {
                     var permission = permissions[perm];
-                    if (permission == ADMIN_LOGIN_PERMISSION) {
+                    if (permission == ADMIN_LOGIN_PERMISSION_SUPER_TENANT || permission == ADMIN_LOGIN_PERMISSION_TENANT) {
                         isAuthenticated = "true";
                         break;
                     }

@@ -44,6 +44,7 @@ var DIRECTORY_ADD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + 
 
 var APP_TYPE = "appType";
 var NO_ADMIN_PERMISSION = "noAdminPermission";
-var ADMIN_LOGIN_PERMISSION = "/permission";
+var ADMIN_LOGIN_PERMISSION_SUPER_TENANT = "/permission";
+var ADMIN_LOGIN_PERMISSION_TENANT = "/permission/admin";
 
 %>
