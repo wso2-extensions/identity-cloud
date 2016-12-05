@@ -239,6 +239,24 @@ function addApp(sampleConf){
     var tenantId = userInfo.tenantId;
     var tenantDomain = userInfo.tenantDomain;
 
+    var thumbnailId = "";
+    if (sampleConf.image) {
+        var path = "../images/is/sample/" + sampleConf.image ;
+        var file = new File(path);
+        try {
+            file.open("r");
+            var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+            var thumbnailInputStream = Packages.java.io.InputStream;
+            thumbnailInputStream = file.getStream().getStream();
+            fileContentObj.setContent(thumbnailInputStream);
+            fileContentObj.setFileName(file.getName());
+            thumbnailId = String(apiProviderImplObj.uploadImage(fileContentObj));
+        } catch (e) {
+            log.error(e);
+        } finally {
+            file.close();
+        }
+    }
 
     var app = {
         name: sampleConf.name,
@@ -252,6 +270,7 @@ function addApp(sampleConf){
         isDefaultVersion: true,
         trackingCode: sampleConf.name,
         skipGateway : true,
+        thumbnailUrl: thumbnailId,
         serviceProviderCreationEnabled : false,
         transport: "http",
         policyGroups: [
