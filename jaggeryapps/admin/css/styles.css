@@ -1472,6 +1472,9 @@ svg .outer {
     margin-top: 30px;
     margin-bottom: 30px;
 }
+.dark-hr{
+    border-bottom: 1px solid #000;
+}
 .dotted{
     border-top:2px dotted #666;
 }
@@ -1655,7 +1658,55 @@ svg .outer {
     margin: 0px;
 }
 
-
+/* ========================================================================
+ * Message status
+ * ======================================================================== */
+.message {
+    padding: 20px;
+    margin: 10px 0;
+    border-left: 5px solid transparent;
+    background: #333;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.message-success {
+    border-left-color: #5cb85c;
+}
+.message-success span {
+    color: #5cb85c;
+}
+.message-warning {
+    border-left-color: #f0ad4e;
+}
+.message-warning span{
+    color: #f0ad4e;
+}
+.message-info {
+    border-left-color: #009DA7;
+}
+.message-info span {
+    color: #009DA7;
+}
+.message-danger {
+    border-left-color: #d9534f;
+}
+.message-danger span {
+    color: #d9534f;
+}
+.message span {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+.message p:last-child {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.message span .icon {
+    padding-bottom: 3px;
+    margin-right: 5px;
+}
 /* ========================================================================
  * loading styles
  * ======================================================================== */
@@ -3452,28 +3503,18 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 .add-custom-app {
     border: 2px dashed #676767;
 }
-
 .link-white, .link-white:hover {
-    color: #fff;
+    color: #eeeeee;
     text-decoration: none;
 }
-.link-white, .link-white:hover {
-    color: #fff;
-    text-decoration: none;
+.link-underline {
+    text-decoration: underline;
 }
-
 .link-store {
     margin-right: 29px;
 }
 .link-store i {
     line-height: 3.5em;
-}
-
-table tbody tr:nth-child(odd) {
-    background-color: #696969;
-}
-table tbody tr:nth-child(even) {
-    background-color: #777777;
 }
 
 .secondary-btn {
@@ -3483,6 +3524,7 @@ table tbody tr:nth-child(even) {
 .connection-status, .config-details{
     font-size: 18px;
     font-weight: 400;
+    margin-right: 30px;
 }
 
 .connection-block {
@@ -3491,7 +3533,6 @@ table tbody tr:nth-child(even) {
 }
 .connection-check {
     display: inline-block;
-    margin-right: 30px;
 }
 .help-note {
     display: block;
@@ -3555,9 +3596,27 @@ table tbody tr:nth-child(even) {
 .cloud-app-listing .app-sample-icon i {
     margin-top: 12px;
 }
-.add-on {
-    background-color: #0288c0;
-}
 .sample {
     opacity: 0.6;
 }
+.note-container {
+    background-color: #333333;
+    padding: 10px 20px;
+    margin: 10px 0px;
+}
+.sample-userstore-msg {
+    line-height: 3em;
+    margin-top: 0;
+}
+.sample-userstore-msg button span{
+    color:#fff;
+}
+.table-container{
+    background-color: #333;
+}
+td, th {
+    border: none;
+    text-align: left !important;
+    padding: 13px;
+}
+
