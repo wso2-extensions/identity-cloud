@@ -414,7 +414,7 @@ function urlResolver(param) {
                 var appList  = checkAppList(cookie,userName);
                 isSampleExist = false;
                 currrentDomain = false;
-                if (!appList && directoryList) {
+                if ((!appList && directoryList) || (appList && !directoryList)) {
                     newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
                     window.location.href = newUrl;
                     return;
@@ -477,7 +477,8 @@ function deleteDirectory(domainname) {
 
     $("#btn-progress").show();
     $("#btn-delete").hide();
-    $("#delete-label-text").text("Please wait. This will take a few seconds");
+    $("#delete-label-text").hide();
+    $("#process-icon").show();
     $("#delete-heading").text("Deleting User Directory");
     $("#delete-buttons-block").hide();
     var directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
