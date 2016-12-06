@@ -134,24 +134,23 @@ include("/templates/header.jag");
                             </div>
                         </div>
                     </div>
+                    </br></br>
                     <div class="row" >
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="add-issue-content">
-                                <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
-                                    <span class="fw-stack btn-action-ico">
-                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                        <i class="fw fw-download fw-stack-1x"></i>
-                                    </span>
-                                    <span class="btn-content">Download Agent</span>
-                                </a>
-                                <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
-                                    <span class="fw-stack btn-action-ico">
-                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                        <i class="fw fw-list fw-stack-1x"></i>
-                                    </span>
-                                    <span class="btn-content">Skip to Application List</span>
-                                </a>
-                            </div>
+                            <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
+                                <span class="fw-stack btn-action-ico">
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                    <i class="fw fw-download fw-stack-1x"></i>
+                                </span>
+                                <span class="btn-content">Download Agent</span>
+                            </a>
+                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
+                                <span class="fw-stack btn-action-ico">
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                    <i class="fw fw-list fw-stack-1x"></i>
+                                </span>
+                                <span class="btn-content">Skip to Application List</span>
+                            </a>
                         </div>
                         <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
                             <div class="help-note">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
@@ -163,8 +162,8 @@ include("/templates/header.jag");
                     <div class="row">
                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <form id="agent-download-form" name="agent-download-form" role="form">
-                                <h4>If you already have a configured URL, you can simply enter it below and save </h4>
-                                </br>
+                                <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
+                                </br></br>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
                                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">

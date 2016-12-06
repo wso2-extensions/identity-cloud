@@ -3625,7 +3625,9 @@ td, th {
     background-color: #fff;
     color: #444;
 }
-
 .pull-up {
     margin-top: -70px;
+}
+.btn-content {
+    font-size: 18px;
 }
