@@ -1132,7 +1132,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#inbound-auth-header").hide();
             break;
         case 'Shortcut' :
-            $("#skipgateway").prop('checked', false);
+            $("#skipgateway").prop('checked', true);
             $("#security-type").hide();
             $("#security-accordion").hide();
             $("#gw-config-section").hide();
