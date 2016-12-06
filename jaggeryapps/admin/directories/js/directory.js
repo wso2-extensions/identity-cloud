@@ -55,9 +55,14 @@ function addOrUpdateUserDirectory() {
                 } else {
                     currentCount = newCount = 0;
                 }
-                while (currentCount == newCount ) {
-                    dirList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
 
+                var retryCount = 0;
+                var retryState = true;
+
+                while (currentCount == newCount && retryState) {
+                    wait(DIRECTORY_TIMEOUT);
+                    dirList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    retryCount += 1;
                     if (dirList && dirList.domainId) {
                         newCount = 1;
                     } else if (dirList && dirList.length > 0) {
@@ -65,10 +70,18 @@ function addOrUpdateUserDirectory() {
                     } else {
                         newCount = 0;
                     }
-                    setTimeout(function () {
-                        console.log("Waiting for complete ...")
-                    }, 2000);
+
+                    if (retryCount > RETRY_COUNT) {
+                        retryState = false;
+                    }
                 }
+
+                if (!retryState) {
+                    $(".connection-status").first().html("User directory indexing retry count exceeded.");
+                    $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").removeClass("fw-check");
+                    $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").addClass("fw-cancel");
+                }
+
                 // when success connection creation
                 $("#model-button-ok").show();
                 $("#model-text").hide();
@@ -156,23 +169,27 @@ function updateUserDirectory() {
 
             var resp = $.parseJSON(data);
             if (resp.success == true) {
-                while (agentUrl != currentUrl) {
-                    // TODO : need to handle this proper way. This is a temporary solution
-                    setTimeout(function () {
-                        console.log("Waiting for complete ...")
-                    }, 2000);
 
+                var retryCount = 0;
+                var retryState = true;
+
+                while (agentUrl != currentUrl && retryState) {
+                    wait(DIRECTORY_TIMEOUT);
                     var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    retryCount += 1;
                     if (directoryList && directoryList.properties) {
                         currentUrl = directoryList.properties[75].value;
-                    } else if (directoryList.length >= 1){
-                        $.each( directoryList, function( key, value ) {
+                    } else if (directoryList.length >= 1) {
+                        $.each(directoryList, function (key, value) {
                             if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
                                 currentUrl = value.properties[75].value;
                             }
                         });
                     }
 
+                    if (retryCount > RETRY_COUNT) {
+                        retryState = false;
+                    }
                 }
                 window.location.href = DIRECTORY_LIST_PATH;
             } else {
@@ -336,7 +353,8 @@ function deleteDirectory(domainname) {
 
     $("#btn-progress").show();
     $("#btn-delete").hide();
-    $("#delete-label-text").text("Please wait. This will take a few seconds");
+    $("#delete-label-text").hide();
+    $("#process-icon").show();
     $("#delete-heading").text("Deleting User Directory");
     $("#delete-buttons-block").hide();
     var directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
@@ -358,18 +376,23 @@ function deleteDirectory(domainname) {
                     directoryLength = newDirectoryLength = 0;
                 }
 
-                while (directoryLength == newDirectoryLength) {
-                    setTimeout(function () {
-                        console.log("Waiting for complete ...")
-                    }, 2000);
-                    directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                var retryCount = 0 ;
+                var retryState = true ;
 
+                while (directoryLength == newDirectoryLength && retryState) {
+                    wait(DIRECTORY_TIMEOUT);
+                    directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    retryCount += 1;
                     if (directoryStatus && directoryStatus.domainId) {
                         newDirectoryLength = 1;
                     } else if (directoryStatus) {
                         newDirectoryLength = directoryStatus.length;
                     } else {
                         newDirectoryLength = -1;
+                    }
+
+                    if (retryCount > RETRY_COUNT) {
+                        retryState = false;
                     }
                 }
                 urlResolver('overview');
@@ -772,3 +795,15 @@ function validateBeforeSubmit() {
 $("#agent-download-form").submit(function(e) {
     e.preventDefault();
 });
+
+/**
+ * This method will wait without skipping for next code line
+ * @param ms milliseconds
+ */
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+        end = new Date().getTime();
+    }
+}

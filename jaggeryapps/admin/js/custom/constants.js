@@ -29,3 +29,5 @@ const DEFAULT_USER_STORE_DOMAIN  = "is-wso2.com";
 const SAMPLE_USER_STORE_DOMAIN = "sample-wso2.com";
 const APP_NAME1 = "Italiano-Sample";
 const APP_NAME2 = "CafeLebens-Sample";
+const RETRY_COUNT = 8;
+const DIRECTORY_TIMEOUT = 2000;

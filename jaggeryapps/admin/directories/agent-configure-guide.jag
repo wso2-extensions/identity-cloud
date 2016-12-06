@@ -231,7 +231,7 @@ include("/templates/header.jag");
                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-check fw-stack-1x"></i>
                                                 </span>
-                                             <span class="connection-status">Connection Verified</span>
+                                             <span class="connection-status">User directory configured.</span>
                                         </div>
                                 </div>
                             </div>
