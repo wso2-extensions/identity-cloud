@@ -3619,4 +3619,13 @@ td, th {
     text-align: left !important;
     padding: 13px;
 }
+.agent-archi {
+    display: block;
+    margin-top: -50px;
+    background-color: #fff;
+    color: #444;
+}
 
+.pull-up {
+    margin-top: -70px;
+}

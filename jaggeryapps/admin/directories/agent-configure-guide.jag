@@ -92,13 +92,11 @@ include("/templates/header.jag");
                     <input id="drName" name="drName" type="text" value="Default" class="form-control"
                            placeholder="Enter directory name" autofocus style="visibility: hidden"/>
 
-                    <div class="row" style="margin-top: -70px">
-                        <div class="col-md-12">
-                            <div class="alert alert-info alert-no-margin" role="alert">
-                            <span class="alert-content">
-                               <h5>If your download didn't start automatically, <span> <a href="#"
-                                   onclick="downloadAgent();">click here </a></span> </h5>
-                            </span>
+                     <div class="row pull-up">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="message message-info sample-userstore-msg">
+                                <span><i class="icon fw fw-info"></i>If your download didn't start automatically, <a href="#"
+                                   onclick="downloadAgent();">click here </a></span>
                             </div>
                         </div>
                     </div>
@@ -139,16 +137,16 @@ include("/templates/header.jag");
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <div class="connectionStatus"></div>
                                     <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL" name="agentUrl">
-                                                     <span class="input-group-btn input-group-btn-check">
-                                                           <button class="btn btn-info" type="button"
-                                                                   onclick="validateBeforeSubmit()">Test Connection</button>
-                                                     </span>
+                                     <div class="connectionStatus"></div>
+                                     <span class="input-group-btn input-group-btn-check">
+                                           <button class="btn btn-info" type="button"
+                                                   onclick="validateBeforeSubmit()">Test Connection</button>
+                                     </span>
                                 </div>
-                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
-                                    required.</label>
+                                <!--<label id="agentUrl-error" class="error" hidden="" for="issuer">This field is-->
+                                    <!--required.</label>-->
                             </div>
                         </div>
 
