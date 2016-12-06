@@ -66,7 +66,7 @@ require("../util/constants.jag");
             </a>
 
             <a href="javascript:downloadIDPMetaData()" class="btn-action" data-toggle="tooltip"
-               data-placement="top" title="Tooltip on top">
+               data-placement="top" title="Find your identity provider certificate and SAML configuration data for your applications.">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-download fw-stack-1x"></i>
