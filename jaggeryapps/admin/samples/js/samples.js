@@ -224,3 +224,7 @@ function togglePassword(element) {
 function viewApplications(){
     window.location.href = "../serviceproviders";
 }
+
+function gotoUserPortal(){
+    window.location.href = "../../user-portal";
+}

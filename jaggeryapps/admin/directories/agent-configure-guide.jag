@@ -183,7 +183,7 @@ include("/templates/header.jag");
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-stack-1x"></i>
                                 </span>
-                                    Skip to application list
+                                    Skip to Application List
                                 </button>
 
 
