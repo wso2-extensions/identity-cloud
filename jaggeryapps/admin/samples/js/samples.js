@@ -226,5 +226,5 @@ function viewApplications(){
 }
 
 function gotoUserPortal(){
-    window.location.href = "../../user-portal";
+    window.location.href = USER_PORTAL_LINK;
 }

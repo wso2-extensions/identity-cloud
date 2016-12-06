@@ -201,6 +201,7 @@ include("/templates/header.jag");
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
+                                <div  id="process-icon" hidden><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
                                     <label for="demote-reason-text" class="control-label" id="delete-label-text">Are you
                                         sure , you want to delete the sample user directory ? </label>
 
