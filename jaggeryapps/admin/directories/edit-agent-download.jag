@@ -113,7 +113,7 @@ include("/templates/header.jag");
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="connection-block">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="connection-status">Connection: </span></div>
+                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="connection-status">Connection </span></div>
                                 <div class="col-xs-8 col-sm-10 col-md-10 col-lg-11">
                                     <div id="progress-icon">
                                         <div class="app-listing-loader">
@@ -186,12 +186,13 @@ include("/templates/header.jag");
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="agentUrl"
                                                            placeholder="Enter your service URL" name="agentUrl">
+                                                    <div class="connectionStatus"></div>
                                                          <span class="input-group-btn input-group-btn-check">
                                                                <button class="btn btn-info" type="button"
                                                                        onclick="validateBeforeSubmit()">Test Connection</button>
                                                          </span>
                                                 </div>
-                                                <div class="connectionStatus"></div>
+
                                                 <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
                                             </div>
                                         </div>

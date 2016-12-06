@@ -549,11 +549,14 @@ function validateURL(textval) {
     var isValidated = validateInput(document.getElementById("agentUrl"));
     return isValidated["isValid"] == true;
 }
-
+function checkhttps(url){
+    var urlregex = /^((https):\/\/)/;
+    return urlregex.test(url);
+}
 
 function testConnection(agentUrl) {
-    var messageContainer = "<div class='alert' role='alert'>" +
-        "<span class='alert-content'></span></div>";
+    var messageContainer = "<label class='' for='agentUrl' role='alert'>" +
+        "<span class='alert-content'></span></label>";
 
     if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
         agentUrl = agentUrl + "status";
@@ -568,19 +571,27 @@ function testConnection(agentUrl) {
         data: "url=" + agentUrl,
         success: function (data) {
             if (data) {
+                $('.connectionStatus').html('');
                 if ($.parseJSON(data).return == "true") {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-success').hide()
-                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').html($(messageContainer).addClass('success').hide()
+                        .fadeIn('fast').delay(3000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text('The connection to provided URL was successful.');
+
+                    if (!checkhttps(agentUrl)) {
+                        $('.connectionStatus').html($(messageContainer).addClass('warning').hide()
+                            .fadeIn('fast').delay(3000).fadeOut('fast'));
+                        $('.connectionStatus').find('.alert-content')
+                            .text('Your connection is not secure. Use https.');
+                    }
                 } else if ($.parseJSON(data).return == "false") {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').html($(messageContainer).addClass('error').hide()
+                        .fadeIn('fast').delay(3000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text(CONNECTION_NOT_ESTABLISHED_MSG);
                 } else {
-                    $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                        .fadeIn('fast').delay(2000).fadeOut('fast'));
+                    $('.connectionStatus').html($(messageContainer).addClass('error').hide()
+                        .fadeIn('fast').delay(3000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text(CONNECTION_NOT_ESTABLISHED_MSG);
                     var resp = $.parseJSON(data);
@@ -605,8 +616,9 @@ function testConnection(agentUrl) {
             }
         },
         error: function (e) {
-            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                .fadeIn('fast').delay(2000).fadeOut('fast'));
+            $('.connectionStatus').html('');
+            $('.connectionStatus').html($(messageContainer).addClass('error').hide()
+                .fadeIn('fast').delay(3000).fadeOut('fast'));
             $('.connectionStatus').find('.alert-content')
                 .text(CONNECTION_NOT_ESTABLISHED_MSG);
         }

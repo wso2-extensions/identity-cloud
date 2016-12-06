@@ -78,7 +78,7 @@ include("../templates/leftpane.jag");
     </a>
 </div>
 <!-- EOF App  menu actionbar-->
-<div class="container-fluid cloud-container">
+<div class="container-fluid cloud-container app-edit-form">
    <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="goto-store-msg"></div>

@@ -139,6 +139,7 @@ include("/templates/header.jag");
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
+                                    <div class="connectionStatus"></div>
                                     <input type="text" class="form-control" id="agentUrl"
                                                        placeholder="Enter your service URL" name="agentUrl">
                                                      <span class="input-group-btn input-group-btn-check">
@@ -146,7 +147,6 @@ include("/templates/header.jag");
                                                                    onclick="validateBeforeSubmit()">Test Connection</button>
                                                      </span>
                                 </div>
-                                <div class="connectionStatus"></div>
                                 <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is
                                     required.</label>
                             </div>
@@ -226,7 +226,7 @@ include("/templates/header.jag");
                             <div class="form">
                                 <div class="form-group">
                                      <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
-                                         <div id="verified" style="display: none" hidden>
+                                         <div id="verified" style="display: none" hidden class="noti-success">
                                               <span class="fw-stack fw-lg btn-action-ico noti-success">
                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-check fw-stack-1x"></i>
