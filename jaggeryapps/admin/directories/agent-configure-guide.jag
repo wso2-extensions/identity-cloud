@@ -119,7 +119,7 @@ include("/templates/header.jag");
                     </div>
 
 
-                    <form id="agent-download-form" name="agent-download-form" role="form" style="margin-top: 40px">
+                    <form id="agent-download-form" name="agent-download-form" role="form">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="block-heading">Step 2</div>

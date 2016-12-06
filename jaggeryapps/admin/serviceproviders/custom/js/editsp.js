@@ -712,10 +712,10 @@ function disableForm(){
 
 function showGotoStoreMsg() {
     var gotoStoreMsg = $(
-        '<div class="alert alert-info clearfix" role="alert">' +
-        '<i class="fw fw-info fw-lg"></i>' +
-        '<span class="alert-connect" > You can test SSO on sample applications by visiting the <a href="/user-portal" target="_blank">user portal</a> with ' +
-        '<a href="../directories/sampleusers" target="_blank" >sample user credentials</a> on a private window or by login out.</span>'+
+        '<div class="message message-info">'+
+            '<span><i class="icon fw fw-warning"></i>You can test SSO on sample applications by visiting the <a href="/user-portal" target="_blank" class="link-underline">user portal</a> with ' +
+            '<a href="../directories/sampleusers" target="_blank" class="link-underline">sample user credentials</a> on a private window or by login out.</span>'+
         '</div>');
+
     $("#goto-store-msg").html( gotoStoreMsg);
 }
