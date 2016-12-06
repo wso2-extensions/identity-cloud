@@ -1707,6 +1707,9 @@ svg .outer {
     padding-bottom: 3px;
     margin-right: 5px;
 }
+.message-info a{
+    color: #009DA7;
+}
 /* ========================================================================
  * loading styles
  * ======================================================================== */
@@ -3619,4 +3622,15 @@ td, th {
     text-align: left !important;
     padding: 13px;
 }
-
+.agent-archi {
+    display: block;
+    margin-top: -50px;
+    background-color: #fff;
+    color: #444;
+}
+.pull-up {
+    margin-top: -70px;
+}
+.btn-content {
+    font-size: 18px;
+}
