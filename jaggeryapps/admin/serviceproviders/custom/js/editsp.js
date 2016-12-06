@@ -88,6 +88,7 @@ function drawAppDetails(data) {
         $('#store-app-name').val(data.displayName);
         $('#store-app-thumbnail-url').val(data.thumbnailUrl);
         $('#store-app-banner-url').val(data.banner);
+        $('#store-app-tags').val(data.tags);
 
 
         if (data.visibleRoles.toString().trim() != "") {
