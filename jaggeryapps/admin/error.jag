@@ -18,7 +18,7 @@
             <h2>Please contact your administrator to request permission.</h2>
             <div style="clear: both"></div>
             <div class="button-label">
-                <a href="/user-portal"><label class="label-back">Go to User Portal</label></a>
+                <a href="'+USER_PORTAL_LINK+'"><label class="label-back">Go to User Portal</label></a>
                 <a href="/admin/samlsso.jag?logout=true"><label class="label-report">Log Out</label></a>
             </div>
 

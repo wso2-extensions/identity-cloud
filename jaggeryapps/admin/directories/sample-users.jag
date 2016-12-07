@@ -106,7 +106,8 @@ include("/templates/header.jag");
                     <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="message message-info">
-                                <span><i class="icon fw fw-info"></i>To try out sample applications with below sample users, login to user portal on a browser private window.</span>
+                                <span><i class="icon fw fw-info"></i>To try out sample applications with below sample users,
+                                login to <a href="<%=USERPORTAL_LINK%>" target="_blank" class="link-underline">user portal</a> on a private browser window or else click on bellow try out button to try out using your account.</span>
                             </div>
                         </div>
                     </div>
@@ -162,7 +163,7 @@ include("/templates/header.jag");
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-deploy fw-stack-1x"></i>
                                 </span>
-                                Go to user portal
+                                Try out Sample Applications
                             </button>
                             <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" onclick="viewApplications()">
                                 <span class="fw-stack">

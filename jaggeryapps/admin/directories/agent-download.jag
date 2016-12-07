@@ -126,9 +126,9 @@ include("/templates/header.jag");
                                 <div class="conf-guide margin-top-1x padding-all-xs">
                                     <ul style="list-style: none;">
                                         <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configuring user store agent enables authentication with your on premise user store.</span></li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; You need JDK 1.8 to run this. Please refer to the <a href="#" target="_blank">documentation</a> for any additional prerequisites.</li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Download and install the agent to connect to user store.</li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Make sure your agent is always accessible to the Identity Cloud.</li>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; You need JDK 1.8 to run the agent. Please refer to the <a href="#" target="_blank">documentation</a> for any additional prerequisites.</span></li>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Download and install the agent to connect to user store.</span></li>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Make sure your agent is always accessible to the Identity Cloud.</span></li>
                                     </ul>
                                 </div>
                             </div>
