@@ -595,7 +595,6 @@ function saveOauthConfig(){
     })
         .done(function (data) {
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
-            $('#addAppForm').hide();
             preDrawUpdatePage(appdata.applicationName);
         })
         .fail(function () {
@@ -714,8 +713,8 @@ function disableForm(){
 function showGotoStoreMsg() {
     var gotoStoreMsg = $(
         '<div class="message message-info">'+
-            '<span><i class="icon fw fw-warning"></i>You can test SSO on sample applications by visiting the <a href="/user-portal" target="_blank" class="link-underline">user portal</a> with ' +
-            '<a href="../directories/sampleusers" target="_blank" class="link-underline">sample user credentials</a> on a private window or by login out.</span>'+
+            '<span><i class="icon fw fw-warning"></i>You can test SSO on sample applications by visiting the <a href="'+USER_PORTAL_LINK+'" target="_blank" class="link-underline">user portal</a> with ' +
+            '<a href="../directories/sampleusers" target="_blank" class="link-underline">sample user credentials</a> on a private browser window or by signing out.</span>'+
         '</div>');
 
     $("#goto-store-msg").html( gotoStoreMsg);

@@ -30,6 +30,7 @@ var userInfo = session.get("userInfo");
 if (userInfo) {
     tenantDomain = userInfo.tenantDomain;
 }
+const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
 %>
 <script>
     //solving user-portal link

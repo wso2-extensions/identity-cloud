@@ -131,7 +131,6 @@ function drawOAuthConfigPage() {
         $('#pkce_support_plain').show();
     }
     $('#oauthRgsterBtn').show();
-    $('#addAppForm').hide();
     $('#oauthUpdtBtn').hide();
     $('#oauthHiddenFields').empty();
 //TODO : check the following condition if needed for cancel button
