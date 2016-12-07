@@ -412,7 +412,7 @@ function addApp(){
               displayName: storeProperties.appDisplayName,
               description: request.getParameter('spDesc'),
               trackingCode: request.getParameter('spName'),
-              isSite: "false",
+              isSite: "FALSE",
               skipGateway : gatewayProperties.skipGateway,
               serviceProviderCreationEnabled : false,
               context: context,

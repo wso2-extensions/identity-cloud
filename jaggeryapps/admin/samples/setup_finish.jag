@@ -263,7 +263,7 @@ function addApp(sampleConf){
         version: "1.0",
         displayName: sampleConf.displayName,
         description: sampleConf.description,
-        isSite: "false",
+        isSite: "FALSE",
         context: sampleConf.name,
         appUrL: sampleConf.assertionConsumerURLs,
         acsUrl: "",
