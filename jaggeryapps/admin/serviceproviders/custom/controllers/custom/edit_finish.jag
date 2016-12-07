@@ -515,9 +515,19 @@ function getAppAccessURL(storeProperties) {
 function getIDPInitiatedSSOURL(issuer) {
     //TODO - Support tenants
     //https://{Hostname}:{Port}/samlsso?spEntityID={SAML2 SSO Issuer name}
-    return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
-    + "/samlsso?spEntityID=" +issuer;
 
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain;
+
+    log.info(org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME + "-" + tenantDomain);
+
+    if (org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+        return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+                + "/identity?spEntityID=" +issuer;
+    }else{
+        return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
+                + "/identity/t/" + tenantDomain + "?spEntityID=" +issuer;
+    }
 }
 
 function getAppType(samlAuthenticator) {
