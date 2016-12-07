@@ -759,15 +759,6 @@ include("../templates/leftpane.jag");
                                                       </label>
                                                       <input type="text" class="form-control" id="application" name="application">
                                                    </div>
-                                                   <!--Callback Url-->
-                                                   <div class="form-group" id="callback_row" style="display: block;" hidden>
-                                                      <div class="col-md-12">
-                                                         <label for="callback">Callback Url
-                                                         <span class="required">*</span>
-                                                         </label>
-                                                         <input type="text" class="form-control" id="callback" name="callback">
-                                                      </div>
-                                                   </div>
                                                    <!--Grant Types-->
                                                    <div class="form-group" style="display: block;" hidden>
                                                       <div class="col-md-12" id="grant_row" name="grant_row">
@@ -799,10 +790,19 @@ include("../templates/leftpane.jag");
                                                          <span> Server supports 'S256' PKCE tranformation algorithm by default. </span>
                                                       </div>
                                                    </div>
+                                                   <!--Callback Url-->
+                                                   <div class="form-group" id="callback_row" hidden>
+                                                      <div class="col-md-12">
+                                                         <label for="callback">Callback Url
+                                                         <span class="required">*</span>
+                                                         </label>
+                                                         <input type="text" class="form-control" id="callback" name="callback" required/>
+                                                      </div>
+                                                   </div>
                                                    <!--Buttons-->
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthRgsterBtn" onclick="onClickAdd();return false;">
+                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthRgsterBtn" onclick="onClickAdd();">
                                                          <span class="fw-stack btn-action-ico">
                                                          <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                          <i class="fw fw-save fw-stack-1x"></i>

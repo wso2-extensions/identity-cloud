@@ -321,6 +321,15 @@ function drawOAuthEditPage() {
 }
 
 function onClickAdd() {
+    
+    $('#addAppForm').validate();
+    $( "#callback" ).rules( "add", {
+        required: true,
+        messages: {
+            required: "Callback URL cannot be empty",
+        }
+    });
+
     var version2Checked = document.getElementById("oauthVersion20").checked;
     if (($(jQuery("#grant_code"))[0] != null && $(jQuery("#grant_code"))[0].checked) || ($(jQuery("#grant_implicit"))[0] && $(jQuery("#grant_implicit"))[0].checked)) {
         var callbackUrl = document.getElementById('callback').value;
