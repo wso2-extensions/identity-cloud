@@ -748,8 +748,9 @@ include("../templates/leftpane.jag");
                                                    <div id="oauthHiddenFields">
                                                    </div>
                                                    <!--OAuth Version-->
-                                                   <div class="form-group" style="display: block;">
-                                                      <div class="col-md-12" id="versionRow">
+                                                   <div class="form-group">
+                                                      <div class="col-md-12">
+                                                        <div class="hide" id="versionRow"></div>
                                                       </div>
                                                    </div>
                                                    <!--Application Name Hidden Field-->
