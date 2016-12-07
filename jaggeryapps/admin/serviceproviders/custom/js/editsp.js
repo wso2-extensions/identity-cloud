@@ -595,7 +595,6 @@ function saveOauthConfig(){
     })
         .done(function (data) {
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
-            $('#addAppForm').hide();
             preDrawUpdatePage(appdata.applicationName);
         })
         .fail(function () {

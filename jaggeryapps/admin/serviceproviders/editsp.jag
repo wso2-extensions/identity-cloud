@@ -741,22 +741,11 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
                                                 </form>
-                                                <div class="form-group" id = "oauthConfigBtn" hidden>
-                                                   <div class="col-md-12">
-                                                      <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="showOauthForm();return false;">
-                                                      <span class="fw-stack btn-action-ico">
-                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                      <i class="fw fw-edit fw-stack-1x"></i>
-                                                      </span>
-                                                      Configure
-                                                      </button>
-                                                   </div>
-                                                </div>
-                                                <form id="addAppForm" name="addAppForm" class="form-horizontal" role="form" style="color: black; display: block;" hidden>
+                                                <form id="addAppForm" name="addAppForm" class="form-horizontal" role="form" style="color: black; display: block;">
                                                    <!--<h4>Register New Application</h4>-->
                                                    <!--<h5 style="margin-top: 15px;"> New Application</h5>-->
                                                    <!--Hidden fields-->
-                                                   <div id="oauthHiddenFields" hidden>
+                                                   <div id="oauthHiddenFields">
                                                    </div>
                                                    <!--OAuth Version-->
                                                    <div class="form-group" style="display: block;">
@@ -825,13 +814,6 @@ include("../templates/leftpane.jag");
                                                          <i class="fw fw-save fw-stack-1x"></i>
                                                          </span>
                                                          Update
-                                                         </button>
-                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="cancelOauthForm();return false;">
-                                                         <span class="fw-stack btn-action-ico">
-                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                         <i class="fw fw-delete fw-stack-1x"></i>
-                                                         </span>
-                                                         Cancel
                                                          </button>
                                                       </div>
                                                    </div>
