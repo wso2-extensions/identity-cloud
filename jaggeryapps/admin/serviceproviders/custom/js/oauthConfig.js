@@ -120,7 +120,7 @@ function drawOAuthConfigPage() {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer" checked="checked"/>SAML2</label></div>';
     }
     if ($.inArray('iwa:ntlm', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm" checked="checked"/>IWA-NTLM</label></div>';
+        grantRow = grantRow + '<div class="checkbox hide"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"/>IWA-NTLM</label></div>';
     }
 
     grantRow = grantRow + '</div>';
