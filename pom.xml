@@ -143,11 +143,6 @@
                 <artifactId>org.wso2.carbon.um.ws.api</artifactId>
                 <version>${um.ws.api.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.wso2.tomcat</groupId>
-                <artifactId>tomcat-servlet-api</artifactId>
-                <version>${tomcat-servlet-api.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

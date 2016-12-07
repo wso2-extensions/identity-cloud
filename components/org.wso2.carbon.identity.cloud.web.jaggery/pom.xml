@@ -31,8 +31,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.wso2.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -58,7 +58,6 @@
                             org.osgi.service.component; version="${osgi.service.component.imp.pkg.version.range}",
 
                             org.apache.commons.logging; version="${commons-logging.osgi.version.range}",
-
                         </Import-Package>
                         <Private-Package>
                             org.wso2.carbon.identity.cloud.web.jaggery.internal;
