@@ -177,7 +177,7 @@
 
             <dependency>
                 <groupId>org.wso2.carbon.identity.framework</groupId>
-                <artifactId>org.wso2.carbon.identity.napplication.common</artifactId>
+                <artifactId>org.wso2.carbon.identity.application.common</artifactId>
                 <version>${carbon.identity.framework.core.version}</version>
             </dependency>
 
