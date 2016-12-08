@@ -296,15 +296,15 @@ function updateSP(){
         }
         updateSp = updateSp + '</xsd1:inboundAuthenticationConfig>';
 
-        if(subjectClaim != null && subjectClaim.length > 0) {
-            updateSp = updateSp + '<xsd1:localAndOutBoundAuthenticationConfig>' +
-                    '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
-                    '<xsd1:authenticationType>default</xsd1:authenticationType>' +
-                    '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
-                    '<xsd1:useTenantDomainInLocalSubjectIdentifier>true</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
-                    '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>true</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
-                    '</xsd1:localAndOutBoundAuthenticationConfig>';
-        }
+
+        updateSp = updateSp + '<xsd1:localAndOutBoundAuthenticationConfig>' +
+                '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
+                '<xsd1:authenticationType>default</xsd1:authenticationType>' +
+                '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
+                '<xsd1:useTenantDomainInLocalSubjectIdentifier>true</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
+                '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>true</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
+                '</xsd1:localAndOutBoundAuthenticationConfig>';
+
         updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
                 '<xsd1:dumbMode>false</xsd1:dumbMode>'+
                 '<xsd1:provisioningEnabled>false</xsd1:provisioningEnabled>'+
