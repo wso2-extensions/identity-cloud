@@ -70,7 +70,7 @@ function registerCustomSP(sptype) {
                     }
                 }
             } else {
-                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
+                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val() + "?status=new";
             }
         })
         .fail(function () {

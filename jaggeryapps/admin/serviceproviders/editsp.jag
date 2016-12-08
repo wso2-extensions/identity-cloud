@@ -37,14 +37,19 @@
         <!-- BOF cloud menu -->
         <%
 require("../util/constants.jag");
+var appStatus = null;
 var matcher = new URIMatcher(request.getRequestURI());
 var applicationName;
 if (matcher.match('/' + ADMIN_PORTAL_NAME + '/serviceprovider/{appname}')) {
     var arguments = matcher.elements();
     applicationName = arguments.appname;
+    appStatus =  request.getParameter('status');
 }
 include("../templates/header.jag");
 %>
+<script>
+const appStatus = "<%=appStatus%>";
+</script>
 <input type="hidden" value="<%=applicationName%>" id="appName">
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
@@ -53,8 +58,8 @@ include("../templates/header.jag");
             <div class="side-pane-trigger">
                 <i class="fa fa-reorder"></i>
             </div>
-            <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications / Custom Application / Edit
+            <div class="breadcrumb-secondary" id="breadcrumb-sec">
+                <i class="fw fw-security" ></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications / Custom Application / Edit
             </div>
         </div>
     </div>
@@ -65,6 +70,7 @@ include("../templates/header.jag");
     <%
 include("../templates/leftpane.jag");
 %>
+
 <!-- left pane wrapper -->
 <div class="right-pane">
 <!-- BOF App  menu actionbar -->
@@ -86,7 +92,7 @@ include("../templates/leftpane.jag");
    </div>
    <div class="row">
 
-      <div class="col-md-5">
+      <div class="col-md-6">
          <div class="form-group">
             <!--<label for="service-provider-name">Service Provider Name: </label>-->
             <input id = "spName" name="service-provider-name" type="hidden" class="form-control" placeholder="Enter service provider name" />
@@ -115,12 +121,23 @@ include("../templates/leftpane.jag");
               <!--BO Drop down for manual config and upload content-->
 
               <div class="btn-group" id="sso-drop-down" style="display: none;margin-bottom: 10px">
-                  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">Configure Manually <span
-                          class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                      <li><a href="#" onclick="changeUC($(this),'common');">Configure Manually</a></li>
-                      <li><a href="#" onclick="changeUC($(this),'common');">Upload Meta File</a></li>
-                  </ul>
+              <div class="row funkyradio"  >
+                <div class="col-md-6">
+                     <div class="funkyradio-info">
+                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="radio-group"
+                                 id="radioCm" checked="true"/>
+                          <label for="radioCm">Configure Manually</label>
+                      </div>
+                 </div>
+                <div class="col-md-6 pull-right" style="margin-top: -65px">
+                  <div class="funkyradio-info">
+                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" lass="radio-group"
+                                 id="radioCf"/>
+                          <label for="radioCf">Upload Meta File</label>
+                      </div>
+                 </div>
+              </div>
+
               </div>
 
               <!--EO Drop down for manual config and upload content-->
@@ -375,7 +392,7 @@ include("../templates/leftpane.jag");
                                                             <input type="file" id="uploadfile" onchange="uploadFile(this);"/>
                                                          </div>
                                                          <!--<label for="metadataFileName">File Name<span class="required">*</span></label>-->
-                                                         <label> Upload Meta File <span class="required">*</span>
+                                                         <label > Upload Meta File <span class="required">*</span>
                                                            <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
                                title="You can upload samal sso configurations from file"></i>
                                                          </label>
@@ -453,7 +470,7 @@ include("../templates/leftpane.jag");
                                                    </div>
                                                    <!--Default Assertion Consumer Url-->
                                                    <div id="samal-dynamic-hide">
-                                                   <div class="form-group" id="defaultAssertionConsumerURLRow">
+                                                   <div class="form-group" id="defaultAssertionConsumerURLRow" hidden>
                                                       <div class="col-md-12">
                                                          <label for="defaultAssertionConsumerURL" class="control-label">Default Assertion Consumer URL :<span class="required">*</span></label>
                                                          <select class="form-control" id="defaultAssertionConsumerURL" name="defaultAssertionConsumerURL">
@@ -503,7 +520,8 @@ include("../templates/leftpane.jag");
                                                    <div class="form-group" id="enableResponseSignatureRow">
                                                       <div class="col-md-12">
                                                          <div class="checkbox">
-                                                            <label><input type="checkbox" class="custom-checkbox custom-checkbox-white" onclick="disableResponseSignature(this);" value="false" id="enableResponseSignature" name="enableResponseSignature"><span>Enable Response Signing</span></label>
+                                                            <label><input  value="true" type="checkbox" class="custom-checkbox custom-checkbox-white" onclick="disableResponseSignature(this);"   id="enableResponseSignature" name="enableResponseSignature" checked><span>Enable Response Signing</span></label>
+                                                         <!--<input type="checkbox" class="custom-checkbox custom-checkbox-white" onclick="disableResponseSignature(this);"  name="vehicle" value="Car" checked> <span>Enable Response Signing</span>r<br>-->
                                                          </div>
                                                       </div>
                                                    </div>
@@ -516,7 +534,7 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
                                                    <!--  Enable Assertion Encryption -->
-                                                   <div class="form-group" id="enableEncAssertionRow">
+                                                   <div class="form-group" id="enableEncAssertionRow" hidden>
                                                       <div class="col-md-12">
                                                          <div class="checkbox">
                                                             <label><input id="enableEncAssertion" class="custom-checkbox custom-checkbox-white" type="checkbox" value="false" name="enableEncAssertion" onclick="disableEncAssertion(this);"><span>Enable Assertion Encryption</span></label>
@@ -533,7 +551,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--SLO Response URL-->
-                                                      <div class="form-group">
+                                                      <div class="form-group" id="sloResponseURL-form" hidden>
                                                          <div class="col-md-12">
                                                             <label for="sloResponseURL" class="control-label">SLO Response URL
                                                             </label>
@@ -542,7 +560,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--SLO Request URL-->
-                                                      <div class="form-group">
+                                                      <div class="form-group" id="sloRequestURL-form" hidden>
                                                          <div class="col-md-12">
                                                             <label for="sloRequestURL" class="control-label"> SLO Request URL
                                                             </label>
@@ -553,10 +571,10 @@ include("../templates/leftpane.jag");
                                                    </div>
                                                    <!--  Enable Attribute Profile -->
                                                    <div id="attributeRow">
-                                                      <div class="form-group">
+                                                      <div class="form-group" hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
-                                                               <label><input class="custom-checkbox custom-checkbox-white" id="enableAttributeProfile" type="checkbox" onclick="disableAttributeProfile(this);" name="enableAttributeProfile" value="false"><span>Enable Attribute Profile</span></label>
+                                                               <label><input class="custom-checkbox custom-checkbox-white" id="enableAttributeProfile" type="checkbox" onclick="disableAttributeProfile(this);" name="enableAttributeProfile" value="true" checked><span>Enable Attribute Profile</span></label>
                                                             </div>
                                                          </div>
                                                       </div>
@@ -576,24 +594,31 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                    </div>
+                                                     <div class="form-group  pull-right">
+                                                         <div class="col-md-12" style="margin-top: 20px">
+                                                             <a class="btn btn-info" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i> Show Advance Settings  </a>
+                                                         </div>
+                                                      </div>
                                                    <!--  Enable Audience Restriction-->
+                                                   <div id="advanced-settings" hidden>
+                                                   <!--<div class="row" style="border-top: solid #282828;border-width: 10px ;"> </div>-->
                                                    <div id="audienceRestrictionRow">
-                                                      <div class="form-group">
+                                                      <div class="form-group" hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
-                                                               <label><input id="enableAudienceRestriction" class="custom-checkbox custom-checkbox-white" type="checkbox" onclick="disableAudienceRestriction(this);" value="false" name="enableAudienceRestriction"><span>Enable Audience Restriction</span></label>
+                                                               <label><input id="enableAudienceRestriction" class="custom-checkbox custom-checkbox-white" type="checkbox" onclick="disableAudienceRestriction(this);" value="true" name="enableAudienceRestriction" checked><span>Enable Audience Restriction</span></label>
                                                             </div>
                                                          </div>
                                                       </div>
                                                       <!--Audience Text-->
                                                       <div class="form-group ">
                                                          <div class="col-md-12">
-                                                            <label for="audience" class=" control-label">Audience
+                                                            <label for="audience" class=" control-label">Audience Restriction
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input id="audience" class="form-control" type="text" disabled="disabled" name="audience">
+                                                               <input id="audience" class="form-control" type="text"  placeholder="Audience" name="audience">
                                                                <div class="input-group-btn">
-                                                                  <button class="btn" id="addAudience" type="button" onclick="addAudienceFunc()" value="Add" disabled="disabled" name="addAudience"><span>Add</span></button>
+                                                                  <button class="btn btn-info" id="addAudience" type="button" onclick="addAudienceFunc()" value="Add"   name="addAudience"><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>
@@ -602,7 +627,7 @@ include("../templates/leftpane.jag");
                                                       <div class="form-group " >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with Audience URL-->
-                                                            <div class="col-sm-10" style="margin-left: 10%;" id="audienceTblRow">
+                                                            <div  id="audienceTblRow">
                                                             </div>
                                                             <input type="hidden" name="audiencePropertyCounter" id="audiencePropertyCounter" value="0"/>
                                                             <input type="hidden" id="audienceURLs" name="audienceURLs" value="">
@@ -611,22 +636,22 @@ include("../templates/leftpane.jag");
                                                    </div>
                                                    <!--  Enable Recipient Validation-->
                                                    <div id="receipientRow">
-                                                      <div class="form-group ">
+                                                      <div class="form-group " hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
-                                                               <label><input id="enableRecipients" type="checkbox" class="custom-checkbox custom-checkbox-white"  onclick="disableRecipients(this);" value="false" name="enableRecipients"><span>Enable Recipient Validation</span></label>
+                                                               <label><input id="enableRecipients" type="checkbox" class="custom-checkbox custom-checkbox-white"  onclick="disableRecipients(this);" value="true" name="enableRecipients" checked hidden><span>Enable Recipient Validation</span></label>
                                                             </div>
                                                          </div>
                                                       </div>
                                                       <!--Recipient-->
                                                       <div class="form-group">
                                                          <div class="col-md-12">
-                                                            <label for="recipient" class="control-label">Recipient
+                                                            <label for="recipient" class="control-label">Recipient Validation
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input id="recipient" class="form-control" type="text" disabled="disabled" name="recipient">
+                                                               <input id="recipient" class="form-control" type="text" placeholder="Recipient" name="recipient">
                                                                <div class="input-group-btn">
-                                                                  <button id="addRecipient" class="btn"  type="button" onclick="addRecipientFunc()" value="Add" disabled="disabled" name="addRecipient"><span>Add</span></button>
+                                                                  <button id="addRecipient" class="btn btn-info"  type="button" onclick="addRecipientFunc()" value="Add"   name="addRecipient"><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>
@@ -635,7 +660,7 @@ include("../templates/leftpane.jag");
                                                       <div class="form-group" >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with Audience URL-->
-                                                            <div class="col-sm-10" style="margin-left: 10%;" id="recptTblRow">
+                                                            <div  id="recptTblRow">
                                                             </div>
                                                             <input type="hidden" name="recipientPropertyCounter" id="recipientPropertyCounter"  value="0"/>
                                                             <input type="hidden" name="receipientURLs" id="receipientURLs"  value="0"/>
@@ -652,22 +677,22 @@ include("../templates/leftpane.jag");
                                                    </div>
                                                    <!--  Enable IdP Initiated SLO -->
                                                    <div id="idpInitSLORow">
-                                                      <div class="form-group">
+                                                      <div class="form-group" hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
-                                                               <label><input type="checkbox" class="custom-checkbox custom-checkbox-white" onclick="disableIdPInitSLO(this);" value="false" id ="enableIdPInitSLO" name="enableIdPInitSLO"><span>Enable IdP Initiated SLO</span></label>
+                                                               <label><input type="checkbox" class="custom-checkbox custom-checkbox-white" onclick="disableIdPInitSLO(this);" value="true" id ="enableIdPInitSLO" name="enableIdPInitSLO" checked><span>Enable IdP Initiated SLO</span></label>
                                                             </div>
                                                          </div>
                                                       </div>
                                                       <!--IDP SLO Text-->
                                                       <div class="form-group">
                                                          <div class="col-md-12">
-                                                            <label for="returnToURLTxtBox" class=" control-label">Return to URL
+                                                            <label for="returnToURLTxtBox" class=" control-label">IdP Initiated SLO
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input id="returnToURLTxtBox" class="form-control" type="text" disabled="disabled">
+                                                               <input id="returnToURLTxtBox" class="form-control" type="text" placeholder="Return to URL" >
                                                                <div class="input-group-btn">
-                                                                  <button id="addReturnToURL" class="btn" type="button" onclick="addSloReturnToURL()" value="Add" disabled="disabled"><span>Add</span></button>
+                                                                  <button id="addReturnToURL" class="btn btn-info" type="button" onclick="addSloReturnToURL()" value="Add"  ><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>
@@ -676,7 +701,7 @@ include("../templates/leftpane.jag");
                                                       <div class="form-group" >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with Audience URL-->
-                                                            <div class="col-sm-10" style="margin-left: 10%;" id="idpSLOReturnToURLInputRow">
+                                                            <div   id="idpSLOReturnToURLInputRow">
                                                             </div>
                                                             <input type="hidden" id="idpSLOURLs" name="idpSLOURLs" value="">
                                                             <input type="hidden" id="currentReturnToColumnId" value="0">
@@ -684,6 +709,7 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
                                                    <input type="hidden" id="attributeConsumingServiceIndex" name="attributeConsumingServiceIndex"/>
+                                                   </div>
                                                   </div>
                                                 </form>
 
@@ -1013,6 +1039,24 @@ include("/templates/footer.jag");
 <script src="../js/custom/jquery.validate.min.js"></script>
 <script src="../js/custom/constants.js"></script>
 <script>
+
+var samlHtml = '<div class="btn-group" id="sso-drop-down" style="display: none;margin-bottom: 10px">'+
+'                  <div class="funkyradio">'+
+'                      <div class="funkyradio-info">'+
+'                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="radio-group"'+
+'                                 id="radioCm" checked="true"/>'+
+'                          <label for="radioCm">Configure Manually</label>'+
+'                      </div>'+
+'                      <div class="funkyradio-info">'+
+'                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" lass="radio-group"'+
+'                                 id="radioCf"/>'+
+'                          <label for="radioCf">Upload Meta File</label>'+
+'                      </div>'+
+'                  </div>'+
+'              </div>';
+
+
+
 $('.side-pane-trigger').click(function(){
     var rightPane = $('.right-pane');
     var leftPane = $('.left-pane');
@@ -1033,52 +1077,22 @@ $("#sso-drop-down .dropdown-menu li a").click(function () {
 
 });
 
-
-function changeUC(obj, param) {
-    if (param === 'custom') {
-
-        var selText = obj.context.innerText;
-        switch (selText) {
-            case 'Upload Meta File':
-
-                if ($("#custom-security-content").find("#fileRow").length == 0) {
-                    var uploadContent = $("#fileRow").clone();
-                    $("#custom-sso-drop-down").after("<div class='row' style='padding: 10px;' id='dynamic-csdd'> </div>");
-                    uploadContent.insertAfter("#dynamic-csdd");
-                    $("#samlconfig").hide();
-                }
-
-                break;
-            case 'Configure Manually':
-                $("#fileRow").remove();
-                $("#dynamic-csdd").remove();
-                $("#samlconfig").show();
-                break;
-            default:
+function changeRadioGroup(obj) {
+    if (obj.attr('id') === "radioCf") {
+        if ($("#custom-security-content").find("#fileRow").length == 0) {
+            $("#samlconfig").slideToggle(1000);
+            var uploadContent = $("#fileRow").clone();
+            $("#custom-sso-drop-down").after("<div class='row' style='padding: 10px;' id='dynamic-csdd'> </div>");
+            uploadContent.insertAfter("#dynamic-csdd").hide();
+            uploadContent.slideToggle(1000);
         }
-
     } else {
-
-        var selText = obj.context.innerText;
-        switch (selText) {
-            case 'Upload Meta File':
-                if ($("#dynamic-sso-config").find("#fileRow").length == 0) {
-                    var uploadContent = $("#fileRow").clone();
-                    uploadContent.insertAfter("#sso-drop-down");
-                }
-                $("#dynamic-sso-config #issuerRow").hide();
-                $("#dynamic-sso-config #acsRow").hide();
-                break;
-            case 'Configure Manually':
-                $("#dynamic-sso-config #fileRow").remove();
-                $("#dynamic-sso-config #issuerRow").show();
-                $("#dynamic-sso-config #acsRow").show();
-                break;
-            default:
-        }
-
+        $("#samlconfig").slideToggle(1000);
+        $("#fileRow").remove();
+        $("#dynamic-csdd").remove();
     }
 }
+
 
 
 $("#custom-app-dropdown .dropdown-menu li a").click(function () {
@@ -1139,6 +1153,13 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
             reAppend("wsfed", wsfedconf);
 
             var dropdown = $("#sso-drop-down").clone();
+
+            if (dropdown.length > 0) {
+                $("#sso-drop-down").remove();
+            } else {
+                dropdown = $(samlHtml);
+            }
+
             dropdown.attr('style', '').show().attr('id', 'custom-sso-drop-down');
             dropdown.find('a').attr('onclick', 'changeUC($(this),"custom")');
             $("#custom-security-dropdown").after("<div class='row' style='padding: 10px;' id='dynamic-sdd'> </div>");
@@ -1242,6 +1263,8 @@ function reAppend(source, object) {
         $("#tempStore").append(object);
     }
 }
+
+
 
 </script>
 <script>

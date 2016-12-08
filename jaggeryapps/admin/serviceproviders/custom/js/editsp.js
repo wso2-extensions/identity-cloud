@@ -182,6 +182,10 @@ function renderCustomPage(data) {
         }
     }
 
+    if (appStatus == "new") {
+        $("#breadcrumb-sec").html('<i class="fw fw-security" ></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications / Custom Application / Add');
+    }
+
     if (appType) {
         switch (appType) {
             case CUSTOM_SP:
@@ -426,6 +430,16 @@ function updateCustomSP() {
     } else if(selected.trim() == "Agent".trim()){
         $('#storeAppType').val(APP_AGENT_TYPE);
     }
+    // getting default acs
+    var acsUrls = $("#assertionConsumerURLsTableBody .radio-group");
+    var defaultAssertionConsumerURL = null;
+    for (var j=0; j< acsUrls.length;j++) {
+            if ($(acsUrls[j]).is(':checked')) {
+                defaultAssertionConsumerURL = $($("#acsUrl_" + j).find("td")[1]).html();
+                break;
+            }
+    }
+
     var formData = new FormData();
 
     formData.append('oldSPName', $('#oldSPName').val());
@@ -435,11 +449,12 @@ function updateCustomSP() {
     formData.append('storeAppType', $('#storeAppType').val());
 
     formData.append('hiddenFields',$('#hiddenFields').val());
+    formData.append('enableResponseSignature',$('#enableResponseSignature').val());
     formData.append('issuer',$('#issuer').val());
     formData.append('hiddenIssuer',$('#hiddenIssuer').val());
     formData.append('assertionConsumerURLTxt',$('#assertionConsumerURLTxt').val());
     formData.append('assertionConsumerURLs',$('#assertionConsumerURLs').val());
-    formData.append('defaultAssertionConsumerURL',$('#defaultAssertionConsumerURL').val());
+    formData.append('defaultAssertionConsumerURL',defaultAssertionConsumerURL);
     formData.append('nameIdFormat',$('#nameIdFormat').val());
     formData.append('alias',$('#alias').val());
     formData.append('signingAlgorithm',$('#signingAlgorithm').val());
@@ -718,4 +733,16 @@ function showGotoStoreMsg() {
         '</div>');
 
     $("#goto-store-msg").html( gotoStoreMsg);
+}
+
+function advanceSettings() {
+    if ($("#advanced-settings").is(":visible")) {
+        $("#advanced-settings").slideToggle(1000);
+        $("#btn-advance-setting").html('<i class="fw fw-down"></i> Show Advance Settings');
+    } else {
+        $("#advanced-settings").slideToggle(1000);
+        $("#btn-advance-setting").html('<i class="fw fw-up"></i> Hide Advance Settings');
+    }
+
+
 }
