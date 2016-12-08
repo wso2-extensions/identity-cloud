@@ -3539,8 +3539,6 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 }
 .help-note {
     display: block;
-    margin-top: 5px;
-    margin-bottom: 10px;
     color: #cac8c8;
     font-style: italic;
 }
@@ -3633,6 +3631,12 @@ td, th {
 }
 .btn-content {
     font-size: 18px;
+}
+.text-white {
+    color: #fff;
+}
+#oauthConfig .panel-body {
+    padding-top: 0;
 }
 .funkyradio div {
     clear: both;

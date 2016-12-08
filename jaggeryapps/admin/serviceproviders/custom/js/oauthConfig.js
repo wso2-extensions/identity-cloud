@@ -99,10 +99,10 @@ function drawOAuthConfigPage() {
     var grantRow = '<label for="grantTypes">Allowed Grant Types </label>' +
         '<div>';
     if ($.inArray('authorization_code', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_code" name="grant_code" value="authorization_code" checked="checked" onclick="toggleCallback()"/>Code</label></div>';
+        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_code" name="grant_code" value="authorization_code" checked="checked" onclick="togglePKCE()"/>Code</label></div>';
     }
     if ($.inArray('implicit', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_implicit" name="grant_implicit" value="implicit" checked="checked" onclick="toggleCallback()"/>Implicit</label></div>';
+        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_implicit" name="grant_implicit" value="implicit" checked="checked"/>Implicit</label></div>';
     }
     if ($.inArray('password', allowedGrantTypes) > 0) {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password" checked="checked"/>Password</lable></div>';
@@ -120,7 +120,7 @@ function drawOAuthConfigPage() {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer" checked="checked"/>SAML2</label></div>';
     }
     if ($.inArray('iwa:ntlm', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm" checked="checked"/>IWA-NTLM</label></div>';
+        grantRow = grantRow + '<div class="checkbox hide"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"/>IWA-NTLM</label></div>';
     }
 
     grantRow = grantRow + '</div>';
@@ -284,7 +284,7 @@ function drawOAuthEditPage() {
             grantRow = grantRow + '/>SAML2</label></div>';
         }
         if ($.inArray('iwa:ntlm', allowedGrantTypes) > 0) {
-            grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"';
+            grantRow = grantRow + '<div class="checkbox hide"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"';
             if (ntlmGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
@@ -321,6 +321,15 @@ function drawOAuthEditPage() {
 }
 
 function onClickAdd() {
+    
+    $('#addAppForm').validate();
+    $( "#callback" ).rules( "add", {
+        required: true,
+        messages: {
+            required: "Callback URL cannot be empty",
+        }
+    });
+
     var version2Checked = document.getElementById("oauthVersion20").checked;
     if (($(jQuery("#grant_code"))[0] != null && $(jQuery("#grant_code"))[0].checked) || ($(jQuery("#grant_implicit"))[0] && $(jQuery("#grant_implicit"))[0].checked)) {
         var callbackUrl = document.getElementById('callback').value;
@@ -437,11 +446,19 @@ function adjustFormEdit() {
 }
 
 function showHidePassword(element, inputId){
-    if($('#secretSpan').html()=='Show'){
+    if($('#secretSpan').html()=='<i class="fw fw-view"></i>'){
         document.getElementById(inputId).type = 'text';
-        $('#secretSpan').html('Hide');
+        $('#secretSpan').html('<i class="fw fw-hide"></i>');
     }else{
         document.getElementById(inputId).type = 'password';
-        $('#secretSpan').html('Show');
+        $('#secretSpan').html('<i class="fw fw-view"></i>');
+    }
+}
+
+function togglePKCE() {
+    if($('#grant_code').prop('checked')) {
+        $("#pkce, #pkce_plain").removeAttr("disabled");
+    } else {
+        $("#pkce, #pkce_plain").attr("disabled", true);
     }
 }

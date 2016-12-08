@@ -743,7 +743,7 @@ include("../templates/leftpane.jag");
                                                          <div class="input-group input-wrap">
                                                             <input type="password" class="form-control" id="consumerSecret" disabled="disabled">
                                                             <div class="input-group-btn">
-                                                               <button class="btn" type="button" id="showSecret" onclick="showHidePassword(this, 'consumerSecret')" name="showSecret"><span id="secretSpan">Show</span></button>
+                                                               <button class="btn" type="button" id="showSecret" onclick="showHidePassword(this, 'consumerSecret')" name="showSecret"><span id="secretSpan"><i class="fw fw-view"></i></span></button>
                                                             </div>
                                                          </div>
                                                       </div>
@@ -774,7 +774,7 @@ include("../templates/leftpane.jag");
                                                    <div id="oauthHiddenFields">
                                                    </div>
                                                    <!--OAuth Version-->
-                                                   <div class="form-group">
+                                                   <div class="form-group hide">
                                                       <div class="col-md-12">
                                                         <div class="hide" id="versionRow"></div>
                                                       </div>
@@ -785,55 +785,56 @@ include("../templates/leftpane.jag");
                                                       </label>
                                                       <input type="text" class="form-control" id="application" name="application">
                                                    </div>
-                                                   <!--Callback Url-->
-                                                   <div class="form-group" id="callback_row" style="display: block;" hidden>
-                                                      <div class="col-md-12">
-                                                         <label for="callback">Callback Url
-                                                         <span class="required">*</span>
-                                                         </label>
-                                                         <input type="text" class="form-control" id="callback" name="callback">
-                                                      </div>
-                                                   </div>
                                                    <!--Grant Types-->
                                                    <div class="form-group" style="display: block;" hidden>
                                                       <div class="col-md-12" id="grant_row" name="grant_row">
                                                          <!--Filled in oauthConfig.js-->
                                                       </div>
                                                    </div>
-                                                   <!--PKCE Mandatory-->
-                                                   <div class="form-group" id="pkce_enable" style="display: block;" hidden>
-                                                      <div class="col-md-12">
-                                                         <label for="pkce" >PKCE Mandatory
-                                                         </label>
-                                                         <div class="checkbox">
-                                                            <label>
-                                                            <input class="custom-checkbox custom-checkbox-white" type="checkbox" value="mandatory" name="pkce" id="pkce">
-                                                            <span>Mandatory</span>
-                                                            </label>
-                                                         </div>
-                                                         <span> Only allow applications that bear PKCE Code Challenge with them. </span>
-                                                      </div>
+                                                   <div class="pkce-container">
+                                                       <div class="help-note">Note : PKCE options will only be enabled if Code is checked.</div>
+                                                       <div class="form-group">
+                                                            <!--PKCE Mandatory-->
+                                                            <div id="pkce_enable" style="display: block;" hidden>
+                                                                  <div class="col-md-12">
+                                                                     <div class="checkbox">
+                                                                        <label>
+                                                                        <input class="custom-checkbox custom-checkbox-white" type="checkbox" value="mandatory" name="pkce" id="pkce">
+                                                                        <span>PKCE Mandatory</span>
+                                                                        </label>
+                                                                     </div>
+                                                                     <span class="help-block text-white">Only allow applications that bear PKCE Code Challenge with them. </span>
+                                                                  </div>
+                                                            </div>
+                                                            <!--PKCE Support plain-->
+                                                            <div id="pkce_support_plain" style="display: block;" hidden>
+                                                                  <div class="col-md-12">
+                                                                     <div class="checkbox">
+                                                                        <label><input class="custom-checkbox custom-checkbox-white" type="checkbox" checked="" value="yes" id="pkce_plain" name="pkce_plain"><span>Support PKCE Plain Transform Algorithm</span></label>
+                                                                     </div>
+                                                                     <span class="help-block text-white"> Server supports 'S256' PKCE tranformation algorithm by default. </span>
+                                                                  </div>
+                                                            </div>
+                                                       </div>
                                                    </div>
-                                                   <!--PKCE Support plain-->
-                                                   <div class="form-group" id="pkce_support_plain" style="display: block;" hidden>
+                                                   <!--Callback Url-->
+                                                   <div class="form-group" id="callback_row" hidden>
                                                       <div class="col-md-12">
-                                                         <label for="grantTypes" >Support PKCE 'Plain' Transform Algorithm
+                                                         <label for="callback">Callback Url
+                                                         <span class="required">*</span>
                                                          </label>
-                                                         <div class="checkbox">
-                                                            <label><input class="custom-checkbox custom-checkbox-white" type="checkbox" checked="" value="yes" id="pkce_plain" name="pkce_plain"><span>Yes</span></label>
-                                                         </div>
-                                                         <span> Server supports 'S256' PKCE tranformation algorithm by default. </span>
+                                                         <input type="text" class="form-control" id="callback" name="callback" required/>
                                                       </div>
                                                    </div>
                                                    <!--Buttons-->
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthRgsterBtn" onclick="onClickAdd();return false;">
+                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthRgsterBtn" onclick="onClickAdd();">
                                                          <span class="fw-stack btn-action-ico">
                                                          <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                         <i class="fw fw-save fw-stack-1x"></i>
+                                                         <i class="fw fw-key fw-stack-1x"></i>
                                                          </span>
-                                                         Add
+                                                         Generate Keys
                                                          </button>
                                                          <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthUpdtBtn" onclick="onClickUpdate();return false;">
                                                          <span class="fw-stack btn-action-ico">
