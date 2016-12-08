@@ -3,7 +3,8 @@ var log = new Log();
 var spClient = require('../custom/spAdminClient.jag');
 var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
 var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
-include("../../../util/constants.jag");
+var util = require("../../util/utility.jag");
+include("../../../../util/constants.jag");
 var i18n = session.get("i18n");
 var storeAppType = request.getParameter('storeAppType');
 if (storeAppType == APP_AGENT_TYPE || storeAppType == APP_PROXY_TYPE || storeAppType == WELL_KNOWN_APP) {
@@ -514,11 +515,16 @@ function getAppAccessURL(storeProperties) {
 
 
 function getIDPInitiatedSSOURL(issuer) {
-    //TODO - Support tenants
-    //https://{Hostname}:{Port}/samlsso?spEntityID={SAML2 SSO Issuer name}
-    return application.get(MGT_TRANSPORT) + "://" + application.get(MGT_HOST_NAME) + ":" +application.get(HTTPS_PORT)
-    + "/samlsso?spEntityID=" +issuer;
 
+    var userInfo = session.get("userInfo");
+    var tenantDomain = userInfo.tenantDomain;
+    var serverUrl = util.getServerUrlWithProxyContext();
+
+    if (org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+        return serverUrl + "/identity?spEntityID=" + issuer;
+    } else {
+        return serverUrl + "/identity/t/" + tenantDomain + "?spEntityID=" + issuer;
+    }
 }
 
 function getAppType(samlAuthenticator) {

@@ -55,6 +55,10 @@ function getServerUrl(){
     return application.get(SERVER_URL);
 }
 
+function getServerUrlWithProxyContext(){
+    return "https://" + application.get(HOST) + ":" + application.get(HTTPS_PORT) + application.get(PROXY_CONTEXT_PATH);
+}
+
 function getSuccessErrorJson(request, i18n){
     var error = request.getParameter("e");
     var errorMsg = request.getParameter("error");
