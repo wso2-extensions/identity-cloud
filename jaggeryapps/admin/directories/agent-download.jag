@@ -153,7 +153,7 @@ include("/templates/header.jag");
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                            <div class="help-note">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
+                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
                         </div>
                     </div>
 
