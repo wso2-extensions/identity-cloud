@@ -64,6 +64,7 @@ const appStatus = "<%=appStatus%>";
         </div>
     </div>
 </div>
+ <input type="hidden" id="storeAppType" name="storeAppType" value="">
 <!-- EOF App  menu -->
 <div class="inner-wrapper">
     <!-- left pane wrapper -->
@@ -429,7 +430,7 @@ include("../templates/leftpane.jag");
                                                 <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" hidden action="">
                                                    <!--<h4>New Service Provider</h4>-->
                                                    <input type="hidden" id="hiddenFields" name="hiddenFields" value="">
-                                                   <input type="hidden" id="storeAppType" name="storeAppType" value="">
+
                                                    <!--Issuer-->
                                                    <div class="form-group" id="issuerRow">
                                                       <div class="col-md-12">
@@ -542,7 +543,7 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
                                                    <!--  Enable Single  Logout -->
-                                                   <div id="singleLogoutRow">
+                                                   <div id="singleLogoutRow" hidden>
                                                       <div class="form-group">
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
@@ -676,7 +677,7 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
                                                    <!--  Enable IdP Initiated SLO -->
-                                                   <div id="idpInitSLORow">
+                                                   <div id="idpInitSLORow" hidden>
                                                       <div class="form-group" hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
