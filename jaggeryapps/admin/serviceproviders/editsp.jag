@@ -924,7 +924,7 @@ include("../templates/leftpane.jag");
                                  <div class="form-group">
                                     <div class="col-md-12">
                                        <label>Tags</label>
-                                       <input type="text" class="form-control" id="store-app-tags" name="store-app-tags" >
+                                       <select class="form-control" id="store-app-tags" name="store-app-tags" multiple="multiple"/>
                                     </div>
                                  </div>
                                  <div class="form-group">

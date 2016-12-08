@@ -88,8 +88,12 @@ function drawAppDetails(data) {
         $('#store-app-name').val(data.displayName);
         $('#store-app-thumbnail-url').val(data.thumbnailUrl);
         $('#store-app-banner-url').val(data.banner);
-        $('#store-app-tags').val(data.tags);
 
+        var tags = data.tags;
+
+        if(tags){
+            $("#store-app-tags").val(data.tags).trigger("change");
+        }
 
         if (data.visibleRoles.toString().trim() != "") {
             var existingRoles = data.visibleRoles.toString().split(",");
@@ -399,7 +403,7 @@ function updateCustomSP() {
     var storeProperties = JSON.stringify({
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
-                                             "tags": $('#store-app-tags').val(),
+                                             "tags": getTags(),
                                              "visibleRoles": visibleRoles,
                                              "id": $('#app-id').val()
                                          });
@@ -520,6 +524,26 @@ function updateCustomSP() {
         .always(function () {
             console.log('completed');
         });
+}
+
+function getTags(){
+
+    var tags = $("#store-app-tags").val();
+
+    var commaSeperatedTags = "";
+
+    if(tags && tags.length > 0){
+      for(var i = 0; i < tags.length; i++){
+        commaSeperatedTags = commaSeperatedTags + tags[i] + ",";
+      }
+    }
+
+    // Remove trailing ',' character.
+    if(commaSeperatedTags.length > 0){
+      commaSeperatedTags = commaSeperatedTags.substring(0, commaSeperatedTags.length - 1);
+    }
+
+    return commaSeperatedTags;
 }
 
 function validateSPName() {
@@ -672,7 +696,16 @@ $(document).ready(function () {
         placeholder: 'Type in a user role',
         width: '100%',
         theme: "classic"
-    })
+    });
+
+    $("#store-app-tags").select2({
+        tags:true,
+        data:getAllTags(),
+        tokenSeparators: [',', ' '],
+        width: '100%',
+        theme: "classic"
+    });
+
 });
 
 function getRoles() {
@@ -687,6 +720,27 @@ function getRoles() {
                }
            });
     return roles
+}
+
+function getAllTags() {
+    var apiPath = "/admin/apps/getTags";
+    var tags;
+    $.ajax({
+               url: apiPath,
+               type: 'GET',
+               async: false,
+               success: function (data) {
+                   tags = JSON.parse(data);
+               }
+           });
+
+    var tagNames = [];
+    if(tags){
+      for(var i = 0; i < tags.length; i++){
+        tagNames.push(tags[i].name);
+      }
+    }
+    return tagNames;
 }
 
 function getAppType(appdata){
