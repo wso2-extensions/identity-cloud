@@ -151,7 +151,8 @@ var appManagementClient = function(){
 
     function cleanupAppData(application){
       // Remove meta information from description.
-      application.description = application.description.replace("custom]", '');
+      // HACK : Replacing with a space since the registry converts spaces in to null values.
+      application.description = application.description.replace("custom]", ' ');
     }
 
     return {Publisher : Publisher};
