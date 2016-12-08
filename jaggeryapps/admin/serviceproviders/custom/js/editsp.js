@@ -88,8 +88,12 @@ function drawAppDetails(data) {
         $('#store-app-name').val(data.displayName);
         $('#store-app-thumbnail-url').val(data.thumbnailUrl);
         $('#store-app-banner-url').val(data.banner);
-        $('#store-app-tags').val(data.tags);
 
+        var tags = data.tags;
+
+        if(tags){
+            $("#store-app-tags").val(data.tags).trigger("change");
+        }
 
         if (data.visibleRoles.toString().trim() != "") {
             var existingRoles = data.visibleRoles.toString().split(",");
@@ -180,6 +184,10 @@ function renderCustomPage(data) {
             $(storeName).val(data.applicationName);
 
         }
+    }
+
+    if (appStatus == "new") {
+        $("#breadcrumb-sec").html('<i class="fw fw-security" ></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Applications / Custom Application / Add');
     }
 
     if (appType) {
@@ -395,7 +403,7 @@ function updateCustomSP() {
     var storeProperties = JSON.stringify({
                                              "appDisplayName": $('#store-app-name').val(),
                                              "appStoreUrl": $('#store-app-url').val(),
-                                             "tags": $('#store-app-tags').val(),
+                                             "tags": getTags(),
                                              "visibleRoles": visibleRoles,
                                              "id": $('#app-id').val()
                                          });
@@ -426,6 +434,16 @@ function updateCustomSP() {
     } else if(selected.trim() == "Agent".trim()){
         $('#storeAppType').val(APP_AGENT_TYPE);
     }
+    // getting default acs
+    var acsUrls = $("#assertionConsumerURLsTableBody .radio-group");
+    var defaultAssertionConsumerURL = null;
+    for (var j=0; j< acsUrls.length;j++) {
+            if ($(acsUrls[j]).is(':checked')) {
+                defaultAssertionConsumerURL = $($("#acsUrl_" + j).find("td")[1]).html();
+                break;
+            }
+    }
+
     var formData = new FormData();
 
     formData.append('oldSPName', $('#oldSPName').val());
@@ -435,11 +453,12 @@ function updateCustomSP() {
     formData.append('storeAppType', $('#storeAppType').val());
 
     formData.append('hiddenFields',$('#hiddenFields').val());
+    formData.append('enableResponseSignature',$('#enableResponseSignature').val());
     formData.append('issuer',$('#issuer').val());
     formData.append('hiddenIssuer',$('#hiddenIssuer').val());
     formData.append('assertionConsumerURLTxt',$('#assertionConsumerURLTxt').val());
     formData.append('assertionConsumerURLs',$('#assertionConsumerURLs').val());
-    formData.append('defaultAssertionConsumerURL',$('#defaultAssertionConsumerURL').val());
+    formData.append('defaultAssertionConsumerURL',defaultAssertionConsumerURL);
     formData.append('nameIdFormat',$('#nameIdFormat').val());
     formData.append('alias',$('#alias').val());
     formData.append('signingAlgorithm',$('#signingAlgorithm').val());
@@ -505,6 +524,26 @@ function updateCustomSP() {
         .always(function () {
             console.log('completed');
         });
+}
+
+function getTags(){
+
+    var tags = $("#store-app-tags").val();
+
+    var commaSeperatedTags = "";
+
+    if(tags && tags.length > 0){
+      for(var i = 0; i < tags.length; i++){
+        commaSeperatedTags = commaSeperatedTags + tags[i] + ",";
+      }
+    }
+
+    // Remove trailing ',' character.
+    if(commaSeperatedTags.length > 0){
+      commaSeperatedTags = commaSeperatedTags.substring(0, commaSeperatedTags.length - 1);
+    }
+
+    return commaSeperatedTags;
 }
 
 function validateSPName() {
@@ -657,7 +696,16 @@ $(document).ready(function () {
         placeholder: 'Type in a user role',
         width: '100%',
         theme: "classic"
-    })
+    });
+
+    $("#store-app-tags").select2({
+        tags:true,
+        data:getAllTags(),
+        tokenSeparators: [',', ' '],
+        width: '100%',
+        theme: "classic"
+    });
+
 });
 
 function getRoles() {
@@ -672,6 +720,27 @@ function getRoles() {
                }
            });
     return roles
+}
+
+function getAllTags() {
+    var apiPath = "/admin/apps/getTags";
+    var tags;
+    $.ajax({
+               url: apiPath,
+               type: 'GET',
+               async: false,
+               success: function (data) {
+                   tags = JSON.parse(data);
+               }
+           });
+
+    var tagNames = [];
+    if(tags){
+      for(var i = 0; i < tags.length; i++){
+        tagNames.push(tags[i].name);
+      }
+    }
+    return tagNames;
 }
 
 function getAppType(appdata){
@@ -718,4 +787,16 @@ function showGotoStoreMsg() {
         '</div>');
 
     $("#goto-store-msg").html( gotoStoreMsg);
+}
+
+function advanceSettings() {
+    if ($("#advanced-settings").is(":visible")) {
+        $("#advanced-settings").slideToggle(1000);
+        $("#btn-advance-setting").html('<i class="fw fw-down"></i> Show Advance Settings');
+    } else {
+        $("#advanced-settings").slideToggle(1000);
+        $("#btn-advance-setting").html('<i class="fw fw-up"></i> Hide Advance Settings');
+    }
+
+
 }

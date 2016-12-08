@@ -46,6 +46,18 @@ function validateInputs() {
                 }
             }); //sets up the validator since dynamically added elements here
             $("input[id*=issuer]").rules("add", "required");
+            // $("input[id*=assertionConsumerURLTxt]").rules("add", "required");
+
+            $.validator.addMethod("acsUrls", function (value, element) {
+                return $("#acsUrl_0").length > 0 ;
+            }, $.validator.messages.url);
+
+            $("input[id*=assertionConsumerURLTxt]").rules('add', {
+                acsUrls: true,
+                messages: {
+                    acsUrls: "Add at least one assertion consumer url"
+                }
+            });
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
@@ -61,6 +73,8 @@ function validateInputs() {
             if ($("#storeConfigForm").valid()) {
                 updateSP();
             }
+        } else {
+            updateSP();
         }
     } else {
         $("#addServiceProvider").validate({
@@ -70,6 +84,7 @@ function validateInputs() {
             }
         }); //sets up the validator since dynamically added elements here
         $("input[id*=issuer]").rules("add", "required");
+        $("input[id*=assertionConsumerURLTxt]").rules("add", "required");
         if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
             updateSP();
         }

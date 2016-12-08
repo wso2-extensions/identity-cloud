@@ -81,7 +81,7 @@ function updateSP(){
         serviceProviderDTO["alias"] = "";
         serviceProviderDTO["signingAlgorithm"] = request.getParameter("signingAlgorithm");
         serviceProviderDTO["digestAlgorithm"] = request.getParameter("digestAlgorithm");
-        serviceProviderDTO["enableResponseSignature"] = false;
+        serviceProviderDTO["enableResponseSignature"] = request.getParameter("enableResponseSignature");
         serviceProviderDTO["enableSigValidation"] = false;
         serviceProviderDTO["enableEncAssertion"] = false;
         serviceProviderDTO["enableSingleLogout"] = false;
@@ -228,7 +228,7 @@ function updateSP(){
             updateSp = updateSp + '<xsd1:inboundAuthenticationRequestConfigs>'+
                     '<xsd1:friendlyName>' + samlConfig.friendlyName + '</xsd1:friendlyName>'+
                     '<xsd1:inboundAuthKey>' + serviceProviderDTO["issuer"] + '</xsd1:inboundAuthKey>'+
-                    '<xsd1:inboundAuthType>' + samlConfig.inboundAuthType+'</xsd1:inboundAuthType>';
+                        '<xsd1:inboundAuthType>' + samlConfig.inboundAuthType+'</xsd1:inboundAuthType>';
             var props = samlConfig.properties;
             //props can't be null
             if(props.constructor !== Array) {
@@ -322,6 +322,7 @@ function updateSP(){
                 '</xsd1:spProperties>'+
                 '</xsd:serviceProvider>'+
                 '</xsd:updateApplication>';
+        log.info(updateSp);
         spClient.updateApplicationData(updateSp);
     } catch (e) {
         log.error(e);
@@ -412,7 +413,7 @@ function addApp(){
               displayName: storeProperties.appDisplayName,
               description: request.getParameter('spDesc'),
               trackingCode: request.getParameter('spName'),
-              isSite: "false",
+              isSite: "FALSE",
               skipGateway : gatewayProperties.skipGateway,
               serviceProviderCreationEnabled : false,
               context: context,

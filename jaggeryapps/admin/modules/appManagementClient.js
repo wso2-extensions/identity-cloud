@@ -83,6 +83,16 @@ var appManagementClient = function(){
 
     };
 
+    Publisher.prototype.getAllTags = function () {
+        var result = get(
+            this.config.publisher.endpoint + 'apps/webapp/tags', '',
+            {
+                'WSO2-Identity-User': session.get("user")
+            }, 'json'
+        );
+        return result.data;
+    };
+
     function getAppIdByName(appName, appVersion, endpoint) {
         var result = get(
             endpoint + 'apps/webapp/name/' + appName + '/version/' + appVersion + '/uuid', '',
