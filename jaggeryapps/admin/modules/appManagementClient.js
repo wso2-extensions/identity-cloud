@@ -13,6 +13,8 @@ var appManagementClient = function(){
 
     Publisher.prototype.addApp = function (application) {
 
+      cleanupAppData(application);
+
       // Call the ReST API to persist the app
       var result = post(
                           this.config.publisher.endpoint + 'apps/webapp',
@@ -32,6 +34,9 @@ var appManagementClient = function(){
     };
 
     Publisher.prototype.updateApp = function (application) {
+
+      cleanupAppData(application);
+
         // Call the ReST API to persist the app
          put(
             this.config.publisher.endpoint + 'apps/webapp/id/'+application.id,
@@ -143,6 +148,11 @@ var appManagementClient = function(){
         return result.data;
 
     };
+
+    function cleanupAppData(application){
+      // Remove meta information from description.
+      application.description = application.description.replace("custom]", '');
+    }
 
     return {Publisher : Publisher};
 
