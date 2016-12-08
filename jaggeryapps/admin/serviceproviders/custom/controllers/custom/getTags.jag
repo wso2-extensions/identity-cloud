@@ -1,0 +1,21 @@
+<%
+var log = new Log();
+var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
+var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
+
+getAllTags();
+
+function getAllTags() {
+
+    try {
+        var publisher = new appManagementClient.Publisher(appManagementIntegrationConfig.restAPI);
+        var tags = publisher.getAllTags();
+        print(tags);
+    } catch (e) {
+        print("");
+        log.error(e);
+    }
+}
+
+
+%>
