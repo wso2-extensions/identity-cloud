@@ -25,6 +25,7 @@ import org.wso2.carbon.identity.sso.agent.SSOAgentFilter;
 import org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -53,56 +54,22 @@ public class SSOAgentSampleFilter extends SSOAgentFilter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
 
-        String httpBinding = servletRequest.getParameter(
-                SSOAgentConstants.SSOAgentConfig.SAML2.HTTP_BINDING);
-        if(httpBinding != null && !httpBinding.isEmpty()){
-            if("HTTP-POST".equals(httpBinding)){
-                httpBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
-            } else if ("HTTP-Redirect".equals(httpBinding)) {
-                httpBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect";
-            } else {
-                LOGGER.log(Level.INFO, "Unknown SAML2 HTTP Binding. Defaulting to HTTP-POST");
-                httpBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
-            }
-        } else {
-            LOGGER.log(Level.INFO, "SAML2 HTTP Binding not found in request. Defaulting to HTTP-POST");
-            httpBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
-        }
         SSOAgentConfig config = (SSOAgentConfig)filterConfig.getServletContext().
                 getAttribute(SSOAgentConstants.CONFIG_BEAN_NAME);
-        config.getSAML2().setHttpBinding(httpBinding);
-        config.getOpenId().setClaimedId(servletRequest.getParameter(
-                SSOAgentConstants.SSOAgentConfig.OpenID.CLAIMED_ID));
-        config.getOpenId().setMode(servletRequest.getParameter(
-                SSOAgentConstants.OpenID.OPENID_MODE));
+        config.getSAML2().setHttpBinding("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect");
 
-        if (StringUtils.isNotEmpty(servletRequest.getParameter(USERNAME)) &&
-                StringUtils.isNotEmpty(servletRequest.getParameter(PASSWORD))) {
+        String idpURL = config.getSAML2().getIdPURL();
 
-            String authorization = servletRequest.getParameter(USERNAME) + ":" + servletRequest.getParameter(PASSWORD);
-            // Base64 encoded username:password value
-            authorization = new String(Base64.encode(authorization.getBytes(CHARACTER_ENCODING)));
-            String htmlPayload = "<html>\n" +
-                    "<body>\n" +
-                    "<p>You are now redirected back to " + properties.getProperty("SAML2.IdPURL") + " \n" +
-                    "If the redirection fails, please click the post button.</p>\n" +
-                    "<form method='post' action='" +  properties.getProperty("SAML2.IdPURL") + "'>\n" +
-                    "<input type='hidden' name='sectoken' value='" + authorization + "'/>\n" +
-                    "<p>\n" +
-                    "<!--$saml_params-->\n" +
-                    "<button type='submit'>POST</button>\n" +
-                    "</p>\n" +
-                    "</form>\n" +
-                    "<script type='text/javascript'>\n" +
-                    "document.forms[0].submit();\n" +
-                    "</script>\n" +
-                    "</body>\n" +
-                    "</html>";
-            config.getSAML2().setPostBindingRequestHTMLPayload(htmlPayload);
-        } else {
-            // Reset previously sent HTML payload
-            config.getSAML2().setPostBindingRequestHTMLPayload(null);
+        // The configurations are shared between all requests.
+        // So we need to clean-up the IDP URL for the current request and then set the tenant domain if needed.
+        idpURL = idpURL.replaceAll("/t/.*", "");
+        String tenantDomain = (String) ((HttpServletRequest)servletRequest).getSession().getAttribute("tenantDomain");
+        
+        if(tenantDomain != null){
+            idpURL = idpURL + "/t/" + tenantDomain;
+            config.getSAML2().setIdPURL(idpURL);
         }
+
         servletRequest.setAttribute(SSOAgentConstants.CONFIG_BEAN_NAME,config);
         super.doFilter(servletRequest, servletResponse, filterChain);
     }
