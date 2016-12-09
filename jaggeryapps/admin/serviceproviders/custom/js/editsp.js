@@ -383,8 +383,11 @@ function updateSP() {
     validateSPName(false);
 }
 
-function updateCustomSP() {
+function updateCustomSP(file) {
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
+    if(file != null && file.value != null && file.value.length > 0){
+        $('#metadataFileName').val(file.value);
+    }
     var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/edit_finish";
     var visibleRoles = null;
     var roles = $('#store-app-visibility').select2('data');
@@ -472,6 +475,12 @@ function updateCustomSP() {
     formData.append('receipientURLs',$('#receipientURLs').val());
     formData.append('idpSLOURLs',$('#idpSLOURLs').val());
     formData.append('attributeConsumingServiceIndex',$('#attributeConsumingServiceIndex').val());
+    formData.append('publicCertificate',$('publicCertificate').val());
+    if(file != null && file.value != null && file.value.length > 0){
+        formData.append('metadataFileName',$('#metadataFileName').val());
+        formData.append('metadata', $('input[type=file]')[0].files[0]);
+    }
+
     var checkBoxArr= $("#addServiceProvider input:checkbox");
     for(var checkbox in checkBoxArr){
         formData.append(checkBoxArr[checkbox].id,checkBoxArr[checkbox].value);
@@ -510,7 +519,11 @@ function updateCustomSP() {
                data: formData
     })
         .done(function (data) {
-            window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+            if($('#metadataFileName').val().length > 0) {
+                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
+            }else{
+                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+            }
         })
         .fail(function () {
             message({
@@ -653,6 +666,7 @@ function saveOauthConfig(){
 
 function uploadFile(file){
     $('#metadataFileName').val(file.value);
+    $('#metadata').val($('input[type=file]')[0].files[0]);
 
     var formData = new FormData();
     formData.append('file', $('input[type=file]')[0].files[0]);
@@ -664,29 +678,29 @@ function uploadFile(file){
 
 
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-    $.ajax({
-        url: str,
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-            location.reload();
-        },
-        contentType: false,
-        processData: false
-    }).done(function (data) {
-
-    })
-        .fail(function () {
-            message({
-                content: 'Error while loading configurations from metadata', type: 'error', cbk: function () {
-                }
-            });
-
-        })
-        .always(function () {
-            console.log('completed');
-        });
+//    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
+//    $.ajax({
+//        url: str,
+//        type: 'POST',
+//        data: formData,
+//        success: function (data) {
+//            location.reload();
+//        },
+//        contentType: false,
+//        processData: false
+//    }).done(function (data) {
+//
+//    })
+//        .fail(function () {
+//            message({
+//                content: 'Error while loading configurations from metadata', type: 'error', cbk: function () {
+//                }
+//            });
+//
+//        })
+//        .always(function () {
+//            console.log('completed');
+//        });
 }
 
 
