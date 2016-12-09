@@ -708,6 +708,33 @@ $(document).ready(function () {
 
 });
 
+function checkhttps(url){
+    var urlregex = getPattern("https-url");
+    return urlregex.test(url);
+}
+function checkhttp(url){
+    var urlregex = getPattern("http-url");
+    return urlregex.test(url);
+}
+
+var showWarning = false;
+var showedOnce = false;
+$(document).on('keypress','#callback',function() {
+    var messageContainer = "<label class='' for='callback' role='alert'>" +
+        "<span class='alert-content'></span></label>";
+    var callback = $(this).val();
+
+    showWarning = checkhttp(callback);
+    if (!showedOnce && showWarning) {
+        $('.callbackStatus').html($(messageContainer).addClass('warning'));
+        $('.callbackStatus').find('.alert-content')
+            .text('Your connection is not secure. Use https.');
+        showedOnce = true;
+    } else if (checkhttps(callback)) {
+        $('.callbackStatus').html('');
+        showedOnce = false;
+    }
+});
 function getRoles() {
     var apiPath = "/admin/apps/getRoles";
     var roles;

@@ -17,6 +17,7 @@
         <script type="text/javascript" src="../serviceproviders/custom/serverinfo.jag"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/editsp.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/validations.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/custom/identity-validate.js"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/jquery.validate.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/gatewayConfig.js" type="text/javascript"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/claimConfig.js" type="text/javascript"></script>
@@ -831,7 +832,8 @@ include("../templates/leftpane.jag");
                                                          <label for="callback">Callback Url
                                                          <span class="required">*</span>
                                                          </label>
-                                                         <input type="text" class="form-control" id="callback" name="callback" required/>
+                                                         <input type="text" class="form-control callback" id="callback" name="callback" required />
+                                                         <div class="callbackStatus"></div>
                                                       </div>
                                                    </div>
                                                    <!--Buttons-->
