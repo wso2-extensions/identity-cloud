@@ -824,8 +824,6 @@ function advanceSettings() {
         $("#btn-advance-setting").html('<i class="fw fw-down"></i> Show Advance Settings');
     } else {
         $("#advanced-settings").slideToggle(1000);
-        $("#btn-advance-setting").html('<i class="fw fw-up"></i> Hide Advance Settings');
+        $("#btn-advance-setting").html('<i class="fw fw-up"></i>&nbsp;&nbsp;Hide Advance Settings');
     }
-
-
 }

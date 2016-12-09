@@ -63,6 +63,9 @@ function validateInputs() {
                 updateSP();
             }
 
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "WS-Federation (Passive)".trim()) {
+            $('#wsfed-form').valid();
+            
         } else if (selected.trim() == "Proxy".trim()) {
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
