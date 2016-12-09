@@ -39,7 +39,7 @@ public class SessionFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         String requestUrl = request.getServletPath();
 
         if (whiteListedUrls.contains(requestUrl) || (session != null && session.getAttribute
