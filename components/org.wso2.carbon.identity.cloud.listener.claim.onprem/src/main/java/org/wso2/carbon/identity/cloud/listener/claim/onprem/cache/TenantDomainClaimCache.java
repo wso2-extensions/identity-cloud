@@ -23,21 +23,21 @@ import org.wso2.carbon.identity.application.common.cache.BaseCache;
 /**
  * Cache for caching domain name with a single reference.
  */
-public class ClaimDomainCache extends BaseCache<ClaimDomainCacheKey, ClaimDomainCacheEntry> {
+public class TenantDomainClaimCache extends BaseCache<TenantDomainClaimCacheKey, TenantDomainClaimCacheEntry> {
 
-    private static final String SESSION_DATA_CACHE_NAME = "WSClaimAttributeCache";
+    private static final String SESSION_DATA_CACHE_NAME = "TenantDomainClaimCache";
 
-    private static volatile ClaimDomainCache instance;
+    private static volatile TenantDomainClaimCache instance;
 
-    private ClaimDomainCache() {
+    private TenantDomainClaimCache() {
         super(SESSION_DATA_CACHE_NAME);
     }
 
-    public static ClaimDomainCache getInstance() {
+    public static TenantDomainClaimCache getInstance() {
         if (instance == null) {
-            synchronized (ClaimDomainCache.class) {
+            synchronized (TenantDomainClaimCache.class) {
                 if (instance == null) {
-                    instance = new ClaimDomainCache();
+                    instance = new TenantDomainClaimCache();
                 }
             }
         }

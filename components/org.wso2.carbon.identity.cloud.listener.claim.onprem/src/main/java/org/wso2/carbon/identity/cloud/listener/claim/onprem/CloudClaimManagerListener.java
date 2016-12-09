@@ -28,9 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.util.KeyStoreManager;
-import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.ClaimDomainCache;
-import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.ClaimDomainCacheEntry;
-import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.ClaimDomainCacheKey;
+import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.TenantDomainClaimCache;
+import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.TenantDomainClaimCacheEntry;
+import org.wso2.carbon.identity.cloud.listener.claim.onprem.cache.TenantDomainClaimCacheKey;
 import org.wso2.carbon.identity.cloud.listener.claim.onprem.exception.ClaimManagerListenerException;
 import org.wso2.carbon.identity.cloud.listener.claim.onprem.internal.ClaimListenerComponentHolder;
 import org.wso2.carbon.identity.cloud.listener.claim.onprem.security.DefaultJWTGenerator;
@@ -40,6 +40,7 @@ import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.user.api.ClaimManager;
 import org.wso2.carbon.user.api.ClaimMapping;
 import org.wso2.carbon.user.api.RealmConfiguration;
+import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.UserStoreManager;
 import org.wso2.carbon.user.core.common.AbstractClaimManagerListener;
@@ -62,65 +63,71 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
     private static Map<Integer, Key> privateKeys = new ConcurrentHashMap<>();
     private ClaimManager claimManager;
     private UserStoreManager secondaryUserStoreManager;
+    private String tenantDomain;
 
     @Override
     public boolean getAttributeName(String domainName, String claimURI)
             throws org.wso2.carbon.user.core.UserStoreException {
-        ClaimDomainCacheEntry cacheEntry = getClaimAttributeFromCache(domainName);
+        try {
+            tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+            Tenant tenant = ClaimListenerComponentHolder.getInstance().getRealmService()
+                    .getTenantManager().getTenant(tenantId);
+            if (tenant != null) {
+                tenantDomain = ClaimListenerComponentHolder.getInstance().getRealmService()
+                        .getTenantManager().getTenant(tenantId).getDomain();
+                TenantDomainClaimCacheEntry cacheEntry = getTenantDomainReferenceFromCache(
+                        getTenantDomainCacheKey(domainName, tenantDomain));
+                if (cacheEntry == null) {
+                    secondaryUserStoreManager = ((UserStoreManager) (ClaimListenerComponentHolder.getInstance()
+                            .getRealmService().getTenantUserRealm(tenantId).getUserStoreManager()))
+                            .getSecondaryUserStoreManager(domainName);
 
-        if (cacheEntry == null) {
-            try {
-                tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
-                secondaryUserStoreManager =  ((UserStoreManager) (ClaimListenerComponentHolder.getInstance()
-                        .getRealmService().getTenantUserRealm(tenantId).getUserStoreManager()))
-                        .getSecondaryUserStoreManager();
+                    if (secondaryUserStoreManager != null) {
+                        claimManager = secondaryUserStoreManager.getClaimManager();
+                        ClaimMapping[] claimMappings = claimManager.getAllClaimMappings();
+                        GetMethod getMethod = new GetMethod(EndpointUtil.getClaimAttributeRetrievalEndpoint(getHostName()));
 
-                if (secondaryUserStoreManager != null) {
-                    claimManager = secondaryUserStoreManager.getClaimManager();
-                    ClaimMapping[] claimMappings = claimManager.getAllClaimMappings();
-                    GetMethod getMethod = new GetMethod(EndpointUtil.getClaimAttributeRetrievalEndpoint(getHostName()));
+                        if (this.httpClient == null) {
+                            this.httpClient = new HttpClient();
+                        }
 
-                    if (this.httpClient == null) {
-                        this.httpClient = new HttpClient();
-                    }
-
-                    setAuthorizationHeader(getMethod);
-                    int response = httpClient.executeMethod(getMethod);
-                    if (response == HttpStatus.SC_OK) {
-                        String respStr = new String(getMethod.getResponseBody());
-                        JSONObject resultObj = new JSONObject(respStr);
-                        for (ClaimMapping claimMapping :
-                                claimMappings) {
-                            String uri = claimMapping.getClaim().getClaimUri();
-                            try {
-                                String attribute = (String) resultObj.get(uri);
-                                if (attribute != null && !attribute.isEmpty()) {
-                                    addClaimAttributeToCache(domainName, attribute);
-                                    updatePersistenceClaimMapping(domainName, claimMapping, attribute);
-                                }
-                            } catch (JSONException e) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Claim mapping of " + uri +
-                                            " not found for secondary userstore of tenant " + tenantId);
+                        setAuthorizationHeader(getMethod);
+                        int response = httpClient.executeMethod(getMethod);
+                        if (response == HttpStatus.SC_OK) {
+                            String respStr = new String(getMethod.getResponseBody());
+                            JSONObject resultObj = new JSONObject(respStr);
+                            String cacheKey = getTenantDomainCacheKey(domainName, tenantDomain);
+                            addTenantDomainClaimToCache(cacheKey, claimURI);
+                            for (ClaimMapping claimMapping :
+                                    claimMappings) {
+                                String uri = claimMapping.getClaim().getClaimUri();
+                                try {
+                                    String attribute = (String) resultObj.get(uri);
+                                    if (attribute != null && !attribute.isEmpty()) {
+                                        updateClaimMapping(domainName, claimMapping, attribute);
+                                    }
+                                } catch (JSONException e) {
+                                    if (log.isDebugEnabled()) {
+                                        log.debug("Claim mapping of " + uri +
+                                                " not found for secondary userstore of tenant " + tenantId);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
-            } catch (IOException | JSONException | ClaimManagerListenerException | UserStoreException e) {
-                throw new org.wso2.carbon.user.core.UserStoreException(
-                        "Error occurred while calling backed to claim attribute " +
-                                "retrieval for tenantId - [" + this.tenantId + "]");
             }
+        } catch (IOException | JSONException | ClaimManagerListenerException | UserStoreException e) {
+            throw new org.wso2.carbon.user.core.UserStoreException(
+                    "Error occurred while calling backed to claim attribute " +
+                            "retrieval for tenantId - [" + this.tenantId + "]");
         }
 
         return true;
     }
 
-    private void updatePersistenceClaimMapping(
-            String domainName, ClaimMapping claimMapping, String attribute)
-            throws org.wso2.carbon.user.api.UserStoreException {
+    private void updateClaimMapping( String domainName, ClaimMapping claimMapping, String attribute)
+            throws UserStoreException {
 
         if (attribute != claimMapping.getMappedAttribute(domainName)) {
             claimMapping.getMappedAttributes().put(domainName, attribute);
@@ -129,10 +136,10 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
     }
 
 
-    private ClaimDomainCacheEntry getClaimAttributeFromCache(String claimURI) {
+    private TenantDomainClaimCacheEntry getTenantDomainReferenceFromCache(String domainName) {
 
-        ClaimDomainCacheKey cacheKey = new ClaimDomainCacheKey(claimURI);
-        return ClaimDomainCache.getInstance().getValueFromCache(cacheKey);
+        TenantDomainClaimCacheKey cacheKey = new TenantDomainClaimCacheKey(domainName);
+        return TenantDomainClaimCache.getInstance().getValueFromCache(cacheKey);
     }
 
     private String getHostName() throws ClaimManagerListenerException {
@@ -148,12 +155,12 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
         request.addRequestHeader("Authorization", "Bearer " + token);
     }
 
-    private void addClaimAttributeToCache(String claimURI, String attributeID) {
+    private void addTenantDomainClaimToCache(String tenantDomain, String reference) {
 
-        ClaimDomainCacheKey cacheKey = new ClaimDomainCacheKey(claimURI);
-        ClaimDomainCacheEntry cacheEntry = new ClaimDomainCacheEntry();
-        cacheEntry.setDomainReference(attributeID);
-        ClaimDomainCache.getInstance().addToCache(cacheKey, cacheEntry);
+        TenantDomainClaimCacheKey cacheKey = new TenantDomainClaimCacheKey(tenantDomain);
+        TenantDomainClaimCacheEntry cacheEntry = new TenantDomainClaimCacheEntry();
+        cacheEntry.setDomainReference(reference);
+        TenantDomainClaimCache.getInstance().addToCache(cacheKey, cacheEntry);
     }
 
     private Key getTenantPrivateKey(int tenantId) throws ClaimManagerListenerException {
@@ -181,5 +188,9 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
             privateKey = privateKeys.get(tenantId);
         }
         return privateKey;
+    }
+
+    private String getTenantDomainCacheKey( String domainName, String tenantDomain){
+        return tenantDomain + "-" + domainName;
     }
 }

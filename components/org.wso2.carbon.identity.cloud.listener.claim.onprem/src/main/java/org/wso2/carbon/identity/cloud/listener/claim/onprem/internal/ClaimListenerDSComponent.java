@@ -32,10 +32,6 @@ import org.wso2.carbon.user.core.service.RealmService;
  * interface="org.wso2.carbon.user.core.service.RealmService"
  * cardinality="1..1" policy="dynamic" bind="setRealmService"
  * unbind="unsetRealmService"
- * @scr.reference name="registry.service"
- * interface="org.wso2.carbon.registry.core.service.RegistryService"
- * cardinality="1..1" policy="dynamic" bind="setRegistryService"
- * unbind="unsetRegistryService"
  */
 public class ClaimListenerDSComponent {
     private static Log log = LogFactory.getLog(ClaimListenerDSComponent.class);
@@ -67,21 +63,6 @@ public class ClaimListenerDSComponent {
 
     protected void unsetRealmService(RealmService realmService) {
         ClaimListenerComponentHolder.getInstance().setRealmService(null);
-    }
-
-    public static void setRegistryService(RegistryService registryService) {
-        ClaimListenerComponentHolder.getInstance().setRegistryService(registryService);
-    }
-
-    public static RegistryService getRegistryService() {
-        return ClaimListenerComponentHolder.getInstance().getRegistryService();
-    }
-
-    protected void unsetRegistryService(RegistryService registryService) {
-        if (log.isDebugEnabled()) {
-            log.debug("RegistryService unset in claim manager listener bundle");
-        }
-        ClaimListenerComponentHolder.getInstance().setRegistryService(null);
     }
 
 }

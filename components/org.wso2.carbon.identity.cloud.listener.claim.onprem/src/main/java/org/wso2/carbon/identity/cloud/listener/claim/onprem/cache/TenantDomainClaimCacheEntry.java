@@ -18,33 +18,21 @@
 
 package org.wso2.carbon.identity.cloud.listener.claim.onprem.cache;
 
-import org.wso2.carbon.identity.application.common.cache.CacheKey;
+import org.wso2.carbon.identity.application.common.cache.CacheEntry;
 
 /**
- * Cache key of ClaimDomainCache.
+ * Cache Entry of ClaimDomainCache.
  */
-public class ClaimDomainCacheKey extends CacheKey {
-    private static final long serialVersionUID = -5671481946716831542L;
-    private String domainName;
+public class TenantDomainClaimCacheEntry extends CacheEntry {
+    private static final long serialVersionUID = 3861876161453052819L;
 
-    public ClaimDomainCacheKey(String domainName) {
-        this.domainName = domainName;
+    private String domainReference;
+
+    public String getDomainReference() {
+        return domainReference;
     }
 
-    public String getDomainName() {
-        return domainName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof ClaimDomainCacheKey)) {
-            return false;
-        }
-        return this.domainName.equals(((ClaimDomainCacheKey) o).getDomainName());
-    }
-
-    @Override
-    public int hashCode() {
-        return domainName.hashCode();
+    public void setDomainReference(String domainReference) {
+        this.domainReference = domainReference;
     }
 }

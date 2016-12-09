@@ -26,19 +26,10 @@ import org.wso2.carbon.user.core.service.RealmService;
  */
 public class ClaimListenerComponentHolder {
     private static ClaimListenerComponentHolder instance = new ClaimListenerComponentHolder();
-    private RegistryService registryService;
     private RealmService realmService;
 
     public static ClaimListenerComponentHolder getInstance() {
         return instance;
-    }
-
-    public void setRegistryService(RegistryService registryService) {
-        this.registryService = registryService;
-    }
-
-    public RegistryService getRegistryService() {
-        return registryService;
     }
 
     public RealmService getRealmService() {
