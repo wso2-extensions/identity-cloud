@@ -664,46 +664,6 @@ function saveOauthConfig(){
 
 }
 
-function uploadFile(file){
-    $('#metadataFileName').val(file.value);
-    $('#metadata').val($('input[type=file]')[0].files[0]);
-
-    var formData = new FormData();
-    formData.append('file', $('input[type=file]')[0].files[0]);
-    formData.append('cookie',cookie);
-    formData.append('userName', userName);
-    formData.append('clientAction','addSPConfigByMetadata');
-    formData.append('spName',$('#oldSPName').val());
-    formData.append('spType',$('#spType').val())
-
-
-//    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-//    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient";
-//    $.ajax({
-//        url: str,
-//        type: 'POST',
-//        data: formData,
-//        success: function (data) {
-//            location.reload();
-//        },
-//        contentType: false,
-//        processData: false
-//    }).done(function (data) {
-//
-//    })
-//        .fail(function () {
-//            message({
-//                content: 'Error while loading configurations from metadata', type: 'error', cbk: function () {
-//                }
-//            });
-//
-//        })
-//        .always(function () {
-//            console.log('completed');
-//        });
-}
-
-
 $(document).ready(function () {
     $("#store-app-visibility").select2({
         data: getRoles(),
