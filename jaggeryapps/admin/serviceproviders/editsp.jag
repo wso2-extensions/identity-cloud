@@ -591,7 +591,7 @@ include("../templates/leftpane.jag");
 
                                                      <div class="form-group">
                                                          <div class="col-md-12" style="margin-top: 20px">
-                                                             <a class="btn btn-form hide" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i>&nbsp;Show Advance Settings  </a>
+                                                             <a class="btn btn-form hide" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i>&nbsp;&nbsp;Show Advance Settings  </a>
                                                          </div>
                                                      </div>
                                                    <!--  Enable Audience Restriction-->
@@ -862,19 +862,19 @@ include("../templates/leftpane.jag");
                                                 </a>
                                              </h4>
                                           </div>
-                                          <div id="wsfed" class="panel-collapse collapse" role="tabpanel" aria-labelledby="wsfed-header" >
+                                          <div id="wsfed" class="panel-collapse collapse pull-up-2x" role="tabpanel" aria-labelledby="wsfed-header" >
                                              <div class="panel-body inverse">
-                                                <form class="form-horizontal" role="form">
+                                                <form class="form-horizontal" role="form" id="wsfed-form" name="wsfed-form">
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <label for="passiveSTSRealm"> Passive STS Realm :</label>
+                                                         <label for="passiveSTSRealm"> Passive STS Realm</label>
                                                          <input type="text" class="form-control" id="passiveSTSRealm">
                                                       </div>
                                                    </div>
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <label for="passiveSTSWReply">Passive STS WReply URL : </label>
-                                                         <input type="text" class="form-control" id="passiveSTSWReply">
+                                                         <label for="passiveSTSWReply">Passive STS WReply URL <span class="required">*</span></label>
+                                                         <input type="text" class="form-control required" id="passiveSTSWReply" name="passiveSTSWReply" />
                                                       </div>
                                                    </div>
                                                 </form>
