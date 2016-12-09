@@ -741,7 +741,7 @@ include("../templates/leftpane.jag");
                                                       <div class="col-md-12">
                                                          <label for="consumerSecret">OAuth Client Secret</label>
                                                          <div class="input-group input-wrap">
-                                                            <input type="password" class="form-control oauth-client-details" id="consumerSecret" disabled="disabled">
+                                                            <input type="password" class="form-control oauth-client-details" id="consumerSecret" disabled="disabled" autocomplete="off">
                                                             <div class="input-group-btn">
                                                                <button class="btn" type="button" id="showSecret" onclick="showHidePassword(this, 'consumerSecret')" name="showSecret"><span id="secretSpan"><i class="fw fw-view"></i></span></button>
                                                                <button class="btn" type="button" id="copy-button-consumerSecret" data-clipboard-text="" title="Click to copy" onclick="copyToClipboard('copy-button-consumerSecret')"><i class="fw fw-copy"></i></button>
