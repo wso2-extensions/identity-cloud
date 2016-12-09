@@ -42,6 +42,7 @@ function updateSP(){
             localClaimDialect = true;
         }
 
+        var isRoleClaimExist = false;
         var claimMappings = [];
         for (var i = 0; i < claimsNumber; i++) {
             var claim = {};
@@ -54,6 +55,9 @@ function updateSP(){
             remoteClaim["claimId"] = 0;
             if (localClaimDialect) {
                 remoteClaim["claimUri"] = request.getParameter('idpClaim_'+i);
+                if (remoteClaim["claimUri"] == ROLE_CLAIM_URL) {
+                    isRoleClaimExist = true;
+                }
             } else {
                 remoteClaim["claimUri"] = request.getParameter('spClaim_' + i);
             }
@@ -63,6 +67,24 @@ function updateSP(){
             } else {
                 claim["requested"] = false;
             }
+            claimMappings.push(claim);
+        }
+
+        // Add Role claim URI for proxy type Applications if doesn't exist
+        if (storeAppType == APP_PROXY_TYPE && !isRoleClaimExist) {
+            var claim = {};
+            var localClaim = {};
+            claim["defaultValue"] = "";
+
+            var localClaim = {};
+            localClaim["claimId"] = 0;
+            localClaim["claimUri"] = ROLE_CLAIM_URL;
+            claim["localClaim"] = localClaim;
+            claim["requested"] = true;
+
+            var remoteClaim = {};
+            remoteClaim["claimId"] = 0;
+            claim["remoteClaim"] = remoteClaim;
             claimMappings.push(claim);
         }
 

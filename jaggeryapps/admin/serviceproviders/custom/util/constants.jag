@@ -26,4 +26,6 @@ var APP_PROXY_TYPE = "proxy";
 var APP_SHORTCUT_TYPE = "shortcut";
 var WELL_KNOWN_APP = "wellKnownApp";
 var STORE_APP_TYPE = "storeAppType";
+
+var ROLE_CLAIM_URL = "http://wso2.org/claims/role";
 %>
