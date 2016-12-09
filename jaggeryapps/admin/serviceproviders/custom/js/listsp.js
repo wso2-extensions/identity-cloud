@@ -107,14 +107,14 @@ function reloadGrid() {
 function downloadIDPMetaData() {
     idpMetadata = null;
     $.ajax({
-        url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/downloadmetadata",
+        url: "/" + "identity/metadata/saml2",
         type: "GET",
         data: "",
         success: function (data) {
             if(data) {
                 var element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-                element.setAttribute('download', 'SAMLMetadata.xml');
+                element.setAttribute('href', 'data:text/xml;charset=utf-8,' + (new XMLSerializer()).serializeToString(data));
+                element.setAttribute('download', 'WSO2Metadata.xml');
                 element.style.display = 'none';
                 document.body.appendChild(element);
                 element.click();
