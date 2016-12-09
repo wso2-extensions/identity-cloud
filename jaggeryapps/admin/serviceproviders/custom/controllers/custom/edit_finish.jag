@@ -55,7 +55,6 @@ function updateSP(){
             remoteClaim["claimId"] = 0;
             if (localClaimDialect) {
                 remoteClaim["claimUri"] = request.getParameter('idpClaim_'+i);
-
                 if(remoteClaim["claimUri"] == ROLE_CLAIM_URL){
                     isRoleClaimExist = true;
                 }
