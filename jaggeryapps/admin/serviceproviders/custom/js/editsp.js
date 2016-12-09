@@ -199,6 +199,8 @@ function renderCustomPage(data) {
                 hideAllCustomFields();
 
                 $("#customConfig").show();
+                $("#sso-drop-down").removeClass('hide');
+                $("#btn-advance-setting").removeClass('hide');
                 var dropdown = $("#custom-app-dropdown");
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);

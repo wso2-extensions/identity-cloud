@@ -119,29 +119,20 @@ include("../templates/leftpane.jag");
                </div>
           </div>
 
+          <div class="col-md-12">
+                <div class="btn-group hide" id="sso-drop-down">
+                    <div class="clearfix"></div>
+                    <label class="radio-inline">
+                        <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="custom-radio"
+                                 id="radioCm" checked="true" checked />Configure Manually
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="custom-radio"
+                             id="radioCf"/>Upload Meta File
+                    </label>
+                </div>
+          </div>
 
-          <div class="form-group">
-              <!--BO Drop down for manual config and upload content-->
-
-              <div class="btn-group" id="sso-drop-down" style="display: none;margin-bottom: 10px">
-              <div class="row funkyradio"  >
-                <div class="col-md-6">
-                     <div class="funkyradio-info">
-                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="radio-group"
-                                 id="radioCm" checked="true"/>
-                          <label for="radioCm">Configure Manually</label>
-                      </div>
-                 </div>
-                <div class="col-md-6 pull-right" style="margin-top: -65px">
-                  <div class="funkyradio-info">
-                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" lass="radio-group"
-                                 id="radioCf"/>
-                          <label for="radioCf">Upload Meta File</label>
-                      </div>
-                 </div>
-              </div>
-
-              </div>
 
               <!--EO Drop down for manual config and upload content-->
 
@@ -195,7 +186,7 @@ include("../templates/leftpane.jag");
                                               data-placement="left"
                                               title="Select what type of security protocol that you want to use "></i>
                                       </label>
-                                      <div class="checkbox" id="custom-security-content">
+                                      <div id="custom-security-content">
 
 
                                           <div class="btn-group" id="custom-security-dropdown">
@@ -395,7 +386,7 @@ include("../templates/leftpane.jag");
                                                             <input type="file" id="uploadfile" onchange="uploadFile(this);"/>
                                                          </div>
                                                          <!--<label for="metadataFileName">File Name<span class="required">*</span></label>-->
-                                                         <label > Upload Meta File <span class="required">*</span>
+                                                         <label>Select file <span class="required">*</span>
                                                            <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
                                title="You can upload samal sso configurations from file"></i>
                                                          </label>
@@ -427,7 +418,7 @@ include("../templates/leftpane.jag");
                                                 </a>
                                              </h4>
                                           </div>
-                                          <div id="samlconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlconfig-header" >
+                                          <div id="samlconfig" class="panel-collapse collapse pull-up-2x" role="tabpanel" aria-labelledby="samlconfig-header" >
                                              <div class="panel-body inverse">
                                                 <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" hidden action="">
                                                    <!--<h4>New Service Provider</h4>-->
@@ -436,7 +427,7 @@ include("../templates/leftpane.jag");
                                                    <!--Issuer-->
                                                    <div class="form-group" id="issuerRow">
                                                       <div class="col-md-12">
-                                                         <label for="issuer">Issuer: <span class="required">*</span>
+                                                         <label for="issuer">Issuer <span class="required">*</span>
                                                            <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
                                title="Name of the issuer"></i>
                                                          </label>
@@ -597,11 +588,12 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                    </div>
-                                                     <div class="form-group  pull-right">
+
+                                                     <div class="form-group">
                                                          <div class="col-md-12" style="margin-top: 20px">
-                                                             <a class="btn btn-info" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i> Show Advance Settings  </a>
+                                                             <a class="btn btn-form hide" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i>&nbsp;Show Advance Settings  </a>
                                                          </div>
-                                                      </div>
+                                                     </div>
                                                    <!--  Enable Audience Restriction-->
                                                    <div id="advanced-settings" hidden>
                                                    <!--<div class="row" style="border-top: solid #282828;border-width: 10px ;"> </div>-->
@@ -904,7 +896,7 @@ include("../templates/leftpane.jag");
             <!--BOF Store Config-->
             <div id="store-config-section">
                <label for="store-description" >Store Configuration </label>
-               <div class="panel-group property-accordion accordion" id="store-accordion">
+               <div class="panel-group" id="store-accordion">
                   <div class="panel panel-default">
                      <div class="panel-heading" role="tab" id="storeconfig-header" data-toggle="collapse" href="#storeconfig" aria-controls="gatewayconfig">
                         <h4 class="panel-title">
@@ -945,54 +937,64 @@ include("../templates/leftpane.jag");
                                        <input type="text" class="form-control" id="store-app-visibility" name="store-app-visibility" >
                                     </div>
                                  </div>
-                                      <div class="form-group" id="sso-thumb">
+                                 <div class="form-group" id="sso-thumb">
                                     <div class="col-md-12">
                                         <label>App Icon</label>
-                                        <div class="row"> </div>
-                                        <div id="thumb-img-ele"></div>
-                                        <img style="width: 60px;margin-top: 10px;background-color: #525252;" id="sp-img-thumb" src="../images/is/custom.png" alt="thumbnail image" title="wso2" class="logo">
-                                        <span class="btn btn-default btn-file"> Upload an image
-                                        <input type="file" class="form-control" id="store-app-thumbnail" name="store-app-thumbnail" accept="image/gif, image/jpeg, image/png, image/jpg" >
-                                        </span>
-                                        </br>
-                                        <span>Upload a thumbnail image to show in the store details page</span>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="thumb-img-ele">
+                                                    <img id="sp-img-thumb" src="../images/is/custom.png" alt="thumbnail image" title="custom thumbnail image" class="logo">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span class="btn btn-default btn-file"> Upload an image
+                                                <input type="file" class="form-control" id="store-app-thumbnail" name="store-app-thumbnail" accept="image/gif, image/jpeg, image/png, image/jpg" >
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <span class="help-note">Upload a thumbnail image to show in the store details page</span>
                                         <input type="hidden" class="form-control" id="store-app-thumbnail-url" name="store-app-thumbnail-url" >
                                     </div>
                                   </div>
                                   <div class="form-group" id="sso-banner">
                                     <div class="col-md-12">
                                         <label>Banner</label>
-                                         <div class="row"> </div>
-                                         <div id="banner-img-ele"></div>
-                                        <img style="width: 100%;height:70px;margin-top: 10px;background-color: #525252;" id="sp-img-banner"   alt="banner image" title="wso2" class="logo">
-                                         <div class="row"> </div>
-
-                                        <span class="btn btn-default btn-file" style="margin-top: 5px"> Upload an image
-                                        <input type="file" class="form-control" id="store-app-banner" name="store-app-banner" accept="image/gif, image/jpeg, image/png, image/jpg" >
-                                        </span>
-                                         <span>Upload a banner image to show in the store details page</span>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="banner-img-ele"></div>
+                                                <img style="width: 100%;" id="sp-img-banner" src="../images/is/banner_placeholder.jpg"  alt="banner image" title="custom banner image" class="logo">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span class="btn btn-default btn-file" style="margin-top: 5px"> Upload an image
+                                                <input type="file" class="form-control" id="store-app-banner" name="store-app-banner" accept="image/gif, image/jpeg, image/png, image/jpg" >
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span class="help-note">Upload a banner image to show in the store details page</span>
                                         <input type="hidden" class="form-control" id="store-app-banner-url" name="store-app-banner-url" >
                                     </div>
                                   </div>
                               </div>
+                              <!--EOF Store Config-->
+                                <div class="form-group" style="margin-bottom: 50px" id="btn-main-update">
+                                     <div class="col-md-12">
+                                       <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
+                                       <span class="fw-stack btn-action-ico">
+                                       <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                       <i class="fw fw-save fw-stack-1x"></i>
+                                       </span>
+                                       Update
+                                       </button>
+                                     </div>
+                                </div>
                            </form>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-            <!--EOF Store Config-->
-            <div class="form-group" style="margin-top: -60px;margin-bottom: 50px" id="btn-main-update">
-                                       <div class="connectionStatus"></div>
-                                        <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
-               <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
-               <span class="fw-stack btn-action-ico">
-               <i class="fw fw-circle-outline fw-stack-2x"></i>
-               <i class="fw fw-save fw-stack-1x"></i>
-               </span>
-               Update
-               </button>
-            </div>
+
 
             </div>
          </div>
