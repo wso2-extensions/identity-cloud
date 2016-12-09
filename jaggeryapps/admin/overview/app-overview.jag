@@ -96,7 +96,7 @@ include("/templates/header.jag");
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                            <div class="block-msg">
+                            <div class="block-msg hide">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <span class="config-details">User Directory </span>
@@ -114,6 +114,19 @@ include("/templates/header.jag");
                                             </span>
                                             <span class=" config-details">Edit</span>
                                         </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="connect-store-msg hide">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="message message-warning sample-userstore-msg">
+                                            <span><i class="icon fw fw-warning"></i>You are running with a sample user store. Don't forget to connect actual user store </span>
+                                            <button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href='/<%=ADMIN_PORTAL_NAME%>/directories/downloadagent'">
+                                                <span class="hidden-xs">Connect your user store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -202,6 +215,16 @@ include("/templates/header.jag");
                     $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
                 }
             });
+
+            var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+            if(!directoryList){
+                $('.connect-store-msg').removeClass('hide');
+                $('.block-msg').addClass('hide');
+            }else{
+                $('.block-msg').removeClass('hide');
+                $('.connect-store-msg').addClass('hide');
+            }
+
         </script>
 
         <script>

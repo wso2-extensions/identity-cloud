@@ -414,12 +414,16 @@ function urlResolver(param) {
                 var appList  = checkAppList(cookie,userName);
                 isSampleExist = false;
                 currrentDomain = false;
-                if ((!appList && directoryList) || (appList && !directoryList)) {
+                if ((!appList && directoryList)) {
                     newUrl = context + ADMIN_PORTAL_NAME + "/serviceproviders";
                     window.location.href = newUrl;
                     return;
                 } else if (!appList && !directoryList) {
                     newUrl = context + ADMIN_PORTAL_NAME + "/overview/landing";
+                    window.location.href = newUrl;
+                    return;
+                } else if (appList && !directoryList) {
+                    newUrl = context + ADMIN_PORTAL_NAME + "/overview/appoverview";
                     window.location.href = newUrl;
                     return;
                 }
