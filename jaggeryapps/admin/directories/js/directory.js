@@ -4,6 +4,8 @@ var uniqueId = "UniqueID";
 var disabled = "Disabled";
 var properties = null;
 const CONNECTION_NOT_ESTABLISHED_MSG = "The connection to the provided URL could not be established.";
+var showWarning = false;
+var showedOnce = false;
 
 function addOrUpdateUserDirectory() {
     var name = document.getElementById("drName").value;
@@ -573,7 +575,11 @@ function validateURL(textval) {
     return isValidated["isValid"] == true;
 }
 function checkhttps(url){
-    var urlregex = /^((https):\/\/)/;
+    var urlregex = getPattern("https-url");
+    return urlregex.test(url);
+}
+function checkhttp(url){
+    var urlregex = getPattern("http-url");
     return urlregex.test(url);
 }
 
@@ -600,13 +606,7 @@ function testConnection(agentUrl) {
                         .fadeIn('fast').delay(3000).fadeOut('fast'));
                     $('.connectionStatus').find('.alert-content')
                         .text('The connection to provided URL was successful.');
-
-                    if (!checkhttps(agentUrl)) {
-                        $('.connectionStatus').html($(messageContainer).addClass('warning').hide()
-                            .fadeIn('fast').delay(3000).fadeOut('fast'));
-                        $('.connectionStatus').find('.alert-content')
-                            .text('Your connection is not secure. Use https.');
-                    }
+                    
                 } else if ($.parseJSON(data).return == "false") {
                     $('.connectionStatus').html($(messageContainer).addClass('error').hide()
                         .fadeIn('fast').delay(3000).fadeOut('fast'));
@@ -807,3 +807,20 @@ function wait(ms){
         end = new Date().getTime();
     }
 }
+
+$('#agentUrl').on('input', function() {
+    var messageContainer = "<label class='' for='agentUrl' role='alert'>" +
+        "<span class='alert-content'></span></label>";
+    var agentUrl = $('#agentUrl').val();
+
+    showWarning = checkhttp(agentUrl);
+    if (!showedOnce && showWarning) {
+        $('.connectionStatus').html($(messageContainer).addClass('warning'));
+        $('.connectionStatus').find('.alert-content')
+            .text('Your connection is not secure. Use https.');
+        showedOnce = true;
+    } else if (checkhttps(agentUrl)) {
+        $('.connectionStatus').html('');
+        showedOnce = false;
+    }
+});
