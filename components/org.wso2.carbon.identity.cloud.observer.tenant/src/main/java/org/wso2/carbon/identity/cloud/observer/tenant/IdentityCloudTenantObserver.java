@@ -15,6 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.wso2.carbon.identity.cloud.observer.tenant;
 
 import org.apache.axis2.context.ConfigurationContext;
