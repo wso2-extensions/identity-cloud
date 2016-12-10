@@ -34,43 +34,39 @@ function updateSP(){
         var oauthSecret = request.getParameter('consumerSecret');
         var stsRealm = request.getParameter('passiveSTSRealm');
         var stsUrl = request.getParameter('passiveSTSWReply');
-        var dialect = request.getParameter('claim_dialect');
-        var subjectClaim = request.getParameter('subject_claim_uri');
+        //var dialect = request.getParameter('claim_dialect');
+        var subjectClaim = "";
         var roleClaim = request.getParameter('roleClaim');
-        var claimsNumber = request.getParameter('number_of_claimmappings') - 1; //includes the header row also
+       // var claimsNumber = request.getParameter('number_of_claimmappings') - 1; //includes the header row also
         var sptype=request.getParameter("spType");
+        var claimConfigs=request.getParameter("claimConfiguration");
+        var objClaimConf = parse(claimConfigs);
 
 
-        var localClaimDialect = false;
-        if(dialect == 'local'){
-            localClaimDialect = true;
-        }
+        var localClaimDialect = objClaimConf.localClaimDialect;
 
         var isRoleClaimExist = false;
         var claimMappings = [];
-        for (var i = 0; i < claimsNumber; i++) {
+        for (var i = 0; i < objClaimConf.count -1; i++) {
             var claim = {};
             claim["defaultValue"] = "";
             var localClaim = {};
             localClaim["claimId"] = 0;
-            localClaim["claimUri"] = request.getParameter('idpClaim_'+i);
+            localClaim["claimUri"] =  objClaimConf.data[i].claimUri;
             claim["localClaim"] = localClaim;
             var remoteClaim = {};
             remoteClaim["claimId"] = 0;
             if (localClaimDialect) {
-                remoteClaim["claimUri"] = request.getParameter('idpClaim_'+i);
+                remoteClaim["claimUri"] = objClaimConf.data[i].claimName;
                 if (remoteClaim["claimUri"] == ROLE_CLAIM_URL) {
                     isRoleClaimExist = true;
                 }
             } else {
-                remoteClaim["claimUri"] = request.getParameter('spClaim_' + i);
+                remoteClaim["claimUri"] = objClaimConf.data[i].claimName;
             }
             claim["remoteClaim"] = remoteClaim;
-            if (request.getParameter('spClaim_req_' + i) == 'on') {
-                claim["requested"] = true;
-            } else {
-                claim["requested"] = false;
-            }
+            claim["requested"] = true;
+
             claimMappings.push(claim);
         }
 
@@ -92,6 +88,7 @@ function updateSP(){
             claimMappings.push(claim);
         }
 
+        subjectClaim = objClaimConf.subjectClaim;
         var status = false;
         var serviceProviderDTO = {};
 

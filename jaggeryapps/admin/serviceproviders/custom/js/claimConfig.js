@@ -18,217 +18,254 @@ function preDrawClaimConfig() {
     getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
 }
 
-function drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
-    if (isLocalClaimsSelected) {
-        $("#claim_dialect_wso2").prop("checked", true);
-        $('#addClaimUrisLbl').text('Requested Claims:');
-        $('#spccol').hide();
-        $('#rccol').hide();
-        $('#roleMappingSelection').hide();
+/**
+ * This method will render the claim tables initially
+ * @param spClaimConfig
+ * @param isLocalClaimsSelected
+ * @param claimMapping
+ */
+function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
 
-    } else {
-        $("#claim_dialect_custom").prop("checked", true);
-        $('#addClaimUrisLbl').text('Identity Provider Claim URIs:');
-        $('#spccol').show();
-        $('#rccol').show();
-        $('#roleMappingSelection').show();
+    var claimConfigDropDown;
+    claimConfigDropDown = "<div id='local-claim-dropdown' class='input-group input-wrap' hidden>  " +
+        "<select id='local-claim-url' style='float: left;' class='idpClaim form-control'>";
+    for (var localClaimNameEntry in spConfigClaimUris) {
+        claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
+            '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
     }
-    if (claimMapping == null || claimMapping.length <= 0) {
-        $('#claimMappingAddTable').hide();
-    } else {
-        $('#claimMappingAddTable').show();
-        var i = -1;
-        var requestedClaimTableBody = "";
-        for (var entry in claimMapping) {
-            i = i + 1;
-            var row = '<tr> <td style=';
-            if (isLocalClaimsSelected) {
-                row = row + "display:none;"
-            } else {
-                row = row + ""
-            }
-            row = row + '><input type="text" class="spClaimVal form-control" value="' + claimMapping[entry].remoteClaim.claimUri + '" id="spClaim_' + i + '" name="spClaim_' + i + '" readonly="readonly"/></td>' +
-                '<td style="width: 40%;">\n' +
-                '<select id="idpClaim_' + i + '" name="idpClaim_' + i + '" class="idpClaim form-control" style="float:left; width: 100%">';
-            for (var localClaimNameEntry in spConfigClaimUris) {
-                var localClaimName = spConfigClaimUris[localClaimNameEntry];
-                if (localClaimName == claimMapping[entry].localClaim.claimUri) {
-                    row = row + '<option value="' + localClaimName + '" selected> ' + localClaimName + '</option>';
-                } else {
-                    row = row + '<option value = "' + localClaimName + '" >' + localClaimName + '</option >';
-                }
-            }
+    claimConfigDropDown += "</select> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
+        "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div> </div>";
+    $("#claimsConfRow").prepend(claimConfigDropDown);
 
-            row = row + '</select>\n' +
-                '</td>' +
-                '<td style="text-align: center;';
-            if (isLocalClaimsSelected) {
-                row = row + 'display:none;"';
-            } else {
-                row = row + '"';
-            }
-            row = row + '>';
-            if (claimMapping[entry].requested == 'true') {
-                row = row + '<input type="checkbox"  id="spClaim_req_' + i + '" name="spClaim_req_' + i + '" checked/>';
-            } else {
-                row = row + '<input type="checkbox"  id="spClaim_req_' + i + '" name="spClaim_req_' + i + '" />';
-            }
-            row = row + '</td>' +
-                '<td>' +
-                '<a title="Delete Permission ?" onclick="deleteClaimRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)">' +
-                'Delete' +
-                '</a>\n' +
-                '</td>\n' +
-                '</tr>';
-            requestedClaimTableBody = requestedClaimTableBody + row;
+    claimConfigDropDown = "";
+    claimConfigDropDown = "<div id='custom-claim-dropdown' class='form-group' hidden><div class='input-group'>  " +
+        " <input class='form-control' id='custom-claim-text-main' type='text' value='' " +
+        "placeholder='Define Custom Claim'>    </input>  <div class='input-group-btn'> <select id='custom-claim-url' " +
+        "class='form-control'  >";
+    for (var localClaimNameEntry in spConfigClaimUris) {
+        claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
+            '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
+    }
+    claimConfigDropDown += "</select>  </div> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
+        "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div>  </div> </div> ";
+    $("#claimsConfRow").prepend(claimConfigDropDown);
+    if (isLocalClaimsSelected) {
+
+        $("#claim_dialect_wso2").prop("checked", true);
+    }
+    //add table by default
+    var assertionConsumerURLTblRow;
+    assertionConsumerURLTblRow =
+        '        <table id="localClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
+        '            <tbody id="localClaimTableTableBody">' +
+        '          <tr><th>Claim</th>  <th style="text-align: right !important;">Action</th> </tr> ';
+
+    assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
+    $("#claimsConfRow").append(assertionConsumerURLTblRow);
+
+    if (claimMapping.length > 0) {
+        if (!isLocalClaimsSelected) {
+            $("#claim_dialect_custom").click();
+            $("#claim_dialect_custom").prop("checked", true);
         }
-        $('#claimMappingAddBody').empty();
-        $('#claimMappingAddBody').append(requestedClaimTableBody);
+        addClaimDataFromObject(claimMapping, isLocalClaimsSelected);
+    }
+
+}
+
+/**
+ * This method will generate the claim data list from the stored object
+ * @param claimMapping
+ * @param isLocalClaimsSelected
+ */
+function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
+    var currentLocalRow = 0, currentCustomRow = 0;
+    claimMapping.reverse();
+    //TODO: this content is repeating need to refactor
+    for (var entry in claimMapping) {
+        if (isLocalClaimsSelected) {
+            if ($("#localClaimTableTableBody").find('tr').length > 1) {
+                currentLocalRow = parseInt($("#localClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
+            }
+            var trow = '<tr id="localClaimUrl_' + currentLocalRow + '" data-id="' + currentLocalRow + '">' +
+                '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
+                currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +
+                claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
+                '<td><a onclick="removeClaimUrl($(this));return false;"' +
+                'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+
+            $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
+            $("#customClaimTable").hide();
+            $("#localClaimTable").show();
+
+            $("#subject-claim-dropdown").remove();
+            generateSubjectURI($("#localClaimTable"));
+        } else {
+
+            if ($("#customClaimTableTableBody").find('tr').length > 1) {
+                currentCustomRow = parseInt($("#customClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
+            }
+            var trow = '<tr id="customClaimUrl_' + currentCustomRow + '" data-id="' + currentCustomRow + '">' +
+                '<td>' + '<input class="spClaim" type="text" placeholder="Add your custom claim" id="spClaim_' +
+                currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
+                claimMapping[entry].remoteClaim.claimUri + '"> </input>' + '</td>' +
+
+                '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
+                currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
+                claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
+                '<td><a onclick="removeClaimUrl($(this));return false;"' +
+                'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+
+            $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
+            $("#localClaimTable").hide();
+            $("#customClaimTable").show();
+
+
+            $("#subject-claim-dropdown").remove();
+            generateSubjectURI($("#customClaimTable"));
+        }
 
     }
     var subjectClaimUri = appdata.localAndOutBoundAuthenticationConfig.subjectClaimUri;
-    if(subjectClaimUri==null || subjectClaimUri.length==0 ){
-        subjectClaimUri = getSubjectClaimUri();
-    }
-    var subjectoptionList = '<option value="">---Select---</option>';
-    if (isLocalClaimsSelected) {
-        for (var localClaimNameEntry in spConfigClaimUris) {
-            var localClaimName = spConfigClaimUris[localClaimNameEntry];
-            if (subjectClaimUri != null && localClaimName == subjectClaimUri) {
-                subjectoptionList = subjectoptionList + '<option value="' + localClaimName + '" selected>' + localClaimName + '</option>';
-            } else {
-                subjectoptionList = subjectoptionList + '<option value="' + localClaimName + '">' + localClaimName + '</option>';
+    if (subjectClaimUri) {
+        var list = $("#subject-claim-url").find('option');
+
+        for (var option in list) {
+            if ($(list[option]).val() == subjectClaimUri) {
+                $(list[option]).attr('selected', 'selected');
             }
         }
+    }
+}
+/**
+ * This method will generate the claim list when click on add claim button
+ */
+function addClaimIntoList() {
+    var currentLocalRow = 0, currentCustomRow = 0;
+    if ($("#claim_dialect_wso2").is(":checked")) {
+        if ($("#localClaimTableTableBody").find('tr').length > 1) {
+            currentLocalRow = parseInt($("#localClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
+        }
+
+        var trow = '<tr id="localClaimUrl_' + currentLocalRow + '" data-id="' + currentLocalRow + '">' +
+            '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
+            currentLocalRow + '" data-id="' + currentLocalRow + '" value="' + $("#local-claim-url").val() +
+            '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
+            'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+
+        $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
+        $("#customClaimTable").hide();
+        $("#localClaimTable").show();
+
+        $("#subject-claim-dropdown").remove();
+        generateSubjectURI($("#localClaimTable"));
     } else {
-        for (var entry in claimMapping) {
-            var entryValue = claimMapping[entry].remoteClaim.claimUri;
-            if (entryValue != null && entryValue.length > 0) {
-                if (subjectClaimUri != null && subjectClaimUri == entryValue) {
-                    subjectoptionList = subjectoptionList + '<option value="' + entryValue + '" selected>' + entryValue + '</option>';
-                } else {
-                    subjectoptionList = subjectoptionList + '<option value="' + entryValue + '">' + entryValue + '</option>';
-                }
-            }
+
+        if ($("#customClaimTableTableBody").find('tr').length > 1) {
+            currentCustomRow = parseInt($("#customClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
         }
+        var trow = '<tr id="customClaimUrl_' + currentCustomRow + '" data-id="' + currentCustomRow + '">' +
+            '<td>' + '<input class="spClaim" type="text" placeholder="Add your custom claim" id="spClaim_' +
+            currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
+            $("#custom-claim-text-main").val() + '"> </input>' + '</td>' +
+
+            '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
+            currentCustomRow + '" data-id="' + currentCustomRow + '" value="' + $("#custom-claim-url").val() +
+            '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
+            'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+
+        $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
+        $("#localClaimTable").hide();
+        $("#customClaimTable").show();
+
+
+        $("#subject-claim-dropdown").remove();
+        generateSubjectURI($("#customClaimTable"));
     }
-    $('#subject_claim_uri').empty();
-    $('#subject_claim_uri').append(subjectoptionList);
+}
 
-    var allLocalClaims = "";
-    var localClaimsListBody =  '<select style="float:left; width: 100%">';
-    for (var entry in spConfigClaimUris) {
-        localClaimName = spConfigClaimUris[entry];
-        localClaimsListBody = localClaimsListBody + '<option value="' + localClaimName + '">' + localClaimName + '</option>';
-        allLocalClaims = allLocalClaims + localClaimName + ",";
+function removeClaimUrl(obj) {
+    if (obj.closest('tbody').find('tr').length == 2) { // its the last element of the table
+        obj.closest('table').hide();
     }
-    $('#local_calim_uris').val(allLocalClaims);
-    localClaimsListBody = localClaimsListBody + '</select>';
-    $('#localClaimsList').empty();
-    $('#localClaimsList').append(localClaimsListBody);
+    $("#subject-claim-dropdown").remove();
+    var tbody = $(obj.closest('tbody'));
 
+    obj.closest('tr').remove();
+    generateSubjectURI(tbody);
+}
 
-    var roleClaimsListBody = '<option value="">---Select---</option>';
-    
-    if (!isLocalClaimsSelected) {
-        for (var entry in claimMapping) {
-            var entryValue = claimMapping[entry].remoteClaim.claimUri;
-            if (entryValue != null && entryValue.length > 0) {
-                if (spClaimConfig.roleClaimURI != null && spClaimConfig.roleClaimURI == entryValue) {
-                    roleClaimsListBody = roleClaimsListBody + '<option value="' + entryValue + '" selected>' + entryValue + '</option>';
-                } else {
-                    roleClaimsListBody = roleClaimsListBody + '<option value="' + entryValue + '">' + entryValue + '</option>';
-                }
-            }
-        }
+/**
+ * This method will generate subject uri based on user selection
+ * @param element
+ */
+function generateSubjectURI(element) {
+    var SubjectClaimURI = "<div id='subject-claim-dropdown' class='input-group input-wrap' hidden> <label> Subject Claim URI  </label> <select id='subject-claim-url' style='float: left;' class='idpClaim form-control'>";
+    SubjectClaimURI = SubjectClaimURI + '<option selected disabled hidden   value="' + 0 + '" data-index = "' + 0 + '" > '
+        + "Select Subject Claim URI" + '</option>';
+    var urlCount = element.find('tr').length;
+    var urlValue;
+    for (var i = 1; i < urlCount; i++) {
+        urlValue = $(element.find('tr')[i]).find('.idpClaim')[0].value;
+        SubjectClaimURI = SubjectClaimURI + '<option value="' + urlValue + '" data-index = "' + parseInt(i - 1) + '" > '
+            + urlValue + '</option>';
+
     }
-    $('#roleClaim').empty();
-    $('#roleClaim').append(roleClaimsListBody);
+    SubjectClaimURI += "</select> </div>";
+    $("#claimsConfRow").after(SubjectClaimURI);
+}
+/**
+ * This method will trigger when claim radio button clicked
+ * @param obj clicked radio button object
+ */
+function claimRadioClick(obj) {
+    var assertionConsumerURLTblRow;
+    if ($(obj).attr('id') === "claim_dialect_wso2") {
+        $("#local-claim-dropdown").show();
+        $("#custom-claim-dropdown").hide();
+
+        assertionConsumerURLTblRow =
+            '        <table id="localClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
+            '            <tbody id="localClaimTableTableBody">' +
+            '          <tr><th>Claim</th>  <th style="text-align: right !important;">Action</th> </tr> ';
+
+        assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
+
+        if ($("#localClaimTable").length == 0) {
+            $("#claimsConfRow").append(assertionConsumerURLTblRow);
+        }
+        $("#customClaimTable").hide();
+        $("#subject-claim-dropdown").remove();
+
+        if ($("#localClaimTable").is(":hidden") && $("#localClaimUrl_0").length > 0) {
+            $("#localClaimTable").show();
+            generateSubjectURI($("#localClaimTable"));
+        }
 
 
-    var claimMappinRowID = -1;
-    if (claimMapping != null) {
-        claimMappinRowID = claimMapping.length - 1;
+    } else {
+        $("#local-claim-dropdown").hide();
+        $("#custom-claim-dropdown").show();
+
+        assertionConsumerURLTblRow =
+            '        <table id="customClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
+            '            <tbody id="customClaimTableTableBody">' +
+            '          <tr><th>Custom Claim</th><th>Claim URI</th> <th style="text-align: right !important;">Action</th> </tr> ';
+        assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
+
+        if ($("#customClaimTable").length == 0) {
+            $("#claimsConfRow").append(assertionConsumerURLTblRow);
+        }
+
+        $("#localClaimTable").hide();
+        $("#subject-claim-dropdown").remove();
+        if ($("#customClaimTable").is(":hidden") && $("#customClaimUrl_0").length > 0) {
+            $("#customClaimTable").show();
+            generateSubjectURI($("#customClaimTable"));
+        }
+
     }
-    jQuery('#claimMappingAddLink').click(function () {
-        $('#claimMappingAddTable').show();
-        var selectedIDPClaimName = $('select[name=idpClaimsList]').val();
-        if (!validateForDuplications('.idpClaim', selectedIDPClaimName, 'Local Claim')) {
-            return false;
-        }
-        claimMappinRowID++;
-        var idpClaimListDiv = $('#localClaimsList').clone();
-        if (idpClaimListDiv.length > 0) {
-            $(idpClaimListDiv.find('select')).attr('id', 'idpClaim_' + claimMappinRowID);
-            $(idpClaimListDiv.find('select')).attr('name', 'idpClaim_' + claimMappinRowID);
-            $(idpClaimListDiv.find('select')).addClass("idpClaim form-control");
-        }
-        if ($('input:radio[name=claim_dialect]:checked').val() == "local") {
-            $('.spClaimHeaders').hide();
-            $('#roleMappingSelection').hide();
-            $('#spccol').hide();
-            $('#rccol').hide();
-            jQuery('#claimMappingAddTable').append(jQuery('<tr>' +
-                '<td style="display:none;"><input type="text"" id="spClaim_' + claimMappinRowID + '" name="spClaim_' + claimMappinRowID + '"/></td> ' +
-                '<td style="width: 85%;">' + idpClaimListDiv.html() + '</td>' +
-                '<td style="text-align: center;display:none;"><div class="checkbox"><label><input type="checkbox"  class="custom-checkbox custom-checkbox-white" name="spClaim_req_' + claimMappinRowID + '"  id="spClaim_req_' + claimMappinRowID + '" checked/></label></div></td>' +
-                '<td><a onclick="deleteClaimRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete</a></td>' +
-                '</tr>'));
-        }
-        else {
-            $('.spClaimHeaders').show();
-            $('#roleMappingSelection').show();
-            $('#spccol').show();
-            $('#rccol').show();
-            jQuery('#claimMappingAddTable').append(jQuery('<tr>' +
-                '<td><input type="text" class="spClaimVal form-control"" id="spClaim_' + claimMappinRowID + '" name="spClaim_' + claimMappinRowID + '"/></td> ' +
-                '<td style="width: 40%;">' + idpClaimListDiv.html() + '</td>' +
-                '<td style="text-align: center;"><div class="checkbox"><label><input type="checkbox"  class="custom-checkbox custom-checkbox-white" name="spClaim_req_' + claimMappinRowID + '"  id="spClaim_req_' + claimMappinRowID + '"/></label></div></td>' +
-                '<td><a onclick="deleteClaimRow(this);return false;" href="#" class="icon-link" style="background-image: url(images/delete.gif)"> Delete</a></td>' +
-                '</tr>'));
-            $('#spClaim_' + claimMappinRowID).change(function () {
-                resetRoleClaims();
-            });
-        }
-        $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
-    });
 
-    $("[name=claim_dialect]").click(function () {
-        var element = $(this);
-        claimMappinRowID = -1;
-        if ($('.idpClaim').length > 0) {
-            $.each($('.idpClaim'), function () {
-                $(this).parent().parent().remove();
-            });
-            $('#claimMappingAddTable').hide();
-            changeDialectUIs(element);
-
-        } else {
-            $('#claimMappingAddTable').hide();
-            changeDialectUIs(element);
-        }
-        // TODO : Handle error messages
-        // TODO : Following is the correct code
-        //if ($('.idpClaim').length > 0) {
-        //    CARBON.showConfirmationDialog('Changing dialect will delete all claim mappings. Do you want to proceed?',
-        //        function () {
-        //            $.each($('.idpClaim'), function () {
-        //                $(this).parent().parent().remove();
-        //            });
-        //            $('#claimMappingAddTable').hide();
-        //            changeDialectUIs(element);
-        //        },
-        //        function () {
-        //            //Reset checkboxes
-        //            $('#claim_dialect_wso2').attr('checked', (element.val() == 'custom'));
-        //            $('#claim_dialect_custom').attr('checked', (element.val() == 'local'));
-        //        });
-        //} else {
-        //    $('#claimMappingAddTable').hide();
-        //    changeDialectUIs(element);
-        //}
-    });
-    $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
 }
 
 function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping) {
@@ -285,7 +322,8 @@ function handleWellKnownAppClaims(spClaimConfig, isLocalClaimsSelected, claimMap
 
         spClaimConfig.roleClaimURI = AWS_EMAIL_REMOTE_DIALECT;
     }
-    drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
+     // drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
+      drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping);
 }
 
 function getSubjectClaimUri() {
