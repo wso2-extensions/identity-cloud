@@ -38,7 +38,6 @@ function getOAuthConfigs() {
         }
         print(fieldValues);
     } catch (e) {
-        print(e);
         log.error(e);
     }
 
@@ -52,7 +51,6 @@ function removeOauthConfig() {
         util.removeOauthConfig(sptype,appName);
         oauthClient.removeOAuthApplicationData(clientID);
     } catch (e) {
-        print(e);
         log.error(e);
     }
 }
@@ -130,7 +128,6 @@ function updateOauthConfig(){
         '</xsd:updateConsumerApplication>';
         client.updateConsumerApplication(payload);
     } catch (e) {
-        print(e);
         log.error(e);
     }
 }
@@ -202,10 +199,7 @@ function addOauthConfig(){
         client.registerOAuthApplicationData(payload);
         var consumerApp = client.getOAuthApplicationDataByAppName(applicationName).return;
         postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype);
-        log.info(consumerApp.toSource());
-
     } catch (e) {
-        print(e);
         log.error(e);
     }
 

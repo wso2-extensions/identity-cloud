@@ -28,6 +28,9 @@
 <%
 include("/templates/header.jag");
 require("../util/constants.jag");
+
+var userInfo = session.get("userInfo");
+var tenantDomain = userInfo.tenantDomain;
 %>
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
@@ -65,7 +68,7 @@ require("../util/constants.jag");
                 <span class="hidden-xs">Add Application</span>
             </a>
 
-            <a href="javascript:downloadIDPMetaData()" class="btn-action" data-toggle="tooltip"
+            <a href="javascript:downloadIDPMetaData('<%=tenantDomain%>')" class="btn-action" data-toggle="tooltip"
                data-placement="top" title="Find your identity provider certificate and SAML configuration data for your applications.">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>

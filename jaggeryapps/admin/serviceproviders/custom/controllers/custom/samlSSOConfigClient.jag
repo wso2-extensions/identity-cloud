@@ -18,7 +18,6 @@ function handle(action) {
             getsamlClient();
         }
     } catch (e) {
-        print(e);
         log.error(e);
     }
 }

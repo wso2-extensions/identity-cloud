@@ -104,10 +104,10 @@ function reloadGrid() {
     });
 }
 
-function downloadIDPMetaData() {
-    idpMetadata = null;
+function downloadIDPMetaData(tenantDomain) {
+
     $.ajax({
-        url: "/" + "identity/metadata/saml2",
+        url: "/" + "identity/t/" + tenantDomain + "/metadata/saml2",
         type: "GET",
         data: "",
         success: function (data) {

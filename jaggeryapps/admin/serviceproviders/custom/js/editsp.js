@@ -129,6 +129,7 @@ function drawAppDetails(data) {
                 $("#gw-config-section").show();
                 $("#gatewayconfig").attr('class', '');
                 $("#gw-config-section").find('.panel-heading').remove();
+                $("#claim_dialect_custom").hide().closest('label').hide();
             } else {
                 //shortcut type
                 $('#storeAppType').val(APP_SHORTCUT_TYPE);
@@ -363,7 +364,7 @@ function preDrawAppDetails(appName){
 }
 
 function updateSP() {
-    $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
+   // $('#number_of_claimmappings').val(document.getElementById("claimMappingAddTable").rows.length);
     var element = "<div class=\"modal fade\" id=\"messageModal\">\n" +
         "  <div class=\"modal-dialog\">\n" +
         "    <div class=\"modal-content\">\n" +
@@ -485,13 +486,32 @@ function updateCustomSP(file) {
     for(var checkbox in checkBoxArr){
         formData.append(checkBoxArr[checkbox].id,checkBoxArr[checkbox].value);
     }
-
-    var claimsform = $('#claimConfigForm').serializeArray();
-    for(var field in claimsform){
-        var claimField = claimsform[field];
-        formData.append(claimField.name,claimField.value);
+ 
+    var claimData = {};
+    var claimDataAry = [];
+    var count, claimObj;
+    claimData.localClaimDialect = $("#claim_dialect_wso2").is(":checked");
+    if (claimData.localClaimDialect) {
+        count = parseInt($("#localClaimTableTableBody tr").length);
+        for (i = 1; i < count; i++) {
+            claimObj = {};
+            claimObj.claimUri = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+            claimObj.claimName = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+            claimDataAry.push(claimObj);
+        }
+    } else {
+        count = parseInt($("#customClaimTableTableBody tr").length) ;
+        for (i = 1; i < count; i++) {
+            claimObj = {};
+            claimObj.claimUri = $($("#customClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+            claimObj.claimName = $($("#customClaimTableTableBody tr")[i]).find('.spClaim')[0].value;
+            claimDataAry.push(claimObj);
+        }
     }
-
+    claimData.data = claimDataAry;
+    claimData.count = count;
+    claimData.subjectClaim = $("#subject-claim-url").val();
+    formData.append('claimConfiguration', JSON.stringify(claimData));
 
 
     if ($('#isEditOauthSP').val() == "true") {
