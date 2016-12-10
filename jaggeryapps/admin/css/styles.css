@@ -3642,18 +3642,19 @@ td, th {
 #security-type table {
     width:100%;
 }
-#security-type table, th, td {
+.security-type-table table,.security-type-table th,.security-type-table td {
     border-collapse: collapse;
 }
-#security-type th, td {
+.security-type-table th,.security-type-table td {
     padding: 5px;
     text-align: left;
 }
-#security-type tr, td {
+.security-type-table tr,.security-type-table td {
     background-color: white;
     height: 35px;
+    color: #282828;
 }
-#security-type table th {
+.security-type-table table th {
     background-color: #282828;
     color: white;
 }
@@ -3677,5 +3678,14 @@ td, th {
 #sp-img-thumb {
     width: 60px;
     background-color: #525252;
-    margin-bottom:10px;
+    margin-bottom: 10px;
+}
+
+.input-group-btn:nth-child(2) > .form-control {
+    width: auto;
+}
+#custom-claim-dropdown {
+    padding-right: 15px;
+    padding-left: 15px;
+
 }
