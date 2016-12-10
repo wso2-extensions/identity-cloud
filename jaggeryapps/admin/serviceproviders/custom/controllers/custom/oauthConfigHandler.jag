@@ -199,8 +199,6 @@ function addOauthConfig(){
         client.registerOAuthApplicationData(payload);
         var consumerApp = client.getOAuthApplicationDataByAppName(applicationName).return;
         postAddOAuthInboundAuthnConfig(consumerApp,applicationName,sptype);
-        log.info(consumerApp.toSource());
-
     } catch (e) {
         log.error(e);
     }

@@ -175,7 +175,7 @@ include("../templates/leftpane.jag");
               <!--App Type Selection Panel-->
 
               <!--Security Type Selection Panel-->
-              <div id="security-type" class="panel panel-default" hidden>
+              <div id="security-type" class="panel panel-default" class="security-type-table" hidden>
                   <div role="tabpanel" aria-labelledby="gatewayconfig-header">
                       <div class="panel-body inverse">
                           <form class="form-horizontal" role="form">
@@ -264,8 +264,8 @@ include("../templates/leftpane.jag");
             <div id="dynamic-sso-config" class="panel panel-default" style="display: none;">
             </div>
 
-            <div class="panel-group property-accordion accordion" id="security-accordion">
-            <label for="service-provider-description" >Security Configuration </label>
+            <div class="panel-group property-accordion accordion security-type-table" id="security-accordion" >
+            <label for="service-provider-description" >Claim Configuration </label>
                <div class="panel panel-default">
 
                   <div id="securityconfig"  role="tabpanel" aria-labelledby="securityconfig-header" >
@@ -288,11 +288,11 @@ include("../templates/leftpane.jag");
                                           <label for="claim_dialect">Select Claim mapping Dialect: </label>
                                           <div class="clearfix"></div>
                                           <label class="radio-inline">
-                                          <input type="radio" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
-                                          Use Local Claim Dialect
+                                          <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
+                                          Add Local Claims
                                           </label>
                                           <label class="radio-inline">
-                                          <input type="radio" name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Define Custom Claim Dialect
+                                          <input type="radio"  onclick="claimRadioClick($(this)); " name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Add Custom Claims
                                           </label>
                                        </div>
                                     </div>
@@ -300,33 +300,15 @@ include("../templates/leftpane.jag");
                                        <!--<table  class="table-borderless tabel-label">-->
                                        <div class="form-group">
                                           <div class="col-md-12">
-                                             <label id="addClaimUrisLbl">Requested Claims:</label>
-                                             <div class="clearfix"></div>
-                                             <a id="claimMappingAddLink" class="icon-link"
-                                                style="background-image: url(images/add.gif); margin-top: 0px !important; margin-bottom: 5px !important;">
-                                             Add Claim URI
-                                             </a>
+
+
                                           </div>
-                                          <div class="col-md-12">
-                                             <table class="table table-striped tabel-label" id="claimMappingAddTable">
-                                                <thead>
-                                                   <tr>
-                                                      <th style="display: none;" id="spccol">Service Provider Claim</th>
-                                                      <th>Local Claim</th>
-                                                      <th style="display: none;" id="rccol">Requested Claim</th>
-                                                      <th>Action</th>
-                                                   </tr>
-                                                </thead>
-                                                <tbody id="claimMappingAddBody">
-                                                   <!--implement this-->
-                                                </tbody>
-                                             </table>
-                                          </div>
+
                                        </div>
                                        <div id="subjectMappingSelection">
                                            <div class="form-group">
                                               <div class="col-md-12">
-                                                 <label id="subjectClaimURILbl">Subject Claim URI :</label>
+                                                 <label id="subjectClaimURILbl">Subject Claim URI </label>
                                                  <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
                                                  </select>
                                               </div>
@@ -337,16 +319,7 @@ include("../templates/leftpane.jag");
                                           <!--render local claims onload-->
                                        </div>
                                        <input type="hidden" id ="local_calim_uris" value="" >
-                                       <div id="roleMappingSelection">
-                                          <div class="form-group">
-                                             <div class="col-md-12">
-                                                <label id="addClaimUrisLbl">Role Claim URI:</label>
-                                                <select id="roleClaim" name="roleClaim" class="form-control">
-                                                </select>
-                                                <p style="color:black; font-weight:300;">Select Claim URI for Service Provider Role</p>
-                                             </div>
-                                          </div>
-                                       </div>
+
                                     </div>
                                  </form>
                               </div>
@@ -452,7 +425,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--ACS tabel-->
-                                                      <div class="form-group" >
+                                                      <div class="form-group security-type-table" >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with acrURLS accordingly-->
                                                             <div id="assertionConsumerURLTblRow">
@@ -466,7 +439,7 @@ include("../templates/leftpane.jag");
                                                    <div id="samal-dynamic-hide">
                                                    <div class="form-group" id="defaultAssertionConsumerURLRow" hidden>
                                                       <div class="col-md-12">
-                                                         <label for="defaultAssertionConsumerURL" class="control-label">Default Assertion Consumer URL :<span class="required">*</span></label>
+                                                         <label for="defaultAssertionConsumerURL" class="control-label">Default Assertion Consumer URL <span class="required">*</span></label>
                                                          <select class="form-control" id="defaultAssertionConsumerURL" name="defaultAssertionConsumerURL">
                                                             <option value="">---Select---</option>
                                                          </select>
@@ -475,14 +448,14 @@ include("../templates/leftpane.jag");
                                                    <!--NameID Format-->
                                                    <div class="form-group" id="nameIDRow">
                                                       <div class="col-md-12">
-                                                         <label for="nameIdFormat" class="control-label">NameID format :<span class="required">*</span></label>
+                                                         <label for="nameIdFormat" class="control-label">NameID format <span class="required">*</span></label>
                                                          <input type="text" class="form-control" id="nameIdFormat" name="nameIdFormat">
                                                       </div>
                                                    </div>
                                                    <!--Certificate Alias-->
                                                    <div class="form-group" id="certificateRow">
                                                       <div class="col-md-12">
-                                                         <label for="alias" class="control-label">Certificate Alias :</label>
+                                                         <label for="alias" class="control-label">Certificate Alias </label>
                                                          <select class="form-control" id="alias" name="alias">
                                                             <option value="">---Select---</option>
                                                          </select>
@@ -491,7 +464,7 @@ include("../templates/leftpane.jag");
                                                    <!--Response Signing Algorithm-->
                                                    <div class="form-group" id="signingAlgorithmRow">
                                                       <div class="col-md-12">
-                                                         <label for="signingAlgorithm" class=" control-label">Response Signing Algorithm :
+                                                         <label for="signingAlgorithm" class=" control-label">Response Signing Algorithm
                                                          <span class="required">*</span>
                                                          </label>
                                                          <select class="form-control" id="signingAlgorithm" name="signingAlgorithm">
@@ -502,7 +475,7 @@ include("../templates/leftpane.jag");
                                                    <!--Response Digest Algorithm-->
                                                    <div class="form-group" id="digestAlgorithmRow">
                                                       <div class="col-md-12">
-                                                         <label for="digestAlgorithm" class=" control-label">Response Digest Algorithm :
+                                                         <label for="digestAlgorithm" class=" control-label">Response Digest Algorithm
                                                          <span class="required">*</span>
                                                          </label>
                                                          <select class="form-control" id="digestAlgorithm" name="digestAlgorithm">
@@ -598,7 +571,7 @@ include("../templates/leftpane.jag");
                                                    <div id="advanced-settings" hidden>
                                                    <!--<div class="row" style="border-top: solid #282828;border-width: 10px ;"> </div>-->
                                                    <div id="audienceRestrictionRow">
-                                                      <div class="form-group" hidden>
+                                                      <div class="form-group security-type-table" hidden>
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
                                                                <label><input id="enableAudienceRestriction" class="custom-checkbox custom-checkbox-white" type="checkbox" onclick="disableAudienceRestriction(this);" value="true" name="enableAudienceRestriction" checked><span>Enable Audience Restriction</span></label>
@@ -619,7 +592,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--Audience Table-->
-                                                      <div class="form-group " >
+                                                      <div class="form-group security-type-table" >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with Audience URL-->
                                                             <div  id="audienceTblRow">
@@ -652,7 +625,7 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--Recipient Table-->
-                                                      <div class="form-group" >
+                                                      <div class="form-group security-type-table" >
                                                          <div class="col-md-12">
                                                             <!--fill the tabel with Audience URL-->
                                                             <div  id="recptTblRow">
@@ -867,7 +840,7 @@ include("../templates/leftpane.jag");
                                                 <form class="form-horizontal" role="form" id="wsfed-form" name="wsfed-form">
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <label for="passiveSTSRealm"> Passive STS Realm</label>
+                                                         <label for="passiveSTSRealm"> Passive STS Realm <span class="required">*</span> </label>
                                                          <input type="text" class="form-control" id="passiveSTSRealm">
                                                       </div>
                                                    </div>
@@ -875,6 +848,7 @@ include("../templates/leftpane.jag");
                                                       <div class="col-md-12">
                                                          <label for="passiveSTSWReply">Passive STS WReply URL <span class="required">*</span></label>
                                                          <input type="text" class="form-control required" id="passiveSTSWReply" name="passiveSTSWReply" />
+
                                                       </div>
                                                    </div>
                                                 </form>
@@ -1118,12 +1092,17 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
             $("#security-type").show();
-            $("#security-accordion").hide();
+             //show claim config
+            $("#subjectMappingSelection").hide();
+            $('#subject_claim_uri').val('')
+            $("#security-accordion").show();
+            $("#cladimconfig-header").remove();
+            $("#inbound-auth-header").hide();
             break;
         case 'Proxy':
             $("#skipgateway").prop('checked', false);
             $("#skipgateway-check").hide();
-
+            $("#store-app-url-sec").hide();
             $("#security-type").hide();
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
@@ -1146,6 +1125,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-type").hide();
             $("#security-accordion").hide();
             $("#gw-config-section").hide();
+            $("#store-app-url-sec").show();
             break;
         default:
     }
