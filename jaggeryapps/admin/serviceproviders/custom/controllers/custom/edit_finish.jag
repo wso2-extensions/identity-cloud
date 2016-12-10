@@ -7,10 +7,15 @@ var util = require("../../util/utility.jag");
 include("../../../../util/constants.jag");
 var i18n = session.get("i18n");
 var storeAppType = request.getParameter('storeAppType');
+var metaFile = request.getParameter('metadataFileName');
+var isMetaUploaded = false;
+if (metaFile != null && metaFile.length > 0) {
+    isMetaUploaded = true;
+}
 if (storeAppType == APP_AGENT_TYPE || storeAppType == APP_PROXY_TYPE || storeAppType == WELL_KNOWN_APP) {
     updateSP();
 }
-if(appManagementIntegrationConfig.enabled){
+if(appManagementIntegrationConfig.enabled && !isMetaUploaded){
   addApp();
 }
 
@@ -22,7 +27,6 @@ function updateSP(){
             var cookie = request.getParameter("cookie");
             session.put('auth-cookie', cookie);
         }
-
         var spName = request.getParameter('spName');
         var oldSPName = request.getParameter('oldSPName');
         var spDesc = request.getParameter('spDesc');
@@ -119,6 +123,8 @@ function updateSP(){
         serviceProviderDTO["idpSLOURLs"] = [];
         serviceProviderDTO["hiddenFields"] = request.getParameter('hiddenFields');
         serviceProviderDTO["appType"] = sptype;
+        serviceProviderDTO["metadata"] = "";
+        serviceProviderDTO["publicCertificate"] = "";
 
         if (request.getParameter("enableSingleLogout") == 'true') {
             serviceProviderDTO["enableSingleLogout"] = true;
@@ -197,6 +203,22 @@ function updateSP(){
         if (request.getParameter("enableSigValidation") == 'true') {
             serviceProviderDTO["enableSigValidation"] = true;
             serviceProviderDTO["alias"] = request.getParameter("alias");
+        }
+
+        if(request.getParameter("metadataFileName") != null && request.getParameter("metadataFileName").length > 0) {
+            var file = request.getFile("metadata");
+            file.open("r");
+            var message = "";
+            message = file.readAll();
+            message = new java.lang.String(message);
+            var encoded = org.apache.commons.codec.binary.Base64.encodeBase64(message.getBytes("UTF-8"));
+            encoded = new java.lang.String(encoded);
+            file.close();
+            serviceProviderDTO["metadata"] = encoded;
+        }
+
+        if(request.getParameter("publicCertificate") != null && request.getParameter("publicCertificate").length > 0) {
+            serviceProviderDTO["publicCertificate"] = request.getParameter("publicCertificate");
         }
 
         var spAdminClient = require('spAdminClient.jag');
@@ -527,10 +549,44 @@ function getAppAccessURL(storeProperties) {
         return getIDPInitiatedSSOURL(issuer);
     } else {
         //SP initiated SSO
+        if (storeProperties.appStoreUrl == null || storeProperties.appStoreUrl.length == 0) {
+            storeProperties.appStoreUrl = getDefaultACSUrl();
+        }
         return storeProperties.appStoreUrl;
     }
 }
 
+function getDefaultACSUrl() {
+    var oldSPName = request.getParameter('oldSPName');
+    var sptype=request.getParameter("spType");
+    var spAdminClient = require('spAdminClient.jag');
+    var serviceProvider = spAdminClient.getApplication(oldSPName).return;
+    var inboundConfigs = serviceProvider.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs;
+    if (inboundConfigs.constructor !== Array) {
+        inboundConfigs = [inboundConfigs];
+    }
+    var samlConfig = null;
+    for (var i in inboundConfigs) {
+        var conf = inboundConfigs[i];
+        if (conf.inboundAuthType == SAML_SSO && sptype == getAppType(conf)) {
+            samlConfig = conf;
+            break;
+        }
+    }
+    if (samlConfig != null) {
+        var props = samlConfig.properties;
+        //props can't be null
+        if(props.constructor !== Array) {
+            props = [props];
+        }
+        for (var i in props) {
+            var prop = props[i];
+            if(prop.name=="defaultAssertionConsumerURL"){
+                return prop.value;
+            }
+        }
+    }
+}
 
 function getIDPInitiatedSSOURL(issuer) {
 

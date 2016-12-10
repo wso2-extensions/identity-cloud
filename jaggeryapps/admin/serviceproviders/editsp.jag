@@ -356,7 +356,7 @@ include("../templates/leftpane.jag");
                                                    <div class="form-group " id="fileRow">
                                                       <div class="col-md-12">
                                                          <div hidden>
-                                                            <input type="file" id="uploadfile" onchange="uploadFile(this);"/>
+                                                            <input type="file" id="uploadfile" onchange="updateCustomSP(this);"/>
                                                          </div>
                                                          <!--<label for="metadataFileName">File Name<span class="required">*</span></label>-->
                                                          <label>Select file <span class="required">*</span>
@@ -460,7 +460,12 @@ include("../templates/leftpane.jag");
                                                             <option value="">---Select---</option>
                                                          </select>
                                                       </div>
+                                                      <div class="col-md-12">
+                                                         <label for="publicCertificate" class="control-label">Public Certificate (PEM) :</label>
+                                                         <textarea id="publicCertificate" name="publicCertificate" class="form-control">Public Certificate (PEM)</textarea>
+                                                      </div>
                                                    </div>
+
                                                    <!--Response Signing Algorithm-->
                                                    <div class="form-group" id="signingAlgorithmRow">
                                                       <div class="col-md-12">
@@ -570,6 +575,7 @@ include("../templates/leftpane.jag");
                                                    <!--  Enable Audience Restriction-->
                                                    <div id="advanced-settings" hidden>
                                                    <!--<div class="row" style="border-top: solid #282828;border-width: 10px ;"> </div>-->
+                                                   <div id="testing123"></div>
                                                    <div id="audienceRestrictionRow">
                                                       <div class="form-group security-type-table" hidden>
                                                          <div class="col-md-12">
