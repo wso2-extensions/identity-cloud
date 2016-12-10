@@ -112,13 +112,12 @@ function downloadIDPMetaData(tenantDomain) {
         data: "",
         success: function (data) {
             if(data) {
-                var element = document.createElement('a');
-                element.setAttribute('href', 'data:text/xml;charset=utf-8,' + (new XMLSerializer()).serializeToString(data));
-                element.setAttribute('download', 'WSO2IdentityCloudMetadata.xml');
-                element.style.display = 'none';
-                document.body.appendChild(element);
-                element.click();
-                document.body.removeChild(element);
+                var metaDownload = window.document.createElement('a');
+                metaDownload.href = window.URL.createObjectURL(new Blob([(new window.XMLSerializer()).serializeToString(data)], {type: 'text/xml'}));
+                metaDownload.download = 'WSO2Metadata.xml';
+                document.body.appendChild(metaDownload)
+                metaDownload.click();
+                document.body.removeChild(metaDownload)
             }
         },
         error: function (e) {
