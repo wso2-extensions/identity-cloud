@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package org.wso2.carbon.identity.cloud.web.jaggery;
 
 import java.io.IOException;
@@ -18,20 +36,17 @@ import javax.servlet.http.HttpSession;
  */
 public class SessionFilter implements Filter {
 
-    public static final String LOGIN_PAGE_URL = "/login.jag";
-    public static final String SESSION_ATTRIBUTE_NAME_USER = "user";
-
     private List<String> whiteListedUrls;
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
-        // White list login related resource URLs.
-        whiteListedUrls = new ArrayList<String>();
-        whiteListedUrls.add(LOGIN_PAGE_URL);
-        whiteListedUrls.add("/samlsso.jag");
-        whiteListedUrls.add("/acs");
+        // White list login and error related resource URLs.
+        whiteListedUrls = new ArrayList<>();
+        whiteListedUrls.add(SessionFilterConstants.URLWhiteList.LOGIN_PAGE);
+        whiteListedUrls.add(SessionFilterConstants.URLWhiteList.ERROR_PAGE);
+        whiteListedUrls.add(SessionFilterConstants.URLWhiteList.ACS_PAGE);
+        whiteListedUrls.add(SessionFilterConstants.URLWhiteList.SAML_REQUEST_PAGE);
     }
 
     @Override
@@ -42,14 +57,28 @@ public class SessionFilter implements Filter {
         HttpSession session = request.getSession(false);
         String requestUrl = request.getServletPath();
 
-        if (whiteListedUrls.contains(requestUrl) || (session != null && session.getAttribute
-                (SESSION_ATTRIBUTE_NAME_USER) != null)) {
+        if (isContextStartWithWhiteListedURLPattern(requestUrl) || (session != null && session.getAttribute
+                (SessionFilterConstants.SESSION_ATTRIBUTE_NAME_USER) != null)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpServletResponse response = (HttpServletResponse) servletResponse;
-            response.sendRedirect(request.getContextPath() + LOGIN_PAGE_URL);
+            response.sendRedirect(request.getContextPath() + SessionFilterConstants.LOGIN_PAGE_URL);
         }
+    }
 
+    private boolean isContextStartWithWhiteListedURLPattern(String context) {
+
+        boolean patternMatched = false;
+
+        if (context != null && !context.isEmpty()) {
+            for (String pattern : whiteListedUrls) {
+                if (context.startsWith(pattern)) {
+                    patternMatched = true;
+                    break;
+                }
+            }
+        }
+        return patternMatched;
     }
 
     @Override
