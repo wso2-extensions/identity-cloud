@@ -114,7 +114,7 @@ function downloadIDPMetaData(tenantDomain) {
             if(data) {
                 var metaDownload = window.document.createElement('a');
                 metaDownload.href = window.URL.createObjectURL(new Blob([(new window.XMLSerializer()).serializeToString(data)], {type: 'text/xml'}));
-                metaDownload.download = 'WSO2Metadata.xml';
+                metaDownload.download = 'WSO2IdentityCloudMetadata.xml';
                 document.body.appendChild(metaDownload)
                 metaDownload.click();
                 document.body.removeChild(metaDownload)
