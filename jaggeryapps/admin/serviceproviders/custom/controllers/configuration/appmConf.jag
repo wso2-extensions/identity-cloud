@@ -34,8 +34,6 @@ function getAscUrl() {
         print(ascUrl)
     } catch (e) {
         log.error(e);
-        print(e);
-
     }
 }
 
@@ -47,10 +45,7 @@ function populateIssuerName() {
         print(issuerName)
     } catch (e) {
         log.error(e);
-        print(e);
-
     }
-
 }
 
 %>
