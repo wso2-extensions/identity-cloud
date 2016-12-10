@@ -1119,6 +1119,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
+            $("#claim_dialect_custom").hide().closest('label').hide();
             break;
         case 'Shortcut' :
             $("#skipgateway").prop('checked', true);
