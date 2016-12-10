@@ -104,17 +104,17 @@ function reloadGrid() {
     });
 }
 
-function downloadIDPMetaData() {
-    idpMetadata = null;
+function downloadIDPMetaData(tenantDomain) {
+
     $.ajax({
-        url: "/" + "identity/metadata/saml2",
+        url: "/" + "identity/t/" + tenantDomain + "/metadata/saml2",
         type: "GET",
         data: "",
         success: function (data) {
             if(data) {
                 var element = document.createElement('a');
                 element.setAttribute('href', 'data:text/xml;charset=utf-8,' + (new XMLSerializer()).serializeToString(data));
-                element.setAttribute('download', 'WSO2Metadata.xml');
+                element.setAttribute('download', 'WSO2IdentityCloudMetadata.xml');
                 element.style.display = 'none';
                 document.body.appendChild(element);
                 element.click();
