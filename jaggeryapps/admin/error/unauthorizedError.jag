@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WSO2 Cloud</title>
+
+    <link href="css/bootstrap-3.2.0/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontwso2-1.2/css/font-wso2.css">
+    <link href="css/font-awesome-4.2.0/font-awesome.min.css" rel="stylesheet">
+    <link href="css/web-fonts/Roboto.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/dataTables.responsive.css" rel="stylesheet">
+    <link href="css/datatables-1.10.7/jquery.dataTables.override.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/error-style.css">
+</head>
+
+<body>
+<div class="sky">
+    <section>
+        <div class="error-400">
+            <img src="../images/400-error.svg">
+        </div>
+        <div class="text-label">
+            <h1>You are not authorized.</h1>
+            <h2>Please contact your administrator to request permission.</h2>
+            <div></div>
+            <div class="button-label">
+                <a href="'+USER_PORTAL_LINK+'"><label class="label-back">Go to User Portal</label></a>
+                <a href="/admin/samlsso.jag?logout=true"><label class="label-report">Log Out</label></a>
+            </div>
+        </div>
+    </section>
+    <div class="clouds_one"></div>
+
+    <div class="clouds_two"></div>
+
+    <div class="clouds_three"></div>
+</div>
+</body>
+</html>

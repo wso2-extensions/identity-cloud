@@ -104,7 +104,7 @@ if (samlResponse != null) {
 
 					    response.sendRedirect("index.jag");
                     } else if (success === NO_ADMIN_PERMISSION) {
-                        response.sendRedirect("error.jag");
+                        response.sendRedirect("error/unauthorizedError.jag");
                     } else {
                         response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
                     }
