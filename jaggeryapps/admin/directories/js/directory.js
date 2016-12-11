@@ -647,64 +647,69 @@ function testConnection(agentUrl) {
 
 
 function verifyConnection(agentUrl) {
-    var messageContainer = "<div class='alert' role='alert'>" +
-        "<span class='alert-content'></span></div>";
+    if (agentUrl) {
+        var messageContainer = "<div class='alert' role='alert'>" +
+            "<span class='alert-content'></span></div>";
 
-    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-        agentUrl = agentUrl + "status";
-    } else {
-        agentUrl = agentUrl + "/" + "status";
-    }
+        if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
+            agentUrl = agentUrl + "status";
+        } else {
+            agentUrl = agentUrl + "/" + "status";
+        }
+        
+        $('.connectionStatus').empty();
 
-
-    $('.connectionStatus').empty();
-
-    $.ajax({
-        url: DIRECTORY_TEST_CONNECTION_PATH,
-        type: "GET",
-        data: "url=" + agentUrl,
-        success: function (data) {
-            if (data) {
-                if ($.parseJSON(data).return == "true") {
-                    $("#verified").show();
-                    $("#process-icon").hide();
-                    $("#unverified").hide();
-                    $("#progress-icon").hide();
-                } else if ($.parseJSON(data).return == "false") {
-                    $("#verified").hide();
-                    $("#unverified").show();
-                    $("#progress-icon").hide();
-                } else {
-                    var resp = $.parseJSON(data);
-                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+        $.ajax({
+            url: DIRECTORY_TEST_CONNECTION_PATH,
+            type: "GET",
+            data: "url=" + agentUrl,
+            success: function (data) {
+                if (data) {
+                    if ($.parseJSON(data).return == "true") {
+                        $("#verified").show();
+                        $("#process-icon").hide();
+                        $("#unverified").hide();
+                        $("#progress-icon").hide();
+                    } else if ($.parseJSON(data).return == "false") {
+                        $("#verified").hide();
+                        $("#unverified").show();
+                        $("#progress-icon").hide();
                     } else {
-                        if (resp.message != null && resp.message.length > 0) {
-                            $("#verified").hide();
-                            $("#unverified").show();
-                            $("#progress-icon").hide();
+                        var resp = $.parseJSON(data);
+                        if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                            window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                         } else {
-                            message({
-                                content: 'Error occurred while loading values for the grid.',
-                                type: 'error',
-                                cbk: function () {
-                                }
-                            });
+                            if (resp.message != null && resp.message.length > 0) {
+                                $("#verified").hide();
+                                $("#unverified").show();
+                                $("#progress-icon").hide();
+                            } else {
+                                message({
+                                    content: 'Error occurred while loading values for the grid.',
+                                    type: 'error',
+                                    cbk: function () {
+                                    }
+                                });
+                            }
                         }
                     }
                 }
+            },
+            error: function (e) {
+                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
+                    .fadeIn('fast').delay(2000).fadeOut('fast'));
+                $('.connectionStatus').find('.alert-content')
+                    .text(CONNECTION_NOT_ESTABLISHED_MSG)
+                $("#verified").hide();
+                $("#unverified").show();
+                $("#progress-icon").hide();
             }
-        },
-        error: function (e) {
-            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                .fadeIn('fast').delay(2000).fadeOut('fast'));
-            $('.connectionStatus').find('.alert-content')
-                .text(CONNECTION_NOT_ESTABLISHED_MSG)
-            $("#verified").hide();
-            $("#unverified").show();
-            $("#progress-icon").hide();
-        }
-    });
+        });
+    } else {
+        $("#verified").hide();
+        $("#unverified").show();
+        $("#progress-icon").hide();
+    }
 
 }
 
