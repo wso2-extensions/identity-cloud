@@ -569,14 +569,14 @@ include("../templates/leftpane.jag");
 
                                                 <!--Certificate Alias-->
                                                    <div class="form-group" id="certificateRow">
-                                                      <div class="col-md-12">
+                                                      <div class="col-md-12" hidden>
                                                          <label for="alias" class="control-label">Certificate Alias </label>
                                                          <select class="form-control" id="alias" name="alias">
                                                             <option value="">---Select---</option>
                                                          </select>
                                                       </div>
                                                       <div class="col-md-12">
-                                                         <label for="publicCertificate" class="control-label">Public Certificate (PEM) :</label>
+                                                         <label for="publicCertificate" class="control-label">Public Certificate (PEM) </label>
                                                          <textarea id="publicCertificate" name="publicCertificate" class="form-control">Public Certificate (PEM)</textarea>
                                                       </div>
                                                    </div>
