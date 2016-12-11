@@ -156,6 +156,11 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#alias').append(certificateAliasRow);
     }
 
+    var publicCertificate = "";
+    if (providerProps["publicCertificate"] != null && providerProps["publicCertificate"].value.length > 0) {
+        publicCertificate = providerProps["publicCertificate"].value;
+    }
+    $('#publicCertificate').text(publicCertificate);
 
     var defaultSigningAlgorithmRow = "";
     var signAlgorithm = null;
@@ -510,7 +515,10 @@ function controlHiddenFields(providerProps) {
         $('#nameIDRow').hide();
     }
     if (isHidden(ALIAS, providerProps)) {
-       // $('#certificateRow').hide();
+       $('#aliasRow').hide();
+    }
+    if (isHidden(CERTIFICATE, providerProps)) {
+        $('#certificateRow').hide();
     }
     if (isHidden(SIGN_ALGO, providerProps)) {
         $('#signingAlgorithmRow').hide();

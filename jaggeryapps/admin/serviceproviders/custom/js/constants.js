@@ -18,6 +18,7 @@ var ACS_URLS = "assertionConsumerURLs";
 var APP_TYPE = "appType";
 var NAME_ID_FORMAT = "nameIdFormat";
 var ALIAS = "alias";
+var CERTIFICATE = "publicCertificate";
 var SIGN_ALGO = "signingAlgorithm";
 var DIGEST_ALGO = "digestAlgorithm";
 var ENABLE_RESPONSE_SIGNATURE = "enableResponseSignature";
