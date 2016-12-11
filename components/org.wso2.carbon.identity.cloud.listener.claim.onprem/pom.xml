@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>identity-cloud</artifactId>
+        <groupId>org.wso2.carbon.identity.cloud</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>org.wso2.carbon.identity.cloud.listener.claim.onprem</artifactId>
+
+    <packaging>bundle</packaging>
+    <name>WSO2 Carbon OnPrem Claim Listener</name>
+    <description>WSO2 Carbon OnPrem Claim Listener</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.user.api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.user.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.um.ws.api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wso2.orbit.com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json.wso2</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.user.store.configuration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.application.common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json.wso2</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple.wso2</groupId>
+            <artifactId>json-simple</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Private-Package>
+                            org.wso2.carbon.identity.cloud.listener.claim.onprem.internal,
+                        </Private-Package>
+                        <Import-Package>
+                        </Import-Package>
+                        org.apache.commons.logging; version="1.2.0",
+                        org.wso2.carbon.user.core.service; version="4.4.9",
+                        org.wso2.carbon.registry.core.service; version="1.0.1",
+                        org.osgi.service.component; version="1.2.0",
+                        org.wso2.carbon.user.core.common; version="4.4.9",
+                        org.wso2.carbon.user.core; version="4.4.9",
+                        org.wso2.carbon.identity.base; version="5.2.2",
+                        org.json; version="3.0.0.wso2v1",
+                        org.wso2.carbon.user.api; version="1.0.1",
+                        org.apache.commons.httpclient; version="3.1.0",
+                        org.apache.commons.httpclient.methods; version="3.1.0",
+                        org.wso2.carbon.user.core.listener; version="4.4.9",
+                        org.osgi.framework; version="1.7.0",
+                        <Export-Package>
+                            !org.wso2.carbon.identity.cloud.listener.claim.onprem.internal,
+                            org.wso2.carbon.identity.cloud.listener.claim.onprem*;
+                            version="${project.version}",
+                        </Export-Package>
+                        <DynamicImport-Package>*</DynamicImport-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
