@@ -482,7 +482,7 @@ function updateCustomSP(file) {
     formData.append('receipientURLs',$('#receipientURLs').val());
     formData.append('idpSLOURLs',$('#idpSLOURLs').val());
     formData.append('attributeConsumingServiceIndex',$('#attributeConsumingServiceIndex').val());
-    formData.append('publicCertificate',$('publicCertificate').val());
+    formData.append('publicCertificate',$('#publicCertificate').val());
     if(file != null && file.value != null && file.value.length > 0){
         formData.append('metadataFileName',$('#metadataFileName').val());
         formData.append('metadata', $('input[type=file]')[0].files[0]);

@@ -285,7 +285,7 @@ include("../templates/leftpane.jag");
                                  <form class="form-horizontal" role="form" id="claimConfigForm">
                                     <div class="form-group">
                                        <div class="col-md-12">
-                                          <label for="claim_dialect">Select Claim mapping Dialect: </label>
+                                          <label for="claim_dialect">Configure User Claims </label>
                                           <div class="clearfix"></div>
                                           <label class="radio-inline">
                                           <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
@@ -549,15 +549,6 @@ include("../templates/leftpane.jag");
                                                    <div id="advanced-settings" hidden>
                                                    <!--<div class="row" style="border-top: solid #282828;border-width: 10px ;"> </div>-->
 
-                                                   <!--  Enable Assertion Encryption -->
-                                                   <div class="form-group" id="enableEncAssertionRow" >
-                                                      <div class="col-md-12">
-                                                         <div class="checkbox">
-                                                            <label><input id="enableEncAssertion" class="custom-checkbox custom-checkbox-white" type="checkbox" value="false" name="enableEncAssertion" onclick="disableEncAssertion(this);"><span>Enable Assertion Encryption</span></label>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-
                                                    <!--  Enable Signature Validation -->
                                                    <div class="form-group"  id="enableSigValidationRow">
                                                       <div class="col-md-12">
@@ -567,19 +558,33 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
 
+                                                   <!--  Enable Assertion Encryption -->
+                                                   <div class="form-group" id="enableEncAssertionRow" >
+                                                      <div class="col-md-12">
+                                                         <div class="checkbox">
+                                                            <label><input id="enableEncAssertion" class="custom-checkbox custom-checkbox-white" type="checkbox" value="false" name="enableEncAssertion" onclick="disableEncAssertion(this);"><span>Enable Assertion Encryption</span></label>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+
                                                 <!--Certificate Alias-->
-                                                   <div class="form-group" id="certificateRow">
+                                                   <div class="form-group" id="aliasRow">
                                                       <div class="col-md-12" hidden>
                                                          <label for="alias" class="control-label">Certificate Alias </label>
                                                          <select class="form-control" id="alias" name="alias">
                                                             <option value="">---Select---</option>
                                                          </select>
                                                       </div>
+                                                   </div>
+
+                                                   <!--Certificate -->
+                                                   <div class="form-group" id="certificateRow">
                                                       <div class="col-md-12">
                                                          <label for="publicCertificate" class="control-label">Public Certificate (PEM) </label>
-                                                         <textarea id="publicCertificate" name="publicCertificate" class="form-control">Public Certificate (PEM)</textarea>
+                                                         <textarea id="publicCertificate" name="publicCertificate" class="form-control"></textarea>
                                                       </div>
                                                    </div>
+
 
 
                                                    <div id="testing123"></div>
