@@ -2,10 +2,17 @@
 <html>
 <head>
     <meta charset='UTF-8'>
-    <title>CSS3 Cloud Animations By Montana Flynn</title>
+    <title>WSO2 Cloud</title>
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/font-mf.css">
 </head>
+
+<%
+include("/util/constants.jag");
+
+var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+var tenantDomain = MultitenantUtils.getTenantDomain(session.get(LOGGED_IN_USER));
+%>
 
 <body>
 <div class="sky">
@@ -18,7 +25,7 @@
             <h2>Please contact your administrator to request permission.</h2>
             <div></div>
             <div class="button-label">
-                <a href="/user-portal/"><label class="label-back">Go to User Portal</label></a>
+                <a href="/user-portal/t/<%=tenantDomain%>"><label class="label-back">Go to User Portal</label></a>
                 <a href="/admin/samlsso.jag?logout=true"><label class="label-report">Log Out</label></a>
             </div>
         </div>

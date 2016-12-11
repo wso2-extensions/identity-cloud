@@ -54,16 +54,13 @@ if (samlResponse != null) {
 
                 var sessionObj = sso.client.decodeSAMLLoginResponse(samlRespObj, samlResponse, sessionId);
                 if (sessionObj.sessionIndex != null || sessionObj.sessionIndex != 'undefined') {
-                    //session.put("LOGGED_IN_USER", sessionObj.loggedInUser);
-                    //session.put("Loged", "true");
                     sso_sessions[sessionObj.sessionId] = sessionObj.sessionIndex;
-                	
-                	var success = loginClient.login(samlResponse);
-					if(success === "true")
-					{
-						session.put(LOGGED_IN_USER, sessionObj.loggedInUser);
-						log.debug(sessionObj.loggedInUser);
+                    session.put(LOGGED_IN_USER, sessionObj.loggedInUser);
+                    log.debug(sessionObj.loggedInUser);
 
+                    var success = loginClient.login(samlResponse);
+                    if(success === "true")
+					{
 					    var userInfo = userInfoClient.getUserInfo();
 					    session.put(UI_USER_PERMISSIONS, userInfo.UIPermissionOfUser);
 					    log.debug(userInfo.UIPermissionOfUser);
