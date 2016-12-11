@@ -74,11 +74,9 @@ function registerCustomSP(sptype) {
             }
         })
         .fail(function () {
-            console.log('Error Occurred');
             message({content: 'Error while adding Service Provider. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 

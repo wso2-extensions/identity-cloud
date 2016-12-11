@@ -125,7 +125,6 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
                     </div></span>';
 
         return $(this).each(function(){
-            console.log(settings.action)
             if (settings.action === 'show') {
                 $(this).prop( "disabled", true );
                 $(this).find('span').css('display','none');
@@ -149,7 +148,6 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
                     'margin-right':loaderMargin
                 });
             }else if (settings.action === 'hide') {
-                console.log('sdfd')
                 $(this).prop( "disabled", false );
                 $(this).find('.button-loader').remove();
                 $(this).find('span').css('display','inline-block');
@@ -506,7 +504,6 @@ function deleteDirectory(domainname) {
 
                 while (directoryLength == newDirectoryLength) {
                     setTimeout(function () {
-                        console.log("Waiting for complete ...")
                     }, 2000);
                     directoryStatus = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
 
@@ -543,11 +540,9 @@ function deleteDirectory(domainname) {
         .fail(function () {
             $("#btn-progress").hide();
             $("#btn-delete").show();
-            console.log('Error Occurred');
             message({content: 'Error while deleting directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 /**

@@ -98,11 +98,9 @@ include("templates/footer.jag");
     var serverUrl = window.location.host;
     $(function WindowLoad(event) {
         url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-        console.log("************ " + url);
         ws = new WebSocket(url);
 
         ws.onopen = function () {
-            console.log("web Socket onopen. ");
             ws.send("First Message open");
         };
         ws.onmessage = function (event) {
@@ -112,7 +110,6 @@ include("templates/footer.jag");
             urlResolver("overview");
         };
         ws.onclose = function () {
-            console.log("web Socket onclose. ");
         };
 
     });

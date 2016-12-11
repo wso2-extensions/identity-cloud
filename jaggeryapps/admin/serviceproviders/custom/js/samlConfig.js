@@ -13,7 +13,7 @@ function preDrawSAMLConfigPage(samlsp) {
         data: "&cookie=" + cookie + "&user=" + userName,
         success: function (data) {
             samlClient = $.parseJSON(data);
-            var tableTitle = "Configurations For " + samlsp.friendlyName;
+            var tableTitle = "Configurations";
             var isEditSP = false;
             var issuer = samlsp.inboundAuthKey;
             if (samlsp.inboundAuthKey != null && samlsp.inboundAuthKey.length > 0) {

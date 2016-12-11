@@ -1280,7 +1280,6 @@ var appName = $('#appName').attr('value');
         ws = new WebSocket(url);
 
         ws.onopen = function () {
-            console.log("web Socket onopen. ");
             ws.send("First Message open");
         };
         ws.onmessage = function (event) {
@@ -1289,10 +1288,8 @@ var appName = $('#appName').attr('value');
             userName = obj.user;
             userInfo = obj.userInfo;
             preDrawUpdatePage(appName);
-            console.log("preDrawUpdatePage invoked. ");
         };
         ws.onclose = function () {
-            console.log("web Socket onclose. ");
         };
     });
 </script>
