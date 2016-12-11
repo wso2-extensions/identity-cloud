@@ -35,7 +35,9 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     }
     claimConfigDropDown += "</select> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
         "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div> </div>";
-    $("#claimsConfRow").prepend(claimConfigDropDown);
+    if (!$("#local-claim-dropdown").is(":visible")) {
+        $("#claimsConfRow").prepend(claimConfigDropDown);
+    }
 
     claimConfigDropDown = "";
     claimConfigDropDown = "<div id='custom-claim-dropdown' class='form-group' hidden><div class='input-group'>  " +
@@ -48,9 +50,11 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     }
     claimConfigDropDown += "</select>  </div> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
         "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div>  </div> </div> ";
-    $("#claimsConfRow").prepend(claimConfigDropDown);
-    if (isLocalClaimsSelected) {
+    if (!$("#custom-claim-dropdown").is(":visible")) {
+        $("#claimsConfRow").prepend(claimConfigDropDown);
+    }
 
+    if (isLocalClaimsSelected) {
         $("#claim_dialect_wso2").prop("checked", true);
     }
     //add table by default
@@ -63,7 +67,7 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
     $("#claimsConfRow").append(assertionConsumerURLTblRow);
 
-    if (claimMapping.length > 0) {
+    if (claimMapping && claimMapping.length > 0) {
         if (!isLocalClaimsSelected) {
             $("#claim_dialect_custom").click();
             $("#claim_dialect_custom").prop("checked", true);

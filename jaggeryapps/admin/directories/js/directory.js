@@ -126,7 +126,6 @@ function addOrUpdateUserDirectory() {
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 
@@ -222,7 +221,6 @@ function updateUserDirectory() {
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 
@@ -422,11 +420,9 @@ function deleteDirectory(domainname) {
         .fail(function () {
             $("#btn-progress").hide();
             $("#btn-delete").show();
-            console.log('Error Occurred');
             message({content: 'Error while deleting directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 

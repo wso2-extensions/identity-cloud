@@ -318,7 +318,6 @@ include("../templates/footer.jag");
             ws = new WebSocket(url);
 
             ws.onopen = function () {
-                console.log("web Socket onopen. ");
                 ws.send("First Message open");
             };
             ws.onmessage = function (event) {
@@ -328,7 +327,6 @@ include("../templates/footer.jag");
                 userInfo = obj.userInfo;
             };
             ws.onclose = function () {
-                console.log("web Socket onclose. ");
             };
         });
 </script>

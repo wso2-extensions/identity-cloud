@@ -14,7 +14,6 @@ function setupSamples(){
             if (resp.success == true) {
                 while (!checkUserStoreExist(resp.domain)) {
                     setTimeout(function () {
-                        console.log("Waiting for complete ...")
                     }, 2000);
                 }
                 addSampleUsers();
@@ -44,7 +43,6 @@ function setupSamples(){
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 }
 
@@ -62,7 +60,6 @@ function checkUserStoreExist(domain){
 
             var resp = $.parseJSON(data);
             if (resp.success == false) {
-                console.log("checking user store  : " + resp.success);
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
@@ -92,7 +89,6 @@ function checkUserStoreExist(domain){
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
     return result;
 }
@@ -138,7 +134,6 @@ function addSampleUsers(){
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
-            console.log('completed');
         });
 
 }
@@ -194,7 +189,6 @@ function drawList() {
     var output = "";
     if (userList != null) {
         for (var i = 0; i < userList.length; i++) {
-            console.log(userList[i].name);
             var table = document.getElementById("userTable").getElementsByTagName('tbody')[0];
             var row = table.insertRow(0);
             row.className = "info";

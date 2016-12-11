@@ -18,7 +18,6 @@ function deleteCustomSP(applicationName) {
 
         })
         .always(function () {
-            console.log('completed');
         });
 }
 /**
@@ -45,7 +44,6 @@ function deleteCustomSPWithoutRefresh(applicationName) {
 
         })
         .always(function () {
-            console.log('completed');
         });
 }
 

@@ -150,18 +150,24 @@ function drawAppDetails(data) {
 
             var timeout = setInterval(function () {
                 // drop down selection (inbound security drop down selection)
-                if (inboundAuthType === "samlssocloud") {
-                    $("#custom-security-dropdown").click();
-                    $("#SAML2WebLink").click();
-                } else if (inboundAuthType === "oauth2") {
+                if (window.location.href.indexOf('?oauthVersion') > -1) {
                     $("#custom-security-dropdown").click();
                     $("#oAuthOPenIdLink").click();
+                } else {
+                    if (inboundAuthType === "samlssocloud") {
+                        $("#custom-security-dropdown").click();
+                        $("#SAML2WebLink").click();
+                    } else if (inboundAuthType === "oauth2") {
+                        $("#custom-security-dropdown").click();
+                        $("#oAuthOPenIdLink").click();
 
-                } else if (inboundAuthType === "passivests") {
-                    $("#custom-security-dropdown").click();
-                    $("#wsFedLink").click();
+                    } else if (inboundAuthType === "passivests") {
+                        $("#custom-security-dropdown").click();
+                        $("#wsFedLink").click();
 
+                    }
                 }
+
                 clearTimeout(timeout);
             }, APP_DETAIL_TIMEOUT);
 
@@ -489,23 +495,25 @@ function updateCustomSP(file) {
  
     var claimData = {};
     var claimDataAry = [];
-    var count, claimObj;
+    var count = 0, claimObj = {};
     claimData.localClaimDialect = $("#claim_dialect_wso2").is(":checked");
-    if (claimData.localClaimDialect) {
-        count = parseInt($("#localClaimTableTableBody tr").length);
-        for (i = 1; i < count; i++) {
-            claimObj = {};
-            claimObj.claimUri = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
-            claimObj.claimName = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
-            claimDataAry.push(claimObj);
-        }
-    } else {
-        count = parseInt($("#customClaimTableTableBody tr").length) ;
-        for (i = 1; i < count; i++) {
-            claimObj = {};
-            claimObj.claimUri = $($("#customClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
-            claimObj.claimName = $($("#customClaimTableTableBody tr")[i]).find('.spClaim')[0].value;
-            claimDataAry.push(claimObj);
+    if ($("#localClaimTableTableBody tr .idpClaim").length > 0 || $("#customClaimTableTableBody tr .idpClaim").length > 0) {
+        if (claimData.localClaimDialect) {
+            count = parseInt($("#localClaimTableTableBody tr").length);
+            for (i = 1; i < count; i++) {
+                claimObj = {};
+                claimObj.claimUri = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+                claimObj.claimName = $($("#localClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+                claimDataAry.push(claimObj);
+            }
+        } else {
+            count = parseInt($("#customClaimTableTableBody tr").length);
+            for (i = 1; i < count; i++) {
+                claimObj = {};
+                claimObj.claimUri = $($("#customClaimTableTableBody tr")[i]).find('.idpClaim')[0].value;
+                claimObj.claimName = $($("#customClaimTableTableBody tr")[i]).find('.spClaim')[0].value;
+                claimDataAry.push(claimObj);
+            }
         }
     }
     claimData.data = claimDataAry;
@@ -557,7 +565,6 @@ function updateCustomSP(file) {
 
         })
         .always(function () {
-            console.log('completed');
         });
 }
 
@@ -655,7 +662,6 @@ function deleteOauthConfig() {
 
         })
         .always(function () {
-            console.log('completed');
         });
 }
 
@@ -671,17 +677,14 @@ function saveOauthConfig(){
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
             preDrawUpdatePage(appdata.applicationName);
         })
-        .fail(function () {
-            message({
-                content: 'Error while updating Profile', type: 'error', cbk: function () {
-                }
-            });
+        .error(function () {
+
 
         })
         .always(function () {
-            console.log('completed');
         });
 
+    return false;
 }
 
 $(document).ready(function () {

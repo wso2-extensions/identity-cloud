@@ -187,18 +187,15 @@ $(function WindowLoad(event) {
     ws = new WebSocket(url);
 
     ws.onopen = function () {
-        console.log("web Socket onopen. ");
         ws.send("First Message open");
     };
     ws.onmessage = function (event) {
         var obj = $.parseJSON(event.data);
         cookie = obj.cookie;
         userName = obj.user;
-        console.log("************** Invoking reloadgrid");
         reloadGrid();
     };
     ws.onclose = function () {
-        console.log("web Socket onclose. ");
     };
 
 });

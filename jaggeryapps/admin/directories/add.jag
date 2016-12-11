@@ -228,7 +228,6 @@ var domain = $('#domain').attr('value');
         ws = new WebSocket(url);
 
         ws.onopen = function () {
-            console.log("web Socket onopen. ");
             ws.send("First Message open");
         };
         ws.onmessage = function (event) {
@@ -241,7 +240,6 @@ var domain = $('#domain').attr('value');
             }
         };
         ws.onclose = function () {
-            console.log("web Socket onclose. ");
         };
     });
 </script>
