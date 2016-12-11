@@ -510,7 +510,7 @@ function controlHiddenFields(providerProps) {
         $('#nameIDRow').hide();
     }
     if (isHidden(ALIAS, providerProps)) {
-        $('#certificateRow').hide();
+       // $('#certificateRow').hide();
     }
     if (isHidden(SIGN_ALGO, providerProps)) {
         $('#signingAlgorithmRow').hide();
@@ -522,7 +522,7 @@ function controlHiddenFields(providerProps) {
         $('#enableResponseSignatureRow').hide();
     }
     if (isHidden(ENABLE_SIG_VALID, providerProps)) {
-        $('#enableSigValidationRow').hide();
+       // $('#enableSigValidationRow').hide();
     }
     if (isHidden(ENABLE_ENC_ASSERTION, providerProps)) {
         $('#enableEncAssertionRow').hide();
