@@ -112,8 +112,8 @@ function updateSP(){
         serviceProviderDTO["sloResponseURL"] = "";
         serviceProviderDTO["sloRequestURL"] = "";
         serviceProviderDTO["enableAssertionSignature"] = false;
-        serviceProviderDTO["enableAttributeProfile"] = false;
-        serviceProviderDTO["enableDefaultAttributeProfile"] = false;
+        serviceProviderDTO["enableAttributeProfile"] = true;
+        serviceProviderDTO["enableDefaultAttributeProfile"] = true;
         serviceProviderDTO["enableAudienceRestriction"] = false;
         serviceProviderDTO["audienceURLs"] = "";
         serviceProviderDTO["enableRecipients"] = false;
