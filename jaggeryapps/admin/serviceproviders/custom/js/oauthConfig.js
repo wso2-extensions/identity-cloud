@@ -193,7 +193,7 @@ function drawOAuthEditPage() {
         }
     }
     var hiddenFields = '<input id="consumerkey" name="consumerkey" type="hidden" />'+
-        '<input id="consumersecret" name="consumersecret" type="hidden" />'+
+        '<input id="consumersecret" name="consumersecret" type="hidden" autocomplete="off"/>'+
         '<input id="oauthVersion" name="oauthVersion" type="hidden" />';
     $('#oauthHiddenFields').empty();
     $('#oauthHiddenFields').append(hiddenFields);
