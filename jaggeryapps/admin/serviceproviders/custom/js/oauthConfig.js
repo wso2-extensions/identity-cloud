@@ -32,7 +32,7 @@ function preDrawOAuthConfigPage() {
         $.ajax({
             url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
             type: "GET",
-            data: "&cookie=" + cookie + "&user=" + userName + "&appName=" + appdata.applicationName + "&clientID=" + clientID + "&action=getOAuthConfigs",
+            data: "&user=" + userName + "&appName=" + appdata.applicationName + "&clientID=" + clientID + "&action=getOAuthConfigs",
             success: function (data) {
                 oauthClient = $.parseJSON(data);
                 allowedGrantTypes = oauthClient.grantTypes;
@@ -55,7 +55,7 @@ function preDrawOAuthConfigPage() {
         $.ajax({
             url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag",
             type: "GET",
-            data: "&cookie=" + cookie + "&user=" + userName + "&action=getOAuthConfigs",
+            data: "&user=" + userName + "&action=getOAuthConfigs",
             success: function (data) {
                 oauthClient = $.parseJSON(data);
                 allowedGrantTypes = oauthClient.grantTypes;

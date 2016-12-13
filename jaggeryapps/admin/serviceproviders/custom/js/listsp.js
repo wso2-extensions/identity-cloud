@@ -3,7 +3,7 @@ function deleteCustomSP(applicationName) {
     $.ajax({
             url: str,
             type: "POST",
-            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&user=" + userName,
         })
         .done(function (data) {
             reloadGrid();
@@ -30,7 +30,7 @@ function deleteCustomSPWithoutRefresh(applicationName) {
             url: str,
             async: false,
             type: "POST",
-            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+            data: "applicationName=" + applicationName + "&profileConfiguration=default" + "&user=" + userName,
         })
         .done(function (data) {
 
@@ -52,7 +52,7 @@ function reloadGrid() {
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName,
+        data: "&user=" + userName,
         success: function (data) {
             if (data) {
                 var resp = $.parseJSON(data);
@@ -288,7 +288,7 @@ function setCustomImage(appName) {
     $.ajax({
                url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp",
                type: "GET",
-               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               data: "&user=" + userName + "&spName=" + appName,
                async: true,
                success: function (data) {
                    if (data != null) {

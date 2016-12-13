@@ -10,7 +10,7 @@ function preDrawSAMLConfigPage(samlsp) {
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient",
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName,
+        data: "&user=" + userName,
         success: function (data) {
             samlClient = $.parseJSON(data);
             var tableTitle = "Configurations";

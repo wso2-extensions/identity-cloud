@@ -1,10 +1,8 @@
 <%
 var log = new Log();
-var cookie = request.getParameter("cookie") ;
 var user = request.getParameter("user");
 getCustomSPs();
 function getCustomSPs(){
-    session.put('auth-cookie', cookie);
     session.put('user', user);
     try{
         var spClient = require('spAdminClient.jag');

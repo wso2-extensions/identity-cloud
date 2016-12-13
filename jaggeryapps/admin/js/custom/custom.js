@@ -557,7 +557,7 @@ function checkAppList(cookie,userName) {
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
         type: "GET",
         async:false,
-        data: "&cookie=" + cookie + "&user=" + userName,
+        data: "&user=" + userName,
         success: function (data) {
             if (data) {
                 var resp = $.parseJSON(data);

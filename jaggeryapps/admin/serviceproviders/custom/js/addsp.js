@@ -45,7 +45,7 @@ function registerCustomSP(sptype) {
     $.ajax({
         url: str,
         type: "POST",
-        data: "spName=" + $('#spName').val() + "&spDesc=" + $('#spType').val() + ']' + $('#spDesc').val() + "&spType=" + sptype + "&profileConfiguration=default" + "&cookie=" + cookie + "&user=" + userName,
+        data: "spName=" + $('#spName').val() + "&spDesc=" + $('#spType').val() + ']' + $('#spDesc').val() + "&spType=" + sptype + "&profileConfiguration=default" + "&user=" + userName,
     })
         .done(function (data) {
 

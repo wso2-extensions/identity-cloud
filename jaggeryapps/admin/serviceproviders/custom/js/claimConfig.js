@@ -277,7 +277,7 @@ function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapp
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/samlSSOConfigClient.jag",
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName + "&clientAction=getClaimURIs",
+        data: "&user=" + userName + "&clientAction=getClaimURIs",
         success: function (data) {
             spConfigClaimUris = $.parseJSON(data).return;
             handleWellKnownAppClaims(spClaimConfig, isLocalClaimsSelected, claimMapping);
