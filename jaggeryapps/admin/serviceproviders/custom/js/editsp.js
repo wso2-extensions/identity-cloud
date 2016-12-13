@@ -252,7 +252,7 @@ function setCustomImage(appName) {
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp",
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+        data: "&user=" + userName + "&spName=" + appName,
         async: true,
         success: function (data) {
             if (data != null) {
@@ -311,7 +311,7 @@ function preDrawSPDetails(appName){
         async: false,
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getsp/" + appName,
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+        data: "&user=" + userName + "&spName=" + appName,
         success: function (data) {
             var resp = $.parseJSON(data);
 
@@ -353,7 +353,7 @@ function preDrawAppDetails(appName){
                async: false,
                url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp/" + appName,
                type: "GET",
-               data: "&cookie=" + cookie + "&user=" + userName + "&spName=" + appName,
+               data: "&user=" + userName + "&spName=" + appName,
                contentType: "multipart/form-data",
                success: function (data) {
                    drawAppDetails(JSON.parse(data));
@@ -647,7 +647,7 @@ function deleteOauthConfig() {
     $.ajax({
         url: str,
         type: "POST",
-        data: "&cookie=" + cookie + "&user=" + userName + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&clientID=" + $('#consumerID').val() + "&action=removeOauthConfig",
+        data: "&user=" + userName + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&clientID=" + $('#consumerID').val() + "&action=removeOauthConfig",
     })
         .done(function (data) {
             //reloadGrid();
@@ -671,7 +671,7 @@ function saveOauthConfig(){
     $.ajax({
         url: str,
         type: "POST",
-        data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&cookie=" + cookie + "&user=" + userName,
+        data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&user=" + userName,
     })
         .done(function (data) {
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });

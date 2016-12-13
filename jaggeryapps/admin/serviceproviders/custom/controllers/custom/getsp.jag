@@ -1,12 +1,10 @@
 <%
 var log = new Log();
-var cookie = request.getParameter("cookie") ;
 var user = request.getParameter("user");
 var applicationName = request.getParameter("spName");
 getUser();
 function getUser(){
 
-    session.put('auth-cookie', cookie);
     session.put('user', user);
 
 

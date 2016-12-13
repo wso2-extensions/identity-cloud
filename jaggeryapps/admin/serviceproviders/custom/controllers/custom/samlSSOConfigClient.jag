@@ -1,6 +1,5 @@
 <%
 var log = new Log();
-var cookie = request.getParameter("cookie");
 var user = request.getParameter("user");
 var action = request.getParameter("clientAction");
 handle(action);
@@ -24,7 +23,6 @@ function handle(action) {
 
 function getsamlClient() {
 
-    session.put('auth-cookie', cookie);
     session.put('user', user);
     var ssoClient = require('samlSSOConfigServiceClient.jag');
     var serviceProviders = ssoClient.getServiceProviders().return;

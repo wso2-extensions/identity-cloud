@@ -1,6 +1,5 @@
 <%
 var log = new Log();
-var cookie = request.getParameter("cookie");
 var user = request.getParameter("user");
 var appName = request.getParameter("appName");
 var clientID = request.getParameter("clientID");
@@ -22,7 +21,6 @@ function handle(action) {
     }
 }
 function getOAuthConfigs() {
-    session.put('auth-cookie', cookie);
     session.put('user', user);
     try {
         var oauthClient = require('oauthAdminClient.jag');
@@ -43,7 +41,6 @@ function getOAuthConfigs() {
 
 }
 function removeOauthConfig() {
-    session.put('auth-cookie', cookie);
     session.put('user', user);
     try {
         var oauthClient = require('oauthAdminClient.jag');

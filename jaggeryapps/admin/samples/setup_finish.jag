@@ -86,10 +86,6 @@ function updateSP(sampleConf){
     try{
 
         var cookie = session.get('auth-cookie');
-        if(cookie == null){
-            var cookie = request.getParameter("cookie");
-            session.put('auth-cookie', cookie);
-        }
 
         var spName = sampleConf.name;
         var oldSPName = sampleConf.name;

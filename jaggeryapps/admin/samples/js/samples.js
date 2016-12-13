@@ -144,7 +144,7 @@ function getSampleUsers(){
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/directories/get-sample-user-list",
         type: "GET",
-        data: "&cookie=" + cookie + "&user=" + userName,
+        data: "&user=" + userName,
         success: function (data) {
             var resp = $.parseJSON(data);
 

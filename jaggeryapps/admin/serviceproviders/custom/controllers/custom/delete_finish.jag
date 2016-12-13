@@ -9,12 +9,8 @@ var i18n = session.get("i18n");
 function deleteSP(){
     try{
         var cookie = session.get('auth-cookie');
-        if(cookie == null){
-            var cookie = request.getParameter("cookie");
-            session.put('auth-cookie', cookie);
-            var userName = request.getParameter("user");
-            session.put("user",userName);
-        }
+        var userName = request.getParameter("user");
+        session.put("user",userName);
         var spName = request.getParameter('applicationName');
         spClient.deleteApplication(spName);
     }catch(e){

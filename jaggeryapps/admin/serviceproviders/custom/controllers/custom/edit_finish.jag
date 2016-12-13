@@ -23,10 +23,6 @@ function updateSP(){
     try{
 
         var cookie = session.get('auth-cookie');
-        if(cookie == null){
-            var cookie = request.getParameter("cookie");
-            session.put('auth-cookie', cookie);
-        }
         var spName = request.getParameter('spName');
         var oldSPName = request.getParameter('oldSPName');
         var spDesc = request.getParameter('spDesc');
