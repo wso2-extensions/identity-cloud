@@ -65,7 +65,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         var assertionConsumerURLTblRow =
             '        <table id="assertionConsumerURLsTable" style="margin-bottom: 3px;" class=" table table-bordred  ">' +
             '            <tbody id="assertionConsumerURLsTableBody">' +
-            '          <tr><th>Default</th><th>Assertion Consumer URL</th> <th style="text-align: right !important;">Action</th> </tr> ' ;
+            '          <tr><th>Default</th><th>Assertion Consumer URL</th> <th class="delete-col">Action</th> </tr> ' ;
 
 
         var acsColumnId = 0;
@@ -85,7 +85,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
                     '</td><td>' + '<input type="radio"   name="radio" class="radio-group"   checked/>' +
                     '</td><td>' + assertionConsumerURL + '</td>' +
                     '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + acsColumnId + '\');return false;"' +
-                    'href="#" class="btn btn-delete pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
             } else {
                 trow = '<tr id="acsUrl_' + acsColumnId + '">' +
                     '</td><td>' + '<input type="radio"   name="radio" class="radio-group" />' +
@@ -571,10 +571,16 @@ function isHidden(fieldName, providerProps) {
 function onClickAddACRUrl() {
     //var isValidated = doValidateInputToConfirm(document.getElementById('assertionConsumerURLTxt'), "<fmt:message
     // key='sp.not.https.endpoint.address'/>", addAssertionConsumerURL, null, null);
-    var isValidated = true;
-    if (isValidated) {
-        addAssertionConsumerURL();
+    if(!$("#acsUrl_0").length > 0) {
+        $("#addServiceProvider").validate();
+        $("input[id*=assertionConsumerURLTxt]").rules("add", {
+            url2: true,
+            messages: {
+                url2: "Please enter valid URL",
+            }
+        });
     }
+    addAssertionConsumerURL();
 }
 
 function disableAttributeProfile(chkbx) {
@@ -701,17 +707,35 @@ function isContainRaw(tbody) {
  * Manage tables
  */
 function addAssertionConsumerURL() {
+    $('.urlStatus').html('');
+    $('.urlStatus').addClass('hide');
+    var messageContainer = "<label class='' for='assertion-url' role='alert'>" +
+        "<span class='alert-content'></span></label>";
+    
     var assertionConsumerURL = $("#assertionConsumerURLTxt").val();
-    if (assertionConsumerURL == null || assertionConsumerURL.trim().length == 0) {
-        //CARBON.showWarningDialog("<fmt:message key='sp.enter.not.valid.endpoint.address'/>", null, null);
-        return false;
-    }
-
     assertionConsumerURL = assertionConsumerURL.trim();
 
     var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-    if (!regexp.test(assertionConsumerURL) || assertionConsumerURL.indexOf(",") > -1) {
+
+    if ((assertionConsumerURL == null || assertionConsumerURL.trim().length == 0) && !$("#acsUrl_0").length > 0) {
         //CARBON.showWarningDialog("<fmt:message key='sp.enter.not.valid.endpoint.address'/>", null, null);
+        if($('#assertionConsumerURLInputRow').children().find('label.error').length==0){
+            $('.urlStatus').html($(messageContainer).addClass('error')).removeClass('hide');
+            $('.urlStatus').find('.alert-content')
+                .text('Add at least one Assertion Consumer URL');
+        } else {
+            $('.urlStatus').addClass('hide');
+        }
+        return false;
+    } else if (!regexp.test(assertionConsumerURL) || assertionConsumerURL.indexOf(",") > -1){
+        //CARBON.showWarningDialog("<fmt:message key='sp.enter.not.valid.endpoint.address'/>", null, null);
+        if($('#assertionConsumerURLInputRow').children().find('label.error').length==0){
+            $('.urlStatus').html($(messageContainer).addClass('error')).removeClass('hide');
+            $('.urlStatus').find('.alert-content')
+                .text('Please enter valid URL');
+        } else{
+            $('.urlStatus').addClass('hide');
+        }
         return false;
     }
 
@@ -729,7 +753,7 @@ function addAssertionConsumerURL() {
 
     var assertionConsumerURLs = $("#assertionConsumerURLs").val();
     var currentColumnId = $("#currentColumnId").val();
-    if (assertionConsumerURLs == null || assertionConsumerURLs.trim().length == 0) {
+    if (assertionConsumerURLs == null || assertionConsumerURLs.trim().length == 0 ) {
 
         $("#assertionConsumerURLs").val(assertionConsumerURL);
         var row =

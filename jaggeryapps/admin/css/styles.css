@@ -2590,7 +2590,7 @@ th.hide-column-data, td.hide-column-data {
     border: none;
     z-index: 10;
 }
-.input-group-btn-check {
+.input-group-btn-check, .btn-add{
     vertical-align: top;
 }
 .btn-gray{
