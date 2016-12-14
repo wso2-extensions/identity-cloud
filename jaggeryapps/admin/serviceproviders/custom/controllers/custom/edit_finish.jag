@@ -80,6 +80,7 @@ function updateSP(){
 
             var remoteClaim = {};
             remoteClaim["claimId"] = 0;
+            remoteClaim["claimUri"] = ROLE_CLAIM_URL;
             claim["remoteClaim"] = remoteClaim;
             claimMappings.push(claim);
         }
