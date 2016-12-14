@@ -50,13 +50,16 @@ function validateInputs() {
             $.validator.addMethod("acsUrls", function (value, element) {
                 return $("#acsUrl_0").length > 0 ;
             }, $.validator.messages.url);
-
-            $("input[id*=assertionConsumerURLTxt]").rules('add', {
-                acsUrls: true,
-                messages: {
-                    acsUrls: "Add at least one assertion consumer url"
-                }
-            });
+            if(!$("#acsUrl_0").length > 0){
+                $("input[id*=assertionConsumerURLTxt]").rules('add', {
+                    required: true,
+                    url2:true,
+                    messages: {
+                        required: "Add at least one Assertion Consumer URL",
+                        url2: "Please enter valid URL"
+                    }
+                });
+            }    
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
                 updateSP();

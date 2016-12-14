@@ -408,9 +408,10 @@ include("../templates/leftpane.jag");
                                title="This URL will use to do the assertion from other side"></i>
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input type="text" class="form-control" id="assertionConsumerURLTxt" name="assertionConsumerURLTxt">
-                                                               <div class="input-group-btn">
-                                                                  <button class="btn btn-info" type="button" id="addAssertionConsumerURLBtn" onclick="onClickAddACRUrl();return false;"><span>Add</span></button>
+                                                               <input type="text" class="form-control" id="assertionConsumerURLTxt"  name="assertionConsumerURLTxt">
+                                                               <div class="urlStatus hide"></div>
+                                                               <div class="input-group-btn btn-add">
+                                                                  <button class="btn btn-info" type="button" id="addAssertionConsumerURLBtn" onclick="onClickAddACRUrl();"><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>
