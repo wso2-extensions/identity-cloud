@@ -120,8 +120,7 @@ include("../templates/leftpane.jag");
           </div>
 
           <div class="col-md-12">
-                <div class="btn-group hide" id="sso-drop-down">
-                    <div class="clearfix"></div>
+                <div class="btn-group hide" style="display: none" id="sso-drop-down">
                     <label class="radio-inline">
                         <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
                                  id="radioCm" checked="true" checked />Configure Manually
@@ -1036,8 +1035,8 @@ include("/templates/footer.jag");
 <script src="../js/custom/constants.js"></script>
 <script>
 
-var samlHtml = '<div class="btn-group" id="sso-drop-down">'+
-'               <div class="clearfix"></div>'+
+var samlHtml = '<div class="btn-group" style="display: none" id="sso-drop-down">'+
+
 '                   <label class="radio-inline">'+
 '                          <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"'+
 '                                 id="radioCm" checked="true"/>Configure Manually'+
