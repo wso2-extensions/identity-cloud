@@ -60,9 +60,9 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     //add table by default
     var assertionConsumerURLTblRow;
     assertionConsumerURLTblRow =
-        '        <table id="localClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
+        '        <table id="localClaimTable" class=" table" hidden>' +
         '            <tbody id="localClaimTableTableBody">' +
-        '          <tr><th>Claim</th>  <th style="text-align: right !important;">Action</th> </tr> ';
+        '          <tr><th>Claim</th>  <th class="delete-col">Action</th> </tr> ';
 
     assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
     $("#claimsConfRow").append(assertionConsumerURLTblRow);
@@ -96,7 +96,7 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
                 currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +
                 claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
                 '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
             $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
             $("#customClaimTable").hide();
@@ -118,7 +118,7 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
                 currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
                 claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
                 '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
             $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
             $("#localClaimTable").hide();
@@ -155,7 +155,7 @@ function addClaimIntoList() {
             '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
             currentLocalRow + '" data-id="' + currentLocalRow + '" value="' + $("#local-claim-url").val() +
             '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
-            'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
         $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
         $("#customClaimTable").hide();
@@ -176,7 +176,7 @@ function addClaimIntoList() {
             '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
             currentCustomRow + '" data-id="' + currentCustomRow + '" value="' + $("#custom-claim-url").val() +
             '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
-            'href="#" class="btn btn-info pull-right"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
         $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
         $("#localClaimTable").hide();
@@ -204,9 +204,9 @@ function removeClaimUrl(obj) {
  * @param element
  */
 function generateSubjectURI(element) {
-    var SubjectClaimURI = "<div id='subject-claim-dropdown' class='input-group input-wrap' hidden> <label> Subject Claim URI  </label> <select id='subject-claim-url' style='float: left;' class='idpClaim form-control'>";
+    var SubjectClaimURI = "<div id='subject-claim-dropdown' class='input-group input-wrap' hidden> <label> Select Subject Claim URI  </label> <select id='subject-claim-url' style='float: left;' class='idpClaim form-control'>";
     SubjectClaimURI = SubjectClaimURI + '<option selected disabled hidden   value="' + 0 + '" data-index = "' + 0 + '" > '
-        + "Select Subject Claim URI" + '</option>';
+        + "None" + '</option>';
     var urlCount = element.find('tr').length;
     var urlValue;
     for (var i = 1; i < urlCount; i++) {
@@ -231,7 +231,7 @@ function claimRadioClick(obj) {
         assertionConsumerURLTblRow =
             '        <table id="localClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
             '            <tbody id="localClaimTableTableBody">' +
-            '          <tr><th>Claim</th>  <th style="text-align: right !important;">Action</th> </tr> ';
+            '          <tr><th>Claim</th>  <th class="delete-col">Action</th> </tr> ';
 
         assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
 
@@ -254,7 +254,7 @@ function claimRadioClick(obj) {
         assertionConsumerURLTblRow =
             '        <table id="customClaimTable" style="margin-bottom: 3px;" class=" table table-bordred  " hidden>' +
             '            <tbody id="customClaimTableTableBody">' +
-            '          <tr><th>Custom Claim</th><th>Claim URI</th> <th style="text-align: right !important;">Action</th> </tr> ';
+            '          <tr><th>Custom Claim</th><th>Claim URI</th> <th class="delete-col">Action</th> </tr> ';
         assertionConsumerURLTblRow = assertionConsumerURLTblRow + '</tbody></table>';
 
         if ($("#customClaimTable").length == 0) {
