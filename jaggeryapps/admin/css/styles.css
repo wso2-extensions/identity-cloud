@@ -3642,21 +3642,26 @@ td, th {
 #security-type table {
     width:100%;
 }
-.security-type-table table,.security-type-table th,.security-type-table td {
-    border-collapse: collapse;
+/*.security-type-table table,.security-type-table th,.security-type-table td {*/
+    /*border-collapse: collapse;*/
+/*}*/
+.security-type-table table {
+    margin-top: 10px;
 }
 .security-type-table th,.security-type-table td {
+    border-top: none !important;
     padding: 5px;
     text-align: left;
 }
 .security-type-table tr,.security-type-table td {
-    background-color: white;
+    background-color: #eee;
     height: 35px;
-    color: #282828;
+    color: #444;
+    border-bottom: 1px solid #b3b3b3;
 }
 .security-type-table table th {
-    background-color: #282828;
-    color: white;
+    background-color: #b3b3b3;
+    color: #444;
 }
 #storeconfig .select2-container .select2-selection--multiple {
     height: auto;
@@ -3669,10 +3674,6 @@ td, th {
 .btn-form:hover {
     color:#d3d3d3;
     background-color:#484747;
-}
-
-.pull-up-2x {
-    margin-top: -20px;
 }
 
 #sp-img-thumb {
@@ -3688,4 +3689,18 @@ td, th {
     padding-right: 15px;
     padding-left: 15px;
 
+}
+.idpClaim {
+    border: none;
+    border-color: transparent;
+}
+.delete-col{
+    width: 10%;
+}
+.delete-link{
+    color:#666;
+}
+.delete-link:hover{
+    color:#333;
+    text-decoration: none;
 }

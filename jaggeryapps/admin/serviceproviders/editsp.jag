@@ -120,14 +120,13 @@ include("../templates/leftpane.jag");
           </div>
 
           <div class="col-md-12">
-                <div class="btn-group hide" id="sso-drop-down">
-                    <div class="clearfix"></div>
+                <div class="btn-group hide" style="display: none" id="sso-drop-down">
                     <label class="radio-inline">
-                        <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="custom-radio"
+                        <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
                                  id="radioCm" checked="true" checked />Configure Manually
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="custom-radio"
+                        <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
                              id="radioCf"/>Upload Meta File
                     </label>
                 </div>
@@ -215,7 +214,7 @@ include("../templates/leftpane.jag");
             <!--BOF Gateway Section-->
             <div id="gw-config-section" hidden="">
                <label for="gw-description" >Gateway Configuration </label>
-               <div class="panel-group property-accordion accordion" id="gw-accordion">
+               <div class="panel-group" id="gw-accordion">
                   <div class="panel panel-default">
                      <div class="panel-heading" role="tab" id="gatewayconfig-header" data-toggle="collapse" href="#gatewayconfig" aria-controls="gatewayconfig">
                         <h4 class="panel-title">
@@ -264,7 +263,7 @@ include("../templates/leftpane.jag");
             <div id="dynamic-sso-config" class="panel panel-default" style="display: none;">
             </div>
 
-            <div class="panel-group property-accordion accordion security-type-table" id="security-accordion" >
+            <div class="panel-group" id="security-accordion" >
             <label for="service-provider-description" >Claim Configuration </label>
                <div class="panel panel-default">
 
@@ -283,43 +282,35 @@ include("../templates/leftpane.jag");
                            <div id="claimconfig"   role="tabpanel" aria-labelledby="claimconfig-header" >
                               <div class="panel-body inverse">
                                  <form class="form-horizontal" role="form" id="claimConfigForm">
-                                    <div class="form-group">
-                                       <div class="col-md-12">
-                                          <label for="claim_dialect">Configure User Claims </label>
-                                          <div class="clearfix"></div>
-                                          <label class="radio-inline">
-                                          <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
-                                          Add Local Claims
-                                          </label>
-                                          <label class="radio-inline">
-                                          <input type="radio"  onclick="claimRadioClick($(this)); " name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Add Custom Claims
-                                          </label>
-                                       </div>
-                                    </div>
-                                    <div  style="margin-bottom:10px;" id="claimsConfRow">
-                                       <!--<table  class="table-borderless tabel-label">-->
-                                       <div class="form-group">
-                                          <div class="col-md-12">
-
-
-                                          </div>
-
-                                       </div>
-                                       <div id="subjectMappingSelection">
-                                           <div class="form-group">
-                                              <div class="col-md-12">
-                                                 <label id="subjectClaimURILbl">Subject Claim URI </label>
-                                                 <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
-                                                 </select>
-                                              </div>
+                                   <div class="form-group">
+                                      <label for="claim_dialect">Configure User Claims </label>
+                                      <div class="clearfix"></div>
+                                      <label class="radio-inline">
+                                      <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
+                                      Add Local Claims
+                                      </label>
+                                      <label class="radio-inline">
+                                      <input type="radio"  onclick="claimRadioClick($(this)); " name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Add Custom Claims
+                                      </label>
+                                   </div>
+                                    <div class="form-group security-type-table">
+                                        <div  style="margin-bottom:10px;" id="claimsConfRow">
+                                           <!--<table  class="table-borderless tabel-label">-->
+                                           <div id="subjectMappingSelection">
+                                               <div class="form-group">
+                                                  <div class="col-md-12">
+                                                     <label id="subjectClaimURILbl">Select Subject Claim URI </label>
+                                                     <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
+                                                     </select>
+                                                  </div>
+                                               </div>
                                            </div>
-                                       </div>
-                                       <input type="hidden" name="number_of_claimmappings" id="number_of_claimmappings" value="1">
-                                       <div id="localClaimsList" style="display: none;">
-                                          <!--render local claims onload-->
-                                       </div>
-                                       <input type="hidden" id ="local_calim_uris" value="" >
-
+                                           <input type="hidden" name="number_of_claimmappings" id="number_of_claimmappings" value="1">
+                                           <div id="localClaimsList" style="display: none;">
+                                              <!--render local claims onload-->
+                                           </div>
+                                           <input type="hidden" id ="local_calim_uris" value="" >
+                                        </div>
                                     </div>
                                  </form>
                               </div>
@@ -391,9 +382,9 @@ include("../templates/leftpane.jag");
                                                 </a>
                                              </h4>
                                           </div>
-                                          <div id="samlconfig" class="panel-collapse collapse pull-up-2x" role="tabpanel" aria-labelledby="samlconfig-header" >
+                                          <div id="samlconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlconfig-header" >
                                              <div class="panel-body inverse">
-                                                <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" hidden action="">
+                                                <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" action="">
                                                    <!--<h4>New Service Provider</h4>-->
                                                    <input type="hidden" id="hiddenFields" name="hiddenFields" value="">
 
@@ -853,7 +844,7 @@ include("../templates/leftpane.jag");
                                                 </a>
                                              </h4>
                                           </div>
-                                          <div id="wsfed" class="panel-collapse collapse pull-up-2x" role="tabpanel" aria-labelledby="wsfed-header" >
+                                          <div id="wsfed" class="panel-collapse collapse" role="tabpanel" aria-labelledby="wsfed-header" >
                                              <div class="panel-body inverse">
                                                 <form class="form-horizontal" role="form" id="wsfed-form" name="wsfed-form">
                                                    <div class="form-group">
@@ -866,7 +857,6 @@ include("../templates/leftpane.jag");
                                                       <div class="col-md-12">
                                                          <label for="passiveSTSWReply">Passive STS WReply URL <span class="required">*</span></label>
                                                          <input type="text" class="form-control required" id="passiveSTSWReply" name="passiveSTSWReply" />
-
                                                       </div>
                                                    </div>
                                                 </form>
@@ -1045,20 +1035,17 @@ include("/templates/footer.jag");
 <script src="../js/custom/constants.js"></script>
 <script>
 
-var samlHtml = '<div class="btn-group" id="sso-drop-down" style="display: none;margin-bottom: 10px">'+
-'                  <div class="funkyradio">'+
-'                      <div class="funkyradio-info">'+
-'                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" class="radio-group"'+
-'                                 id="radioCm" checked="true"/>'+
-'                          <label for="radioCm">Configure Manually</label>'+
-'                      </div>'+
-'                      <div class="funkyradio-info">'+
-'                          <input type="radio" onclick="changeRadioGroup($(this))" name="radio" lass="radio-group"'+
-'                                 id="radioCf"/>'+
-'                          <label for="radioCf">Upload Meta File</label>'+
-'                      </div>'+
-'                  </div>'+
-'              </div>';
+var samlHtml = '<div class="btn-group" style="display: none" id="sso-drop-down">'+
+
+'                   <label class="radio-inline">'+
+'                          <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"'+
+'                                 id="radioCm" checked="true"/>Configure Manually'+
+'                   </label>'+
+'                 <label class="radio-inline">'+
+'                          <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" lass="custom-radio"'+
+'                                 id="radioCf"/>Upload Meta File'+
+'                 </label>'+
+'               </div>';
 
 
 
