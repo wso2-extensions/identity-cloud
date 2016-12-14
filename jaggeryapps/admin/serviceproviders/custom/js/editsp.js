@@ -643,7 +643,7 @@ function cancelOauthForm() {
 }
 
 function deleteOauthConfig() {
-    var str = PROXY_CONTEXT_PATH + "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler.jag";
+    var str = "/" + ADMIN_PORTAL_NAME + "/serviceproviders/custom/controllers/custom/oauthConfigHandler";
     $.ajax({
         url: str,
         type: "POST",
@@ -653,6 +653,7 @@ function deleteOauthConfig() {
             //reloadGrid();
             //message({content:'Successfully saved changes to the profile',type:'info', cbk:function(){} });
             preDrawUpdatePage(appdata.applicationName);
+            $('#addAppForm').show();
         })
         .fail(function () {
             message({
