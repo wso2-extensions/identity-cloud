@@ -59,14 +59,45 @@ function validateInputs() {
                         url2: "Please enter valid URL"
                     }
                 });
-            }    
+            }
+
+            $.validator.addMethod("base64",function(value, element) {
+                    var re = new RegExp(getPattern("base-64"));
+                    return this.optional(element) || re.test(value);
+                },
+                "Please enter a valid Public Certificate"
+            );
+            $("#publicCertificate").rules("add", { base64: true });
+
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
 
         } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "WS-Federation (Passive)".trim()) {
-            if ($('#wsfed-form').valid()) {
+            $("#wsfed-form").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            });
+
+            $("input[id*=passiveSTSRealm]").rules("add", "required");
+            $("input[id*=passiveSTSWReply]").rules("add", { url2:true });
+
+            if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
+                updateSP();
+            }
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "OAuth/OpenID Connect".trim()) {
+            $("#addAppForm").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            });
+
+            $("input[id*=callback]").rules("add", { url2:true });
+            if ($('#addAppForm').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
         } else if (selected.trim() == "Proxy".trim()) {
@@ -113,7 +144,9 @@ $(function () {
         },
         messages: {
             'store-app-name': "Display Name is a required field",
-            'store-app-url': "URL is a required field"
+            'store-app-url': {
+                required: "Access URL is a required field",
+            }
         },
         submitHandler: function () {
             return false;
@@ -126,7 +159,7 @@ $(function () {
             issuer: "required"
         },
         messages: {
-            issuer: "issuer is a required field"
+            issuer: "Issuer is a required field"
         },
         submitHandler: function () {
             return false;
@@ -144,12 +177,12 @@ $(function () {
         },
         messages: {
             'gw-app-context': "context is a required field",
-            'gw-app-url': "URL is a required field"
+            'gw-app-url': {
+                required: "URL is a required field"
+            }
         },
         submitHandler: function () {
             return false;
         }
     });
-
-
 });

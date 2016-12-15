@@ -85,7 +85,10 @@ function updateSP(){
             claimMappings.push(claim);
         }
 
-        subjectClaim = objClaimConf.subjectClaim;
+        if (objClaimConf.subjectClaim != null && objClaimConf.subjectClaim.length > 0) {
+            subjectClaim = objClaimConf.subjectClaim;
+        }
+
         var status = false;
         var serviceProviderDTO = {};
 
