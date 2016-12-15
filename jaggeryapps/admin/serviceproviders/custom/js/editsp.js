@@ -102,6 +102,9 @@ function drawAppDetails(data) {
                 $("#store-app-visibility").val(role).trigger("change");
             }
         }
+        $('#app-type-dropdown').attr("disabled", true);
+    } else {
+        $('#app-type-dropdown').attr("disabled", false);
     }
 
     //Set Id for existing apps, if it's new App id will be ""
