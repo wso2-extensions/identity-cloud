@@ -593,9 +593,9 @@ include("../templates/leftpane.jag");
                                                             <label for="audience" class=" control-label">Audience Restriction
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input id="audience" class="form-control" type="text"  placeholder="Audience" name="audience">
+                                                               <input id="audience" class="form-control" type="text"  placeholder="Audience" name="audience" class="input-add">
                                                                <div class="input-group-btn">
-                                                                  <button class="btn btn-info" id="addAudience" type="button" onclick="addAudienceFunc()" value="Add"   name="addAudience"><span>Add</span></button>
+                                                                  <button class="btn btn-info btn-add" id="addAudience" type="button" onclick="addAudienceFunc()" value="Add"   name="addAudience"><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>
@@ -626,9 +626,9 @@ include("../templates/leftpane.jag");
                                                             <label for="recipient" class="control-label">Recipient Validation
                                                             </label>
                                                             <div class="input-group input-wrap">
-                                                               <input id="recipient" class="form-control" type="text" placeholder="Recipient" name="recipient">
+                                                               <input id="recipient" class="form-control" type="text" placeholder="Recipient" name="recipient" class="input-add">
                                                                <div class="input-group-btn">
-                                                                  <button id="addRecipient" class="btn btn-info"  type="button" onclick="addRecipientFunc()" value="Add"   name="addRecipient"><span>Add</span></button>
+                                                                  <button id="addRecipient" class="btn btn-info btn-add"  type="button" onclick="addRecipientFunc()" value="Add"   name="addRecipient"><span>Add</span></button>
                                                                </div>
                                                             </div>
                                                          </div>

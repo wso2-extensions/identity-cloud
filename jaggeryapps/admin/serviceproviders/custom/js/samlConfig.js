@@ -859,7 +859,7 @@ function addAudienceFunc() {
 
     var audienceTableTBody = document.getElementById('audienceTableTbody');
     if (!audienceTableTBody) {
-        var tableInit = ' <table id="audienceTableId"  class="table"><tr><th>Recipients</th> <th class="delete-col">Action</th> </tr><tbody id="audienceTableTbody"></tbody></table>';
+        var tableInit = ' <table id="audienceTableId"  class="table"><tr><th>Audience</th> <th class="delete-col">Action</th> </tr><tbody id="audienceTableTbody"></tbody></table>';
         $("#audienceTblRow").html(tableInit);
         audienceTableTBody = document.getElementById('audienceTableTbody');
     }
@@ -876,6 +876,7 @@ function addAudienceFunc() {
 
     $('#audience').val("");
     $("#audienceTblRow").slideDown(1000);
+    $("#addAudience").prop('disabled', true);
 }
 
 function removeAudience(i) {
@@ -958,6 +959,7 @@ function addRecipientFunc() {
     $('#recipient').val("");
     $('#recipientTableId').show();
     $("#recptTblRow").slideDown(1000);
+    $("#addRecipient").prop('disabled', true);
 
 }
 
@@ -1087,6 +1089,16 @@ $(document).ready(function () {
             $("#store-app-url-sec").hide();
         } else {
             $("#store-app-url-sec").show();
+        }
+    });
+
+    $("#addAudience").prop('disabled', true);
+    $("#addRecipient").prop('disabled', true);
+    $(document).on('keyup', '#audience, #recipient', function() {
+        if ($(this).val()) {
+            $(this).next().find('button.btn-add').prop('disabled', false);
+        } else {
+            $(this).next().find('button.btn-add').prop('disabled', true);
         }
     });
 });
