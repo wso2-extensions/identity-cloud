@@ -573,13 +573,12 @@ include("../templates/leftpane.jag");
                                                    <div class="form-group" id="certificateRow">
                                                       <div class="col-md-12">
                                                          <label for="publicCertificate" class="control-label">Public Certificate (PEM) </label>
-                                                         <textarea id="publicCertificate" name="publicCertificate" class="form-control"></textarea>
+                                                         <textarea id="publicCertificate" name="publicCertificate" class="form-control" rows="8" ></textarea>
                                                       </div>
                                                    </div>
 
 
 
-                                                   <div id="testing123"></div>
                                                    <div id="audienceRestrictionRow">
                                                       <div class="form-group security-type-table" hidden>
                                                          <div class="col-md-12">

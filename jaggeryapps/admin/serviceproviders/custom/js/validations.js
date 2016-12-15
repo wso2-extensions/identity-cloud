@@ -59,7 +59,16 @@ function validateInputs() {
                         url2: "Please enter valid URL"
                     }
                 });
-            }    
+            }
+
+            $.validator.addMethod("base64",function(value, element) {
+                    var re = new RegExp(getPattern("base-64"));
+                    return this.optional(element) || re.test(value);
+                },
+                "Please enter a valid Public Certificate"
+            );
+            $("#publicCertificate").rules("add", { base64: true });
+
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
