@@ -221,6 +221,10 @@ function generateSubjectURI(element) {
     }
     SubjectClaimURI += "</select> </div>";
     $("#claimsConfRow").after(SubjectClaimURI);
+    var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim().toLowerCase();
+    if(selected == APP_PROXY_TYPE) {
+        $("#subject-claim-dropdown").remove();
+    }
 }
 /**
  * This method will trigger when claim radio button clicked

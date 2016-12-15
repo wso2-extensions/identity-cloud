@@ -130,6 +130,7 @@ function drawAppDetails(data) {
                 $("#gatewayconfig").attr('class', '');
                 $("#gw-config-section").find('.panel-heading').remove();
                 $("#claim_dialect_custom").hide().closest('label').hide();
+                $("#subject-claim-dropdown").remove();
             } else {
                 //shortcut type
                 $('#storeAppType').val(APP_SHORTCUT_TYPE);
