@@ -59,7 +59,7 @@ function validateInputs() {
                         url2: "Please enter valid URL"
                     }
                 });
-            }
+            }    
 
             if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
