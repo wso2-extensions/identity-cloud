@@ -44,9 +44,6 @@ public class SampleContextEventListener implements ServletContextListener {
             if(servletContextEvent.getServletContext().getContextPath().contains("cafelebens.com")) {
                 properties.load(servletContextEvent.getServletContext().
                         getResourceAsStream("/WEB-INF/classes/cafelebens.properties"));
-            } else if(servletContextEvent.getServletContext().getContextPath().contains("avis.com")) {
-                properties.load(servletContextEvent.getServletContext().
-                        getResourceAsStream("/WEB-INF/classes/avis.properties"));
             }
             InputStream keyStoreInputStream = servletContextEvent.getServletContext().
                     getResourceAsStream("/WEB-INF/classes/wso2carbon.jks");

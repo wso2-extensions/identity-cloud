@@ -261,7 +261,7 @@ function addApp(sampleConf){
         description: sampleConf.description,
         isSite: "FALSE",
         context: sampleConf.name,
-        appUrL: sampleConf.assertionConsumerURLs,
+        appUrL: sampleConf.accessURL,
         acsUrl: "",
         isDefaultVersion: true,
         trackingCode: sampleConf.name,
