@@ -158,20 +158,20 @@ include("/templates/header.jag");
                     </br></br>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="gotoUserPortal()">
+                            <a type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" target="_blank" href="<%=USERPORTAL_LINK%>">
                                 <span class="fw-stack">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-deploy fw-stack-1x"></i>
                                 </span>
                                 Try out Sample Applications
-                            </button>
-                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" onclick="viewApplications()">
+                            </a>
+                            <a type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" onclick="viewApplications()">
                                 <span class="fw-stack">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-list fw-stack-1x"></i>
                                 </span>
                                 Skip to Application List
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
