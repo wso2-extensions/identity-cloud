@@ -75,7 +75,17 @@ function validateInputs() {
             }
 
         } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "WS-Federation (Passive)".trim()) {
-            if ($('#wsfed-form').valid()) {
+            $("#wsfed-form").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            });
+
+            $("input[id*=passiveSTSRealm]").rules("add", "required");
+            $("input[id*=passiveSTSWReply]").rules("add", { url2:true });
+
+            if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
         } else if (selected.trim() == "Proxy".trim()) {
@@ -122,7 +132,9 @@ $(function () {
         },
         messages: {
             'store-app-name': "Display Name is a required field",
-            'store-app-url': "URL is a required field"
+            'store-app-url': {
+                required: "Access URL is a required field",
+            }
         },
         submitHandler: function () {
             return false;
@@ -135,7 +147,7 @@ $(function () {
             issuer: "required"
         },
         messages: {
-            issuer: "issuer is a required field"
+            issuer: "Issuer is a required field"
         },
         submitHandler: function () {
             return false;
@@ -153,12 +165,12 @@ $(function () {
         },
         messages: {
             'gw-app-context': "context is a required field",
-            'gw-app-url': "URL is a required field"
+            'gw-app-url': {
+                required: "URL is a required field"
+            }
         },
         submitHandler: function () {
             return false;
         }
     });
-
-
 });
