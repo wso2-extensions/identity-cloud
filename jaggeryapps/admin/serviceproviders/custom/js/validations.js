@@ -75,7 +75,17 @@ function validateInputs() {
             }
 
         } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "WS-Federation (Passive)".trim()) {
-            if ($('#wsfed-form').valid()) {
+            $("#wsfed-form").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            });
+
+            $("input[id*=passiveSTSRealm]").rules("add", "required");
+            $("input[id*=passiveSTSWReply]").rules("add", { url2:true });
+
+            if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
         } else if (selected.trim() == "Proxy".trim()) {
@@ -159,6 +169,25 @@ $(function () {
             return false;
         }
     });
+
+    // $("form[name='wsfed-form']").validate({
+    //     rules: {
+    //         'gw-app-context': "required",
+    //         'gw-app-url': {
+    //             required: true,
+    //             url2: true
+    //         }
+    //     },
+    //     messages: {
+    //         'gw-app-context': "context is a required field",
+    //         'gw-app-url': "URL is a required field"
+    //     },
+    //     submitHandler: function () {
+    //         return false;
+    //     }
+    // });
+
+
 
 
 });
