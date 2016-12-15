@@ -945,7 +945,7 @@ include("../templates/leftpane.jag");
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div id="banner-img-ele"></div>
-                                                <img style="width: 100%;" id="sp-img-banner" src="../images/is/banner_placeholder.jpg"  alt="banner image" title="custom banner image" class="logo">
+                                                <img style="width: 650px; height: 200px;" id="sp-img-banner" src="../images/is/banner_placeholder.jpg"  alt="banner image" title="custom banner image" class="logo">
                                             </div>
                                             <div class="col-md-12">
                                                 <span class="btn btn-default btn-file" style="margin-top: 5px"> Upload an image
