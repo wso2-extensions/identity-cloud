@@ -59,6 +59,10 @@ function validateInputs() {
                         url2: "Please enter valid URL"
                     }
                 });
+            } else {
+                $("input[id*=assertionConsumerURLTxt]").rules('add', {
+                    required: false,
+                });
             }
 
             $.validator.addMethod("base64",function(value, element) {
@@ -121,7 +125,22 @@ function validateInputs() {
             }
         }); //sets up the validator since dynamically added elements here
         $("input[id*=issuer]").rules("add", "required");
-        $("input[id*=assertionConsumerURLTxt]").rules("add", "required");
+
+        if(!$("#acsUrl_0").length > 0){
+            $("input[id*=assertionConsumerURLTxt]").rules('add', {
+                required: true,
+                url2:true,
+                messages: {
+                    required: "Add at least one Assertion Consumer URL",
+                    url2: "Please enter valid URL"
+                }
+            });
+        } else {
+            $("input[id*=assertionConsumerURLTxt]").rules('add', {
+                required: false,
+            });
+        }
+
         if ($("#addServiceProvider").valid() && $("#storeConfigForm").valid()) {
             updateSP();
         }
