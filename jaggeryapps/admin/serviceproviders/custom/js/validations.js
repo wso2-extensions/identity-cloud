@@ -132,7 +132,9 @@ $(function () {
         },
         messages: {
             'store-app-name': "Display Name is a required field",
-            'store-app-url': "URL is a required field"
+            'store-app-url': {
+                required: "Access URL is a required field",
+            }
         },
         submitHandler: function () {
             return false;
@@ -145,7 +147,7 @@ $(function () {
             issuer: "required"
         },
         messages: {
-            issuer: "issuer is a required field"
+            issuer: "Issuer is a required field"
         },
         submitHandler: function () {
             return false;
@@ -163,31 +165,12 @@ $(function () {
         },
         messages: {
             'gw-app-context': "context is a required field",
-            'gw-app-url': "URL is a required field"
+            'gw-app-url': {
+                required: "URL is a required field"
+            }
         },
         submitHandler: function () {
             return false;
         }
     });
-
-    // $("form[name='wsfed-form']").validate({
-    //     rules: {
-    //         'gw-app-context': "required",
-    //         'gw-app-url': {
-    //             required: true,
-    //             url2: true
-    //         }
-    //     },
-    //     messages: {
-    //         'gw-app-context': "context is a required field",
-    //         'gw-app-url': "URL is a required field"
-    //     },
-    //     submitHandler: function () {
-    //         return false;
-    //     }
-    // });
-
-
-
-
 });
