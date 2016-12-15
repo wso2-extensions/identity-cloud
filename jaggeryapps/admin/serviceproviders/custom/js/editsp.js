@@ -113,7 +113,6 @@ function drawAppDetails(data) {
         id = "";
     } else {
         id = data.id;
-        $("#sp-img-thumb").attr('src',data.thumbnailUrl);
     }
     $('#app-id').val(id);
     // add images to edit view
@@ -262,9 +261,11 @@ function setCustomImage(appName) {
             if (data != null) {
                 var result = JSON.parse(data);
                 if (result != null && result.thumbnailUrl != undefined) {
-                    var link = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
-                    $('#sp-img-thumb').attr('src', link);
-                    $('#sp-img').attr('src', link);
+                    var thumbnailLink = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
+                    var bannerLink = "/user-portal/storage/webapp/" + result.id + '/' + result.banner;
+                    $('#sp-img-thumb').attr('src', thumbnailLink);
+                    $('#sp-img-banner').attr('src', bannerLink);
+                    $('#sp-img').attr('src', thumbnailLink);
                 }
             }
         },
