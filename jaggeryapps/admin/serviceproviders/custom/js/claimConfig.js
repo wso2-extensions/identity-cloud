@@ -26,7 +26,7 @@ function preDrawClaimConfig() {
  */
 function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
 
-    var claimConfigDropDown;
+    var claimConfigDropDown = "";
     claimConfigDropDown = "<div id='local-claim-dropdown' class='input-group input-wrap' hidden>  " +
         "<select id='local-claim-url' style='float: left;' class='idpClaim form-control'>";
     for (var localClaimNameEntry in spConfigClaimUris) {
@@ -36,6 +36,7 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     claimConfigDropDown += "</select> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
         "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div> </div>";
     if (!$("#local-claim-dropdown").is(":visible")) {
+        $("#local-claim-dropdown").remove();
         $("#claimsConfRow").prepend(claimConfigDropDown);
     }
 
@@ -91,16 +92,18 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
             if ($("#localClaimTableTableBody").find('tr').length > 1) {
                 currentLocalRow = parseInt($("#localClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
             }
-            var trow = '<tr id="localClaimUrl_' + currentLocalRow + '" data-id="' + currentLocalRow + '">' +
-                '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
-                currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +
-                claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
-                '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            if ($("#localClaimTableTableBody").find('tr').length <= claimMapping.length) {
+                var trow = '<tr id="localClaimUrl_' + currentLocalRow + '" data-id="' + currentLocalRow + '">' +
+                    '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
+                    currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +
+                    claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
+                    '<td><a onclick="removeClaimUrl($(this));return false;"' +
+                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
-            $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
-            $("#customClaimTable").hide();
-            $("#localClaimTable").show();
+                $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
+                $("#customClaimTable").hide();
+                $("#localClaimTable").show();
+            }
 
             $("#subject-claim-dropdown").remove();
             generateSubjectURI($("#localClaimTable"));
@@ -109,21 +112,22 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
             if ($("#customClaimTableTableBody").find('tr').length > 1) {
                 currentCustomRow = parseInt($("#customClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
             }
-            var trow = '<tr id="customClaimUrl_' + currentCustomRow + '" data-id="' + currentCustomRow + '">' +
-                '<td>' + '<input class="spClaim" type="text" placeholder="Add your custom claim" id="spClaim_' +
-                currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
-                claimMapping[entry].remoteClaim.claimUri + '"> </input>' + '</td>' +
+            if ($("#customClaimTableTableBody").find('tr').length <= claimMapping.length) {
+                var trow = '<tr id="customClaimUrl_' + currentCustomRow + '" data-id="' + currentCustomRow + '">' +
+                    '<td>' + '<input class="spClaim" type="text" placeholder="Add your custom claim" id="spClaim_' +
+                    currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
+                    claimMapping[entry].remoteClaim.claimUri + '"> </input>' + '</td>' +
 
-                '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
-                currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
-                claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
-                '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
+                    currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
+                    claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
+                    '<td><a onclick="removeClaimUrl($(this));return false;"' +
+                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
 
-            $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
-            $("#localClaimTable").hide();
-            $("#customClaimTable").show();
-
+                $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
+                $("#localClaimTable").hide();
+                $("#customClaimTable").show();
+            }
 
             $("#subject-claim-dropdown").remove();
             generateSubjectURI($("#customClaimTable"));
@@ -156,7 +160,7 @@ function addClaimIntoList() {
             currentLocalRow + '" data-id="' + currentLocalRow + '" value="' + $("#local-claim-url").val() +
             '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
             'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
-
+        
         $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
         $("#customClaimTable").hide();
         $("#localClaimTable").show();
