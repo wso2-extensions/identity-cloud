@@ -166,7 +166,7 @@ include("/templates/footer.jag");
             var warning = $(
                     '<div class="message message-warning sample-userstore-msg">'+
                         '<span><i class="icon fw fw-warning"></i>You are running with a sample user store. Don\'t forget to connect actual user store </span>'+
-                        '<button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" href="/admin/directories/downloadagent">'+
+                        '<button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href=\'/admin/directories/downloadagent\'">'+
                             '<span class="hidden-xs">Connect your user store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>'+
                         '</button>'+
                     '</div>');
