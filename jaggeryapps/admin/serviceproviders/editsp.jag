@@ -820,7 +820,7 @@ include("../templates/leftpane.jag");
                                                          </span>
                                                          Generate Keys
                                                          </button>
-                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthUpdtBtn" onclick="onClickUpdate();return false;">
+                                                         <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="oauthUpdtBtn" onclick="onClickUpdate();">
                                                          <span class="fw-stack btn-action-ico">
                                                          <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                          <i class="fw fw-save fw-stack-1x"></i>
