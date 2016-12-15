@@ -325,29 +325,31 @@ function onClickAdd() {
     $('#addAppForm').validate();
     $( "#callback" ).rules( "add", {
         required: true,
+        url2: true,
         messages: {
             required: "Callback URL cannot be empty",
         }
     });
-
-    var version2Checked = document.getElementById("oauthVersion20").checked;
-    if (($(jQuery("#grant_code"))[0] != null && $(jQuery("#grant_code"))[0].checked) || ($(jQuery("#grant_implicit"))[0] && $(jQuery("#grant_implicit"))[0].checked)) {
-        var callbackUrl = document.getElementById('callback').value;
-        if (callbackUrl.trim() == '') {
-            //CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
-            return false;
+    if($('#addAppForm').valid()){
+        var version2Checked = document.getElementById("oauthVersion20").checked;
+        if (($(jQuery("#grant_code"))[0] != null && $(jQuery("#grant_code"))[0].checked) || ($(jQuery("#grant_implicit"))[0] && $(jQuery("#grant_implicit"))[0].checked)) {
+            var callbackUrl = document.getElementById('callback').value;
+            if (callbackUrl.trim() == '') {
+                //CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
+                return false;
+            } else {
+                validate();
+            }
         } else {
+            var callbackUrl = document.getElementsByName("callback")[0].value;
+            if (!version2Checked) {
+                if (callbackUrl.trim() == '') {
+                    // CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
+                    return false;
+                }
+            }
             validate();
         }
-    } else {
-        var callbackUrl = document.getElementsByName("callback")[0].value;
-        if (!version2Checked) {
-            if (callbackUrl.trim() == '') {
-                // CARBON.showWarningDialog('<fmt:message key="callback.is.required"/>');
-                return false;
-            }
-        }
-        validate();
     }
 }
 

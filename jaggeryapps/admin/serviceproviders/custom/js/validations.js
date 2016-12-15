@@ -88,6 +88,18 @@ function validateInputs() {
             if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "OAuth/OpenID Connect".trim()) {
+            $("#addAppForm").validate({
+                focusInvalid: true,
+                invalidHandler: function(form, validator) {
+                    $(validator.errorList[0].element).focus();
+                }
+            });
+
+            $("input[id*=callback]").rules("add", { url2:true });
+            if ($('#addAppForm').valid() && $("#storeConfigForm").valid()) {
+                updateSP();
+            }
         } else if (selected.trim() == "Proxy".trim()) {
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
