@@ -875,6 +875,7 @@ function addAudienceFunc() {
     $("#audienceTableTbody").prepend(audienceRow);
 
     $('#audience').val("");
+    $('#audienceTableId').show();
     $("#audienceTblRow").slideDown(1000);
     $("#addAudience").prop('disabled', true);
 }
