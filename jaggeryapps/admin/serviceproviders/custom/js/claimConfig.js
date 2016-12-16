@@ -26,37 +26,27 @@ function preDrawClaimConfig(selectedAppType) {
  */
 function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
 
-    var claimConfigDropDown = "";
-    claimConfigDropDown = "<div id='local-claim-dropdown' class='input-group input-wrap' hidden>  " +
-        "<select id='local-claim-url' style='float: left;' class='idpClaim form-control'>";
+    var localClaimConfigDropDown;
     for (var localClaimNameEntry in spConfigClaimUris) {
         // If the selected app type is "Proxy" remove the "role" claim from the dropdown list.
         if (!(spConfigClaimUris[localClaimNameEntry].trim() == WSO2_ROLE_CLAIM && selectedAppType == APP_PROXY_TYPE)) {
-            claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
+            localClaimConfigDropDown += '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
                 '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
         }
     }
-    claimConfigDropDown += "</select> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
-        "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div> </div>";
+    $("#local-claim-url").append(localClaimConfigDropDown);
+
     if (!$("#local-claim-dropdown").is(":visible")) {
         $("#local-claim-dropdown").remove();
-        $("#claimsConfRow").prepend(claimConfigDropDown);
     }
 
-    claimConfigDropDown = "";
-    claimConfigDropDown = "<div id='custom-claim-dropdown' class='form-group' hidden><div class='input-group'>  " +
-        " <input class='form-control' id='custom-claim-text-main' type='text' value='' " +
-        "placeholder='Define Custom Claim'>    </input>  <div class='input-group-btn'> <select id='custom-claim-url' " +
-        "class='form-control'  >";
+    var customClaimConfigDropDown;
     for (var localClaimNameEntry in spConfigClaimUris) {
-        claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
+        customClaimConfigDropDown += '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
             '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
     }
-    claimConfigDropDown += "</select>  </div> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
-        "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div>  </div> </div> ";
-    if (!$("#custom-claim-dropdown").is(":visible")) {
-        $("#claimsConfRow").prepend(claimConfigDropDown);
-    }
+
+    $("#custom-claim-url").append(customClaimConfigDropDown);
 
     if (isLocalClaimsSelected) {
         $("#claim_dialect_wso2").prop("checked", true);

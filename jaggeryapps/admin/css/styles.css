@@ -3686,9 +3686,7 @@ td, th {
     width: auto;
 }
 #custom-claim-dropdown {
-    padding-right: 15px;
-    padding-left: 15px;
-
+    margin-top:-1em;
 }
 .idpClaim {
     border: none;
