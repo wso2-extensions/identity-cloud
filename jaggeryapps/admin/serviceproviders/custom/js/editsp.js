@@ -1,4 +1,4 @@
-var inboundAuthType,appType = null;
+var inboundAuthType,appType,selectedAppType = null;
 var messageContainer = "<div class='alert' role='alert'><span class='alert-content'></span></div>";
 function drawSPDetails() {
     if (appdata != null) {
@@ -16,7 +16,8 @@ function drawSPDetails() {
         } else {
             $('#skipgateway').prop('checked', true);
         }
-        preDrawClaimConfig();
+        selectedAppType = getAppTypeFormName(appdata.applicationName);
+        preDrawClaimConfig(selectedAppType);
         var samlsp;
         if (appdata != null && appdata.inboundAuthenticationConfig != null && appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs != null) {
             if (appdata.inboundAuthenticationConfig.inboundAuthenticationRequestConfigs.constructor !== Array) {
@@ -828,5 +829,51 @@ function advanceSettings() {
     } else {
         $("#advanced-settings").slideToggle(1000);
         $("#btn-advance-setting").html('<i class="fw fw-up"></i>&nbsp;&nbsp;Hide Advance Settings');
+    }
+}
+
+function getAppTypeFormName(appName){
+    var appData = getAppMetaData(appName);
+    /*
+    // For the newly created application application type is not available. If so return null. Null should be
+    // handled by calling party.
+    */
+
+    if (appData != null) {
+        return getStoreAppType(JSON.parse(appData));
+    } else {
+        return "";
+    }
+}
+
+/* TODO: Move this method to util class */
+function getAppMetaData(appName){
+    var appData;
+    $.ajax({
+        async: false,
+        url: "/" + ADMIN_PORTAL_NAME + "/apps/getApp/" + appName,
+        type: "GET",
+        data: "&user=" + userName + "&spName=" + appName,
+        contentType: "multipart/form-data",
+        success: function (data) {
+            appData = data;
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while retrieving the application meta data.',
+                type: 'error',
+                cbk: function () {
+                }
+            });
+        }
+    });
+    /*
+    //  For the newly created application application meta data will not available. If so return null. Null should be
+    //  handled by calling party.
+    */
+    if (appData != null && appData != "null" ) {
+        return appData;
+    } else {
+        return null;
     }
 }
