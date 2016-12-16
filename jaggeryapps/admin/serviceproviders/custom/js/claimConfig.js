@@ -1,4 +1,4 @@
-function preDrawClaimConfig() {
+function preDrawClaimConfig(selectedAppType) {
     var spClaimConfig = null;
     var isLocalClaimsSelected = true;
     var claimMapping = null;
@@ -30,8 +30,11 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     claimConfigDropDown = "<div id='local-claim-dropdown' class='input-group input-wrap' hidden>  " +
         "<select id='local-claim-url' style='float: left;' class='idpClaim form-control'>";
     for (var localClaimNameEntry in spConfigClaimUris) {
-        claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
-            '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
+        // If the selected app type is "Proxy" remove the "role" claim from the dropdown list.
+        if (!(spConfigClaimUris[localClaimNameEntry].trim() == WSO2_ROLE_CLAIM && selectedAppType == APP_PROXY_TYPE)) {
+            claimConfigDropDown = claimConfigDropDown + '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
+                '" data-index = "' + localClaimNameEntry + '" > ' + spConfigClaimUris[localClaimNameEntry] + '</option>';
+        }
     }
     claimConfigDropDown += "</select> <div class='input-group-btn'> <button class='btn btn-info pull-right' " +
         "onclick='addClaimIntoList(); return false;'> Add Claim </button> </div> </div>";
@@ -92,7 +95,9 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
             if ($("#localClaimTableTableBody").find('tr').length > 1) {
                 currentLocalRow = parseInt($("#localClaimTableTableBody").find('tr:last-child').attr('data-id')) + 1;
             }
-            if ($("#localClaimTableTableBody").find('tr').length <= claimMapping.length) {
+            // If the selected app type is "Proxy" remove the "role" claim from the claim configurations.
+            if ($("#localClaimTableTableBody").find('tr').length <= claimMapping.length &&
+                !(claimMapping[entry].localClaim.claimUri == WSO2_ROLE_CLAIM && selectedAppType == APP_PROXY_TYPE)) {
                 var trow = '<tr id="localClaimUrl_' + currentLocalRow + '" data-id="' + currentLocalRow + '">' +
                     '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
                     currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +

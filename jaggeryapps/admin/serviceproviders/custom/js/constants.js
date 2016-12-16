@@ -43,3 +43,4 @@ var AWS_EMAIL_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/RoleSessi
 var WSO2_EMAIL = "http://wso2.org/claims/emailaddress";
 var PROXY_CONTEXT_PATH = "ProxyContextPath";
 const APP_LIMIT = 20;
+const WSO2_ROLE_CLAIM = "http://wso2.org/claims/role";
