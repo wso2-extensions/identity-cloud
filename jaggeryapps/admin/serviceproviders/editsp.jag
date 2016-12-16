@@ -299,7 +299,7 @@ include("../templates/leftpane.jag");
                                            <div id="subjectMappingSelection">
                                                <div class="form-group">
                                                   <div class="col-md-12">
-                                                     <label id="subjectClaimURILbl">Select Subject Claim URI </label>
+                                                     <label id="subjectClaimURILbl">Select Subject Claim </label>
                                                      <select id="subject_claim_uri" name="subject_claim_uri" class="form-control">
                                                      </select>
                                                   </div>

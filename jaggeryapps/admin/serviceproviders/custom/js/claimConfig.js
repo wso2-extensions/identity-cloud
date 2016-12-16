@@ -213,7 +213,7 @@ function removeClaimUrl(obj) {
  * @param element
  */
 function generateSubjectURI(element) {
-    var SubjectClaimURI = "<div id='subject-claim-dropdown' class='input-group input-wrap' hidden> <label> Select Subject Claim URI  </label> <select id='subject-claim-url' style='float: left;' class='idpClaim form-control'>";
+    var SubjectClaimURI = "<div id='subject-claim-dropdown' class='input-group input-wrap' hidden> <label> Select Subject Claim  </label> <select id='subject-claim-url' style='float: left;' class='idpClaim form-control'>";
     SubjectClaimURI = SubjectClaimURI + '<option selected disabled hidden   value="' + 0 + '" data-index = "' + 0 + '" > '
         + "None" + '</option>';
     var urlCount = element.find('tr').length;
