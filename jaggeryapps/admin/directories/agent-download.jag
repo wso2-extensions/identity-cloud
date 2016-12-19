@@ -120,24 +120,18 @@ include("/templates/header.jag");
                     <div class="margin-bottom-md">
 
                     <div class="agent-archi">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <!--<div class="row">-->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="bottom: 30px; width: 60%">
                                 <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture">
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="conf-guide margin-top-1x padding-all-xs">
-                                    <ul style="list-style: none;">
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configuring user store agent enables authentication with your on premise user store.</span></li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; You need JDK 1.8 to run the agent. Please refer to the <a href="#" target="_blank">documentation</a> for any additional prerequisites.</span></li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Download and install the agent to connect to user store.</span></li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp; Make sure your agent is always accessible to the Identity Cloud.</span></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
                     </br></br>
                     <div class="row" >
+                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
+                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
                                 <span class="fw-stack btn-action-ico">
@@ -145,6 +139,13 @@ include("/templates/header.jag");
                                     <i class="fw fw-download fw-stack-1x"></i>
                                 </span>
                                 <span class="btn-content">Download Agent</span>
+                            </a>
+                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:showHideConfigureAgentURL()" id="btn-configure-agent-url">
+                                <span class="fw-stack btn-action-ico">
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                    <i class="fw fw-down fw-stack-1x"></i>
+                                </span>
+                                <span class="btn-content"> Configure agent URL</span>
                             </a>
                             <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
                                 <span class="fw-stack btn-action-ico">
@@ -154,63 +155,62 @@ include("/templates/header.jag");
                                 <span class="btn-content">Skip to Application List</span>
                             </a>
                         </div>
-                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
-                        </div>
                     </div>
 
-                    <div class="blue-hr"></div>
+                    <div id="configure-agent" hidden>
+                    <div class="comment-line"></div>
 
-                    <div class="row">
-                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <form id="agent-download-form" name="agent-download-form" role="form">
-                                <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
-                                </br></br>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
-                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your agent URL"  name="agentUrl"> </input>
-                                                <div class="connectionStatus"></div>
-                                                     <span class="input-group-btn input-group-btn-check">
-                                                           <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
-                                                     </span>
+                        <div class="row">
+                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <form id="agent-download-form" name="agent-download-form" role="form">
+                                    <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
+                                    </br></br>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
+                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="agentUrl"
+                                                           placeholder="Enter your agent URL"  name="agentUrl"> </input>
+                                                    <div class="connectionStatus"></div>
+                                                         <span class="input-group-btn input-group-btn-check">
+                                                               <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
+                                                         </span>
 
+                                                </div>
+
+                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
                                             </div>
-
-                                            <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
                                         </div>
                                     </div>
-                                </div>
-                                </br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group" id="action-buttons">
-                                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                    id="btn-save">
-                                                <span class="fw-stack fw-save">
-                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                </span>
-                                                Save
-                                            </button>
-                                            <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                    id="add-directory-loading" style="display: none;" disabled>
-                                                <span class="fw-stack btn-action-ico">
-                                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                    <i class="fw fw-save fw-stack-1x"></i>
-                                                </span>
-                                                Creating ...
-                                            </button>
+                                    </br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" id="action-buttons">
+                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                                        id="btn-save">
+                                                    <span class="fw-stack fw-save">
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                    </span>
+                                                    Save
+                                                </button>
+                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                                        id="add-directory-loading" style="display: none;" disabled>
+                                                    <span class="fw-stack btn-action-ico">
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                        <i class="fw fw-save fw-stack-1x"></i>
+                                                    </span>
+                                                    Creating ...
+                                                </button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div id="push"></div>
+                                            <div id="push"></div>
                                         </div>
-                                        <div class="clearfix"></div>
-                                        <div id="push"></div>
-                                        <div id="push"></div>
                                     </div>
-                                </div>
-                            </form>
-                         </div>
+                                </form>
+                             </div>
+                        </div>
                     </div>
                     </div>
                 </div>

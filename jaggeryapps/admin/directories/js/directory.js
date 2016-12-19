@@ -549,11 +549,8 @@ function downloadAgentRedirect(param) {
                     }
                 }
             } else {
+                urlResolver(param);
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
-                setTimeout(function () {
-                    urlResolver(param);
-                }, 3000);
-
             }
         },
         error: function (e) {
@@ -564,6 +561,20 @@ function downloadAgentRedirect(param) {
             });
         }
     });
+}
+
+function showHideConfigureAgentURL() {
+    if ($("#configure-agent").is(":visible")) {
+        $("#configure-agent").slideToggle(1000);
+        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
+            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-down fw-stack-1x">' +
+            '</i></span><span class="btn-content">  Configure agent URL</span>');
+    } else {
+        $("#configure-agent").slideToggle(1000);
+        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
+            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-up fw-stack-1x">' +
+            '</i></span><span class="btn-content">  Configure agent URL</span>');
+    }
 }
 
 function validateURL(textval) {
