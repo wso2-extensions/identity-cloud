@@ -81,34 +81,35 @@ const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
                 </div>
                 <div id="popover-content" class="hide">
                    <div class="cloud-apps">
-                       <a class="cloud-block">
-                           <i class="fa fa-3x fa-cubes"></i>
+                       <a class="cloud-block" href="https://apps.cloud.wso2.com/appmgt/site/pages/index.jag">
+                           <i class="fa fa-3x fa-cubes header-top"></i>
                            <div class="cloud-name">Application Cloud</div>
                        </a>
-                       <a class="cloud-block">
-                           <i class="fw fw-api fa-3x"></i>
+                       <a class="cloud-block" href="https://api.cloud.wso2.com/publisher/">
+                           <i class="fw fw-api fa-3x header-top"></i>
                            <div class="cloud-name">API Cloud</div>
                        </a>
                        <a class="cloud-block">
-                           <i class="fw fw-security fa-3x"></i>
+                           <i class="fw fw-security fa-3x header-top"></i>
                            <div class="cloud-name">Identity Cloud</div>
+                       </a>
+                       <a class="cloud-block" href="<%=USERPORTAL_LINK%>">
+                           <i class="fw fw-deploy fa-3x header-top"></i>
+                           <div class="cloud-name">User Portal</div>
                        </a>
                        <div class="clearfix"></div> <!-- to make seperate -->
                    </div>
                    <div class="cloud-actions">
                        <h3>Manage your cloud</h3>
-                       <a class="cloud-block-invert">
-                           <i class="fa fa-3x  fa-institution"></i>
+                       <a class="cloud-block-invert" href="https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag" target="_self">
+                           <i class="fa fa-3x header-top  fa-institution"></i>
                            <div class="cloud-name">Organizations</div>
                        </a>
-                       <a class="cloud-block-invert">
-                           <i class="fa fa-3x  fa-users"></i>
+                       <a class="cloud-block-invert" href="https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag" target="_self">
+                           <i class="fa fa-3x header-top fa-users"></i>
                            <div class="cloud-name">Members</div>
                        </a>
-                       <a class="cloud-block-invert">
-                           <i class="fa fa-3x  fa-envelope"></i>
-                           <div class="cloud-name">Support</div>
-                       </a>
+
                    </div>
                 </div>
             </div>
