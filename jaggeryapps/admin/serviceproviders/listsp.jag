@@ -102,7 +102,7 @@ var tenantDomain = userInfo.tenantDomain;
         </div><!-- /.container -->
 
         <!--/Empty List-->
-        <div class="container-fluid app-content-section hide" id="spList">
+        <div class="container-fluid app-content-section app-list hide" id="spList">
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -128,8 +128,9 @@ var tenantDomain = userInfo.tenantDomain;
             </div>
             <!-- BOF listing block -->
         </div>
-        <!-- /.container -->
+        <div class="clearfix"></div>
         <div id="push"></div>
+        <!-- /.container -->
     </div>
 </div>
 <!--EOF Inner Wrapper-->

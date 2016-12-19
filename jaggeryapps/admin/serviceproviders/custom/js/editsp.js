@@ -211,7 +211,7 @@ function renderCustomPage(data) {
 
                 $("#customConfig").show();
                 $("#sso-drop-down").removeClass('hide');
-                $("#btn-advance-setting").removeClass('hide');
+                $("#btn-advance-setting").closest('.form-group').removeClass('hide');
                 var dropdown = $("#custom-app-dropdown");
                 dropdown.show();
                 $("#custom-apptype-content").append(dropdown);
