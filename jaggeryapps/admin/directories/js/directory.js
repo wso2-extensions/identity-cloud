@@ -563,7 +563,7 @@ function downloadAgentRedirect(param) {
     });
 }
 
-function configureAgentURL() {
+function showHideConfigureAgentURL() {
     if ($("#configure-agent").is(":visible")) {
         $("#configure-agent").slideToggle(1000);
         $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +

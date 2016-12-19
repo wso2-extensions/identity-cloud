@@ -147,7 +147,7 @@ include("/templates/header.jag");
                                 </span>
                                 <span class="btn-content">Download Agent</span>
                             </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:configureAgentURL()" id="btn-configure-agent-url">
+                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:showHideConfigureAgentURL()" id="btn-configure-agent-url">
                                 <span class="fw-stack btn-action-ico">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-down fw-stack-1x"></i>
