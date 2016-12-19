@@ -1014,6 +1014,9 @@ a.btn-action {
 .app-content-section {
     margin-top: 105px;
 }
+.app-list {
+    padding-bottom: 100px;
+}
 .left-pane ul {
     margin-top: 70px;
     list-style: none;
