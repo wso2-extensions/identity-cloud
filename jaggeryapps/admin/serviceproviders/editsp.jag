@@ -127,7 +127,7 @@ include("../templates/leftpane.jag");
                     </label>
                     <label class="radio-inline">
                         <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
-                             id="radioCf"/>Upload Meta File
+                             id="radioCf"/>Upload SAML Metadata File
                     </label>
                 </div>
           </div>
@@ -362,7 +362,7 @@ include("../templates/leftpane.jag");
                                           <div class="panel-heading" role="tab" id="samlmeta-header" data-toggle="collapse" href="#samlmeta" aria-controls="samlmeta">
                                              <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#samlconfig">
-                                                Upload SAML2 SSO Metdata File
+                                                Upload SAML Metdata File
                                                 <span class="pull-right clickable"><i class="fw fw-up"></i></span>
                                                 </a>
                                              </h4>
@@ -1069,7 +1069,7 @@ var samlHtml = '<div class="btn-group" style="display: none" id="sso-drop-down">
 '                   </label>'+
 '                 <label class="radio-inline">'+
 '                          <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" lass="custom-radio"'+
-'                                 id="radioCf"/>Upload Meta File'+
+'                                 id="radioCf"/>Upload SAML Metadata File'+
 '                 </label>'+
 '               </div>';
 
