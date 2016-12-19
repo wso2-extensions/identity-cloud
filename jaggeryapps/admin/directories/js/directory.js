@@ -563,6 +563,20 @@ function downloadAgentRedirect(param) {
     });
 }
 
+function configureAgentURL() {
+    if ($("#configure-agent").is(":visible")) {
+        $("#configure-agent").slideToggle(1000);
+        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
+            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-down fw-stack-1x">' +
+            '</i></span><span class="btn-content">  Configure agent URL</span>');
+    } else {
+        $("#configure-agent").slideToggle(1000);
+        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
+            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-up fw-stack-1x">' +
+            '</i></span><span class="btn-content">  Configure agent URL</span>');
+    }
+}
+
 function validateURL(textval) {
     var isValidated = validateInput(document.getElementById("agentUrl"));
     return isValidated["isValid"] == true;
