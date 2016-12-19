@@ -118,12 +118,7 @@ include("/templates/header.jag");
                     <div class="margin-bottom-md">
 
                     <div class="agent-archi">
-                        <!--<div class="row">-->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="bottom: 30px; width: 60%">
-                                <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture">
-                            </div>
-                        </div>
+                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture">
                     </div>
                     </br></br>
                     <div class="row" >
