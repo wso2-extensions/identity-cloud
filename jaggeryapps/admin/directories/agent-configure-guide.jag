@@ -110,8 +110,8 @@ include("/templates/header.jag");
                             <ul style="list-style: none;">
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded zip file.</span></li>
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the server. </span>
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Once the server starts, REST endpoints are available through https://&lthostname&gt:8888/wso2agent</span>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Once the agent starts, REST endpoints are available through https://&lthostname&gt:8888/wso2agent</span>
                                     <div class="help-block" >Tip:For more details, see the <a href="#">DOCUMENTATION</a>.</div>
                                 </li>
                             </ul>
@@ -131,14 +131,14 @@ include("/templates/header.jag");
                         </div>
                     </div>
                     <div class="row" style="padding: 20px">
-                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
 
 
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your service URL" name="agentUrl">
+                                                       placeholder="Enter your agent URL" name="agentUrl">
                                      <div class="connectionStatus"></div>
                                      <span class="input-group-btn input-group-btn-check">
                                            <button class="btn btn-info" type="button"
