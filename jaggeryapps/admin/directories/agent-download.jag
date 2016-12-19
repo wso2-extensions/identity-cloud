@@ -165,12 +165,12 @@ include("/templates/header.jag");
                                 <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
                                 </br></br>
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Service URL </h4></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
                                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your service URL"  name="agentUrl"> </input>
+                                                       placeholder="Enter your agent URL"  name="agentUrl"> </input>
                                                 <div class="connectionStatus"></div>
                                                      <span class="input-group-btn input-group-btn-check">
                                                            <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
