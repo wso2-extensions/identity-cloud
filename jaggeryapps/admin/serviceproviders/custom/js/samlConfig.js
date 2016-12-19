@@ -82,16 +82,16 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             var trow
             if (providerProps["defaultAssertionConsumerURL"].value === assertionConsumerURL) {
                 trow = '<tr id="acsUrl_' + acsColumnId + '">' +
-                    '</td><td>' + '<input type="radio"   name="radio" class="radio-group"   checked/>' +
+                    '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>' +
                     '</td><td>' + assertionConsumerURL + '</td>' +
                     '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + acsColumnId + '\');return false;"' +
-                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
             } else {
                 trow = '<tr id="acsUrl_' + acsColumnId + '">' +
-                    '</td><td>' + '<input type="radio"   name="radio" class="radio-group" />' +
+                    '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero" />' +
                     '</td><td>' + assertionConsumerURL + '</td>' +
                     '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + acsColumnId + '\');return false;"' +
-                    'href="#" class="delete-link"> <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    'href="#" class="delete-link"> <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
             }
 
 
@@ -355,8 +355,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
                     '                    </td>' +
                     '                    <td>' +
                     '                    <a onclick="removeAudience(\'' + j + '\');return false;"' +
-                    '                href="#" class="delete-link"> <i class="fw fw-delete "></i> Delete' +
-                    '                    </a>' +
+                    '                href="#" class="delete-link"> <i class="fw fw-delete "></i><span class="hidden-xs"> Delete' +
+                    '                    </span></a>' +
                     '                    </td>' +
                     '                    </tr>';
                 j = j + 1;
@@ -419,8 +419,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
                     '                    </td>' +
                     '                    <td>' +
                     '                    <a onclick="removeRecipient(\'' + k + '\');return false;"' +
-                    '                href="#" class="delete-link"> <i class="fw fw-delete "></i> Delete' +
-                    '                    </a>' +
+                    '                href="#" class="delete-link"> <i class="fw fw-delete "></i><span class="hidden-xs"> Delete' +
+                    '                    </span></a>' +
                     '                    </td>' +
                     '                    </tr>';
                 k = k + 1;
@@ -480,8 +480,8 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
                     '                    </td>' +
                     '                    <td>' +
                     '                    <a onclick="removeSloReturnToURL(\'' + returnToURL + '\', \'returnToUrl_' + returnToColumnId + '\');return false;"' +
-                    '                href="#" class="delete-link" "> <i class="fw fw-delete "></i> Delete' +
-                    '                    </a>' +
+                    '                href="#" class="delete-link" "> <i class="fw fw-delete "></i><span class="hidden-xs"> Delete' +
+                    '                    </span></a>' +
                     '                    </td>' +
                     '                    </tr>';
                 returnToColumnId = returnToColumnId + 1;
@@ -758,10 +758,10 @@ function addAssertionConsumerURL() {
         $("#assertionConsumerURLs").val(assertionConsumerURL);
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td>' + '<input type="radio"   name="radio" class="radio-group"   checked/>' +
+            '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>' +
             '</td><td>' + assertionConsumerURL +  '</td>' +
             '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
-            'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
 
 
         $('#assertionConsumerURLsTable tbody').append(row);
@@ -782,10 +782,10 @@ function addAssertionConsumerURL() {
         $("#assertionConsumerURLs").val(assertionConsumerURLs + "," + assertionConsumerURL);
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
-            '</td><td>' + '<input type="radio"   name="radio" class="radio-group"   checked/>'  +
+            '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>'  +
             '</td><td>' + assertionConsumerURL +  '</td>' +
             '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
-            'href="#" class="delete-link"  >  <i class="fw fw-delete "></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  >  <i class="fw fw-delete "></i><span class="hidden-xs"> Delete </span></a></td></tr>';
 
         $('#assertionConsumerURLsTable tbody tr:nth-child(1)').after(row);
 
@@ -869,7 +869,7 @@ function addAudienceFunc() {
     // audiencePropertyTD.setAttribute('style', 'padding-left: 15px ! important; color:rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;');
     audiencePropertyTD.innerHTML = "" + audience + "<input type='hidden' name='audiencePropertyName" + i + "' id='audiencePropertyName" + i + "'  value='" + audience + "'/> ";
     var audienceRemoveTD = document.createElement('td');
-    audienceRemoveTD.innerHTML = "<a class='delete-link' href='#' onclick='removeAudience(" + i + ");return false;'>" + '<i class="fw fw-delete "></i>  Delete' + "</a>";
+    audienceRemoveTD.innerHTML = "<a class='delete-link' href='#' onclick='removeAudience(" + i + ");return false;'>" + '<i class="fw fw-delete "></i><span class="hidden-xs">  Delete' + "</span></a>";
     audienceRow.appendChild(audiencePropertyTD);
     audienceRow.appendChild(audienceRemoveTD);
     $("#audienceTableTbody").prepend(audienceRow);
@@ -953,7 +953,7 @@ function addRecipientFunc() {
     // recipientPropertyTD.setAttribute('style', 'padding-left: 15px ! important; rgb(255, 255, 255);font-style: italic;background-color: #697780;color: white;');
     recipientPropertyTD.innerHTML = "" + recipient + "<input type='hidden' name='recipientPropertyName" + i + "' id='recipientPropertyName" + i + "'  value='" + recipient + "'/> ";
     var recipientRemoveTD = document.createElement('td');
-    recipientRemoveTD.innerHTML = "<a  class='delete-link' href='#' onclick='removeRecipient(" + i + ");return false;'>" + ' <i class="fw fw-delete "></i> Delete' + "</a>";
+    recipientRemoveTD.innerHTML = "<a  class='delete-link' href='#' onclick='removeRecipient(" + i + ");return false;'>" + ' <i class="fw fw-delete "></i><span class="hidden-xs"> Delete' + "</span></a>";
     recipientRow.appendChild(recipientPropertyTD);
     recipientRow.appendChild(recipientRemoveTD);
     $("#recipientTableTbody").prepend(recipientRow);
@@ -1053,7 +1053,7 @@ function addSloReturnToURL() {
             '</td><td >' + returnToURL +
             '</td><td><a onclick="removeSloReturnToURL(\'' + returnToURL + '\', \'returnToUrl_' +
             parseInt(currentColumnId) + '\');return false;"' +
-            'href="#" class="delete-link" "> <i class="fw fw-delete "></i>  Delete </a></td></tr>';
+            'href="#" class="delete-link" "> <i class="fw fw-delete "></i><span class="hidden-xs">  Delete </span></a></td></tr>';
 
         $('#idpSLOReturnToURLsTbl tbody').append(row);
     } else {
@@ -1074,7 +1074,7 @@ function addSloReturnToURL() {
             '<tr id="returnToUrl_' + parseInt(currentColumnId) + '">' +
             '</td><td >' +
             returnToURL + '</td><td><a onclick="removeSloReturnToURL(\'' + returnToURL + '\', \'returnToUrl_' + parseInt(currentColumnId) + '\');return false;"' +
-            'href="#" class="delete-link" "> <i class="fw fw-delete "></i>  Delete </a></td></tr>';
+            'href="#" class="delete-link" "> <i class="fw fw-delete "></i><span class="hidden-xs">  Delete </span></a></td></tr>';
 
 
         $('#idpSLOReturnToURLsTbl tbody tr:nth-child(1)').after(row);

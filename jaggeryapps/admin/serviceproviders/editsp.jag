@@ -163,7 +163,7 @@ include("../templates/leftpane.jag");
                                               class="fa fa-question-circle help-tips" data-toggle="tooltip"
                                               data-placement="left"
                                               title="Type of application"></i> </label>
-                                      <div class="checkbox" id="custom-apptype-content">
+                                      <div id="custom-apptype-content">
                                       </div>
                                   </div>
                               </div>
@@ -265,11 +265,11 @@ include("../templates/leftpane.jag");
 
             <div class="panel-group" id="security-accordion" >
             <label for="service-provider-description" >Claim Configuration </label>
-               <div class="panel panel-default">
+
 
                   <div id="securityconfig"  role="tabpanel" aria-labelledby="securityconfig-header" >
-                     <div class="panel-body">
-                        <div class="panel panel-default">
+
+
                            <div class="panel-heading" role="tab" id="cladimconfig-header" data-toggle="collapse" href="#claimconfig" aria-controls="claimconfig">
                               <h4 class="panel-title">
                                  <a data-toggle="collapse" data-parent="#accordion" href="#claimconfig">
@@ -283,44 +283,45 @@ include("../templates/leftpane.jag");
                               <div class="panel-body inverse">
                                  <form class="form-horizontal" role="form" id="claimConfigForm">
                                    <div class="form-group">
-                                      <label for="claim_dialect">Configure User Claims </label>
-                                      <div class="clearfix"></div>
-                                      <label class="radio-inline">
-                                      <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
-                                      Add Local Claims
-                                      </label>
-                                      <label class="radio-inline">
-                                      <input type="radio"  onclick="claimRadioClick($(this)); " name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Add Custom Claims
-                                      </label>
+                                        <div class="col-md-12">
+                                          <label for="claim_dialect">Configure User Claims </label>
+                                          <div class="clearfix"></div>
+                                          <label class="radio-inline">
+                                                <input type="radio"  onclick="claimRadioClick($(this));" name="claim_dialect" id="claim_dialect_wso2" value="local" class="custom-radio">
+                                              Add Local Claims
+                                          </label>
+                                          <label class="radio-inline">
+                                                <input type="radio"  onclick="claimRadioClick($(this)); " name="claim_dialect" id="claim_dialect_custom" value="custom" class="custom-radio">Add Custom Claims
+                                          </label>
+                                        </div>
                                    </div>
 
                                    <div class="form-group">
-                                       <div id="local-claim-dropdown" class="input-group input-wrap" hidden>
-                                            <select id="local-claim-url" style="float: left;" class="idpClaim form-control">
+                                        <div class="col-md-12">
+                                           <div id="local-claim-dropdown" class="input-group input-wrap" hidden>
+                                                <select id="local-claim-url" style="float: left;" class="idpClaim form-control">
 
-                                            </select>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-info pull-right" onclick="addClaimIntoList(); return false;"> Add Claim </button>
-                                            </div>
-                                       </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                       <div id="custom-claim-dropdown" hidden>
-                                            <div class="input-group">
-                                                <input class="form-control" id="custom-claim-text-main" type="text" value="" placeholder="Define Custom Claim"/>
-                                                <div class="input-group-btn">
-                                                    <select id="custom-claim-url" class="form-control" >claimConfigDropDown</select>
-                                                </div>
+                                                </select>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-info pull-right" onclick="addClaimIntoList(); return false;"> Add Claim </button>
                                                 </div>
-                                            </div>
-                                       </div>
+                                           </div>
+                                           <div id="custom-claim-dropdown" hidden>
+                                                <div class="input-group">
+                                                    <input class="form-control" id="custom-claim-text-main" type="text" value="" placeholder="Define Custom Claim"/>
+                                                    <div class="input-group-btn">
+                                                        <select id="custom-claim-url" class="form-control" >claimConfigDropDown</select>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-info pull-right" onclick="addClaimIntoList(); return false;"> Add Claim </button>
+                                                    </div>
+                                                </div>
+                                           </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group security-type-table">
-                                        <div  style="margin-bottom:10px;" id="claimsConfRow">
+                                    <div class="security-type-table">
+                                        <div id="claimsConfRow">
                                            <!--<table  class="table-borderless tabel-label">-->
                                            <div id="subjectMappingSelection">
                                                <div class="form-group">
@@ -342,7 +343,7 @@ include("../templates/leftpane.jag");
                               </div>
                            </div>
                            <!--EOF Claim Config-->
-                        </div>
+
                         <div class="panel panel-default">
                            <div class="panel-heading" role="tab" id="inbound-auth-header" data-toggle="collapse" href="#inbound-auth" aria-controls="inbound-auth">
                               <h4 class="panel-title">
@@ -558,9 +559,9 @@ include("../templates/leftpane.jag");
                                                       </div>
                                                    </div>
 
-                                                     <div class="form-group">
+                                                     <div class="form-group  hide">
                                                          <div class="col-md-12" style="margin-top: 20px">
-                                                             <a class="btn btn-form hide" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i>&nbsp;&nbsp;Show Advance Settings  </a>
+                                                             <a class="btn btn-form" id="btn-advance-setting" onclick="advanceSettings();return false;"> <i class="fw fw-down"></i>&nbsp;&nbsp;Show Advance Settings  </a>
                                                          </div>
                                                      </div>
                                                    <!--  Enable Audience Restriction-->
@@ -598,7 +599,7 @@ include("../templates/leftpane.jag");
                                                    <!--Certificate -->
                                                    <div class="form-group" id="certificateRow">
                                                       <div class="col-md-12">
-                                                         <label for="publicCertificate" class="control-label">Public Certificate (PEM) </label>
+                                                         <label for="publicCertificate">Public Certificate (PEM) </label>
                                                          <textarea id="publicCertificate" name="publicCertificate" class="form-control" rows="8" ></textarea>
                                                       </div>
                                                    </div>
@@ -616,7 +617,7 @@ include("../templates/leftpane.jag");
                                                       <!--Audience Text-->
                                                       <div class="form-group ">
                                                          <div class="col-md-12">
-                                                            <label for="audience" class=" control-label">Audience Restriction
+                                                            <label for="audience">Audience Restriction
                                                             </label>
                                                             <div class="input-group input-wrap">
                                                                <input id="audience" class="form-control" type="text"  placeholder="Audience" name="audience" class="input-add">
@@ -649,7 +650,7 @@ include("../templates/leftpane.jag");
                                                       <!--Recipient-->
                                                       <div class="form-group">
                                                          <div class="col-md-12">
-                                                            <label for="recipient" class="control-label">Recipient Validation
+                                                            <label for="recipient">Recipient Validation
                                                             </label>
                                                             <div class="input-group input-wrap">
                                                                <input id="recipient" class="form-control" type="text" placeholder="Recipient" name="recipient" class="input-add">
@@ -895,9 +896,7 @@ include("../templates/leftpane.jag");
                            </div>
                            <!--EOF Inbound Authentication Config-->
                         </div>
-                     </div>
                   </div>
-               </div>
             </div>
 
             <!--EOF Security Section-->
@@ -971,7 +970,7 @@ include("../templates/leftpane.jag");
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div id="banner-img-ele"></div>
-                                                <img style="width: 100%; height: 150px;" id="sp-img-banner" src="../images/is/banner_placeholder.jpg"  alt="banner image" title="custom banner image" class="logo">
+                                                <img style="width: 100%; " id="sp-img-banner" src="../images/is/banner_placeholder.jpg"  alt="banner image" title="custom banner image" class="logo">
                                             </div>
                                             <div class="col-md-12">
                                                 <span class="btn btn-default btn-file" style="margin-top: 5px"> Upload an image
@@ -985,25 +984,23 @@ include("../templates/leftpane.jag");
                                   </div>
                               </div>
                               <!--EOF Store Config-->
-                                <div class="form-group" style="margin-bottom: 50px" id="btn-main-update">
-                                     <div class="col-md-12">
-                                       <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
-                                       <span class="fw-stack btn-action-ico">
-                                       <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                       <i class="fw fw-save fw-stack-1x"></i>
-                                       </span>
-                                       Update
-                                       </button>
-                                     </div>
-                                </div>
                            </form>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-
-
+            <div class="row" style="margin-bottom: 50px" id="btn-main-update">
+                 <div class="col-md-12">
+                   <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
+                   <span class="fw-stack btn-action-ico">
+                   <i class="fw fw-circle-outline fw-stack-2x"></i>
+                   <i class="fw fw-save fw-stack-1x"></i>
+                   </span>
+                   Update
+                   </button>
+                 </div>
+            </div>
             </div>
          </div>
       </div>
@@ -1132,7 +1129,7 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             break;
         case 'Proxy':
             $("#skipgateway").prop('checked', false);
-            $("#skipgateway-check").hide();
+            $("#skipgateway-check").closest('.form-group').hide();
             $("#store-app-url-sec").hide();
             $("#security-type").hide();
             $("#gw-config-section").show();
@@ -1187,8 +1184,9 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
 
             dropdown.attr('style', '').show().attr('id', 'custom-sso-drop-down');
             dropdown.find('a').attr('onclick', 'changeUC($(this),"custom")');
-            $("#custom-security-dropdown").after("<div class='row' style='padding: 10px;' id='dynamic-sdd'> </div>");
+            $("#custom-security-dropdown").after("<div class='row' style='padding: 14px;' id='dynamic-sdd'> </div>");
             $("#dynamic-sdd").after(dropdown);
+            $("#samlconfig .panel-body").addClass('padding-top-zero');
 
 
             if (!samlconf) {

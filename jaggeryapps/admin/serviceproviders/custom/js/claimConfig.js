@@ -93,7 +93,7 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
                     currentLocalRow + '" data-id="' + currentLocalRow + '" value="' +
                     claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
                     '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    'href="#" class="delete-link"  ><i class="fw fw-delete"></i>  <span class="hidden-xs">Delete </span></a></td></tr>';
 
                 $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
                 $("#customClaimTable").hide();
@@ -117,7 +117,7 @@ function addClaimDataFromObject(claimMapping, isLocalClaimsSelected) {
                     currentCustomRow + '" data-id="' + currentCustomRow + '" value="' +
                     claimMapping[entry].localClaim.claimUri + '"> </input>' + '</td>' +
                     '<td><a onclick="removeClaimUrl($(this));return false;"' +
-                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+                    'href="#" class="delete-link"  > <i class="fw fw-delete"></i> <span class="hidden-xs">Delete </span></a></td></tr>';
 
                 $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
                 $("#localClaimTable").hide();
@@ -154,7 +154,7 @@ function addClaimIntoList() {
             '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaim_' +
             currentLocalRow + '" data-id="' + currentLocalRow + '" value="' + $("#local-claim-url").val() +
             '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
-            'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
         
         $("#localClaimTableTableBody tr:nth-child(1)").after(trow);
         $("#customClaimTable").hide();
@@ -175,7 +175,7 @@ function addClaimIntoList() {
             '<td>' + '<input type="text" disabled  style="width: 100%" class="idpClaim" id="idpClaimC_' +
             currentCustomRow + '" data-id="' + currentCustomRow + '" value="' + $("#custom-claim-url").val() +
             '"> </input>' + '</td>' + '<td><a onclick="removeClaimUrl($(this));return false;"' +
-            'href="#" class="delete-link"  > <i class="fw fw-delete"></i> Delete </a></td></tr>';
+            'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
 
         $("#customClaimTableTableBody tr:nth-child(1)").after(trow);
         $("#localClaimTable").hide();

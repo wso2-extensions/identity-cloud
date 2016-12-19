@@ -2791,7 +2791,7 @@ th.hide-column-data, td.hide-column-data {
     border-radius: 50px !important;
     display: inline-block;
     position: relative;
-    margin-left: -23px !important;
+    margin-left: -20px !important;
 }
 
 .custom-radio:checked:after {
@@ -3481,6 +3481,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 
 .panel {
     border-color: #525252 !important;
+    border-radius: 0px !important;
 }
 
 .btn-file {
@@ -3635,7 +3636,7 @@ td, th {
 .text-white {
     color: #fff;
 }
-#oauthConfig .panel-body {
+#oauthConfig .panel-body, #wsfed .panel-body{
     padding-top: 0;
 }
 
@@ -3658,6 +3659,7 @@ td, th {
     height: 35px;
     color: #444;
     border-bottom: 1px solid #b3b3b3;
+    word-break: break-all;
 }
 .security-type-table table th {
     background-color: #b3b3b3;
@@ -3685,9 +3687,6 @@ td, th {
 .input-group-btn:nth-child(2) > .form-control {
     width: auto;
 }
-#custom-claim-dropdown {
-    margin-top:-1em;
-}
 .idpClaim {
     border: none;
     border-color: transparent;
@@ -3701,4 +3700,10 @@ td, th {
 .delete-link:hover{
     color:#333;
     text-decoration: none;
+}
+.margin-zero {
+    margin-left: 0 !important;
+}
+.padding-top-zero {
+    padding-top: 0px;
 }
