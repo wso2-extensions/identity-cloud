@@ -115,6 +115,7 @@ function updateSP(sampleConf){
         serviceProviderDTO["defaultAssertionConsumerURL"] = sampleConf.assertionConsumerURLs;
         serviceProviderDTO["nameIdFormat"] = sampleConf.nameIdFormat;
         serviceProviderDTO["alias"] = "";
+        serviceProviderDTO["publicCertificate"] = "";
         serviceProviderDTO["signingAlgorithm"] = sampleConf.signingAlgorithm;
         serviceProviderDTO["digestAlgorithm"] = sampleConf.digestAlgorithm;
         serviceProviderDTO["enableResponseSignature"] = sampleConf.enableResponseSignature;
@@ -135,6 +136,7 @@ function updateSP(sampleConf){
         serviceProviderDTO["idpSLOURLs"] = sampleConf.idpSLOURLs;
         serviceProviderDTO["hiddenFields"] = sampleConf.hiddenFields;
         serviceProviderDTO["appType"] = sampleConf.type;
+        serviceProviderDTO["metadata"] = "";
 
 
         if (sampleConf.nameIdFormat != null && sampleConf.nameIdFormat.length > 0) {
