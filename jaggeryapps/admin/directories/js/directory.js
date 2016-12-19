@@ -549,11 +549,8 @@ function downloadAgentRedirect(param) {
                     }
                 }
             } else {
+                urlResolver(param);
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
-                setTimeout(function () {
-                    urlResolver(param);
-                }, 3000);
-
             }
         },
         error: function (e) {
