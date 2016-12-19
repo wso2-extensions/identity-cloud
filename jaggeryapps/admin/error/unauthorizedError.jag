@@ -9,6 +9,7 @@
 
 <%
 include("/util/constants.jag");
+include("/util/encode.jag");
 
 var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 var tenantDomain = MultitenantUtils.getTenantDomain(session.get(LOGGED_IN_USER));
@@ -25,7 +26,7 @@ var tenantDomain = MultitenantUtils.getTenantDomain(session.get(LOGGED_IN_USER))
             <h2>Please contact your administrator to request permission.</h2>
             <div></div>
             <div class="button-label">
-                <a href="/user-portal/t/<%=tenantDomain%>"><label class="label-back">Go to User Portal</label></a>
+                <a href="/user-portal/t/<%=encode.forHtml(tenantDomain)%>"><label class="label-back">Go to User Portal</label></a>
                 <a href="/admin/samlsso.jag?logout=true"><label class="label-report">Log Out</label></a>
             </div>
         </div>

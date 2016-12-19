@@ -73,7 +73,9 @@ include("/templates/header.jag");
 </div><!-- EOF App  menu -->
 <div class="inner-wrapper">
     <!-- left pane wrapper -->
-    <%include("/templates/leftpane.jag");
+    <%
+    include("/templates/leftpane.jag");
+    include("/util/encode.jag");
     require("../util/constants.jag");
     %>
 
@@ -81,7 +83,7 @@ include("/templates/header.jag");
     var domainName = request.getParameter("domain");
     %>
     <iframe id="ifrmDownload" name="ifrmDownload" hidden="true"></iframe>
-    <input type="hidden" value="<%=domainName%>" id="domain">
+    <input type="hidden" value="<%=encode.forHtml(domainName)%>" id="domain">
 
     <!-- left pane wrapper -->
     <div class="right-pane">

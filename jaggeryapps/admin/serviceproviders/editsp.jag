@@ -48,11 +48,12 @@ if (matcher.match('/' + ADMIN_PORTAL_NAME + '/serviceprovider/{appname}')) {
     appStatus =  request.getParameter('status');
 }
 include("../templates/header.jag");
+include("/util/encode.jag");
 %>
 <script>
-const appStatus = "<%=appStatus%>";
+const appStatus = "<%=encode.forJavaScript(appStatus)%>";
 </script>
-<input type="hidden" value="<%=applicationName%>" id="appName">
+<input type="hidden" value="<%=encode.forHtml(applicationName)%>" id="appName">
 <!-- BOF App  menu -->
 <div class="navbar navbar-secondary">
     <div class="container-fliud">
