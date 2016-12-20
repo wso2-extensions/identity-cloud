@@ -171,6 +171,10 @@ function drawAppDetails(data) {
 
                     }
                 }
+                if (window.location.href.indexOf('?consumerkey') > -1) {
+                    $("#custom-security-dropdown").click();
+                    $("#oAuthOPenIdLink").click();
+                }
 
                 clearTimeout(timeout);
             }, APP_DETAIL_TIMEOUT);
