@@ -28,6 +28,7 @@
 <%
 include("/templates/header.jag");
 require("../util/constants.jag");
+include("/util/encode.jag");
 
 var userInfo = session.get("userInfo");
 var tenantDomain = userInfo.tenantDomain;
@@ -68,7 +69,7 @@ var tenantDomain = userInfo.tenantDomain;
                 <span class="hidden-xs">Add Application</span>
             </a>
 
-            <a href="javascript:downloadIDPMetaData('<%=tenantDomain%>')" class="btn-action" data-toggle="tooltip"
+            <a href="javascript:downloadIDPMetaData('<%=encode.forJavaScript(tenantDomain)%>')" class="btn-action" data-toggle="tooltip"
                data-placement="top" title="Download WSO2 Identity Cloud SAML Identity Provider Metadata.">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>

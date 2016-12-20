@@ -75,12 +75,13 @@ include("/templates/header.jag");
     <%
     include("/templates/leftpane.jag");
     require("../util/constants.jag");
+    include("/util/encode.jag");
     %>
 
     <%
     var domainName = request.getParameter("domain");
     %>
-    <input type="hidden" value="<%=domainName%>" id="domain">
+    <input type="hidden" value="<%=encode.forHtml(domainName)%>" id="domain">
     <input type="hidden" value="" id="uniqueid">
     <input type="hidden" value="false" id="disabled">
     <!-- left pane wrapper -->
