@@ -36,10 +36,6 @@ function drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping) {
     }
     $("#local-claim-url").append(localClaimConfigDropDown);
 
-    if (!$("#local-claim-dropdown").is(":visible")) {
-        $("#local-claim-dropdown").remove();
-    }
-
     var customClaimConfigDropDown;
     for (var localClaimNameEntry in spConfigClaimUris) {
         customClaimConfigDropDown += '<option  value="' + spConfigClaimUris[localClaimNameEntry] +
