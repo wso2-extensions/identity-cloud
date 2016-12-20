@@ -742,7 +742,7 @@ include("../templates/leftpane.jag");
                                                          <div class="input-group input-wrap">
                                                              <input type="text" class="form-control" id="consumerID" disabled="disabled">
                                                              <div class="input-group-btn ">
-                                                                   <button class="btn" type="button" id="copy-button-consumerID" data-clipboard-text="" title="Click to copy" onclick="copyToClipboard('copy-button-consumerID')"><i class="fw fw-copy"></i></button>
+                                                                   <button class="btn btn-oauth-keys" type="button" id="copy-button-consumerID" data-clipboard-text="" title="Click to copy"><i class="fw fw-copy"></i></button>
                                                              </div>
                                                          </div>
                                                       </div>
@@ -754,7 +754,7 @@ include("../templates/leftpane.jag");
                                                             <input type="password" class="form-control oauth-client-details" id="consumerSecret" disabled="disabled" autocomplete="off">
                                                             <div class="input-group-btn">
                                                                <button class="btn" type="button" id="showSecret" onclick="showHidePassword(this, 'consumerSecret')" name="showSecret"><span id="secretSpan"><i class="fw fw-view"></i></span></button>
-                                                               <button class="btn" type="button" id="copy-button-consumerSecret" data-clipboard-text="" title="Click to copy" onclick="copyToClipboard('copy-button-consumerSecret')"><i class="fw fw-copy"></i></button>
+                                                               <button class="btn btn-oauth-keys" type="button" id="copy-button-consumerSecret" data-clipboard-text="" title="Click to copy"><i class="fw fw-copy"></i></button>
                                                             </div>
                                                          </div>
                                                       </div>
@@ -1212,6 +1212,12 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
             $("#oauthConfig").remove();
             oauthconf.removeClass("panel-collapse collapse");
             $("#security-type").append(oauthconf).show();
+
+            $(".btn-oauth-keys").each(function() {
+                $(this).attr("data-clipboard-text", $(this).closest('.input-group-btn').prev().val());
+            });
+            $('.btn-oauth-keys').zclip();
+
             break;
         case 'WS-Federation (Passive)' :
             $("#custom-security-dropdown").nextAll().remove();
@@ -1288,7 +1294,24 @@ function reAppend(source, object) {
     }
 }
 
+$.fn.zclip = function() {
 
+    if(typeof ZeroClipboard == 'function'){
+        var client = new ZeroClipboard( this );
+        client.on( "ready", function( readyEvent ) {
+            client.on( "aftercopy", function( event ) {
+                var target = $(event.target);
+                target.attr("title","Copied!");
+                target.tooltip('enable');
+                target.tooltip("show");
+                target.tooltip('disable');
+            });
+        });
+    }else{
+        console.warn('Warning : Dependency missing - ZeroClipboard Library');
+    }
+    return this;
+}
 
 </script>
 <script>
