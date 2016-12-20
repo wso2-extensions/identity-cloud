@@ -1,10 +1,12 @@
 <%
 include("../wsUtil.jag");
 var util = require("../../util/utility.jag");
+var generalLocalClaimConfig = require("/conf/general-local-claim-set.json");
 
-var log = new Log();
+var log = new Log("samlSSOConfigServiceClient : ");
 var serverUrl = util.getServerUrl();
 serverUrl = serverUrl + "/IdentitySAMLSSOConfigService";
+serverUrlForLocalClaims = util.getServerUrl() + "/IdentityApplicationManagementService";
 
 var ws = require('ws');
 var webService = new ws.WSRequest();
@@ -15,10 +17,18 @@ function getServiceProviders(){
     return result;
 }
 
-function getClaimURIs(){
+function getClaimURIs() {
     webService = new ws.WSRequest();
-    var result = callWSReturnJSON(webService, serverUrl, "urn:getClaimURIs", null);
-    return result;
+    var result = callWSReturnJSON(webService, serverUrlForLocalClaims, "urn:getAllLocalClaimUris", null);
+
+    var combinedClaimArray = [];
+    combinedClaimArray[0] = result.return;
+    combinedClaimArray[1] = generalLocalClaimConfig.generalClaims;
+
+    var requiredClaimSet = util.getIntersectionArrayFromArrays(combinedClaimArray).sort();
+    var returnObj = {};
+    returnObj.return = requiredClaimSet;
+    return returnObj;
 }
 
 function getCertAliasOfPrimaryKeyStore(){

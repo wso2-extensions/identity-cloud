@@ -1,0 +1,27 @@
+{
+  "generalClaims":[
+    "http://wso2.org/claims/country",
+    "http://wso2.org/claims/displayName",
+    "http://wso2.org/claims/dob",
+    "http://wso2.org/claims/emailaddress",
+    "http://wso2.org/claims/fullname",
+    "http://wso2.org/claims/gender",
+    "http://wso2.org/claims/givenname",
+    "http://wso2.org/claims/im",
+    "http://wso2.org/claims/lastname",
+    "http://wso2.org/claims/locality",
+    "http://wso2.org/claims/mobile",
+    "http://wso2.org/claims/nickname",
+    "http://wso2.org/claims/organization",
+    "http://wso2.org/claims/otherphone",
+    "http://wso2.org/claims/postalcode",
+    "http://wso2.org/claims/region",
+    "http://wso2.org/claims/role",
+    "http://wso2.org/claims/stateorprovince",
+    "http://wso2.org/claims/streetaddress",
+    "http://wso2.org/claims/telephone",
+    "http://wso2.org/claims/title",
+    "http://wso2.org/claims/url",
+    "http://wso2.org/claims/username"
+  ]
+}
