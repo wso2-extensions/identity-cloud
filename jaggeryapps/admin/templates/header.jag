@@ -57,13 +57,13 @@ const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav menu-right">
                 <li><a href="#"><i class="fa fa-book"></i> Documentation</a></li>
-                <li><a href="#about"><i class="fa fa-envelope"></i> Support</a></li>
+                <li><a href="https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/contact-us.jag"><i class="fa fa-envelope"></i> Support</a></li>
                 <li class="dropdown user-name">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=encode.forHtml(session.get(LOGGED_IN_USER))%>
                         <i class="fa fa-chevron-circle-down"></i>
                         <img src="/<%=ADMIN_PORTAL_NAME%>/images/user.png" alt="user" class="user-image"></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user-profile.jag">Profile</a></li>
                         <li><a href="<%=proxyContextPath + "/" + ADMIN_PORTAL_NAME %>/samlsso.jag?logout=true">Logout</a></li>
 
 </ul>
@@ -89,10 +89,6 @@ const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
                        <a class="cloud-block" href="https://api.cloud.wso2.com/publisher/">
                            <i class="fw fw-api fa-3x header-top"></i>
                            <div class="cloud-name">API Cloud</div>
-                       </a>
-                       <a class="cloud-block">
-                           <i class="fw fw-security fa-3x header-top"></i>
-                           <div class="cloud-name">Identity Cloud</div>
                        </a>
                        <a class="cloud-block" href="<%=USERPORTAL_LINK%>">
                            <i class="fw fw-deploy fa-3x header-top"></i>
