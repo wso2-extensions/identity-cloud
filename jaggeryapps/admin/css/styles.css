@@ -3627,8 +3627,8 @@ td, th {
 .agent-archi {
     display: block;
     margin-top: -50px;
-    background-color: #fff;
-    color: #444;
+    bottom: 30px;
+    width: 50%;
 }
 .pull-up {
     margin-top: -70px;
