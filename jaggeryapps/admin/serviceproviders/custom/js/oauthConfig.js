@@ -105,13 +105,13 @@ function drawOAuthConfigPage() {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_implicit" name="grant_implicit" value="implicit" checked="checked"/>Implicit</label></div>';
     }
     if ($.inArray('password', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password" checked="checked"/>Password</lable></div>';
+        grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password" checked="checked"/>Password</lable></div>';
     }
     if ($.inArray('client_credentials', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_client" name="grant_client" value="client_credentials" checked="checked"/>Client Credential</label></div>';
+        grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_client" name="grant_client" value="client_credentials" checked="checked"/>Client Credential</label></div>';
     }
     if ($.inArray('refresh_token', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_refresh" name="grant_refresh" value="refresh_token" checked="checked"/>Refresh Token</label></div>';
+        grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_refresh" name="grant_refresh" value="refresh_token" checked="checked"/>Refresh Token</label></div>';
     }
     if ($.inArray('urn:ietf:params:oauth:grant-type:saml1-bearer', allowedGrantTypes) > 0) {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml1" name="grant_saml1" value="urn:ietf:params:oauth:grant-type:saml1-bearer" checked="checked"/>SAML1</label></div>';
@@ -249,21 +249,21 @@ function drawOAuthEditPage() {
             grantRow = grantRow + '/>Implicit</label></div>';
         }
         if ($.inArray('password', allowedGrantTypes) > 0) {
-            grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password"';
+            grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password"';
             if (passowrdGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Password</label></div>';
         }
         if ($.inArray('client_credentials', allowedGrantTypes) > 0) {
-            grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_client" name="grant_client" value="client_credentials"';
+            grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_client" name="grant_client" value="client_credentials"';
             if (clientCredGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Client Credential</label></div>';
         }
         if ($.inArray('refresh_token', allowedGrantTypes) > 0) {
-            grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_refresh" name="grant_refresh" value="refresh_token"';
+            grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_refresh" name="grant_refresh" value="refresh_token"';
             if (refreshGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }

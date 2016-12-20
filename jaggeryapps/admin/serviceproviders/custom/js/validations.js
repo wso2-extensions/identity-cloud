@@ -92,7 +92,7 @@ function validateInputs() {
             if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
-        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "OAuth/OpenID Connect".trim()) {
+        } else if (selected.trim() == "Agent".trim() && secSelected.trim() == "OpenID Connect".trim()) {
             $("#addAppForm").validate({
                 focusInvalid: true,
                 invalidHandler: function(form, validator) {
