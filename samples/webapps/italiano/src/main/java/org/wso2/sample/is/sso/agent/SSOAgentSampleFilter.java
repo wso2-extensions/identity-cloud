@@ -63,7 +63,13 @@ public class SSOAgentSampleFilter extends SSOAgentFilter {
         // The configurations are shared between all requests.
         // So we need to clean-up the IDP URL for the current request and then set the tenant domain if needed.
         idpURL = idpURL.replaceAll("/t/.*", "");
-        String tenantDomain = (String) ((HttpServletRequest)servletRequest).getSession().getAttribute("tenantDomain");
+
+        String tenantDomain = servletRequest.getParameter("tenantDomain");
+        if (StringUtils.isBlank(tenantDomain)) {
+            tenantDomain = (String) ((HttpServletRequest)servletRequest).getSession().getAttribute("tenantDomain");
+        } else {
+            ((HttpServletRequest)servletRequest).getSession().setAttribute("tenantDomain", tenantDomain);
+        }
         
         if(tenantDomain != null){
             idpURL = idpURL + "/t/" + tenantDomain;
