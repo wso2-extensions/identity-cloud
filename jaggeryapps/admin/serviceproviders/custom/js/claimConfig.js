@@ -181,6 +181,7 @@ function addClaimIntoList() {
         $("#subject-claim-dropdown").remove();
         generateSubjectURI($("#customClaimTable"));
     }
+    $("#custom-claim-text-main").val("");
 }
 
 function removeClaimUrl(obj) {
