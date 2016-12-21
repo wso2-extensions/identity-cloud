@@ -3626,9 +3626,9 @@ td, th {
 }
 .agent-archi {
     display: block;
-    margin-top: -50px;
+    margin-top: 0px;
     bottom: 30px;
-    width: 50%;
+    width: 60%;
 }
 .pull-up {
     margin-top: -70px;
@@ -3639,6 +3639,14 @@ td, th {
 .text-white {
     color: #fff;
 }
+
+.text-agent-archi {
+    color: #cac8c8;
+    display: block;
+    margin-top: -50px;
+    bottom: 100px;
+}
+
 #oauthConfig .panel-body, #wsfed .panel-body{
     padding-top: 0;
 }
