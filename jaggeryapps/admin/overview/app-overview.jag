@@ -75,16 +75,10 @@ include("/templates/header.jag");
     <%include("/templates/leftpane.jag");%>
     <!-- left pane wrapper -->
     <div class="right-pane">
-        <!-- BOF App  menu actionbar -->
-        <div class="action-bar">
-            <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
-        </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
-
-                    <div id="push"></div>
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
