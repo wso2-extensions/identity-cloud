@@ -113,7 +113,7 @@ include("/templates/header.jag");
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded zip file.</span></li>
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
                                 <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span>
-                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Once the agent starts, REST endpoints are available through https://&lthostname&gt:8888/wso2agent</span>
+                                <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Once the Agent starts, Agent URL is available. For example, it will be like https://useragent.example.com/wso2agent</span>
                                     <div class="help-block" >Tip:For more details, see the <a href="#">DOCUMENTATION</a>.</div>
                                 </li>
                             </ul>
