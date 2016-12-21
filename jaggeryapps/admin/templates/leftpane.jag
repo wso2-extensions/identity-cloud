@@ -11,7 +11,7 @@
            <li>
                <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders"><i class="fw fw-globe"></i> Applications</a>
            </li>
-           <li>
+<!--           <li>
                <a href="">
                    <i class="fw fw-view"></i>
                    Custom theme</a>
@@ -28,6 +28,6 @@
                        List</a>
                     </li>
                 </ul>
-             </li>
+             </li>-->
        </ul>
    </div>
