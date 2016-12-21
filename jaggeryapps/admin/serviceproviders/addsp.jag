@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WSO2 Cloud</title>
+    <title>Add Service Provider | WSO2 Cloud-Admin Portal</title>
 
     <!-- Bootstrap -->
     
@@ -20,7 +20,7 @@
     <script type="text/javascript" src="../js/noty-2.3.5/jquery.noty.packaged.min.js"></script>
     <script type="text/javascript" src="../js/noty-2.3.5/themes/noty.theme.wso2.js"></script>
     <script type="text/javascript" src="custom/serverinfo.jag"></script>
-
+    <link rel="shortcut icon" href="../images/favicon.png">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
