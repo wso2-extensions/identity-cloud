@@ -28,7 +28,7 @@ function deleteApplication(applicationName){
 
 function updateApplicationData(payload){
     webService = new ws.WSRequest();
-    callWSInOnly(webService, serverUrl, "urn:updateApplicationData", payload);
+    callWS(webService, serverUrl, "urn:updateApplicationData", payload);
 }
 
 function getAllCustomSPs(){
