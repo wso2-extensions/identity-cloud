@@ -992,7 +992,10 @@ include("../templates/leftpane.jag");
                      </div>
                   </div>
                </div>
+                  <div class="form-status"></div>
+            <label id="form-error" class="error" hidden="" >An error occurred while updating the application</label>
             </div>
+
             <div class="row" style="margin-bottom: 50px" id="btn-main-update">
                  <div class="col-md-12">
                    <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();" >
