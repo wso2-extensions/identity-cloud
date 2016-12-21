@@ -36,10 +36,22 @@ function callWSInOnly(webService, serverUrl, action, payload){
         call(webService, serverUrl, options, payload);
     }
     catch (e) {
-        log.error(e);
         throw e;
     }
 
+}
+
+function callWS(webService, serverUrl, action, payload) {
+    var options = new Array();
+    options.useSOAP = 1.1;
+    options.action = action;
+
+    try {
+        call(webService, serverUrl, options, payload);
+    }
+    catch (e) {
+        throw e;
+    }
 }
 
 function callWSReturnXML(webService, serverUrl, action, params, req){
@@ -70,7 +82,6 @@ function callWSReturnXML(webService, serverUrl, action, params, req){
 
     }
     catch (e) {
-        log.error(e);
         throw e;
     }
 
@@ -141,7 +152,6 @@ function callWSInOnlyWithParams(webService, serverUrl, action, params, req){
         callWSInOnly(webService, serverUrl, action, payload);
     }
     catch (e) {
-        log.error(e);
         throw e;
     }
 
