@@ -425,6 +425,8 @@ include("../templates/leftpane.jag");
                                                          </label>
                                                          <input type="text" class="form-control" id="issuer" name="issuer" placeholder="Issuer" readonly>
                                                          <input id="hiddenIssuer" type="hidden" value="" name="hiddenIssuer">
+                                                          <div class="issuer-status"></div>
+                                                             <label id="issuer-error" class="error" hidden="" >An application with the issuer name already exists</label>
                                                       </div>
                                                    </div>
                                                    <!--ACS URL-->
