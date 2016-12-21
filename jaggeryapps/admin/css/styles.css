@@ -1606,7 +1606,8 @@ svg .outer {
 
 .alert{
     border-radius: 0px;
-    min-height:50px;
+    min-height:30px;
+    padding: 5px !important;
 }
 .alert-success {
     background-color: #27ae60;
@@ -1619,11 +1620,13 @@ svg .outer {
     color:#666;
 }
 .alert-error {
-    background-color: #ae2727;
-    border-color: #d44040;
-    border-radius: 0px;
-    color: #fff;
-    padding: 0px;
+    line-height: 1.5em;
+    color: rgb(255, 255, 255) !important;
+    background-color: #e74c3c;
+    width: 100%;
+    padding: 5px 10px;
+    border-left: 5px solid #942F25;
+    font-weight: 500;
 }
 
 .alert .close{

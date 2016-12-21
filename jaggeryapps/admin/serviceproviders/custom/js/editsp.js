@@ -548,7 +548,6 @@ function updateCustomSP(file) {
     formData.append('thumbnailUrl', thumbnailUrl);
     formData.append('bannerFile', bannerFile);
     formData.append('bannerUrl', bannerUrl);
-    
     $.ajax({
         url: str,
         type: "POST",
@@ -557,21 +556,23 @@ function updateCustomSP(file) {
                data: formData
     })
         .done(function (data) {
-            if($('#metadataFileName').val().length > 0) {
-                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
-            }else{
-                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+            if (data) {
+                var resp = JSON.parse(data);
+                if (!resp.success) {
+                    $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
+                    $('.issuer-status').find('.alert-content').text(resp.message).focus();
+                    $(window).scrollTop($('.app-drop-down-status').position().top);
+                }
+            } else {
+                //since success will return "" response data
+                if($('#metadataFileName').val().length > 0) {
+                    window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
+                }else{
+                    window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+                }
             }
         })
         .fail(function () {
-            message({
-                content: 'Error while updating Profile', type: 'error', cbk: function () {
-                }
-            });
-
-            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                .fadeIn('fast').delay(2000).fadeOut('fast'));
-            $('.connectionStatus').find('.alert-content').text('Error while updating Profile');
 
         })
         .always(function () {
