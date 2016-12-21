@@ -507,7 +507,12 @@ function getErrorMessage(message) {
         } else {
             var msg = message.split(':');
             if (msg.length > 0) {
-                return '{"success":false, "message":"' + msg[1] + '"}';
+                var code = 0;
+                if (msg[1].indexOf("An application with the issuer name") > 0) {
+                    code = 409;
+                }
+                // TODO:need to handle error codes proper way
+                return '{"success":false, "message":"' + msg[1] + '","code" : ' +  code + '}';
             }
         }
     }

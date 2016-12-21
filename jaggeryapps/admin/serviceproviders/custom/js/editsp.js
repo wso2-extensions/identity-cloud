@@ -559,15 +559,22 @@ function updateCustomSP(file) {
             if (data) {
                 var resp = JSON.parse(data);
                 if (!resp.success) {
-                    $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
-                    $('.issuer-status').find('.alert-content').text(resp.message).focus();
-                    $(window).scrollTop($('.app-drop-down-status').position().top);
+                    if (resp.code && resp.code == 409) {
+                        $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
+                        $('.issuer-status').find('.alert-content').text(resp.message).focus();
+                        $(window).scrollTop($('.issuer-status').position().top);
+                    } else {
+                        $('.form-status').append($(messageContainer).addClass('alert-error').show());
+                        $('.form-status').find('.alert-content').
+                        text("An error occurred while updating the application").focus();
+                        $(window).scrollTop($('.form-status').position().top);
+                    }
                 }
             } else {
                 //since success will return "" response data
-                if($('#metadataFileName').val().length > 0) {
+                if ($('#metadataFileName').val().length > 0) {
                     window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
-                }else{
+                } else {
                     window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
                 }
             }
