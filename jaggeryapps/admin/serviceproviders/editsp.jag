@@ -1291,7 +1291,7 @@ $("#store-app-banner").change(function (e) {
         var reader = new FileReader();
         reader.onloadend = function () {
             ele.attr('src', reader.result);
-            ele.attr('style', 'width: 100%;height:70px;margin-top: 10px;background-color: #525252;');
+            ele.attr('style', 'width: 50%;background-color: #525252;');
             ele.attr('id', 'dynamic-upld-imgb');
 
         };
