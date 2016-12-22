@@ -35,10 +35,11 @@ function updateSP(){
         var roleClaim = request.getParameter('roleClaim');
        // var claimsNumber = request.getParameter('number_of_claimmappings') - 1; //includes the header row also
         var sptype=request.getParameter("spType");
+        var useTenantDomainInLocalSubjectIdentifier = false;
+        var useUserStoreDomainInLocalSubjectIdentifier = false;
+
         var claimConfigs=request.getParameter("claimConfiguration");
         var objClaimConf = parse(claimConfigs);
-
-
         var localClaimDialect = objClaimConf.localClaimDialect;
 
         var isRoleClaimExist = false;
@@ -66,23 +67,30 @@ function updateSP(){
             claimMappings.push(claim);
         }
 
-        // Add Role claim URI for proxy type Applications if doesn't exist
-        if (storeAppType == APP_PROXY_TYPE && !isRoleClaimExist) {
-            var claim = {};
-            var localClaim = {};
-            claim["defaultValue"] = "";
+        if (storeAppType == APP_PROXY_TYPE) {
 
-            var localClaim = {};
-            localClaim["claimId"] = 0;
-            localClaim["claimUri"] = ROLE_CLAIM_URL;
-            claim["localClaim"] = localClaim;
-            claim["requested"] = true;
+            // Add Role claim URI for proxy type Applications if doesn't exist
+            if (!isRoleClaimExist) {
+                var claim = {};
+                var localClaim = {};
+                claim["defaultValue"] = "";
 
-            var remoteClaim = {};
-            remoteClaim["claimId"] = 0;
-            remoteClaim["claimUri"] = ROLE_CLAIM_URL;
-            claim["remoteClaim"] = remoteClaim;
-            claimMappings.push(claim);
+                var localClaim = {};
+                localClaim["claimId"] = 0;
+                localClaim["claimUri"] = ROLE_CLAIM_URL;
+                claim["localClaim"] = localClaim;
+                claim["requested"] = true;
+
+                var remoteClaim = {};
+                remoteClaim["claimId"] = 0;
+                remoteClaim["claimUri"] = ROLE_CLAIM_URL;
+                claim["remoteClaim"] = remoteClaim;
+                claimMappings.push(claim);
+           }
+
+            // Enable tenant domain and user store domain in subject identifier for proxy type apps
+            useTenantDomainInLocalSubjectIdentifier = true;
+            useUserStoreDomainInLocalSubjectIdentifier = true;
         }
 
         if (objClaimConf.subjectClaim != null && objClaimConf.subjectClaim.length > 0) {
@@ -359,8 +367,8 @@ function updateSP(){
         '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
         '<xsd1:authenticationType>' + ((appAuthConfig && appAuthConfig.authenticator.authenticationType) ? appAuthConfig.authenticator.authenticationType : "default") + '</xsd1:authenticationType>' +
         '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
-        '<xsd1:useTenantDomainInLocalSubjectIdentifier>true</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
-        '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>true</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
+        '<xsd1:useTenantDomainInLocalSubjectIdentifier>' + useTenantDomainInLocalSubjectIdentifier + '</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
+        '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +  useUserStoreDomainInLocalSubjectIdentifier + '</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
         '</xsd1:localAndOutBoundAuthenticationConfig>';
 
         updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
