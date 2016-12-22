@@ -105,7 +105,7 @@ function updateSP(){
             isEditingSP = true;
         }
 
-        serviceProviderDTO["issuer"] = request.getParameter("issuer");
+        serviceProviderDTO["issuer"] = "";
         serviceProviderDTO["assertionConsumerURLs"] = request.getParameter("assertionConsumerURLs").split(",");
         serviceProviderDTO["acsindex"] = "";
         serviceProviderDTO["defaultAssertionConsumerURL"] = request.getParameter("defaultAssertionConsumerURL");
@@ -133,6 +133,10 @@ function updateSP(){
         serviceProviderDTO["appType"] = sptype;
         serviceProviderDTO["metadata"] = "";
         serviceProviderDTO["publicCertificate"] = "";
+
+        if (request.getParameter("issuer") != null && request.getParameter("issuer").length > 0) {
+            serviceProviderDTO["issuer"] = "";
+        }
 
         if (request.getParameter("enableSingleLogout") == 'true') {
             serviceProviderDTO["enableSingleLogout"] = true;
