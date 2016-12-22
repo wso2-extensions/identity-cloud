@@ -83,13 +83,13 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
             if (providerProps["defaultAssertionConsumerURL"].value === assertionConsumerURL) {
                 trow = '<tr id="acsUrl_' + acsColumnId + '">' +
                     '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>' +
-                    '</td><td>' + assertionConsumerURL + '</td>' +
+                    '</td><td class="word-break">' + assertionConsumerURL + '</td>' +
                     '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + acsColumnId + '\');return false;"' +
                     'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
             } else {
                 trow = '<tr id="acsUrl_' + acsColumnId + '">' +
                     '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero" />' +
-                    '</td><td>' + assertionConsumerURL + '</td>' +
+                    '</td><td class="word-break">' + assertionConsumerURL + '</td>' +
                     '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + acsColumnId + '\');return false;"' +
                     'href="#" class="delete-link"> <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
             }
@@ -334,7 +334,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     enableAudienceRestrictionRow = enableAudienceRestrictionRow +
         '    <table id="audienceTableId" style="' + audienceTableStyle + '" class="table">' +
-        '          <tr><th>Audience</th>  <th style="text-align: right !important;">Action</th> </tr> ' +
+        '          <tr><th>Audience</th>  <th class="delete-col">Action</th> </tr> ' +
         '        <tbody id="audienceTableTbody">';
     var j = 0;
     if (providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value.length > 0) {
@@ -759,7 +759,7 @@ function addAssertionConsumerURL() {
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
             '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>' +
-            '</td><td>' + assertionConsumerURL +  '</td>' +
+            '</td><td class="word-break">' + assertionConsumerURL +  '</td>' +
             '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="delete-link"  > <i class="fw fw-delete"></i><span class="hidden-xs"> Delete </span></a></td></tr>';
 
@@ -783,7 +783,7 @@ function addAssertionConsumerURL() {
         var row =
             '<tr id="acsUrl_' + parseInt(currentColumnId) + '">' +
             '</td><td>' + '<input type="radio"   name="radio" class="radio-group custom-radio margin-zero"   checked/>'  +
-            '</td><td>' + assertionConsumerURL +  '</td>' +
+            '</td><td class="word-break">' + assertionConsumerURL +  '</td>' +
             '<td><a onclick="removeAssertionConsumerURL (\'' + assertionConsumerURL + '\', \'acsUrl_' + parseInt(currentColumnId) + '\');return false;"' +
             'href="#" class="delete-link"  >  <i class="fw fw-delete "></i><span class="hidden-xs"> Delete </span></a></td></tr>';
 

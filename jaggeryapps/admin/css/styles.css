@@ -27,7 +27,7 @@ body {
 }
 .cloud-container {
     position: relative;
-    top: 125px;
+    top: 104px;
 }
 .cloud-menu {
     background-color: #151515;
@@ -1606,7 +1606,8 @@ svg .outer {
 
 .alert{
     border-radius: 0px;
-    min-height:50px;
+    min-height:30px;
+    padding: 5px !important;
 }
 .alert-success {
     background-color: #27ae60;
@@ -1619,11 +1620,13 @@ svg .outer {
     color:#666;
 }
 .alert-error {
-    background-color: #ae2727;
-    border-color: #d44040;
-    border-radius: 0px;
-    color: #fff;
-    padding: 0px;
+    line-height: 1.5em;
+    color: rgb(255, 255, 255) !important;
+    background-color: #e74c3c;
+    width: 100%;
+    padding: 5px 10px;
+    border-left: 5px solid #942F25;
+    font-weight: 500;
 }
 
 .alert .close{
@@ -3670,7 +3673,6 @@ td, th {
     height: 35px;
     color: #444;
     border-bottom: 1px solid #b3b3b3;
-    word-break: break-all;
 }
 .security-type-table table th {
     background-color: #b3b3b3;
@@ -3703,7 +3705,7 @@ td, th {
     border-color: transparent;
 }
 .delete-col{
-    width: 10%;
+    width: 15%;
 }
 .delete-link{
     color:#666;
@@ -3720,4 +3722,7 @@ td, th {
 }
 .header-top{
     margin-top: 20px !important;
+}
+.word-break {
+    word-break: break-all;
 }

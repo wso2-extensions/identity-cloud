@@ -267,10 +267,13 @@ function setCustomImage(appName) {
                 var result = JSON.parse(data);
                 if (result != null && result.thumbnailUrl != undefined) {
                     var thumbnailLink = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
-                    var bannerLink = "/user-portal/storage/webapp/" + result.id + '/' + result.banner;
                     $('#sp-img-thumb').attr('src', thumbnailLink);
-                    $('#sp-img-banner').attr('src', bannerLink);
                     $('#sp-img').attr('src', thumbnailLink);
+                }
+                if (result != null && result.banner != undefined) {
+                    var bannerLink = "/user-portal/storage/webapp/" + result.id + '/' + result.banner;
+                    $('#sp-img-banner').attr('src', bannerLink);
+                    $('#sp-img-banner').attr('style', 'width: 50%;background-color: #525252;');
                 }
             }
         },
@@ -548,7 +551,6 @@ function updateCustomSP(file) {
     formData.append('thumbnailUrl', thumbnailUrl);
     formData.append('bannerFile', bannerFile);
     formData.append('bannerUrl', bannerUrl);
-    
     $.ajax({
         url: str,
         type: "POST",
@@ -557,21 +559,30 @@ function updateCustomSP(file) {
                data: formData
     })
         .done(function (data) {
-            if($('#metadataFileName').val().length > 0) {
-                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
-            }else{
-                window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+            if (data) {
+                var resp = JSON.parse(data);
+                if (!resp.success) {
+                    if (resp.code && resp.code == 409) {
+                        $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
+                        $('.issuer-status').find('.alert-content').text(resp.message).focus();
+                        $(window).scrollTop($('.issuer-status').position().top);
+                    } else {
+                        $('.form-status').append($(messageContainer).addClass('alert-error').show());
+                        $('.form-status').find('.alert-content').
+                        text("An error occurred while updating the application").focus();
+                        $(window).scrollTop($('.form-status').position().top);
+                    }
+                }
+            } else {
+                //since success will return "" response data
+                if ($('#metadataFileName').val().length > 0) {
+                    window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceprovider/" + $('#spName').val();
+                } else {
+                    window.location.href = "/" + ADMIN_PORTAL_NAME + "/serviceproviders";
+                }
             }
         })
         .fail(function () {
-            message({
-                content: 'Error while updating Profile', type: 'error', cbk: function () {
-                }
-            });
-
-            $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                .fadeIn('fast').delay(2000).fadeOut('fast'));
-            $('.connectionStatus').find('.alert-content').text('Error while updating Profile');
 
         })
         .always(function () {

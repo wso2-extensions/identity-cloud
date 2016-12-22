@@ -22,7 +22,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WSO2 Cloud</title>
+    <title>App Overview | WSO2 Cloud-Admin Portal</title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap-3.2.0/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
     <link href="../css/datatables-1.10.7/dataTables.responsive.css" rel="stylesheet">
     <link href="../css/datatables-1.10.7/jquery.dataTables.override.css" rel="stylesheet">
     <link href="../css/styles.css" rel="stylesheet">
-
+    <link rel="shortcut icon" href="../images/favicon.png">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -75,16 +75,10 @@ include("/templates/header.jag");
     <%include("/templates/leftpane.jag");%>
     <!-- left pane wrapper -->
     <div class="right-pane">
-        <!-- BOF App  menu actionbar -->
-        <div class="action-bar">
-            <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
-        </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
-
-                    <div id="push"></div>
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
