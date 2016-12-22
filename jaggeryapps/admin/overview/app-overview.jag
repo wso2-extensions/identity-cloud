@@ -76,7 +76,7 @@ include("/templates/header.jag");
     <!-- left pane wrapper -->
     <div class="right-pane">
 
-        <div class="container-fluid app-content-section">
+        <div class="container-fluid app-overview-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
 
