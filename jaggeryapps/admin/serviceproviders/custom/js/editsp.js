@@ -183,6 +183,7 @@ function drawAppDetails(data) {
     }else{
         $('#storeAppType').val(WELL_KNOWN_APP);
     }
+    $("#img-loader").hide();
 }
 
 function preDrawUpdatePage(appName) {
