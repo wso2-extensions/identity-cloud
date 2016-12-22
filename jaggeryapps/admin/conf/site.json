@@ -7,6 +7,14 @@
     },
     "customStoreThemeConfig" : {
         "whitelist" : ["css", "svg"]
+    },
+    "headerUrls" : {
+        "support" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/contact-us.jag",
+        "profile" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user-profile.jag",
+        "appCloud" : "https://apps.cloud.wso2.com/appmgt/site/pages/index.jag",
+        "apiCloud" : "https://api.cloud.wso2.com/publisher/",
+        "organization" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag",
+        "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag"
     }
 
 }
