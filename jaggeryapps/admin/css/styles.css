@@ -221,6 +221,7 @@ a.btn-action {
     text-transform: uppercase;
     height: 53px;
     padding: 9px 10px;
+    cursor: pointer;
 }
 /* cloud popover menu related styles */
 
@@ -3633,9 +3634,6 @@ td, th {
     bottom: 30px;
     width: 60%;
 }
-.pull-up {
-    margin-top: -70px;
-}
 .btn-content {
     font-size: 18px;
 }
@@ -3646,7 +3644,6 @@ td, th {
 .text-agent-archi {
     color: #cac8c8;
     display: block;
-    margin-top: -50px;
     bottom: 100px;
 }
 
@@ -3657,9 +3654,6 @@ td, th {
 #security-type table {
     width:100%;
 }
-/*.security-type-table table,.security-type-table th,.security-type-table td {*/
-    /*border-collapse: collapse;*/
-/*}*/
 .security-type-table table {
     margin-top: 10px;
 }

@@ -88,13 +88,23 @@ include("/templates/header.jag");
     <!-- left pane wrapper -->
     <div class="right-pane">
 
+        <div class="action-bar">
+            <a onclick="urlResolver('overview');" class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Back to Overview">
+                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-left-arrow fw-stack-1x"></i>
+                </span> Back to Overview
+            </a>
+        </div>
+
         <div class="container-fluid app-content-section conf-guide">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
                     <input id="drName" name="drName" type="text" value="Default" class="form-control"
                            placeholder="Enter directory name" autofocus style="visibility: hidden"/>
 
-                     <div class="row pull-up">
+                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="message message-info sample-userstore-msg">
                                 <span><i class="icon fw fw-info"></i>If your download didn't start automatically, <a href="#"

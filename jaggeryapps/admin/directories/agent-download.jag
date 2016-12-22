@@ -88,6 +88,15 @@ include("/templates/header.jag");
 
     <!-- left pane wrapper -->
     <div class="right-pane">
+        <div class="action-bar">
+            <a onclick="urlResolver('overview');" class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Back to Overview">
+                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-left-arrow fw-stack-1x"></i>
+                </span> Back to Overview
+            </a>
+        </div>
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
