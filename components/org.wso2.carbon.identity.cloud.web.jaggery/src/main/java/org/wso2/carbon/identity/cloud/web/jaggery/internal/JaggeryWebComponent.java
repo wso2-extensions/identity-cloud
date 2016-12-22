@@ -37,7 +37,7 @@ public class JaggeryWebComponent {
 
     protected void deactivate(ComponentContext ctxt) {
         if (log.isDebugEnabled()){
-            log.debug("HostObjectComponent deactivated");
+            log.debug("JaggeryWebComponent deactivated");
         }
     }
 }

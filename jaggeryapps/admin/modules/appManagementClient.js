@@ -1,7 +1,7 @@
 var appManagementClient = function () {
 
     var log = new Log("AppManagementHttpClient : ");
-    var appMHttpClients = Packages.org.wso2.carbon.identity.cloud.web.jaggery.clients.AppMHttpClient;
+    var appMHttpClients = Packages.org.wso2.carbon.identity.cloud.web.jaggery.clients.MutualSSLHttpClient;
     var appMHttpClientObjs = new appMHttpClients();
     var httpHeaders = Packages.org.wso2.carbon.identity.cloud.web.jaggery.clients.HttpHeaders;
     var httpHeadersObj = new httpHeaders();

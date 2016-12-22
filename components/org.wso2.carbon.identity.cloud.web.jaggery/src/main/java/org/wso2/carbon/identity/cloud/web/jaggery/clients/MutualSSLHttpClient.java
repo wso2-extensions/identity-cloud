@@ -21,11 +21,11 @@ package org.wso2.carbon.identity.cloud.web.jaggery.clients;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.wso2.carbon.base.ServerConfiguration;
@@ -36,10 +36,10 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Map;
 
-public class AppMHttpClient {
+public class MutualSSLHttpClient {
 
-    private static final Log log = LogFactory.getLog(AppMHttpClient.class);
-    CloseableHttpClient httpClient = null;
+    private static final Log log = LogFactory.getLog(MutualSSLHttpClient.class);
+    org.apache.http.client.HttpClient httpClient = null;
     private static String ApplicationJson = "application/json";
     private static String keyStoreType = "JKS";
     private static String SecurityKeyStoreLocation = "Security.KeyStore.Location";
@@ -48,20 +48,20 @@ public class AppMHttpClient {
     private static String SecurityTrustStoreLocation = "Security.TrustStore.Location";
     private static String SecurityTrustStorePassword = "Security.TrustStore.Password";
 
-    public AppMHttpClient() {
+    public MutualSSLHttpClient() {
+        String filePath = null;
         try {
-            // Load the keystore containing the client certificate - keystore type is probably jks or pkcs12.
             final KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-            InputStream keystoreInput = new FileInputStream(new File(ServerConfiguration.getInstance()
-                    .getFirstProperty(SecurityKeyStoreLocation)));
+            filePath = ServerConfiguration.getInstance()
+                    .getFirstProperty(SecurityKeyStoreLocation);
+            InputStream keystoreInput = new FileInputStream(new File(filePath));
             keyStore.load(keystoreInput, ServerConfiguration.getInstance()
                     .getFirstProperty(SecurityKeyStorePassword).toCharArray());
 
-            // Load the trust store, leave it null to rely on cacerts distributed with the JVM - truststore type is
-            // probably jks or pkcs12.
             final KeyStore trustStore = KeyStore.getInstance(keyStoreType);
-            InputStream truststoreInput = new FileInputStream(new File(ServerConfiguration.getInstance()
-                    .getFirstProperty(SecurityTrustStoreLocation)));
+            filePath = ServerConfiguration.getInstance()
+                    .getFirstProperty(SecurityTrustStoreLocation);
+            InputStream truststoreInput = new FileInputStream(new File(filePath));
             trustStore.load(truststoreInput, ServerConfiguration.getInstance()
                     .getFirstProperty(SecurityTrustStorePassword).toCharArray());
 
@@ -74,19 +74,19 @@ public class AppMHttpClient {
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext);
             httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
         } catch (KeyStoreException e) {
-            log.error(e);
+            log.error("Error while instantiating key store for key store type : " + keyStoreType, e);
         } catch (FileNotFoundException e) {
-            log.error(e);
+            log.error("File not found in the given path : " + filePath, e);
         } catch (IOException e) {
-            log.error(e);
+            log.error("Error while loading the key store in the given path : " + filePath, e);
         } catch (CertificateException e) {
-            log.error(e);
+            log.error("Certificate error in the key store : " + filePath, e);
         } catch (NoSuchAlgorithmException e) {
-            log.error(e);
+            log.error("Algorithm error in the key store : " + filePath, e);
         } catch (UnrecoverableKeyException e) {
-            log.error(e);
+            log.error("Error while creating the SSLContext", e);
         } catch (KeyManagementException e) {
-            log.error(e);
+            log.error("Error while creating the SSLContext", e);
         }
     }
 
@@ -105,8 +105,7 @@ public class AppMHttpClient {
             postMethod.setEntity(inputMappings);
             responseString = doHttpMethod(postMethod, headers);
         } catch (UnsupportedEncodingException e) {
-            log.error(e);
-            return null;
+            log.error("Error while creating payload for http request. Payload : " + jsonContent, e);
         }
         return responseString;
     }
@@ -120,8 +119,7 @@ public class AppMHttpClient {
             putMethod.setEntity(inputMappings);
             responseString = doHttpMethod(putMethod, headers);
         } catch (UnsupportedEncodingException e) {
-            log.error(e);
-            return null;
+            log.error("Error while creating payload for http request. Payload : " + jsonContent, e);
         }
         return responseString;
     }
@@ -139,12 +137,12 @@ public class AppMHttpClient {
                 httpMethod.addHeader(entry.getKey(), entry.getValue());
             }
 
-            CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpMethod);
+            HttpResponse closeableHttpResponse = httpClient.execute(httpMethod);
             HttpEntity entity = closeableHttpResponse.getEntity();
             responseString = EntityUtils.toString(entity, "UTF-8");
         } catch (IOException e) {
-            log.error(e);
-            return null;
+            log.error("Error while executing the http method " + httpMethod.getMethod()
+                    + ". Endpoint : " + httpMethod.getURI(), e);
         }
         return responseString;
     }
