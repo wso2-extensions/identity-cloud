@@ -140,7 +140,7 @@ var domainName = request.getParameter("domain");
                                                 <label for="agentUrl">Agent URL: </label>
 
                                                 <div class="input-group input-wrap">
-                                                    <input id="agentUrl" name="url" type="text" class="form-control" placeholder="Enter agent URL" autofocus/>
+                                                    <input id="agentUrl" name="url" type="text" class="form-control" placeholder="https://useragent.example.com/wso2agent" autofocus/>
                                                     <div class="input-group-btn">
                                                         <button class="btn btn-info" type="button" onclick="testConnection(document.getElementById('agentUrl').value)" id="demote-application" title="Test your connection">
                                                             <span class="hidden-xs">Test connection</span>

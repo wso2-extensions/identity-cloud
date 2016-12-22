@@ -140,7 +140,7 @@ include("/templates/header.jag");
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="agentUrl"
-                                                       placeholder="Enter your agent URL" name="agentUrl">
+                                                       placeholder="https://useragent.example.com/wso2agent" name="agentUrl">
                                      <div class="connectionStatus"></div>
                                      <span class="input-group-btn input-group-btn-check">
                                            <button class="btn btn-info" type="button"
