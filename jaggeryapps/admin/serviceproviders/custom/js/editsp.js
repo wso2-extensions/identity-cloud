@@ -183,6 +183,7 @@ function drawAppDetails(data) {
     }else{
         $('#storeAppType').val(WELL_KNOWN_APP);
     }
+    $("#img-loader").hide();
 }
 
 function preDrawUpdatePage(appName) {
@@ -232,7 +233,8 @@ function renderCustomPage(data) {
                 $("#samlconfig").remove();
                 clonex.removeClass("panel-collapse collapse");
                 $("#dynamic-sso-config").html(clonex).show();
-                $("#security-accordion").hide();
+                $("#securityconfig").hide();
+                $("#claim-title").hide();
                 $("#storeconfig").removeClass("panel-collapse collapse");
                 $("#span-head-security").removeClass("clickable");
                 $("#up-icon").removeClass("fw fw-up");

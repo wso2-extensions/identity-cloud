@@ -183,6 +183,19 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
 }( jQuery ));
 
+/* ========================================================================
+ * Left Navbar active state
+ * ======================================================================== */
+(function ( $ ) {
+    if (window.location.href.indexOf("overview") > -1) {
+        $('.overview').addClass('active');
+    }else if (window.location.href.indexOf("directories") > -1) {
+        $('.directories').addClass('active');
+    }else if (window.location.href.indexOf("serviceproviders") > -1) {
+        $('.serviceproviders').addClass('active');
+    }
+}( jQuery ));
+
 //fix popover close issue
 function hidePopover(e) {
     $('[data-toggle="popover"]').each(function () {

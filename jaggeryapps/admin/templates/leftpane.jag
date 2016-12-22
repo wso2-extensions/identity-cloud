@@ -2,13 +2,13 @@
 
 <div class="left-pane">
        <ul>
-           <li>
+           <li class="overview">
                <a onclick="urlResolver('overview');"  ><i class="fa fa-laptop"></i> Overview</a>
            </li>
-           <li>
+           <li class="directories">
                <a onclick="urlResolver('directory');" ><i class="fw fw-folder"></i> Directories</a>
            </li>
-           <li>
+           <li class="serviceproviders">
                <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders"><i class="fw fw-globe"></i> Applications</a>
            </li>
 <!--           <li>
