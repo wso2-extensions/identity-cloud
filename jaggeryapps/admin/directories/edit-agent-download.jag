@@ -81,6 +81,7 @@ include("/templates/header.jag");
     <%
     var domainName = request.getParameter("domain");
     %>
+    <iframe id="ifrmDownload" name="ifrmDownload" hidden="true"></iframe>
     <input type="hidden" value="<%=encode.forHtml(domainName)%>" id="domain">
     <input type="hidden" value="" id="uniqueid">
     <input type="hidden" value="false" id="disabled">
@@ -157,16 +158,13 @@ include("/templates/header.jag");
                     <div class="margin-bottom-md">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="add-issue-content">
-                                    <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" href=" ">
-                                        <span class="fw-stack btn-action-ico">
-                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                            <i class="fw fw-download fw-stack-1x"></i>
-                                        </span>
-                                        <span>Download Agent</span>
-                                    </button>
-                                </div>
-
+                                <a class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" href="javascript:downloadAgentRedirect()">
+                                    <span class="fw-stack btn-action-ico">
+                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                        <i class="fw fw-download fw-stack-1x"></i>
+                                    </span>
+                                    <span>Download Agent</span>
+                                </a>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
