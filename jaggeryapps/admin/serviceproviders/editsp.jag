@@ -385,15 +385,14 @@ include("../templates/leftpane.jag");
                                title="You can upload samal sso configurations from file"></i>
                                                          </label>
                                                          <div class="input-group input-wrap">
-
                                                             <input type="text" class="form-control" id="metadataFileName" name="metadataFileName" disabled="disabled">
-                                                        <span class="input-group-btn">
-                                                           <button class="btn btn-info" type="button"
-                                                                   onclick="$('#uploadfile').trigger('click');return false;">Browse</button>
-                                                     </span>
-
+                                                            <div class="upload-status"></div>
+                                                            <label id="upload-error" class="error" hidden="" >An application with the issuer name already exists</label>
+                                                            <div class="input-group-btn btn-add">
+                                                                <button class="btn btn-info" type="button" onclick="$('#uploadfile').trigger('click');return false;">Browse</button>
+                                                            </div>
                                                          </div>
-                                                      </div>
+
 
                                                    </div>
                                                 </form>
