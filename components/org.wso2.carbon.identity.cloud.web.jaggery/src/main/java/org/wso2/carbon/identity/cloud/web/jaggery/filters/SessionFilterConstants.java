@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.cloud.web.jaggery;
+package org.wso2.carbon.identity.cloud.web.jaggery.filters;
 
 public class SessionFilterConstants {
 

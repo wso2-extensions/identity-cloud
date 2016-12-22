@@ -423,5 +423,6 @@
         <orbit.version.json-simple>1.1.wso2v1</orbit.version.json-simple>
         <json-smart.version>1.3</json-smart.version>
         <encoder.wso2.version>1.2.0.wso2v1</encoder.wso2.version>
+        <apache.httpcomponents.version>4.3.1.wso2v1</apache.httpcomponents.version>
     </properties>
 </project>
