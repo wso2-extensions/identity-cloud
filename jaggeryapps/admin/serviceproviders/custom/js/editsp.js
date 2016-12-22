@@ -560,9 +560,17 @@ function updateCustomSP(file) {
                 var resp = JSON.parse(data);
                 if (!resp.success) {
                     if (resp.code && resp.code == 409) {
-                        $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
-                        $('.issuer-status').find('.alert-content').text(resp.message).focus();
-                        $(window).scrollTop($('.issuer-status').position().top);
+                        if ($("#radioCf").is(":checked")) {
+                            // when uploading saml meta data file
+                            $('.upload-status').append($(messageContainer).addClass('alert-error').show());
+                            $('.upload-status').find('.alert-content').text(resp.message).focus();
+                            $(window).scrollTop($('.upload-status').position().top);
+                        } else {
+                            $('.issuer-status').append($(messageContainer).addClass('alert-error').show());
+                            $('.issuer-status').find('.alert-content').text(resp.message).focus();
+                            $(window).scrollTop($('.issuer-status').position().top);
+                        }
+
                     } else {
                         $('.form-status').append($(messageContainer).addClass('alert-error').show());
                         $('.form-status').find('.alert-content').
