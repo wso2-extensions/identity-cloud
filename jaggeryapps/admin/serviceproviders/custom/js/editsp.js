@@ -267,10 +267,13 @@ function setCustomImage(appName) {
                 var result = JSON.parse(data);
                 if (result != null && result.thumbnailUrl != undefined) {
                     var thumbnailLink = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
-                    var bannerLink = "/user-portal/storage/webapp/" + result.id + '/' + result.banner;
                     $('#sp-img-thumb').attr('src', thumbnailLink);
-                    $('#sp-img-banner').attr('src', bannerLink);
                     $('#sp-img').attr('src', thumbnailLink);
+                }
+                if (result != null && result.banner != undefined) {
+                    var bannerLink = "/user-portal/storage/webapp/" + result.id + '/' + result.banner;
+                    $('#sp-img-banner').attr('src', bannerLink);
+                    $('#sp-img-banner').attr('style', 'width: 50%;background-color: #525252;');
                 }
             }
         },

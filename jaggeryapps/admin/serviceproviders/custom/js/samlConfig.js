@@ -334,7 +334,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
 
     enableAudienceRestrictionRow = enableAudienceRestrictionRow +
         '    <table id="audienceTableId" style="' + audienceTableStyle + '" class="table">' +
-        '          <tr><th>Audience</th>  <th style="text-align: right !important;">Action</th> </tr> ' +
+        '          <tr><th>Audience</th>  <th class="delete-col">Action</th> </tr> ' +
         '        <tbody id="audienceTableTbody">';
     var j = 0;
     if (providerProps["audienceURLs"] != null && providerProps["audienceURLs"].value.length > 0) {
