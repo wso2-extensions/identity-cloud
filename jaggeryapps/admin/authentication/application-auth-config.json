@@ -1,0 +1,7 @@
+{
+  "authenticator": {
+    "authenticatorName": "BasicIdentityCloudAuthenticator",
+    "authenticatorDisplayName": "BasicIdentityCloudAuth",
+    "authenticationType": "local"
+  }
+}
