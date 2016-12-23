@@ -1153,11 +1153,14 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
             $("#claim_dialect_custom").hide().closest('label').hide();
+            $("#securityconfig").hide();
+            $("#claim-title").hide();
             break;
         case 'Shortcut' :
             $("#skipgateway").prop('checked', true);
             $("#security-type").hide();
-            $("#security-accordion").hide();
+            $("#securityconfig").hide();
+            $("#claim-title").hide();
             $("#gw-config-section").hide();
             $("#store-app-url-sec").show();
             break;
