@@ -62,6 +62,34 @@ function drawSPDetails() {
     }
 }
 
+function dynamicClickAuthType() {
+    var timeout = setInterval(function () {
+        // drop down selection (inbound security drop down selection)
+        if (window.location.href.indexOf('?oauthVersion') > -1) {
+            $("#custom-security-dropdown").click();
+            $("#oAuthOPenIdLink").click();
+        } else {
+            if (inboundAuthType === "samlssocloud") {
+                $("#custom-security-dropdown").click();
+                $("#SAML2WebLink").click();
+            } else if (inboundAuthType === "oauth2") {
+                $("#custom-security-dropdown").click();
+                $("#oAuthOPenIdLink").click();
+
+            } else if (inboundAuthType === "passivests") {
+                $("#custom-security-dropdown").click();
+                $("#wsFedLink").click();
+
+            }
+        }
+        if (window.location.href.indexOf('?consumerkey') > -1) {
+            $("#custom-security-dropdown").click();
+            $("#oAuthOPenIdLink").click();
+        }
+
+        clearTimeout(timeout);
+    }, APP_DETAIL_TIMEOUT);
+}
 function drawAppDetails(data) {
     if ($('#skipgateway').is(':checked')) {
         $("#gw-config input").val("");
@@ -117,33 +145,43 @@ function drawAppDetails(data) {
     }
     $('#app-id').val(id);
     // add images to edit view
-
     if (appType == CUSTOM_SP) {
-        if (data && data.skipGateway == "false") {
+        if (data && data.skipGateway == "true") {
             var storeAppType = getStoreAppType(data);
             $("#skipgateway").prop('checked', false);
             $("#skipgateway").hide();
             $("#custom-app-dropdown").click();
             $("#security-type").hide();
-            if (storeAppType == APP_PROXY_TYPE) {
-                //proxy type
-                $('#storeAppType').val(APP_PROXY_TYPE);
-                $("#custom-app-dropdown #proxytype").click();
-                $("#gw-config-section").show();
-                $("#gatewayconfig").attr('class', '');
-                $("#gw-config-section").find('.panel-heading').remove();
-                $("#claim_dialect_custom").hide().closest('label').hide();
-                $("#subject-claim-dropdown").remove();
-            } else {
+            if (storeAppType == APP_AGENT_TYPE) {
+                //Agent type
+                $('#storeAppType').val(APP_AGENT_TYPE);
+                $("#custom-app-dropdown").click();
+                $("#custom-app-dropdown #agenttype").click();
+
+                $("#skipgateway").prop('checked', true);
+                $("#gw-config-section").hide();
+                $("#security-type").show();
+                dynamicClickAuthType();
+
+            } else if (storeAppType == APP_SHORTCUT_TYPE){
                 //shortcut type
                 $('#storeAppType').val(APP_SHORTCUT_TYPE);
                 $("#custom-app-dropdown #shortcut").click();
                 $("#security-type").hide();
-                $("#security-accordion").hide();
+                $("#security-accordion").show();
                 $("#gw-config-section").hide();
             }
+        } else if (data && data.skipGateway == "false"){
+            //proxy type
+            $('#storeAppType').val(APP_PROXY_TYPE);
+            $("#custom-app-dropdown #proxytype").click();
+            $("#gw-config-section").show();
+            $("#gatewayconfig").attr('class', '');
+            $("#gw-config-section").find('.panel-heading').remove();
+            $("#claim_dialect_custom").hide().closest('label').hide();
+            $("#subject-claim-dropdown").remove();
+
         } else {
-            //Agent type
             $('#storeAppType').val(APP_AGENT_TYPE);
             $("#custom-app-dropdown").click();
             $("#custom-app-dropdown #agenttype").click();
@@ -151,34 +189,7 @@ function drawAppDetails(data) {
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
             $("#security-type").show();
-
-            var timeout = setInterval(function () {
-                // drop down selection (inbound security drop down selection)
-                if (window.location.href.indexOf('?oauthVersion') > -1) {
-                    $("#custom-security-dropdown").click();
-                    $("#oAuthOPenIdLink").click();
-                } else {
-                    if (inboundAuthType === "samlssocloud") {
-                        $("#custom-security-dropdown").click();
-                        $("#SAML2WebLink").click();
-                    } else if (inboundAuthType === "oauth2") {
-                        $("#custom-security-dropdown").click();
-                        $("#oAuthOPenIdLink").click();
-
-                    } else if (inboundAuthType === "passivests") {
-                        $("#custom-security-dropdown").click();
-                        $("#wsFedLink").click();
-
-                    }
-                }
-                if (window.location.href.indexOf('?consumerkey') > -1) {
-                    $("#custom-security-dropdown").click();
-                    $("#oAuthOPenIdLink").click();
-                }
-
-                clearTimeout(timeout);
-            }, APP_DETAIL_TIMEOUT);
-
+            dynamicClickAuthType();
         }
     }else{
         $('#storeAppType').val(WELL_KNOWN_APP);
