@@ -135,7 +135,7 @@ function updateSP(){
         serviceProviderDTO["publicCertificate"] = "";
 
         if (request.getParameter("issuer") != null && request.getParameter("issuer").length > 0) {
-            serviceProviderDTO["issuer"] = "";
+            serviceProviderDTO["issuer"] = request.getParameter("issuer");
         }
 
         if (request.getParameter("enableSingleLogout") == 'true') {
