@@ -205,7 +205,7 @@ var domainName = request.getParameter("domain");
 <script src="../js/custom/custom.js"></script>
 <script src="js/directory.js"></script>
 <script src="../js/custom/constants.js"></script>
-
+<script type="text/javascript" src="/admin/csrf.js"></script>
 <script>
     $('.side-pane-trigger').click(function(){
         var rightPane = $('.right-pane');

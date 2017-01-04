@@ -234,6 +234,7 @@ include("/templates/header.jag");
     <script src="../js/custom/constants.js"></script>
     <script src="../js/custom/custom.js"></script>
     <script src="../samples/js/samples.js"></script>
+    <script type="text/javascript" src="/admin/csrf.js"></script>
 
     <script>
         $('.side-pane-trigger').click(function () {

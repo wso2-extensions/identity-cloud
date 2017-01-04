@@ -1061,6 +1061,7 @@ include("/templates/footer.jag");
 <script src="../js/custom/custom.js"></script>
 <script src="../js/custom/jquery.validate.min.js"></script>
 <script src="../js/custom/constants.js"></script>
+<script type="text/javascript" src="/admin/csrf.js"></script>
 <script>
 
 var samlHtml = '<div class="btn-group" style="display: none" id="sso-drop-down">'+
