@@ -515,8 +515,8 @@ function updateCustomSP(file) {
     }
 
     var checkBoxArr= $("#addServiceProvider input:checkbox");
-    for(var checkbox in checkBoxArr){
-        formData.append(checkBoxArr[checkbox].id,checkBoxArr[checkbox].value);
+    for (var i = 0; i < checkBoxArr.length; i++) {
+        formData.append(checkBoxArr[i].id, checkBoxArr[i].value);
     }
  
     var claimData = {};
