@@ -276,6 +276,7 @@ include("/templates/header.jag");
     <script src="../js/custom/identity-validate.js"></script>
     <script src="js/directory.js"></script>
     <script src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/admin/csrf.js"></script>
 
 
     <script>

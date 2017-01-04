@@ -297,6 +297,7 @@ include("/templates/header.jag");
     <script src="js/custom/identity-validate.js"></script>
     <script src="directories/js/directory.js"></script>
     <script src="directories/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/admin/csrf.js"></script>
     <script>
         var messageContainer = "<div class='alert' role='alert'>" +
                 "<span class='alert-content'></span></div>";
