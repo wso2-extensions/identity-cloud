@@ -21,7 +21,6 @@ if(appManagementIntegrationConfig.enabled && !isMetaUploaded){
 
 function updateSP(){
     try{
-
         var cookie = session.get('auth-cookie');
         var spName = request.getParameter('spName');
         var oldSPName = request.getParameter('oldSPName');
