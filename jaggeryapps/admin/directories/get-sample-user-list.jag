@@ -45,7 +45,7 @@ function getSampleUsers() {
         for (var i = 0; i < users.return.length; i++) {
             user = {};
             if (users.return[i].indexOf("/") > -1) {
-                user.name = users.return[i].split("/")[1] + "@" + tenantDomain;
+                user.name = users.return[i].split("/")[1];
                 user.password = users.return[i].split("/")[2];
             }
             jsonAry.push(user);
