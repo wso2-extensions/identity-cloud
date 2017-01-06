@@ -14,7 +14,8 @@
         "appCloud" : "https://apps.cloud.wso2.com/appmgt/site/pages/index.jag",
         "apiCloud" : "https://api.cloud.wso2.com/publisher/",
         "organization" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag",
-        "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag"
+        "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag",
+        "documentation" : "#"
     }
 
 }

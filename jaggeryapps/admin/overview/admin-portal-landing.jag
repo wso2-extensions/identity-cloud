@@ -87,7 +87,7 @@ include("/util/encode.jag");
                         <h4>Want us to configure some sample data for you ? or you can just start by setting up your
                             user store</h4>
                         </br>
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure')">
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure',cookie,userName)">
                             <i class="fw fw fw-service"></i>
                             <span>Start Configuring</span>
                         </a>
@@ -143,27 +143,10 @@ include("/util/encode.jag");
 </script>
 
 <script>
-    var cookie = null;
-    var json = null;
     var userName = null;
-    var serverUrl = window.location.host;
-    $(function WindowLoad(event) {
-        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-        ws = new WebSocket(url);
-
-        ws.onopen = function () {
-            ws.send("First Message open");
-        };
-        ws.onmessage = function (event) {
-            var obj = $.parseJSON(event.data);
-            cookie = obj.cookie;
-            userName = obj.user;
-            //getDirectories();
-        };
-        ws.onclose = function () {
-        };
-
-    });
+    var cookie = null;
+    cookie = "<%=session.get('auth-cookie')%>";
+    userName = "<%=session.get('user')%>";
 </script>
 </body>
 </html>

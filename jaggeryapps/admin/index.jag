@@ -95,24 +95,9 @@ include("templates/footer.jag");
     var cookie = null;
     var json = null;
     var userName = null;
-    var serverUrl = window.location.host;
-    $(function WindowLoad(event) {
-        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-        ws = new WebSocket(url);
-
-        ws.onopen = function () {
-            ws.send("First Message open");
-        };
-        ws.onmessage = function (event) {
-            var obj = $.parseJSON(event.data);
-            cookie = obj.cookie;
-            userName = obj.user;
-            urlResolver("overview");
-        };
-        ws.onclose = function () {
-        };
-
-    });
+    cookie = "<%=session.get('auth-cookie')%>";
+    userName = "<%=session.get('user')%>";
+    urlResolver("overview",cookie,userName);
 </script>
 
 </body>

@@ -82,7 +82,7 @@ var domainName = request.getParameter("domain");
 
                                                             <!-- BOF App  menu actionbar -->
                                                             <div class="action-bar">
-                                                                <a onclick="urlResolver('overview');" class="btn-action" data-toggle="tooltip" data-placement="top"
+                                                                <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
                                                                     title="Back to Overview">
                                                                     <span class="fw-stack fw-lg btn-action-ico">
                                                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -193,25 +193,10 @@ var domainName = request.getParameter("domain");
                                                             var serverUrl = window.location.host;
                                                             var cookie = null;
                                                             var userName = null;
-
-                                                             $(function WindowLoad(event) {
-                                                            url =
-                                                            'wss://' + serverUrl + '/admin/session_manager.jag';
-                                                            ws = new WebSocket(url);
-
-                                                            ws.onopen = function () {
-
-                                                            ws.send("First Message open");
-                                                            };
-                                                            ws.onmessage = function (event) {
-                                                            var obj = $.parseJSON(event.data);
-                                                            cookie = obj.cookie;
-                                                            userName = obj.user;
+                                                            cookie = "<%=session.get('auth-cookie')%>";
+                                                            userName = "<%=session.get('user')%>";
                                                             loadThemeList();
-                                                            };
-                                                            ws.onclose = function () {
-                                                            };
-                                                            });
+
                                                         </script>
                                                     </body>
                                                 </html>

@@ -298,28 +298,10 @@ include("../templates/footer.jag");
     });
 </script>
  <script type="text/javascript">
-        var cookie = null;
-        var json = null;
-        var userName = null;
-        var userInfo = null;
-        var serverUrl = window.location.host + PROXY_CONTEXT_PATH;
-
-        $(function WindowLoad(event) {
-            url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-            ws = new WebSocket(url);
-
-            ws.onopen = function () {
-                ws.send("First Message open");
-            };
-            ws.onmessage = function (event) {
-                var obj = $.parseJSON(event.data);
-                cookie = obj.cookie;
-                userName = obj.user;
-                userInfo = obj.userInfo;
-            };
-            ws.onclose = function () {
-            };
-        });
+      var userName = null;
+      var cookie = null;
+      cookie = "<%=session.get('auth-cookie')%>";
+      userName = "<%=session.get('user')%>";
 </script>
 <!-- include custom js functions -->
 <script src="../js/custom/custom.js"></script>

@@ -352,7 +352,7 @@ function checkDirectory(domain) {
  * This method will resolve what url to navigate based on user click.
  * @param param
  */
-function urlResolver(param) {
+function urlResolver(param,cookie,userName) {
     var currentUrl, context, newUrl, directoryList, isSampleExist, currrentDomain;
     currentUrl = window.location.href.toString();
     if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
@@ -526,7 +526,7 @@ function deleteDirectory(domainname) {
                         newDirectoryLength = -1;
                     }
                 }
-                urlResolver('overview');
+                urlResolver('overview',cookie,userName);
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
