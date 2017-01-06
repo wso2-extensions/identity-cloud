@@ -94,7 +94,7 @@ function addOrUpdateUserDirectory() {
                 $("#add-directory-loading").hide();
                 if (!$("#btn-success").is(':visible')) {
                     $("#action-buttons").html('<a class="cu-btn cu-btn-md cu-btn-blue" ' +
-                        'href="javascript:urlResolver(&#39applist&#39)"> <span class="fw-stack fw-lg btn-action-ico"> ' +
+                        'href="javascript:urlResolver(&#39applist&#39,cookie,userName)"> <span class="fw-stack fw-lg btn-action-ico"> ' +
                         '<i class="fw fw-circle-outline fw-stack-2x"></i> <i class="fw fw-list fw-stack-1x"></i> </span> ' +
                         '<span>Skip to application list</span> </a>');
                 }
