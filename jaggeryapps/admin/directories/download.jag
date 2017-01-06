@@ -211,27 +211,13 @@ var domainName = request.getParameter("domain");
     });
 </script>
 <script>
-var serverUrl = window.location.host;
-var domain = $('#domain').attr('value');
-    $(function WindowLoad(event) {
-        url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-        ws = new WebSocket(url);
+    var domain = $('#domain').attr('value');
+    var userName = null;
+    var cookie = null;
+    cookie = "<%=session.get('auth-cookie')%>";
+    userName = "<%=session.get('user')%>";
+    populateDirectory(domain);
 
-        ws.onopen = function () {
-            ws.send("First Message open");
-        };
-        ws.onmessage = function (event) {
-            var obj = $.parseJSON(event.data);
-            cookie = obj.cookie;
-            userName = obj.user;
-            $("#drName").removeAttr('readonly');
-            if(domain != null && domain != 'null'){
-                populateDirectory(domain);
-            }
-        };
-        ws.onclose = function () {
-        };
-    });
 </script>
 </body>
 </html>

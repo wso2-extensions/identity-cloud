@@ -94,7 +94,7 @@ include("/templates/header.jag");
                                             </span>
                                             <span class="connection-status config-details">Configured</span>
                                         </div>
-                                        <a href="#" onclick="urlResolver('directory');">
+                                        <a href="#" onclick="urlResolver('directory',cookie,userName);">
                                             <span class="fw-stack btn-action-ico">
                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                 <i class="fw fw-edit fw-stack-1x"></i>
@@ -136,7 +136,7 @@ include("/templates/header.jag");
                                             <!-- BOF permission based icon section -->
                                                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                                                     <div class="permission-change-block">
-                                                        <a class="block-action-button" onclick="urlResolver('addApp')">
+                                                        <a class="block-action-button" onclick="urlResolver('addApp',cookie,userName)">
                                                             <span class="fw-stack fw-add ">
                                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                             </span> Add Application
@@ -145,7 +145,7 @@ include("/templates/header.jag");
                                                 </div>
                                                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                                                     <div class="permission-change-block">
-                                                        <a class="block-action-button" onclick="urlResolver('applist')">
+                                                        <a class="block-action-button" onclick="urlResolver('applist',cookie,userName)">
                                                             <span class="fw-stack fw-view ">
                                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                             </span> View Applications
@@ -215,41 +215,28 @@ include("/templates/header.jag");
         </script>
 
         <script>
-            var cookie = null;
-            var json = null;
             var userName = null;
-            var serverUrl = window.location.host;
-            $(function WindowLoad(event) {
-                url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-                ws = new WebSocket(url);
+            var cookie = null;
+            cookie = "<%=session.get('auth-cookie')%>";
+            userName = "<%=session.get('user')%>";
 
-                ws.onopen = function () {
-                    ws.send("First Message open");
-                };
-                ws.onmessage = function (event) {
-                    var obj = $.parseJSON(event.data);
-                    cookie = obj.cookie;
-                    userName = obj.user;
-                    var appList = checkAppList(cookie, userName);
-                    if (appList) {
-                        if (appList.length == 2 && appList[0].applicationName === APP_NAME1 && appList[1].applicationName === APP_NAME2) {
-                            drawListOverview(appList);
-                            $("#appCount").html("2");
-                            $("#appText").html("Sample Apps Enabled");
-                        } else {
-                            drawListOverview(appList);
-                            $("#appCount").html(appList.length);
-                            $("#appText").html("Application Enabled");
-                        }
-                    } else {
-                        $("#appCount").html("0");
-                        $("#appText").html("Application Enabled");
-                    }
-                };
-                ws.onclose = function () {
-                };
-            });
+            var appList = checkAppList(cookie, userName);
+                if (appList) {
+                     if (appList.length == 2 && appList[0].applicationName === APP_NAME1 && appList[1].applicationName === APP_NAME2) {
+                         drawListOverview(appList);
+                         $("#appCount").html("2");
+                         $("#appText").html("Sample Apps Enabled");
+                     }else {
+                         drawListOverview(appList);
+                         $("#appCount").html(appList.length);
+                         $("#appText").html("Application Enabled");
+                   }
+                } else {
+                      $("#appCount").html("0");
+                      $("#appText").html("Application Enabled");
+                }
 
         </script>
+
 </body>
 </html>

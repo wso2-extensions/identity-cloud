@@ -395,7 +395,7 @@ function deleteDirectory(domainname) {
                         retryState = false;
                     }
                 }
-                urlResolver('overview');
+                urlResolver('overview',cookie,userName);
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -549,7 +549,7 @@ function downloadAgentRedirect(param) {
                     }
                 }
             } else {
-                urlResolver(param);
+                urlResolver(param,cookie,userName);
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },

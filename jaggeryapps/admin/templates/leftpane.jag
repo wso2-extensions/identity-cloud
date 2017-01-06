@@ -1,12 +1,18 @@
 <% require("../util/constants.jag"); %>
+<script>
+   var userName = null;
+   var cookie = null;
+   cookie = "<%=session.get('auth-cookie')%>";
+   userName = "<%=session.get('user')%>";
+</script>
 
 <div class="left-pane">
        <ul>
            <li class="overview">
-               <a onclick="urlResolver('overview');"  ><i class="fa fa-laptop"></i> Overview</a>
+               <a onclick="urlResolver('overview',cookie,userName);"  ><i class="fa fa-laptop"></i> Overview</a>
            </li>
            <li class="directories">
-               <a onclick="urlResolver('directory');" ><i class="fw fw-folder"></i> Directories</a>
+               <a onclick="urlResolver('directory',cookie,userName);" ><i class="fw fw-folder"></i> Directories</a>
            </li>
            <li class="serviceproviders">
                <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders"><i class="fw fw-globe"></i> Applications</a>

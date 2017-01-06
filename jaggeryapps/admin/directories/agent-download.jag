@@ -89,7 +89,7 @@ include("/templates/header.jag");
     <!-- left pane wrapper -->
     <div class="right-pane">
         <div class="action-bar">
-            <a onclick="urlResolver('overview');" class="btn-action" data-toggle="tooltip" data-placement="top"
+            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Overview">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -152,7 +152,7 @@ include("/templates/header.jag");
                                 </span>
                                 <span class="btn-content"> Configure Agent URL</span>
                             </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist')">
+                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">
                                 <span class="fw-stack btn-action-ico">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-list fw-stack-1x"></i>
@@ -331,24 +331,12 @@ include("/templates/header.jag");
     </script>
 
     <script>
-        var serverUrl = window.location.host;
-        $(function WindowLoad(event) {
-            url = 'wss://' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/session_manager.jag';
-            ws = new WebSocket(url);
-
-            ws.onopen = function () {
-                ws.send("First Message open");
-            };
-            ws.onmessage = function (event) {
-                var obj = $.parseJSON(event.data);
-                cookie = obj.cookie;
-                userName = obj.user;
-                $("#drName").removeAttr('readonly');
-                populateDirectory('is-wso2.com');
-            };
-            ws.onclose = function () {
-            };
-        });
+       var userName = null;
+        var cookie = null;
+        cookie = "<%=session.get('auth-cookie')%>";
+        userName = "<%=session.get('user')%>";
+        $("#drName").removeAttr('readonly');
+        populateDirectory('is-wso2.com');
     </script>
 </body>
 </html>
