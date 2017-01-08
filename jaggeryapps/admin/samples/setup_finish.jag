@@ -296,7 +296,7 @@ function addApp(sampleConf){
                 policyGroupName: "default"
             }
         ],
-        customProperties:[]
+        customProperties:[{name: "storeAppType", value: "agent"}]
     };
     publisher.addApp(app);
 }
