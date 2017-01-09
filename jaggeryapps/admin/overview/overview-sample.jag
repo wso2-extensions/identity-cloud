@@ -133,11 +133,19 @@ include("/templates/header.jag");
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6">
                                                     <div class="permission-change-block">
-                                                       <a class="block-action-button" onclick="deleteCustomSPWithoutRefresh(APP_NAME1);deleteCustomSPWithoutRefresh(APP_NAME2);deleteDirectory(SAMPLE_USER_STORE_DOMAIN);urlResolver('overview',cookie,userName)">
-                                                              <span class="fw-stack fw-delete ">
-                                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
-
+                                                       <a class="block-action-button" onclick="removeSampleConfigurations(this);">
+                                                              <span id="removeSamplesSpan" class="fw-stack fw-delete ">
+                                                                <i  id="removeSampleiId" class="fw fw-circle-outline fw-stack-2x "></i>
                                                             </span> Remove Samples
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                    <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6">
+                                                    <div class="permission-change-block">
+                                                        <a class="block-action-button" onclick="urlResolver('applist',cookie,userName)">
+                                                            <span class="fw-stack fw-view ">
+                                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                            </span> View Applications
                                                         </a>
                                                     </div>
                                                 </div>
@@ -224,6 +232,17 @@ include("/templates/header.jag");
 
 
            });
+
+           function removeSampleConfigurations(element) {
+             $("#removeSamplesSpan").removeClass("fw-delete");
+             $("#removeSampleiId").addClass("fw-loader5 fw-spin fw-2x");
+             $(element).addClass("disabled");
+
+             deleteDirectory(SAMPLE_USER_STORE_DOMAIN);
+             deleteCustomSPWithoutRefresh(APP_NAME1);
+             deleteCustomSPWithoutRefresh(APP_NAME2);
+             urlResolver('overview',cookie,userName)
+           }
         </script>
 </body>
 </html>

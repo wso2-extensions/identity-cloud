@@ -3725,3 +3725,8 @@ td, th {
 .word-break {
     word-break: break-all;
 }
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: #9c9898;
+}
