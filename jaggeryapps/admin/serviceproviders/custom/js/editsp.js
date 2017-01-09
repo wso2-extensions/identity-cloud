@@ -721,6 +721,7 @@ function saveOauthConfig(){
     $.ajax({
         url: str,
         type: "POST",
+        async:false,
         data: $("#addAppForm").serialize() + "&action=addOauthConfig" + "&spType=" + $('#spType').val() + "&appName=" + appdata.applicationName + "&isEditSP="+$('#isEditOauthSP').val()+"&user=" + userName,
     })
         .done(function (data) {
