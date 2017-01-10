@@ -117,15 +117,15 @@ function drawOAuthConfigPage() {
         grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml1" name="grant_saml1" value="urn:ietf:params:oauth:grant-type:saml1-bearer" checked="checked"/>SAML1</label></div>';
     }
     if ($.inArray('urn:ietf:params:oauth:grant-type:saml2-bearer', allowedGrantTypes) > 0) {
-        grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer" checked="checked"/>SAML2</label></div>';
+        grantRow = grantRow + '<div id="grant_saml2_element" class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer" checked="checked"/>SAML2</label></div>';
     }
     if ($.inArray('iwa:ntlm', allowedGrantTypes) > 0) {
         grantRow = grantRow + '<div class="checkbox hide"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"/>IWA-NTLM</label></div>';
     }
-
     grantRow = grantRow + '</div>';
     $('#grant_row').empty();
     $('#grant_row').append(grantRow);
+    $("#grant_saml2_element").hide();
     if (oauthClient.isPKCESupportEnabled == 'true') {
         $('#pkce_enable').show();
         $('#pkce_support_plain').show();
@@ -234,56 +234,57 @@ function drawOAuthEditPage() {
         $('#pkce_support_plain').show();
         var grantRow = '<label for="grantTypes" >Allowed Grant Types </label>' +
             '<div>';
-        if ($.inArray('authorization_code', allowedGrantTypes) > 0) {
+        // this code is useless. changing 0 to -1 because we need to display all grant types
+        if ($.inArray('authorization_code', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_code" name="grant_code" value="authorization_code"';
             if (codeGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Code</label></div>';
         }
-        if ($.inArray('implicit', allowedGrantTypes) > 0) {
+        if ($.inArray('implicit', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_implicit" name="grant_implicit" value="implicit"';
             if (implicitGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Implicit</label></div>';
         }
-        if ($.inArray('password', allowedGrantTypes) > 0) {
+        if ($.inArray('password', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_password" name="grant_password" value="password"';
             if (passowrdGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Password</label></div>';
         }
-        if ($.inArray('client_credentials', allowedGrantTypes) > 0) {
+        if ($.inArray('client_credentials', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_client" name="grant_client" value="client_credentials"';
             if (clientCredGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Client Credential</label></div>';
         }
-        if ($.inArray('refresh_token', allowedGrantTypes) > 0) {
+        if ($.inArray('refresh_token', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox" style="display: none;"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_refresh" name="grant_refresh" value="refresh_token"';
             if (refreshGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>Refresh Token</label></div>';
         }
-        if ($.inArray('urn:ietf:params:oauth:grant-type:saml1-bearer', allowedGrantTypes) > 0) {
+        if ($.inArray('urn:ietf:params:oauth:grant-type:saml1-bearer', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml1" name="grant_saml1" value="urn:ietf:params:oauth:grant-type:saml1-bearer"';
             if (samlGrant1) {
                 grantRow = grantRow + "checked=\"checked\""
             }
             grantRow = grantRow + '/>SAML1</label></div>';
         }
-        if ($.inArray('urn:ietf:params:oauth:grant-type:saml2-bearer', allowedGrantTypes) > 0) {
-            grantRow = grantRow + '<div class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer"';
+        if ($.inArray('urn:ietf:params:oauth:grant-type:saml2-bearer', allowedGrantTypes) > -1) {
+            grantRow = grantRow + '<div id="grant_saml2_main_element" class="checkbox"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_saml2" name="grant_saml2" value="urn:ietf:params:oauth:grant-type:saml2-bearer"';
             if (samlGrant2) {
                 grantRow = grantRow + "checked=\"checked\"";
             }
             grantRow = grantRow + '/>SAML2</label></div>';
         }
-        if ($.inArray('iwa:ntlm', allowedGrantTypes) > 0) {
+        if ($.inArray('iwa:ntlm', allowedGrantTypes) > -1) {
             grantRow = grantRow + '<div class="checkbox hide"><label><input class="custom-checkbox custom-checkbox-white" type="checkbox" id="grant_ntlm" name="grant_ntlm" value="iwa:ntlm"';
             if (ntlmGrant) {
                 grantRow = grantRow + "checked=\"checked\"";
@@ -293,7 +294,7 @@ function drawOAuthEditPage() {
         grantRow = grantRow + '</div>';
         $('#grant_row').empty();
         $('#grant_row').append(grantRow);
-
+        $("#grant_saml2_main_element").hide();
         if (oauthClient.isPKCESupportEnabled) {
             if (app.pkceMandatory == 'true') {
                 $('#pkce').prop('checked', true);
