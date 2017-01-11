@@ -351,8 +351,9 @@ function setServerURL(isWebContextRootAvailable) {
         }
 
         //create server service url
-        serverUrl = identityServerURL.getServerURL("/services", true, true);
-        var serverCoreUrl
+        var serverConfigs = readFile("/conf/site.json").proxy;
+        serverUrl = serverConfigs.serverContext + "/services";
+        var serverCoreUrl;
         //basic server core url : https://<HOST_NAME>:<PORT>/<PROXY_CONTEXT_PATH>
         if (isWebContextRootAvailable === 'false') {
             serverCoreUrl = identityServerURL.getServerURL("", true, false);
