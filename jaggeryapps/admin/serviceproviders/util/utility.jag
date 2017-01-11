@@ -96,7 +96,8 @@ function setServerURL() {
         }
 
         //create server service url
-        serverUrl = identityServerURL.getServerURL("", true, true) + "/services";
+        var serverConfigs = util.readFile("/conf/site.json").proxy;
+        serverUrl = serverConfigs.serverContext + "/services";
 
         //basic server core url : https://<HOST_NAME>:<PORT>/<PROXY_CONTEXT_PATH>
         var serverCoreUrl = identityServerURL.getServerURL("", true, false);

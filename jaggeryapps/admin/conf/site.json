@@ -3,7 +3,8 @@
         "proxyHost" : "",
         "proxyHTTPSPort" : "",
         "proxyContextPath" : "",
-        "servicePath" : "/services"
+        "servicePath" : "/services",
+        "serverContext" : "https://localhost:9443"
     },
     "customStoreThemeConfig" : {
         "whitelist" : ["css", "svg"]
