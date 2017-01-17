@@ -507,6 +507,7 @@ a.btn-action {
     text-align: center;
     color: #fff;
     cursor: pointer;
+    border: 2px solid transparent;
 }
 
 .thumbnail {
@@ -570,9 +571,18 @@ a.btn-action {
     color: #fff;
 }
 .cloud-app-selected {
-    height: 14em !important;
+    height: 14em ;
     margin-bottom: -0.6em;
-    max-height: 14em;
+}
+@media (max-width: 1200px) {
+    .cloud-app-selected {
+        height: auto;
+    }
+}
+@media (min-width: 2000px) {
+    .cloud-app-selected {
+        height: 19.1em;
+    }
 }
 .type-name {
     position: absolute;
