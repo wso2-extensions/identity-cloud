@@ -238,9 +238,9 @@ include("/templates/header.jag");
              $("#removeSampleiId").addClass("fw-loader5 fw-spin fw-2x");
              $(element).addClass("disabled");
 
-             deleteDirectory(SAMPLE_USER_STORE_DOMAIN);
              deleteCustomSPWithoutRefresh(APP_NAME1);
              deleteCustomSPWithoutRefresh(APP_NAME2);
+             deleteDirectory(SAMPLE_USER_STORE_DOMAIN);
              urlResolver('overview',cookie,userName)
            }
         </script>
