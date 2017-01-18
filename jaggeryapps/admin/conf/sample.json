@@ -70,7 +70,7 @@
     "url": "jdbc:mysql://localhost:3306/sampleuserstoredb?autoReconnect=true&#38;relaxAutoCommit=true&#38;",
     "userName": "root",
     "password": "root",
-    "user1": "demo1",
-    "user2": "demo2"
+    "user1": "demo1@sample.com",
+    "user2": "demo2@sample.com"
   }
 }
