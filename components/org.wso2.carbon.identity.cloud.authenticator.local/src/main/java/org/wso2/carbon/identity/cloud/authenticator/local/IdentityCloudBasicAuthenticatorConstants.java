@@ -26,4 +26,5 @@ public abstract class IdentityCloudBasicAuthenticatorConstants {
     public static final String AUTHENTICATOR_FRIENDLY_NAME = "BasicIdentityCloudAuth";
     public static final char AT_CHARACTER = '@';
     public static final char AT_REPLACE_CHARACTER = '.';
+    public static final String TENANT_DOMAIN_PARAM = "&storeTenantDomain=";
 }

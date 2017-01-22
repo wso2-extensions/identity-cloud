@@ -17,8 +17,10 @@
  */
 package org.wso2.carbon.identity.cloud.authenticator.local;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.identity.application.authentication.framework.context.AuthenticationContext;
 import org.wso2.carbon.identity.application.authentication.framework.exception.AuthenticationFailedException;
 import org.wso2.carbon.identity.application.authentication.framework.exception.InvalidCredentialsException;
@@ -56,6 +58,22 @@ public class IdentityCloudBasicAuthenticator extends BasicAuthenticator {
 
     private static String getFullQualifiedUsername(String tenantAwareUsername, String tenantDomain) {
         return tenantAwareUsername + IdentityCloudBasicAuthenticatorConstants.AT_CHARACTER + tenantDomain;
+    }
+
+    protected void initiateAuthenticationRequest(HttpServletRequest request, HttpServletResponse response,
+                                                 AuthenticationContext context) throws AuthenticationFailedException {
+
+        String tenantDomain = context.getTenantDomain();
+        if (StringUtils.isNotBlank(tenantDomain) && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals
+                (tenantDomain)) {
+            String queryParams = context.getContextIdIncludedQueryParams();
+            if (StringUtils.isNotBlank(queryParams)) {
+                context.setContextIdIncludedQueryParams(queryParams.concat(IdentityCloudBasicAuthenticatorConstants
+                        .TENANT_DOMAIN_PARAM + tenantDomain));
+            }
+        }
+
+        super.initiateAuthenticationRequest(request, response, context);
     }
 
     @Override
@@ -146,7 +164,7 @@ public class IdentityCloudBasicAuthenticator extends BasicAuthenticator {
                     try {
                         if (log.isDebugEnabled()) {
                             log.debug("Searching for UserNameAttribute value for user " + username + " for claim uri " +
-                                    "" + "" + "" + "" + "" + ": " + userNameUri);
+                                    ": " + userNameUri);
                         }
                         String usernameValue = userStoreManager.
                                 getUserClaimValue(MultitenantUtils.getTenantAwareUsername(username), userNameUri, null);
