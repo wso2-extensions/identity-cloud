@@ -108,7 +108,7 @@ function updateSP(){
         serviceProviderDTO["assertionConsumerURLs"] = request.getParameter("assertionConsumerURLs").split(",");
         serviceProviderDTO["acsindex"] = "";
         serviceProviderDTO["defaultAssertionConsumerURL"] = request.getParameter("defaultAssertionConsumerURL");
-        serviceProviderDTO["nameIdFormat"] = request.getParameter("nameIdFormat");
+        serviceProviderDTO["nameIdFormat"] = "";
         serviceProviderDTO["alias"] = "";
         serviceProviderDTO["signingAlgorithm"] = request.getParameter("signingAlgorithm");
         serviceProviderDTO["digestAlgorithm"] = request.getParameter("digestAlgorithm");
@@ -133,16 +133,19 @@ function updateSP(){
         serviceProviderDTO["metadata"] = "";
         serviceProviderDTO["publicCertificate"] = "";
 
-        if (request.getParameter("issuer") != null && request.getParameter("issuer").length > 0) {
+        if (request.getParameter("issuer") != null && request.getParameter("issuer").length > 0
+                && request.getParameter("issuer") != 'undefined') {
             serviceProviderDTO["issuer"] = request.getParameter("issuer");
         }
 
         if (request.getParameter("enableSingleLogout") == 'true') {
             serviceProviderDTO["enableSingleLogout"] = true;
-            if (request.getParameter("sloResponseURL") != null && request.getParameter("sloResponseURL").length > 0) {
+            if (request.getParameter("sloResponseURL") != null && request.getParameter("sloResponseURL").length > 0
+                    && request.getParameter("sloResponseURL") != 'undefined') {
                 serviceProviderDTO["sloResponseURL"] = request.getParameter("sloResponseURL");
             }
-            if (request.getParameter("sloRequestURL") != null && request.getParameter("sloRequestURL").length > 0) {
+            if (request.getParameter("sloRequestURL") != null && request.getParameter("sloRequestURL").length > 0
+                    && request.getParameter("sloRequestURL") != 'undefined') {
                 serviceProviderDTO["sloRequestURL"] = request.getParameter("sloRequestURL");
             }
         }
@@ -151,20 +154,21 @@ function updateSP(){
             serviceProviderDTO["enableResponseSignature"] = true;
         }
 
-
         if (request.getParameter("enableAssertionSignature") == 'true') {
             serviceProviderDTO["enableAssertionSignature"] = true;
         }
 
-        if (serviceProviderDTO["nameIdFormat"] != null && serviceProviderDTO["nameIdFormat"].length > 0) {
-            serviceProviderDTO["nameIdFormat"] = serviceProviderDTO["nameIdFormat"].replace(":", "/");
+        if (request.getParameter("nameIdFormat") == 'true' != null && request.getParameter("nameIdFormat").length > 0
+                && request.getParameter("nameIdFormat") != 'undefined') {
+            serviceProviderDTO["nameIdFormat"] = request.getParameter("nameIdFormat").replace(":", "/");
         }
 
         if (request.getParameter("enableAttributeProfile") != null && request.getParameter("enableAttributeProfile") == 'true') {
             //TODO : Do the following
             //serviceProviderDTO.setRequestedClaims(samlSsoServuceProviderConfigBean.getSelectedClaimsAttay());
             serviceProviderDTO["enableAttributeProfile"] = true;
-            if (request.getParameter("attributeConsumingServiceIndex") != null && request.getParameter("attributeConsumingServiceIndex").length > 0) {
+            if (request.getParameter("attributeConsumingServiceIndex") != null && request.getParameter("attributeConsumingServiceIndex").length > 0
+                    && request.getParameter("attributeConsumingServiceIndex") != 'undefined') {
                 serviceProviderDTO["acsindex"] = request.getParameter("attributeConsumingServiceIndex");
             }
 
@@ -216,7 +220,8 @@ function updateSP(){
             serviceProviderDTO["alias"] = request.getParameter("alias");
         }
 
-        if(request.getParameter("metadataFileName") != null && request.getParameter("metadataFileName").length > 0) {
+        if(request.getParameter("metadataFileName") != null && request.getParameter("metadataFileName").length > 0
+                && request.getParameter("metadataFileName") != 'undefined') {
             var file = request.getFile("metadata");
             file.open("r");
             var message = "";
@@ -228,7 +233,8 @@ function updateSP(){
             serviceProviderDTO["metadata"] = encoded;
         }
 
-        if(request.getParameter("publicCertificate") != null && request.getParameter("publicCertificate").length > 0) {
+        if(request.getParameter("publicCertificate") != null && request.getParameter("publicCertificate").length > 0
+                && request.getParameter("publicCertificate") != 'undefined') {
             serviceProviderDTO["publicCertificate"] = request.getParameter("publicCertificate");
         }
 
