@@ -194,6 +194,31 @@ function updateSP(sampleConf){
         }
         updateSp = updateSp + '</xsd1:inboundAuthenticationConfig>';
 
+        var appAuthConfig;
+        try {
+            appAuthConfig = readFile("/authentication/application-auth-config.json");
+        } catch (e) {
+            log.error('error occurred while reading application-auth-config.json' + e);
+        }
+
+        updateSp = updateSp + '<xsd1:localAndOutBoundAuthenticationConfig>' +
+                '<xsd1:authenticationSteps> ' +
+                '<xsd1:localAuthenticatorConfigs>' +
+                '<xsd1:name>' + ((appAuthConfig && appAuthConfig.authenticator.authenticatorName) ? appAuthConfig.authenticator.authenticatorName : "basic") + '</xsd1:name>' +
+                '<xsd1:displayName>' + ((appAuthConfig && appAuthConfig.authenticator.authenticatorDisplayName) ? appAuthConfig.authenticator.authenticatorDisplayName : "basic") + '</xsd1:displayName>' +
+                '<xsd1:enabled>true</xsd1:enabled>' +
+                '</xsd1:localAuthenticatorConfigs>' +
+                '<xsd1:stepOrder>1</xsd1:stepOrder>' +
+                '<xsd1:attributeStep>true</xsd1:attributeStep>' +
+                '<xsd1:subjectStep>true</xsd1:subjectStep>' +
+                '</xsd1:authenticationSteps>' +
+                '<xsd1:alwaysSendBackAuthenticatedListOfIdPs>false</xsd1:alwaysSendBackAuthenticatedListOfIdPs>' +
+                '<xsd1:authenticationType>' + ((appAuthConfig && appAuthConfig.authenticator.authenticationType) ? appAuthConfig.authenticator.authenticationType : "default") + '</xsd1:authenticationType>' +
+                '<xsd1:subjectClaimUri>' + subjectClaim + '</xsd1:subjectClaimUri>' +
+                '<xsd1:useTenantDomainInLocalSubjectIdentifier>false</xsd1:useTenantDomainInLocalSubjectIdentifier>' +
+                '<xsd1:useUserstoreDomainInLocalSubjectIdentifier>false</xsd1:useUserstoreDomainInLocalSubjectIdentifier>' +
+                '</xsd1:localAndOutBoundAuthenticationConfig>';
+
         updateSp = updateSp + '<xsd1:inboundProvisioningConfig>'+
                 '<xsd1:dumbMode>false</xsd1:dumbMode>'+
                 '<xsd1:provisioningEnabled>false</xsd1:provisioningEnabled>'+
