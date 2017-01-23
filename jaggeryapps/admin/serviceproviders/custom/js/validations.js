@@ -107,7 +107,8 @@ function validateInputs() {
         } else if (selected.trim() == "Proxy".trim()) {
             //Add the whitespaces validation for the context.
             $.validator.addMethod("noSpace", function(value, element) {
-                return value.indexOf(" ") < 0 && value != "";
+                var regExp = new RegExp("^[a-zA-Z0-9._|-]*$");
+                return regExp.test(value);
             }, "White spaces are not allowed in application context.");
             $("input[id*=gw-app-context]").rules("add", { noSpace: true });
 

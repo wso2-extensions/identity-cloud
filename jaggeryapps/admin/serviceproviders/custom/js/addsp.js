@@ -29,12 +29,13 @@ function drawAddSP(sptype) {
 
 function validateSPName(sptype) {
     var spName = $("input[id='spName']").val();
+    var regExp = new RegExp("^[a-zA-Z0-9._|-]*$");
     if (spName.length == 0) {
         message({
             labelId: 'spName-error', content: 'Service Provider name can\'t be empty', type: 'error'
         });
         return false;
-    } else if(spName.indexOf(" ") > 0) {
+    } else if(!regExp.test(spName)) {
         message({
             labelId: 'spName-error', content: 'White spaces are not allowed in application name.', type: 'error'
         });
