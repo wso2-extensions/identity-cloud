@@ -34,6 +34,11 @@ function validateSPName(sptype) {
             labelId: 'spName-error', content: 'Service Provider name can\'t be empty', type: 'error'
         });
         return false;
+    } else if(spName.indexOf(" ") > 0) {
+        message({
+            labelId: 'spName-error', content: 'White spaces are not allowed in application name.', type: 'error'
+        });
+        return false;
     } else {
         $('#spName-error').hide();
         registerCustomSP(sptype);
