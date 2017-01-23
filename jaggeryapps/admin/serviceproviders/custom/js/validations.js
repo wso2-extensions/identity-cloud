@@ -105,6 +105,12 @@ function validateInputs() {
                 updateSP();
             }
         } else if (selected.trim() == "Proxy".trim()) {
+            //Add the whitespaces validation for the context.
+            $.validator.addMethod("noSpace", function(value, element) {
+                return value.indexOf(" ") < 0 && value != "";
+            }, "White spaces are not allowed in application context.");
+            $("input[id*=gw-app-context]").rules("add", { noSpace: true });
+
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
@@ -188,14 +194,20 @@ $(function () {
 
     $("form[name='gatewayConfigForm']").validate({
         rules: {
-            'gw-app-context': "required",
+            'gw-app-context': {
+                required: true,
+                noSpace: true
+            },
             'gw-app-url': {
                 required: true,
                 url2: true
             }
         },
         messages: {
-            'gw-app-context': "context is a required field",
+            'gw-app-context': {
+                required: "context is a required field",
+                noSpace: "White spaces are not allowed in application context."
+            },
             'gw-app-url': {
                 required: "URL is a required field"
             }
