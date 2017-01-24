@@ -40,7 +40,7 @@ function setSAML2SSOConfigurations() {
     //todo: use correct app version and transport
     var appName = $("#spName").val();
     var appVersion = "1.0";
-    var transport = "http";
+    var transport = "https";
 
     var context = $("#gw-app-context").val();
 
@@ -79,9 +79,3 @@ function resetSAML2SSOConfigurations() {
         removeAudience(c);
     }
 }
-
-
-
-
-
-

@@ -494,7 +494,7 @@ function addApp(){
               context: context,
               appUrL: appURL,
               acsUrl: "",
-              transport: "http",
+              transport: "https",
               tags : tags,
               visibleRoles: visibleRoles,
               thumbnailUrl: thumbnailId,
