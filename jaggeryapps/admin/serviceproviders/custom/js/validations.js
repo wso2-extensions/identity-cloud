@@ -207,7 +207,7 @@ $(function () {
         messages: {
             'gw-app-context': {
                 required: "context is a required field",
-                noSpace: "Application context should contains only characters of \"a-zA-Z0-9._|-\""
+                noSpace: "Only \"[a-zA-Z0-9._|-]\" characters are allowed in application context."
             },
             'gw-app-url': {
                 required: "URL is a required field"
