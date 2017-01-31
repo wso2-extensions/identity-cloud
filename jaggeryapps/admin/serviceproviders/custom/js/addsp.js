@@ -37,7 +37,7 @@ function validateSPName(sptype) {
         return false;
     } else if(!regExp.test(spName)) {
         message({
-            labelId: 'spName-error', content: 'Application name should contains only characters of \"a-zA-Z0-9._|-\"', type: 'error'
+            labelId: 'spName-error', content: 'Only [a-zA-Z0-9._|-] characters are allowed in application name.', type: 'error'
         });
         return false;
     } else {
