@@ -51,15 +51,6 @@ public class IdentityCloudBasicAuthenticator extends BasicAuthenticator {
     private static final long serialVersionUID = 4345354156955223654L;
     private static final Log log = LogFactory.getLog(IdentityCloudBasicAuthenticator.class);
 
-    private static String getConvertedUsername(String username) {
-        return username.replace(IdentityCloudBasicAuthenticatorConstants.AT_CHARACTER,
-                IdentityCloudBasicAuthenticatorConstants.AT_REPLACE_CHARACTER);
-    }
-
-    private static String getFullQualifiedUsername(String tenantAwareUsername, String tenantDomain) {
-        return tenantAwareUsername + IdentityCloudBasicAuthenticatorConstants.AT_CHARACTER + tenantDomain;
-    }
-
     protected void initiateAuthenticationRequest(HttpServletRequest request, HttpServletResponse response,
                                                  AuthenticationContext context) throws AuthenticationFailedException {
 
@@ -102,11 +93,6 @@ public class IdentityCloudBasicAuthenticator extends BasicAuthenticator {
                 if (!isAuthenticated) {
                     // If user is not authenticated from secondary user store, then authenticate starting from primary
                     // user store.
-                    // In primary email username is kept converting '@' characters with '.' character.
-                    // Therefore, reconstruct username with the conversion.
-                    tenantAwareUsername = getConvertedUsername(tenantAwareUsername);
-                    username = getFullQualifiedUsername(tenantAwareUsername, MultitenantUtils.getTenantDomain
-                            (username));
                     isAuthenticated = userStoreManager.authenticate(tenantAwareUsername, password);
                 }
             } else {
