@@ -5,6 +5,7 @@ var OPENID_REG_CLAIM_URL = "http://schema.openid.net/2007/05/claims";
 var UI_USER_PERMISSIONS = "user-permissions";
 var UI_COMPONENTS = "ui-components";
 
+var SESSION_PROPERTY_SESSION_INDEX = "sessionIndex";
 var LOGGED_IN_USER = "user";
 var USER_NAME = "user.name";
 var USER_HEADER = "user-header";

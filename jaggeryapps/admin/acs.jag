@@ -32,11 +32,11 @@ keyStoreProps = {
     KEY_STORE_PASSWORD: samlConfig['SAML.KeyStorePassword'],
     IDP_ALIAS: samlConfig['SAML.IdPCertAlias']
 },
-sso_sessions = application.get('sso_sessions');
+httpSessions = application.get('httpSessions');
 
-if (!sso_sessions) {
-    application.put('sso_sessions', {});
-    sso_sessions = application.get('sso_sessions');
+if (!httpSessions) {
+    application.put('httpSessions', {});
+    httpSessions = application.get('httpSessions');
 }
 
 
@@ -54,7 +54,11 @@ if (samlResponse != null) {
 
                 var sessionObj = sso.client.decodeSAMLLoginResponse(samlRespObj, samlResponse, sessionId);
                 if (sessionObj.sessionIndex != null || sessionObj.sessionIndex != 'undefined') {
-                    sso_sessions[sessionObj.sessionId] = sessionObj.sessionIndex;
+
+                    // Storting the HTTP session against the session index, in application scope, to handle SLO.
+                    httpSessions[sessionObj.sessionIndex] = session;
+
+                    session.put(SESSION_PROPERTY_SESSION_INDEX, sessionObj.sessionIndex)
                     session.put(LOGGED_IN_USER, sessionObj.loggedInUser);
                     log.debug(sessionObj.loggedInUser);
 
@@ -119,18 +123,21 @@ if (samlResponse != null) {
         }
     }
 }else if (samlRequest != null) {
-	// if saml request is a log out request, then invalidate session.
-	
-	var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
-    log.debug('BACKEND LOGOUT RECIEVED FROM STORE THE INDEX IS ######' + index);
 
-    var jSessionId = application.get('sso_sessions')[index];
+    // This is an SLO request from the IDP.
+    // Get the HTTP session object for the given session index, and invalidate it.
 
-    delete application.get('sso_sessions')[index];
+    log.info("SLO request received.")
+    var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
 
+    log.info("Session index of the SLO request is " + index);
 
-    log.debug('store Session Id :::' + jSessionId);
+    var httpSessionForSessionIndex = application.get('httpSessions')[index];
 
-    session.invalidate();
+    if(httpSessionForSessionIndex){
+        log.info("Invalidating http session for the session index " + index);
+        httpSessionForSessionIndex.invalidate();
+        delete application.get('httpSessions')[index];
+    }
 }
 %>
