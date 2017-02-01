@@ -6,8 +6,7 @@ var identityUtil = Packages.org.wso2.carbon.identity.core.util.IdentityUtil;
 
 var log = new Log();
 var serverConfigs = util.readFile("/conf/site.json").proxy;
-var serverUrl2 = serverConfigs.serverContext + "/services/SAML2SSOAuthenticationService";
-var identityServerUrl = serverConfigs.serverContext + "/services/SAML2SSOAuthenticationService";
+var serviceUrl = serverConfigs.serverContext + "/services/SAML2SSOAuthenticationService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var carbon = require('carbon');
@@ -16,34 +15,16 @@ var userInfoClient = require('/controllers/login-logout/loggedUserInfoAdminClien
 
 
 function login(request) {
-    var result = callWSReturnJSON(webService, serverUrl2, "urn:login", new Array(request));
+    var result = callWSReturnJSON(webService, serviceUrl, "urn:login", new Array(request));
     var isAuthenticated = result.return;
-    log.debug("Is Authenticated : " + isAuthenticated);
-    if (isAuthenticated) {
+
+    if (isAuthenticated === "true") {
+        log.debug("Authentication success for admin services.");
         //Adding the session id
         var adminSession = webService.getResponseHeader("Set-Cookie");
         adminSessionCopy = adminSession;
         session.put("auth-cookie", adminSession);
-    }
 
-    var profiles = new XML(getProfileList());
-    var hostArray = profiles.*::["return"];
-    var profileOutputJson = "\"list\" : [";
-    for (var i = 0; i < hostArray.length(); i++) {
-        var host = hostArray[i].*::workerHostURL[0].text();
-        var profileName = hostArray[i].*::profileName[0].text();
-        if (identityServerUrl.equals(host + "/SAML2SSOAuthenticationService") || identityServerUrl.equals
-                (host + "SAML2SSOAuthenticationService")) {
-            if (profileOutputJson != "\"list\" : [") {
-                profileOutputJson = profileOutputJson + ",";
-            }
-            profileOutputJson = profileOutputJson + "{\"host\" : \"" + host + "\", \"profile\" : \"" + profileName +
-                    "\", \"cookie\" : \"" + session.get("auth-cookie") + "\"}";
-        }
-    }
-    profileOutputJson = profileOutputJson + "]";
-    session.put("listProfiles", profileOutputJson);
-    if (isAuthenticated === "true") {
         var userInfo = userInfoClient.getUserInfo();
         if (userInfo == null) {
             isAuthenticated = false;
@@ -66,44 +47,18 @@ function login(request) {
                 }
             }
         }
+
         if (isAuthenticated !== "true") {
             var payload = '<sso:logout xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org"/>'
-            callWSInOnly(webService, serverUrl2, "urn:logout", payload );
+            callWSInOnly(webService, serviceUrl, "urn:logout", payload );
             isAuthenticated = NO_ADMIN_PERMISSION;
         }
+    } else {
+        log.debug("Failed to authorize for admin services.");
+        isAuthenticated = NO_ADMIN_PERMISSION;
     }
+
     return isAuthenticated;
-}
-
-function getProfileList(){
-
-    try{
-
-        var ws = require("ws");
-        var version = new ws.WSRequest();
-        var options = new Array();
-        options.useSOAP = 1.1;
-        options.action = "urn:listBPSProfiles";
-        var payload = "<xsd:listBPSProfiles xmlns:xsd=\"http://impl.workflow.identity.carbon.wso2.org/xsd\" />";
-        options["HTTPHeaders"] = [{name: "cookie", value: adminSessionCopy}];
-
-        var result;
-        try {
-            version.open(options,serverUrl + "/WorkflowImplAdminService.WorkflowImplAdminServiceHttpsSoap11Endpoint/", false);
-            version.send(payload);
-            result =version.responseE4X;
-        } catch (e) {
-            log.info(e.toString());
-            return e.toString();
-
-        }
-        return result;
-    }catch(e){
-        if (log.isDebugEnabled()) {
-            log.debug(e);
-        }
-        log.error("Error while retrieving workflow engine list.");
-    }
 }
 
 var checkAuthorizationForUser = function (userName, permission, tenantDomain) {
