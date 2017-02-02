@@ -266,7 +266,7 @@ include("../templates/leftpane.jag");
             <div id="dynamic-sso-config" class="panel panel-default" style="display: none;">
             </div>
 
-            <div class="panel-group" id="security-accordion" >
+            <div id="security-accordion" >
             <label id="claim-title" for="service-provider-description" >Claim Configuration </label>
 
 
