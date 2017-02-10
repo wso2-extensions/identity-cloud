@@ -208,48 +208,48 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
     $('#digestAlgorithm').empty();
     $('#digestAlgorithm').append(digestAlgorithmRow);
     //start from here
-    if (appStatus !== "new") {
-        if (providerProps["enableResponseSignature"] != null && providerProps["enableResponseSignature"].value == 'true') {
-            $('#enableResponseSignature').prop('checked', true);
-            $('#enableResponseSignature').val(true);
-        } else {
-            $('#enableResponseSignature').prop('checked', false);
-            $('#enableResponseSignature').val(false);
-        }
 
-        if (providerProps["enableSigValidation"] != null && providerProps["enableSigValidation"].value == 'true') {
-            $('#enableSigValidation').prop('checked', true);
-            $('#enableSigValidation').val(true);
-        } else {
-            $('#enableSigValidation').prop('checked', false);
-            $('#enableSigValidation').val(false);
+    if (providerProps["enableResponseSignature"] != null && providerProps["enableResponseSignature"].value == 'true') {
+        $('#enableResponseSignature').prop('checked', true);
+        $('#enableResponseSignature').val(true);
+    } else {
+        $('#enableResponseSignature').prop('checked', false);
+        $('#enableResponseSignature').val(false);
+    }
+
+    if (providerProps["enableSigValidation"] != null && providerProps["enableSigValidation"].value == 'true') {
+        $('#enableSigValidation').prop('checked', true);
+        $('#enableSigValidation').val(true);
+    } else {
+        $('#enableSigValidation').prop('checked', false);
+        $('#enableSigValidation').val(false);
+    }
+    if (providerProps["enableEncAssertion"] != null && providerProps["enableEncAssertion"].value == 'true') {
+        $('#enableEncAssertion').prop('checked', true);
+        $('#enableEncAssertion').val(true);
+    } else {
+        $('#enableEncAssertion').prop('checked', false);
+        $('#enableEncAssertion').val(false);
+    }
+    if (providerProps["enableSingleLogout"] != null && providerProps["enableSingleLogout"].value == 'true') {
+        $('#enableSingleLogout').prop('checked', true);
+        $('#enableSingleLogout').val(true);
+        $('#sloResponseURL').prop('disabled', false);
+        $('#sloRequestURL').prop('disabled', false);
+        if (providerProps["sloResponseURL"] != null && providerProps["sloResponseURL"].value.length > 0) {
+            $('#sloResponseURL').val(providerProps["sloResponseURL"].value);
         }
-        if (providerProps["enableEncAssertion"] != null && providerProps["enableEncAssertion"].value == 'true') {
-            $('#enableEncAssertion').prop('checked', true);
-            $('#enableEncAssertion').val(true);
-        } else {
-            $('#enableEncAssertion').prop('checked', false);
-            $('#enableEncAssertion').val(false);
+        if (providerProps["sloRequestURL"] != null && providerProps["sloRequestURL"].value.length > 0) {
+            $('#sloRequestURL').val(providerProps["sloRequestURL"].value);
         }
-        if (providerProps["enableSingleLogout"] != null && providerProps["enableSingleLogout"].value == 'true') {
-            $('#enableSingleLogout').prop('checked', true);
-            $('#enableSingleLogout').val(true);
-            $('#sloResponseURL').prop('disabled', false);
-            $('#sloRequestURL').prop('disabled', false);
-            if (providerProps["sloResponseURL"] != null && providerProps["sloResponseURL"].value.length > 0) {
-                $('#sloResponseURL').val(providerProps["sloResponseURL"].value);
-            }
-            if (providerProps["sloRequestURL"] != null && providerProps["sloRequestURL"].value.length > 0) {
-                $('#sloRequestURL').val(providerProps["sloRequestURL"].value);
-            }
-        } else {
-            $('#enableSingleLogout').prop('checked', false);
-            $('#enableSingleLogout').val(false);
-            //$('#sloResponseURL').prop('disabled', true);
-           // $('#sloRequestURL').prop('disabled', true);
-            $('#sloResponseURL').val("");
-            $('#sloRequestURL').val("");
-        }
+    } else {
+        $('#enableSingleLogout').prop('checked', false);
+        $('#enableSingleLogout').val(false);
+        //$('#sloResponseURL').prop('disabled', true);
+       // $('#sloRequestURL').prop('disabled', true);
+        $('#sloResponseURL').val("");
+        $('#sloRequestURL').val("");
+    }
 
     var appClaimConfigs = appdata.claimConfig.claimMappings;
     var requestedClaimsCounter = 0;
@@ -494,7 +494,7 @@ function drawSAMLConfigPage(issuer, isEditSP, tableTitle, samlsp) {
         $('#idpSLOURLs').val(providerProps["idpSLOURLs"].value);
     }
     $('#currentReturnToColumnId').val(returnToColumnId);
-    }
+
 
     $("#idpSLOReturnToURLInputRow").empty();
     $("#idpSLOReturnToURLInputRow").append(idpSLOReturnToURLInputRow);
@@ -711,7 +711,7 @@ function addAssertionConsumerURL() {
     $('.urlStatus').addClass('hide');
     var messageContainer = "<label class='' for='assertion-url' role='alert'>" +
         "<span class='alert-content'></span></label>";
-    
+
     var assertionConsumerURL = $("#assertionConsumerURLTxt").val();
     assertionConsumerURL = assertionConsumerURL.trim();
 
@@ -1152,4 +1152,3 @@ function populateIssuerName(appName, appVersion) {
     });
     return saml2SsoIssuer;
 }
-
