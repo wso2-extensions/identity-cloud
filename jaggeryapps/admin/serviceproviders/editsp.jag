@@ -266,7 +266,7 @@ include("../templates/leftpane.jag");
             <div id="dynamic-sso-config" class="panel panel-default" style="display: none;">
             </div>
 
-            <div id="security-accordion" >
+            <div class="panel-group" id="security-accordion" >
             <label id="claim-title" for="service-provider-description" >Claim Configuration </label>
 
 
@@ -1154,9 +1154,9 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
-            $("#claim_dialect_custom").hide().closest('label').hide();
-            $("#securityconfig").hide();
-            $("#claim-title").hide();
+ 	    $("#claim_dialect_custom").show().closest('label').show();
+            $("#securityconfig").show();
+            $("#claim-title").show();
             break;
         case 'Shortcut' :
             $("#skipgateway").prop('checked', true);
