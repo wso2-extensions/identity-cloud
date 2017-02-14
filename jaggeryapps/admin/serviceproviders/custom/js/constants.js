@@ -38,6 +38,9 @@ var AWS_SUBJECT_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/Role";
 var AWS_SUBJECT_LOCAL_DIALECT = "http://wso2.org/claims/awsrole";
 var AWS_EMAIL_REMOTE_DIALECT = "https://aws.amazon.com/SAML/Attributes/RoleSessionName";
 
+// NetSuite claims
+var NETSUITE_ACCOUNT_REMOTE_DIALECT = "account";
+var NETSUITE_ACCOUNT_LOCAL_DIALECT = "http://wso2.org/claims/netsuiteaccount";
 
 //claim Dialects
 var WSO2_EMAIL = "http://wso2.org/claims/emailaddress";

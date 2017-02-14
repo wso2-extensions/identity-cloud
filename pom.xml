@@ -194,6 +194,16 @@
                 <artifactId>org.wso2.carbon.identity.application.common</artifactId>
                 <version>${carbon.identity.framework.core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity</groupId>
+                <artifactId>org.wso2.carbon.identity.application.mgt</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity</groupId>
+                <artifactId>org.wso2.carbon.claim.mgt</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -349,6 +359,7 @@
     </build>
 
     <modules>
+        <module>components/org.wso2.carbon.identity.cloud.claim.migrator</module>
         <module>components/org.wso2.carbon.identity.cloud.authenticator.local</module>
         <module>components/org.wso2.carbon.identity.cloud.web.jaggery</module>
         <module>components/org.wso2.carbon.identity.cloud.observer.tenant</module>

@@ -325,8 +325,28 @@ function handleWellKnownAppClaims(spClaimConfig, isLocalClaimsSelected, claimMap
         claimMapping[1] = emailClaim;
 
         spClaimConfig.roleClaimURI = AWS_EMAIL_REMOTE_DIALECT;
-    }
-     // drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
+    }else if ($('#spType').val() == "netsuite" && claimMapping == null) {
+        isLocalClaimsSelected = false;
+        claimMapping = [];
+
+        var accountClaim = {};
+        accountClaim["defaultValue"] = "";
+        accountClaim["requested"] = "true";
+
+        var localClaim = {};
+        localClaim["claimId"] = "0";
+        localClaim["claimUri"] = NETSUITE_ACCOUNT_LOCAL_DIALECT;
+        accountClaim["localClaim"] = localClaim;
+
+        var remoteClaim= {}
+        remoteClaim["claimId"] = "0";
+        remoteClaim["claimUri"] = NETSUITE_ACCOUNT_REMOTE_DIALECT;
+        accountClaim["remoteClaim"] = remoteClaim;
+
+        claimMapping[0] = accountClaim;
+      }
+
+      // drawClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapping);
       drawClaimConfigs(spClaimConfig, isLocalClaimsSelected, claimMapping);
 }
 
