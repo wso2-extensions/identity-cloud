@@ -157,7 +157,12 @@ function updateSP(){
         if (request.getParameter("enableAssertionSignature") == 'true') {
             serviceProviderDTO["enableAssertionSignature"] = true;
         }
-        
+
+        if (request.getParameter("nameIdFormat") != null && request.getParameter("nameIdFormat").length > 0
+                && request.getParameter("nameIdFormat") != 'undefined') {
+            serviceProviderDTO["nameIdFormat"] = request.getParameter("nameIdFormat");
+        }
+
         if (request.getParameter("enableAttributeProfile") != null && request.getParameter("enableAttributeProfile") == 'true') {
             //TODO : Do the following
             //serviceProviderDTO.setRequestedClaims(samlSsoServuceProviderConfigBean.getSelectedClaimsAttay());
