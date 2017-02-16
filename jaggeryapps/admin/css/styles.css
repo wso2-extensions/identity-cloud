@@ -229,7 +229,7 @@ a.btn-action {
 .cloud-menu .popover {
     border-radius: 0px;
     width: 24em;
-    left: -20.8em !important;
+    left: -21.35em !important;
     max-width: 32em;
     background-color: #006690
 }
@@ -256,9 +256,9 @@ a.btn-action {
     margin-top:5px;
 }
 .cloud-name {
-    font-size:12px;
+    font-size:14px;
     margin-top: .5em;
-    font-weight: 300;
+    font-weight: 400;
 }
 .cloud-menu-popover {
     position: relative;
@@ -317,6 +317,7 @@ a.btn-action {
     margin: 0.5em 0em 0.5em 0.5em;
     text-align: center;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 .cloud-block-default {
@@ -3530,7 +3531,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 .add-custom-app {
     border: 2px dashed #676767;
 }
-.link-white, .link-white:hover {
+.link-white, .link-white:hover, .link-white:focus{
     color: #eeeeee;
     text-decoration: none;
 }
@@ -3740,6 +3741,12 @@ a.disabled {
     pointer-events: none;
     cursor: default;
     color: #9c9898;
+}
+.add-padding-top-2x {
+    padding-top: 10px !important;
+}
+.add-padding-top-3x {
+    padding-top: 15px !important;
 }
 .remove-padding-right {
     padding-right: 0px !important;

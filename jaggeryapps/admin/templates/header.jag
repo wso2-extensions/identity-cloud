@@ -104,28 +104,24 @@ function resolveUserName(user) {
                 </div>
                 <div id="popover-content" class="hide">
                    <div class="cloud-apps">
-                       <a class="cloud-block" href="<%=headerConfig.appCloud%>">
-                           <i class="fa fa-3x fa-cubes header-top"></i>
-                           <div class="cloud-name">Application Cloud</div>
-                       </a>
-                       <a class="cloud-block" href="<%=headerConfig.apiCloud%>">
-                           <i class="fw fw-api fa-3x header-top"></i>
+                       <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.apiCloud%>">
+                           <i class="fw fw-api fa-3x"></i>
                            <div class="cloud-name">API Cloud</div>
                        </a>
-                       <a class="cloud-block" href="<%=USERPORTAL_LINK%>">
-                           <i class="fw fw-deploy fa-3x header-top"></i>
-                           <div class="cloud-name">User Portal</div>
+                       <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.appCloud%>">
+                           <i class="fw fw-service fw-3x"></i>
+                           <div class="cloud-name">Integration Cloud</div>
                        </a>
                        <div class="clearfix"></div> <!-- to make seperate -->
                    </div>
                    <div class="cloud-actions">
                        <h3>Manage your cloud</h3>
-                       <a class="cloud-block-invert" href="<%=headerConfig.organization%>" target="_self">
-                           <i class="fa fa-3x header-top  fa-institution"></i>
+                       <a class="cloud-block-invert add-padding-top-3x" href="<%=headerConfig.organization%>" target="_self">
+                           <i class="fa fa-3x fa-institution"></i>
                            <div class="cloud-name">Organizations</div>
                        </a>
-                       <a class="cloud-block-invert" href="<%=headerConfig.members%>" target="_self">
-                           <i class="fa fa-3x header-top fa-users"></i>
+                       <a class="cloud-block-invert add-padding-top-3x" href="<%=headerConfig.members%>" target="_self">
+                           <i class="fa fa-3x fa-users"></i>
                            <div class="cloud-name">Members</div>
                        </a>
 
