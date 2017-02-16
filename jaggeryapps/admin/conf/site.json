@@ -16,7 +16,8 @@
         "apiCloud" : "https://api.cloud.wso2.com/publisher/",
         "organization" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag",
         "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag",
-        "documentation" : "#"
+        "documentation" : "https://docs.wso2.com/display/IdentityCloud/WSO2+Identity+Cloud+Documentation",
+        "cloudIndexPage" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/index.jag"
     }
 
 }
