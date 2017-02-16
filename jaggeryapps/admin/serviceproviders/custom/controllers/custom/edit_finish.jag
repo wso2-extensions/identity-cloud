@@ -426,31 +426,8 @@ function addApp(){
     storeProperties = JSON.parse(storeProperties);
   }
 
-
-    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
-    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
-
-    var thumbnailId = request.getParameter("thumbnailUrl"); //check for pre attached image
-    var thumbnailFile = request.getFile("thumbnailFile");//check for newly attached image
-    if (thumbnailFile != null) {
-        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
-        var thumbnailInputStream = Packages.java.io.InputStream;
-        thumbnailInputStream = thumbnailFile.getStream().getStream();
-        fileContentObj.setContent(thumbnailInputStream);
-        fileContentObj.setFileName(thumbnailFile.getName());
-        thumbnailId = String(apiProviderImplObj.uploadImage(fileContentObj));
-    }
-
-    var bannerId = request.getParameter("bannerUrl");//check for pre attached image
-    var bannerFile = request.getFile("bannerFile");//check for newly attached image
-    if (bannerFile != null) {
-        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
-        var bannerInputStream = Packages.java.io.InputStream;
-        bannerInputStream = bannerFile.getStream().getStream();
-        fileContentObj.setContent(bannerInputStream);
-        fileContentObj.setFileName(bannerFile.getName());
-        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
-    }
+    var thumbnailId = getThumbnailId();
+    var bannerId = getBannerId();
 
     var appURL = gatewayProperties.appUrl;
     var context = gatewayProperties.appContext;
@@ -533,6 +510,140 @@ function addApp(){
         publisher.updateApp(app);
     }
 }
+
+function getThumbnailId(){
+
+  var thumbnailId = request.getParameter("thumbnailUrl");
+
+  // If there is no existing thumbnail for the application,
+  //  check whether an image binary comes with the request.
+  if(!thumbnailId){
+
+    var fileContent = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var thumbnailFile = request.getFile("thumbnailFile");
+    if (thumbnailFile) {
+
+        var thumbnailInputStream = thumbnailFile.getStream().getStream();
+        fileContent.setContent(thumbnailInputStream);
+        fileContent.setFileName(thumbnailFile.getName());
+        thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
+
+        if(thumbnailInputStream){
+          thumbnailInputStream.close();
+        }
+
+    }else if(storeAppType === WELL_KNOWN_APP){
+
+      // This can be a well known application.
+      // The image should be taken from the file system.
+
+      var applicationType = request.getParameter("spType");
+      var thumbnailFileName = getImageFilePathForWellKnownAppType(applicationType);
+
+      var thumbnailFile;
+      var thumbnailInputStream;
+
+      try {
+        thumbnailFile = new File(thumbnailFileName);
+        thumbnailFile.open("r");
+
+        thumbnailInputStream = thumbnailFile.getStream().getStream();
+        fileContent.setContent(thumbnailInputStream);
+        fileContent.setFileName(applicationType + ".png");
+        thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
+      }
+      catch(err) {
+        log.error("Can't read and upload thumbnail file for the application.", err);
+      }
+      finally {
+        if(thumbnailInputStream){
+          thumbnailInputStream.close();
+        }
+
+        if(thumbnailFile){
+          thumbnailFile.close();
+        }
+      }
+    }
+  }
+
+  return thumbnailId;
+}
+
+function getBannerId(){
+
+  // If there is no existing banner for the application,
+  //  check whether an image binary comes with the request.
+  var bannerId = request.getParameter("bannerUrl");
+
+  if(!bannerId){
+
+    var fileContent = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+    var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
+    var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
+
+    var bannerFile = request.getFile("bannerFile");
+    if (bannerFile != null) {
+        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+        var bannerInputStream = bannerFile.getStream().getStream();
+        fileContentObj.setContent(bannerInputStream);
+        fileContentObj.setFileName(bannerFile.getName());
+        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+
+        bannerInputStream.close();
+    }else if(storeAppType === WELL_KNOWN_APP){
+
+      // This can be a well known application.
+      // The image should be taken from the file system.
+
+      var applicationType = request.getParameter("spType");
+      var bannerFileName = getImageFilePathForWellKnownAppType(applicationType);
+
+      var bannerFile;
+      var bannerInputStream;
+      try {
+        bannerFile = new File(bannerFileName);
+        bannerFile.open("r");
+
+        bannerInputStream = bannerFile.getStream().getStream();
+        fileContent.setContent(bannerInputStream);
+        fileContent.setFileName(applicationType + ".png");
+        bannerId = String(apiProviderImplObj.uploadImage(fileContent));
+      }catch(err) {
+        log.error("Can't read and upload banner file for the application.", err);
+      }finally {
+        if(bannerInputStream){
+          bannerInputStream.close();
+        }
+
+        if(bannerFile){
+          bannerFile.close();
+        }
+      }
+    }
+  }
+
+  return bannerId;
+}
+
+function getImageFilePathForWellKnownAppType(applicationType){
+
+  var pathPrefix = "/images/is/";
+
+  var fileName;
+
+  if(applicationType === "netsuite"){ // Handling the typo in netsuite icon file name.
+    fileName = "netsuit";
+  }else{
+    fileName = applicationType;
+  }
+
+  return pathPrefix + fileName + ".png";
+}
+
 
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
