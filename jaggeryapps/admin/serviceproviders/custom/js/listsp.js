@@ -19,7 +19,16 @@ function deleteCustomSP(applicationName) {
         })
         .always(function () {
         });
+    $('#delete-popup-modal').modal('hide');
 }
+function showDeleteModal(applicationName) {
+    $('.delete-modal-content').html('');
+    $('.btn-ok').html('');
+    $('.delete-modal-content').append("Are you sure you want to delete Application: "+applicationName+"?");
+    $('#delete-buttons-block .btn-ok').prepend('<button type="button" class="btn btn-default" onclick="deleteCustomSP(\'' + applicationName + '\');">Yes</button>')
+    $('#delete-popup-modal').modal('show');
+}
+
 /**
  * This method will delete a given application without page refresh
  * @param applicationName
@@ -189,7 +198,7 @@ function    drawList() {
                 '                        </a>' +
                 '                        <ul class="dropdown-menu app-extra-menu" role="menu">' +
                 '                            <li><a href="/'+ ADMIN_PORTAL_NAME +'/serviceprovider/'+spList[i].applicationName+'">Edit</a></li>' +
-                '                            <li><a href="" onclick = deleteCustomSP(\'' + spList[i].applicationName + '\');>Delete</a></li>' +
+                '                            <li><a onclick ="showDeleteModal(\'' + spList[i].applicationName + '\')">Delete</a></li>' +
                 '                        </ul>' +
                 '                    </div>' +
                 '               </div>';

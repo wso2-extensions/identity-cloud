@@ -135,6 +135,29 @@ var tenantDomain = userInfo.tenantDomain;
     </div>
 </div>
 <!--EOF Inner Wrapper-->
+<!--Delete Modal-->
+<div id="delete-popup-modal" class="modal">
+        <div class="modal-dialog modal-dialog-margin-top-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="btn-close" type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 id="model-title" class="modal-title">Delete Application</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <span class="delete-modal-content"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="delete-buttons-block">
+                    <span class="btn-ok"></span>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href = APP_LIST_PATH;">No</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 <%
 include("/templates/footer.jag");
 %>
