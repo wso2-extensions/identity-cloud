@@ -31,7 +31,8 @@ body {
 }
 .cloud-menu {
     background-color: #151515;
-    width: 58px;
+    width: 46px;
+    height: 51px;
 }
 .navbar-secondary {
     background-color: #0498d5;
@@ -228,7 +229,7 @@ a.btn-action {
 .cloud-menu .popover {
     border-radius: 0px;
     width: 24em;
-    left: -20.5em !important;
+    left: -20.8em !important;
     max-width: 32em;
     background-color: #006690
 }
@@ -263,16 +264,16 @@ a.btn-action {
     position: relative;
     float: right;
     padding: 1px 8px;
-    margin-right: 15px;
     background-color: transparent;
     background-image: none;
     border: 1px solid transparent;
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
+    margin-top: 3px;
 }
 #cloud-menu-popover-xs {
-    margin-top: 7px;
+    margin-top: 10px;
     color: #fff;
     padding: 6px 10px;
     border: none;
@@ -3537,7 +3538,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     text-decoration: underline;
 }
 .link-store {
-    margin-right: 29px;
+    margin-right: 15px;
 }
 .link-store i {
     line-height: 3.5em;
@@ -3739,4 +3740,7 @@ a.disabled {
     pointer-events: none;
     cursor: default;
     color: #9c9898;
+}
+.remove-padding-right {
+    padding-right: 0px !important;
 }
