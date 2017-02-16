@@ -82,7 +82,7 @@ include("/util/encode.jag");
             <div class="row row-centered">
                 <div class="col-centered col-xs-12 col-sm-9  col-md-9 col-lg-9">
                     <div class="add-issue-content">
-                        <h1>Hey <span><i><%=encode.forHtml(session.get("userInfo").userName)%></i></span>, looks like its your first time on Identity cloud</h1>
+                        <h1>Looks like its your first time on Identity cloud</h1>
                         </br>
                         <h4>Want us to configure some sample data for you ? or you can just start by setting up your
                             user store</h4>
