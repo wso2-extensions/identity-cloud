@@ -3,6 +3,27 @@ var log = new Log();
 var appManagementClient = require('/modules/appManagementClient.js').appManagementClient();
 var appManagementIntegrationConfig = require('/conf/app_management_integration.json');
 
+// Read 'rolesToBeHidden' configuration.
+var rolesToBeHidden = application.get('rolesToBeHidden');
+if(!rolesToBeHidden){
+  rolesToBeHidden = require('/conf/site.json').rolesToBeHidden;
+  if(rolesToBeHidden){
+    application.put('rolesToBeHidden', rolesToBeHidden);
+  }
+}
+log.debug("rolesToBeHidden = " + rolesToBeHidden);
+
+// Read 'hideRolesFromPrimaryUserStore' configuration.
+var hideRolesFromPrimaryUserStore = application.get('hideRolesFromPrimaryUserStore');
+if(hideRolesFromPrimaryUserStore === undefined || hideRolesFromPrimaryUserStore === null){
+  hideRolesFromPrimaryUserStore = require('/conf/site.json').hideRolesFromPrimaryUserStore;
+
+  if(hideRolesFromPrimaryUserStore !== undefined){
+    application.put('hideRolesFromPrimaryUserStore', hideRolesFromPrimaryUserStore);
+  }
+}
+log.debug("hideRolesFromPrimaryUserStore = " + hideRolesFromPrimaryUserStore);
+
 getRoles();
 
 function getRoles() {
@@ -14,12 +35,16 @@ function getRoles() {
 
         for (var i = 0; i < fieldValues.roleIds.length; i++) {
             var role = fieldValues.roleIds[i];
-            //do not add admin role (special case) according to AppM existing code
-            if (role != "admin") {
-                matchedRoles.push({
-                                      id: role,
-                                      text: role
-                                  });
+
+            // Filter out if this is a primary user role and configuration says so.
+            if(hideRolesFromPrimaryUserStore && role.indexOf('/') === -1){
+              log.debug("Role '" + role + "' is being filtered since it's a role from the primary user store.");
+              continue;
+            }else if(rolesToBeHidden && rolesToBeHidden.indexOf(role) !== -1) { // Filter out if this is a hidden role.
+              log.debug("Role '" + role + "' is being filtered since it's in the 'roles to be hidden' list.");
+              continue;
+            }else {
+              matchedRoles.push({id: role, text: role});
             }
         }
         print(matchedRoles);

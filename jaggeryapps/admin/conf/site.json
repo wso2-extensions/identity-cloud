@@ -18,6 +18,8 @@
         "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag",
         "documentation" : "https://docs.wso2.com/display/IdentityCloud/WSO2+Identity+Cloud+Documentation",
         "cloudIndexPage" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/index.jag"
-    }
+    },
+    "hideRolesFromPrimaryUserStore":true,
+    "rolesToBeHidden":[]
 
 }
