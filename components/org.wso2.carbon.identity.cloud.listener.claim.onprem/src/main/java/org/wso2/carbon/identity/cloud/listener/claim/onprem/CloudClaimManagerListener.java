@@ -21,6 +21,7 @@ package org.wso2.carbon.identity.cloud.listener.claim.onprem;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,7 +60,6 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
     private static Log log = LogFactory.getLog(CloudClaimManagerListener.class);
     private int tenantId;
     private static final String ENDPOINT = "EndPointURL";
-    private HttpClient httpClient;
     private static Map<Integer, Key> privateKeys = new ConcurrentHashMap<>();
     private ClaimManager claimManager;
     private UserStoreManager secondaryUserStoreManager;
@@ -87,32 +87,33 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
                         ClaimMapping[] claimMappings = claimManager.getAllClaimMappings();
                         GetMethod getMethod = new GetMethod(EndpointUtil.getClaimAttributeRetrievalEndpoint(getHostName()));
 
-                        if (this.httpClient == null) {
-                            this.httpClient = new HttpClient();
-                        }
-
-                        setAuthorizationHeader(getMethod);
-                        int response = httpClient.executeMethod(getMethod);
-                        if (response == HttpStatus.SC_OK) {
-                            String respStr = new String(getMethod.getResponseBody());
-                            JSONObject resultObj = new JSONObject(respStr);
-                            String cacheKey = getTenantDomainCacheKey(domainName, tenantDomain);
-                            addTenantDomainClaimToCache(cacheKey, claimURI);
-                            for (ClaimMapping claimMapping :
-                                    claimMappings) {
-                                String uri = claimMapping.getClaim().getClaimUri();
-                                try {
-                                    String attribute = (String) resultObj.get(uri);
-                                    if (attribute != null && !attribute.isEmpty()) {
-                                        updateClaimMapping(domainName, claimMapping, attribute);
-                                    }
-                                } catch (JSONException e) {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug("Claim mapping of " + uri +
-                                                " not found for secondary userstore of tenant " + tenantId);
+                        try {
+                            HttpClient httpClient = getHttpClient();
+                            setAuthorizationHeader(getMethod);
+                            int response = httpClient.executeMethod(getMethod);
+                            if (response == HttpStatus.SC_OK) {
+                                String respStr = new String(getMethod.getResponseBody());
+                                JSONObject resultObj = new JSONObject(respStr);
+                                String cacheKey = getTenantDomainCacheKey(domainName, tenantDomain);
+                                addTenantDomainClaimToCache(cacheKey, claimURI);
+                                for (ClaimMapping claimMapping :
+                                        claimMappings) {
+                                    String uri = claimMapping.getClaim().getClaimUri();
+                                    try {
+                                        String attribute = (String) resultObj.get(uri);
+                                        if (attribute != null && !attribute.isEmpty()) {
+                                            updateClaimMapping(domainName, claimMapping, attribute);
+                                        }
+                                    } catch (JSONException e) {
+                                        if (log.isDebugEnabled()) {
+                                            log.debug("Claim mapping of " + uri +
+                                                    " not found for secondary userstore of tenant " + tenantId);
+                                        }
                                     }
                                 }
                             }
+                        } finally {
+                            getMethod.releaseConnection();
                         }
                     }
                 }
@@ -120,7 +121,7 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
         } catch (IOException | JSONException | ClaimManagerListenerException | UserStoreException e) {
             throw new org.wso2.carbon.user.core.UserStoreException(
                     "Error occurred while calling backed to claim attribute " +
-                            "retrieval for tenantId - [" + this.tenantId + "]");
+                            "retrieval for tenantId - [" + this.tenantId + "]", e);
         }
 
         return true;
@@ -192,5 +193,11 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
 
     private String getTenantDomainCacheKey( String domainName, String tenantDomain){
         return tenantDomain + "-" + domainName;
+    }
+
+    private HttpClient getHttpClient() {
+        HttpClient httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+        httpClient.getParams().setParameter("http.connection.stalecheck", new  Boolean(true));
+        return httpClient;
     }
 }
