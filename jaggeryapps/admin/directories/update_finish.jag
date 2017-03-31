@@ -32,20 +32,20 @@ function updateUserStore(){
 
     try{
         var name = request.getParameter('name');
-        var url = request.getParameter('url');
+        var accessToken = request.getParameter('accessToken');
         var uniqueId = request.getParameter('uniqueid');
         var disabled = request.getParameter('disabled');
 
         var domain="is-wso2.com"; //TODO remove magic words
         var updateUserStore = '<xsd:editUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
                 '<xsd:userStoreDTO>' +
-                '<xsd1:className>org.wso2.carbon.identity.user.store.ws.WSUserStoreManager</xsd1:className>' +
+                '<xsd1:className>org.wso2.carbon.identity.user.store.outbound.WSOutboundUserStoreManager</xsd1:className>' +
                 '<xsd1:description>' + name + '</xsd1:description>' +
                 '<xsd1:disabled>false</xsd1:disabled>' +
                 '<xsd1:domainId>' + domain + '</xsd1:domainId>' +
                 '<xsd1:properties>' +
-                '<xsd1:name>EndPointURL</xsd1:name>' +
-                '<xsd1:value>' + url + '</xsd1:value>' +
+                '<xsd1:name>MessageBrokerEndPointURL</xsd1:name>' +
+                '<xsd1:value>' + "tcp://localhost:61616" + '</xsd1:value>' +
                 '</xsd1:properties>' +
 
                 '<xsd1:properties>' +
