@@ -133,53 +133,48 @@ include("/templates/header.jag");
                         <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture">
                     </div>
                     </br></br>
-                    <div class="row" >
-                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
+
+                    <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
                                 <span class="fw-stack btn-action-ico">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-download fw-stack-1x"></i>
                                 </span>
                                 <span class="btn-content">Download Agent</span>
-                            </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:showHideConfigureAgentURL()" id="btn-configure-agent-url">
-                                <span class="fw-stack btn-action-ico">
-                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                    <i class="fw fw-down fw-stack-1x"></i>
-                                </span>
-                                <span class="btn-content"> Configure Agent URL</span>
-                            </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">
-                                <span class="fw-stack btn-action-ico">
-                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                    <i class="fw fw-list fw-stack-1x"></i>
-                                </span>
-                                <span class="btn-content">Skip to Application List</span>
-                            </a>
+                    </a>
+                    <div class="row" >
+                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
+                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <!--<a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">-->
+                                <!--<span class="fw-stack btn-action-ico">-->
+                                    <!--<i class="fw fw-circle-outline fw-stack-2x"></i>-->
+                                    <!--<i class="fw fw-list fw-stack-1x"></i>-->
+                                <!--</span>-->
+                                <!--<span class="btn-content">Skip to Application List</span>-->
+                            <!--</a>-->
                         </div>
                     </div>
 
-                    <div id="configure-agent" hidden>
+                    <div id="configure-agent" >
                     <div class="comment-line"></div>
 
                         <div class="row">
                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
-                                    </br></br>
+                                    <!--<span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>-->
+                                    <!--</br></br>-->
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
+                                        <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>-->
                                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                                             <div class="form-group">
+                                                <div class="help-note margin-top-1x margin-bottom-xs">Enter this token during installation :</div>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="agentUrl"
-                                                           placeholder="https://useragent.example.com/wso2agent"  name="agentUrl"> </input>
+                                                    <input type="text" class="form-control" id="accessToken"  name="accessToken" disabled> </input>
                                                     <div class="connectionStatus"></div>
                                                          <span class="input-group-btn input-group-btn-check">
-                                                               <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
+                                                               <button   class="btn btn-info btn-check" onclick="generateAccessToken();"> Re-generate </button>
                                                          </span>
 
                                                 </div>
@@ -199,6 +194,24 @@ include("/templates/header.jag");
                                                     </span>
                                                     Save
                                                 </button>
+                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
+                                                        id="btn-save">
+                                                    <span class="fw-stack btn-action-ico">
+                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                                        <i class="fw fw-list fw-stack-1x"></i>
+                                                    </span>
+                                                    Skip Application List
+                                                </button>
+
+                                                <!--<a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">-->
+                                                <!--<span class="fw-stack btn-action-ico">-->
+                                                    <!--<i class="fw fw-circle-outline fw-stack-2x"></i>-->
+                                                    <!--<i class="fw fw-list fw-stack-1x"></i>-->
+                                                <!--</span>-->
+                                                <!--<span class="btn-content">Skip to Application List</span>-->
+                                                 <!--</a>-->
+
+
                                                 <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
                                                         id="add-directory-loading" style="display: none;" disabled>
                                                     <span class="fw-stack btn-action-ico">
