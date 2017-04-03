@@ -9,27 +9,22 @@ var showedOnce = false;
 
 function addOrUpdateUserDirectory() {
     var name = document.getElementById("drName").value;
-    var agentUrl = document.getElementById("agentUrl").value;
+    var accessToken = document.getElementById("accessToken").value;
     var agentUniqueId = document.getElementById("uniqueid").value;
     var agentDisabled = document.getElementById("disabled").value;
     var url;
     var data;
 
-
-    if (!validateDirectory(name, agentUrl)) {
+    if (!validateDirectory(name)) {
         return;
-    }
-
-    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-        agentUrl = agentUrl.substring(0, agentUrl.length - 1);
     }
 
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        data = "name=" + name + "&url=" + agentUrl + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
+        data = "name=" + name + "&accessToken=" + accessToken + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
         url = DIRECTORY_UPDATE_FINISH_PATH;
     } else {
-        data = "name=" + name + "&url=" + agentUrl;
+        data = "name=" + name + "&accessToken=" + accessToken;
         url = DIRECTORY_ADD_FINISH_PATH;
     }
 
@@ -139,7 +134,7 @@ function updateUserDirectory() {
     var url;
     var data;
 
-    if (!validateDirectory(name, agentUrl)) {
+    if (!validateDirectory(name)) {
         return;
     }
 
@@ -224,19 +219,12 @@ function updateUserDirectory() {
         });
 }
 
-function validateDirectory(name, agentUrl) {
+function validateDirectory(name) {
     if (name.length == 0) {
         message({labelId: 'drName-error', content: 'Directory name can\'t be empty', type: 'error'});
         return false;
     } else {
         $('#drName-error').hide();
-    }
-
-    if (agentUrl.length == 0) {
-        message({labelId: 'agentUrl-error', content: 'Agent URL can\'t be empty', type: 'error'});
-        return false;
-    } else {
-        $('#agentUrl-error').hide();
     }
 
     return true;
@@ -794,13 +782,18 @@ function initValidate() {
     });
 }
 
+window.onload = function() {
+    generateAccessToken();
+};
 
-function validateBeforeSubmit() {
-    initValidate();
-    if ($("#agent-download-form").valid()) {
-        testConnection(document.getElementById('agentUrl').value);
+function generateAccessToken() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    for( var i=0; i < 32; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
+    document.getElementById('accessToken').value = text;
 }
 
 $("#agent-download-form").submit(function(e) {
