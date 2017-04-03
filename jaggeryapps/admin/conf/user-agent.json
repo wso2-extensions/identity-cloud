@@ -1,0 +1,3 @@
+{
+    "messageBrokerUrl":"tcp://localhost:61616"
+}
