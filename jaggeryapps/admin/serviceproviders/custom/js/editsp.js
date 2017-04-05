@@ -119,17 +119,16 @@ function drawAppDetails(data) {
         $('#store-app-banner-url').val(data.banner);
 
         var tags = data.tags;
-
-        if(tags){
-            $("#store-app-tags").val(data.tags).trigger("change");
+        if (tags) {
+            for (var i = 0; i < tags.length; i++) {
+                var tag = tags[i];
+                $("#store-app-tags").append("<option selected='selected'>" + tag + "</option>").trigger("change");
+            }
         }
 
-        if (data.visibleRoles.toString().trim() != "") {
-            var existingRoles = data.visibleRoles.toString().split(",");
-            for (var i = 0; i < existingRoles.length; i++) {
-                var role = existingRoles[i];
-                $("#store-app-visibility").val(role).trigger("change");
-            }
+        var visibleRoles = data.visibleRoles;
+        if (visibleRoles) {
+            $("#store-app-visibility").val(visibleRoles).trigger("change");
         }
         $('#app-type-dropdown').attr("disabled", true);
     } else {
