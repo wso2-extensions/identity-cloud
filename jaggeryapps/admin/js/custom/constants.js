@@ -8,6 +8,7 @@ const DIRECTORY_ADD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH
 const DIRECTORY_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH;
 const APP_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + APP_LIST;
 const DIRECTORY_GET_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory-list";
+const DIRECTORY_CONNECTIONS_GET_LIST = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-connections";
 const DIRECTORY_GET_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory";
 const DIRECTORY_DELETE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "delete_finish";
 const DIRECTORY_DOWNLOAD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download-finish";
