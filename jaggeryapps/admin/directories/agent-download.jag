@@ -124,9 +124,6 @@ include("/templates/header.jag");
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="full-content">
 
-                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
-                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
-                    <div class="margin-bottom-md">
 
                     <div class="text-agent-archi margin-bottom-xs">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premises LDAP server.</div>
                     <div class="agent-archi">
@@ -165,11 +162,28 @@ include("/templates/header.jag");
                                 <form id="agent-download-form" name="agent-download-form" role="form">
                                     <!--<span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>-->
                                     <!--</br></br>-->
+
+
                                     <div class="row">
                                         <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>-->
                                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                                             <div class="form-group">
-                                                <div class="help-note margin-top-1x margin-bottom-xs">Enter this token during installation :</div>
+                                                <div class="text-agent-archi margin-bottom-xs">Directory Name :</div>
+                                                <div class="input-group">
+                                                    <input id="drName" name="drName" type="text" class="form-control" placeholder="Enter directory name" autofocus />
+                                                </div>
+
+                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>-->
+                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                                            <div class="form-group">
+                                                <div class="text-agent-archi margin-bottom-xs">Enter this token during installation :</div>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="accessToken"  name="accessToken" disabled> </input>
                                                     <div class="connectionStatus"></div>
@@ -350,6 +364,11 @@ include("/templates/header.jag");
         userName = "<%=session.get('user')%>";
         $("#drName").removeAttr('readonly');
         populateDirectory('is-wso2.com');
+
+        window.onload = function() {
+            generateAccessToken();
+        };
     </script>
+
 </body>
 </html>
