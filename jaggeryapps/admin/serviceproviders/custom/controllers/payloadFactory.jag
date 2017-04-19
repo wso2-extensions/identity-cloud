@@ -73,6 +73,10 @@ var addRPServiceProvider = '<xsd:addRPServiceProvider xmlns:soap="http://www.w3.
                                 '</xsd:spDto>'+
                             '</xsd:addRPServiceProvider>';
 
+var getConnection = "<xsd:getAgentConnections xmlns:xsd=\"http://org.apache.axis2/xsd\">\n" +
+        "<xsd:domain>{0}</xsd:domain>" +
+        "</xsd:getAgentConnections>";
+
 
 application.put("urn:getApplication", getApplication);
 application.put("urn:createApplication", createApplication);
@@ -83,6 +87,8 @@ application.put("urn:getOAuthApplicationData",getOAuthApplicationData);
 application.put("urn:removeServiceProvider",removeServiceProvider);
 application.put("urn:addRPServiceProvider",addRPServiceProvider);
 application.put("urn:removeOAuthApplicationData",removeOAuthApplicationData);
+application.put("urn:getAgentConnections",getConnection);
+
 if(!application.get(SAML_ENABLED)){
     application.put("urn:login", login);
 }
