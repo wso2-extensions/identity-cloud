@@ -21,10 +21,10 @@ function addOrUpdateUserDirectory() {
 
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        data = "name=" + name + "&accessToken=" + accessToken + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
+        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
         url = DIRECTORY_UPDATE_FINISH_PATH;
     } else {
-        data = "name=" + name + "&accessToken=" + accessToken;
+        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain;
         url = DIRECTORY_ADD_FINISH_PATH;
     }
 
@@ -452,7 +452,6 @@ function populateDirectory(domain) {
                     arr[0] = directoryList;
                     directoryList = arr;
                 }
-
                 for (var i in directoryList) {
                     if (directoryList[i].domainId == domain) {
                         directoryName = directoryList[i].description;
@@ -460,6 +459,56 @@ function populateDirectory(domain) {
                     }
                 }
                 drawUpdatePage(directoryName, properties);
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
+
+function populateAgentConnection(domain) {
+
+    var directoryName = "";
+    $.ajax({
+        url: DIRECTORY_CONNECTIONS_GET_LIST,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                if (data) {
+                    connectionsList = $.parseJSON(data).return;
+                }
+                if (connectionsList != null && connectionsList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = connectionsList;
+                    connectionsList = arr;
+                }
+                drawConnections(connectionsList);
             }
         },
         error: function (e) {
@@ -712,24 +761,31 @@ function verifyConnection(agentUrl) {
 
 }
 
+function drawConnections(properties) {
+
+    var table = document.getElementById("tblConnection");
+    for (var j in properties) {
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        cell1.innerHTML = "Node " + properties[j].node;
+        cell2.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed"; ;
+    }
+}
 
 function drawUpdatePage(directoryName, properties) {
 
-    var agentEndpoint;
     var agentUniqueId;
     var agentDisabled;
 
     for (var j in properties) {
-        if (properties[j].name == endpointurl) {
-            agentEndpoint = properties[j].value;
-        } else if (properties[j].name == uniqueId) {
+        if (properties[j].name == uniqueId) {
             agentUniqueId = properties[j].value;
         } else if (properties[j].name == disabled) {
             agentDisabled = properties[j].value;
         }
     }
-
-    $('#agentUrl').val(agentEndpoint);
     $('#uniqueid').val(agentUniqueId);
     $('#disabled').val(agentDisabled);
 }
@@ -781,10 +837,6 @@ function initValidate() {
         }
     });
 }
-
-window.onload = function() {
-    generateAccessToken();
-};
 
 function generateAccessToken() {
     var text = "";
