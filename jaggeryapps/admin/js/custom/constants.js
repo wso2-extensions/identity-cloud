@@ -11,6 +11,7 @@ const DIRECTORY_GET_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH +
 const DIRECTORY_CONNECTIONS_GET_LIST = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-connections";
 const DIRECTORY_GET_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory";
 const DIRECTORY_DELETE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "delete_finish";
+const ACCESS_TOKEN_UPDATE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "update_access_token_finish";
 const DIRECTORY_DOWNLOAD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download-finish";
 const DIRECTORY_TEST_CONNECTION_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "test-connection";
 const DIRECTORY_DOWNLOAD_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "download";
