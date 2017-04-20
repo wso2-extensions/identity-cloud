@@ -26,6 +26,8 @@ var tokenServerUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var domain="is-wso2.com";
+var userInfo = session.get("userInfo");
+var tenantDomain = userInfo.tenantDomain;
 
 addUserStore();
 addAccessToken();
@@ -72,6 +74,7 @@ function addAccessToken(){
         var accessToken = request.getParameter('accessToken');
 
         var addTokenPayload = '<xsd:insertAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '<xsd:token>'+ accessToken + '</xsd:token>' +
                 '</xsd:insertAccessToken>';
