@@ -188,7 +188,7 @@ include("/templates/header.jag");
                                                     <input type="text" class="form-control" id="accessToken"  name="accessToken" disabled> </input>
                                                     <div class="connectionStatus"></div>
                                                          <span class="input-group-btn input-group-btn-check">
-                                                               <button   class="btn btn-info btn-check" onclick="generateAccessToken();"> Re-generate </button>
+                                                               <button   class="btn btn-info btn-check" onclick="updateAccessToken();"> Re-generate </button>
                                                          </span>
 
                                                 </div>
@@ -296,6 +296,7 @@ include("/templates/header.jag");
     </div><!-- /.modal -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../js/jquery-1.11.1/jquery.min.js"></script>
+    <script src="../js/clipboard.js-master/clipboard.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
@@ -366,7 +367,7 @@ include("/templates/header.jag");
         populateDirectory('is-wso2.com');
 
         window.onload = function() {
-            generateAccessToken();
+            document.getElementById('accessToken').value = generateAccessToken();
         };
     </script>
 
