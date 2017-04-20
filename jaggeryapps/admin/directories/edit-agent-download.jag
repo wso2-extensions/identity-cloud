@@ -108,7 +108,7 @@ include("/templates/header.jag");
             <a class="btn-action" href="javascript:downloadAgentRedirect()">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
-                    <i class="fw fw-delete fw-stack-1x"></i>
+                    <i class="fw fw-download fw-stack-1x"></i>
                 </span> Download Agent
             </a>
 
@@ -187,7 +187,7 @@ include("/templates/header.jag");
                                                     <input type="text" class="form-control" id="accessToken"  name="accessToken" disabled> </input>
                                                     <div class="connectionStatus"></div>
                                                          <span class="input-group-btn input-group-btn-check">
-                                                               <button   class="btn btn-info btn-check" onclick="generateAccessToken();"> Revoke & Re-generate </button>
+                                                               <button class="btn btn-info btn-check" id="btnRevoke"> Revoke & Re-generate </button>
                                                          </span>
 
                                                 </div>
@@ -242,6 +242,38 @@ include("/templates/header.jag");
                 <div class="modal-footer" id="delete-buttons-block">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button id="delete-confirm" type="button" onclick="deleteDirectory('is-wso2.com');"
+                            class="btn btn-primary">Confirm
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="revokeregenerate-confirm-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-margin-top-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 id="revoke-heading" class="modal-title">Revoke & Re-generate Access token</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form">
+                                <div class="form-group">
+                                <div id="revoke-process-icon" hidden><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
+                                    <label for="demote-reason-text" class="control-label" id="revoke-label-text">This will disconnect already connected agents. Are you
+                                        sure , you want to revoke & regenerate access token ? </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="revoke-buttons-block">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-confirm" type="button" onclick="revokeAndRegenerateAccessToken('is-wso2.com');"
                             class="btn btn-primary">Confirm
                     </button>
                 </div>
@@ -304,6 +336,12 @@ include("/templates/header.jag");
 
         $('#btn-delete').on('click', function (e) {
             $('#demote-confirm-modal').modal({
+                show: true
+            });
+        });
+
+        $('#btnRevoke').on('click', function (e) {
+            $('#revokeregenerate-confirm-modal').modal({
                 show: true
             });
         });
