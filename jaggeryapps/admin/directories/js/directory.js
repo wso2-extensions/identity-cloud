@@ -414,6 +414,53 @@ function deleteDirectory(domainname) {
         });
 }
 
+function revokeAndRegenerateAccessToken(domainname) {
+
+    $("#revoke-label-text").hide();
+    $("#revoke-process-icon").show();
+    $("#revoke-heading").text("Revoking & Re-generating access token");
+    $("#revoke-buttons-block").hide();
+
+    var accessToken = document.getElementById("accessToken").value;
+    $.ajax({
+        url: ACCESS_TOKEN_UPDATE_FINISH_PATH,
+        type: "POST",
+        data: "domain=" + domainname + "&oldaccesstoken=" + accessToken + "&newaccesstoken=" + generateAccessToken(),
+    })
+        .done(function (data) {
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                urlResolver('directory',cookie,userName);
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+        })
+        .fail(function () {
+            $("#btn-progress").hide();
+            $("#btn-delete").show();
+            message({content: 'Error while deleting directory. ', type: 'servererror'});
+        })
+        .always(function () {
+        });
+}
+
 function populateDirectory(domain) {
 
     var directoryName = "";
@@ -763,14 +810,25 @@ function verifyConnection(agentUrl) {
 
 function drawConnections(properties) {
 
+    $('#accessToken').val(properties[0].accessToken);
     var table = document.getElementById("tblConnection");
     for (var j in properties) {
-        var row = table.insertRow(0);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
+        if(properties[j].node != null && properties[j].node != "") {
+            var row = table.insertRow(0);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
 
-        cell1.innerHTML = "Node " + properties[j].node;
-        cell2.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed"; ;
+            if (properties[j].status == 'C') {
+                cell1.innerHTML = "<i class='fw fw-success' style='color: 05d505;'></i>";
+            } else {
+                cell1.innerHTML = "<i class='fw fw-error' style='color: red;'></i>";
+            }
+            cell2.innerHTML = properties[j].node;
+            cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
+
+
+        }
     }
 }
 
@@ -838,6 +896,10 @@ function initValidate() {
     });
 }
 
+function updateAccessToken() {
+    document.getElementById('accessToken').value = generateAccessToken();
+}
+
 function generateAccessToken() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -845,7 +907,7 @@ function generateAccessToken() {
     for( var i=0; i < 32; i++ ) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    document.getElementById('accessToken').value = text;
+    return text;
 }
 
 $("#agent-download-form").submit(function(e) {
