@@ -54,6 +54,7 @@ function deleteConnections(){
     try{
         var domain = request.getParameter('domain');
         var deleteConnectionPayload = '<xsd:deleteConnections xmlns:xsd="http://org.apache.axis2/xsd">' +
+                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '</xsd:deleteConnections>';
         webService = new ws.WSRequest();
@@ -70,6 +71,7 @@ function deleteAccessToken(){
     try{
         var domain = request.getParameter('domain');
         var deleteTokenPayload = '<xsd:deleteAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '</xsd:deleteAccessToken>';
         webService = new ws.WSRequest();
