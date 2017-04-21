@@ -25,36 +25,16 @@ var userStoreServerUrl = serverUrl + "/UserStoreConfigAdminService";
 var tokenServerUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
-var userInfo = session.get("userInfo");
-var tenantDomain = userInfo.tenantDomain;
 
-deleteUserStore();
 deleteConnections();
 deleteAccessToken();
-function deleteUserStore(){
-
-    try{
-        var domain = request.getParameter('domain');
-        var deleteUserStore = '<xsd:deleteUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
-                '<xsd:domainName>' + domain +  '</xsd:domainName>' +
-                '</xsd:deleteUserStore>';
-
-        webService = new ws.WSRequest();
-        callWSInOnly(webService, userStoreServerUrl, "urn:deleteUserStore", deleteUserStore);
-    }catch(e){
-        log.error(e);
-        print(getErrorMessage(e.message));
-
-    }
-
-}
+deleteUserStore();
 
 function deleteConnections(){
 
     try{
         var domain = request.getParameter('domain');
         var deleteConnectionPayload = '<xsd:deleteConnections xmlns:xsd="http://org.apache.axis2/xsd">' +
-                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '</xsd:deleteConnections>';
         webService = new ws.WSRequest();
@@ -71,19 +51,37 @@ function deleteAccessToken(){
     try{
         var domain = request.getParameter('domain');
         var deleteTokenPayload = '<xsd:deleteAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
-                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '</xsd:deleteAccessToken>';
         webService = new ws.WSRequest();
         callWSInOnly(webService, tokenServerUrl, "urn:deleteAccessToken", deleteTokenPayload);
-        print('{"success":true}');
-
     }catch(e){
         log.error(e);
         print(getErrorMessage(e.message));
 
     }
 }
+
+function deleteUserStore(){
+
+    try{
+        var domain = request.getParameter('domain');
+        var deleteUserStore = '<xsd:deleteUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
+                '<xsd:domainName>' + domain +  '</xsd:domainName>' +
+                '</xsd:deleteUserStore>';
+
+        webService = new ws.WSRequest();
+        callWSInOnly(webService, userStoreServerUrl, "urn:deleteUserStore", deleteUserStore);
+        print('{"success":true}');
+    }catch(e){
+        log.error(e);
+        print(getErrorMessage(e.message));
+
+    }
+
+}
+
+
 
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
