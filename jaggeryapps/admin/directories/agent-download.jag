@@ -144,7 +144,7 @@ include("/templates/header.jag");
                                         <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
                                         <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span>
                                         <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Enter following token during agent installation</span>
-                                            <div class="help-block" >Tip:For more details, see the <a href="#">DOCUMENTATION</a>.</div>
+                                            <div class="help-block" >Tip:For more details, see the <a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store">DOCUMENTATION</a>.</div>
                                         </li>
                                     </ul>
                                 </div>
