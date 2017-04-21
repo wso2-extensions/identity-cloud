@@ -26,15 +26,13 @@ serverUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var i18n = session.get("i18n");
-var userInfo = session.get("userInfo");
-var tenantDomain = userInfo.tenantDomain;
+
 getConnections();
 function getConnections(){
     try{
         var domain = request.getParameter('domain');
         webService = new ws.WSRequest();
         var getConnectionsPayload = '<xsd:getAgentConnections xmlns:xsd="http://org.apache.axis2/xsd">' +
-                '<xsd:tenantDomain>'+ tenantDomain + '</xsd:tenantDomain>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
                 '</xsd:getAgentConnections>';
         var result = callWSReturnJSON(webService, serverUrl, "urn:getAgentConnections", null,getConnectionsPayload);
