@@ -396,6 +396,10 @@ include("/templates/header.jag");
         populateDirectory(domain);
         populateAgentConnection(domain);
 
+        setInterval(function(){
+            populateAgentConnection(domain) // this will run after every 2 seconds
+        }, 2000);
+
     </script>
 </body>
 </html>
