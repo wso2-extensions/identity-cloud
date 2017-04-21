@@ -880,16 +880,16 @@ function cancel() {
 function initValidate() {
 
     $("#agent-download-form").validate();
-    $.validator.addMethod("url2", function (value, element) {
+    $.validator.addMethod("directory", function (value, element) {
         return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
-    }, $.validator.messages.url);
+    }, $.validator.messages.directoryname);
 
     $("input[id*=drName]").rules("add", {
         required: true,
-        url2: true,
+        directory: true,
         messages: {
             required: "This field cannot be empty",
-            url: "Please enter valid URL",
+            directoryname: "Please enter valid directory name",
             connection: "Connection is not valid"
         }
     });
