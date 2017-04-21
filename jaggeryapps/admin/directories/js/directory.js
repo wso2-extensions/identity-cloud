@@ -810,24 +810,27 @@ function verifyConnection(agentUrl) {
 
 function drawConnections(properties) {
 
+
     $('#accessToken').val(properties[0].accessToken);
     var table = document.getElementById("tblConnection");
-    for (var j in properties) {
-        if(properties[j].node != null && properties[j].node != "") {
-            var row = table.insertRow(0);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
+    if(properties != null) {
+        $("#tblConnection tr").remove();
+        for (var j in properties) {
+            if (properties[j].node != null && properties[j].node != "") {
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
 
-            if (properties[j].status == 'C') {
-                cell1.innerHTML = "<i class='fw fw-success' style='color: 05d505;'></i>";
-            } else {
-                cell1.innerHTML = "<i class='fw fw-error' style='color: red;'></i>";
+                if (properties[j].status == 'C') {
+                    cell1.innerHTML = "<i class='fw fw-success' style='color: 05d505;'></i>";
+                } else {
+                    cell1.innerHTML = "<i class='fw fw-error' style='color: red;'></i>";
+                }
+                cell2.innerHTML = properties[j].node;
+                cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
+
             }
-            cell2.innerHTML = properties[j].node;
-            cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
-
-
         }
     }
 }
