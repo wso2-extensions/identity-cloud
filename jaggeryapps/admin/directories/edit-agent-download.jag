@@ -66,13 +66,15 @@ include("/templates/header.jag");
             </div>
             <div class="breadcrumb-secondary">
                 <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / User Directory
+
             </div>
         </div>
     </div>
+</div>
 </div><!-- EOF App  menu -->
 <div class="inner-wrapper">
-    <!-- left pane wrapper -->
-    <%
+<!-- left pane wrapper -->
+<%
     include("/templates/leftpane.jag");
     require("../util/constants.jag");
     include("/util/encode.jag");
@@ -112,20 +114,18 @@ include("/templates/header.jag");
                 </span> Download Agent
             </a>
 
-            <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
-               id="btn-progress" style="display: none" disabled>
-                <span class="fw-stack fw-lg btn-action-ico">
-                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                    <i class="fw fw-delete fw-stack-1x"></i>
-                </span> Deleting ...
-            </a>
+            <!--<a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"-->
+               <!--id="btn-progress" style="display: none" disabled>-->
+                <!--<span class="fw-stack fw-lg btn-action-ico">-->
+                    <!--<i class="fw fw-circle-outline fw-stack-2x"></i>-->
+                    <!--<i class="fw fw-delete fw-stack-1x"></i>-->
+                <!--</span> Deleting ...-->
+            <!--</a>-->
         </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
-                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
-                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -184,11 +184,13 @@ include("/templates/header.jag");
                                             <div class="form-group">
                                                 <div class="text-agent-archi margin-bottom-xs">Installation Token :</div>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="accessToken"  name="accessToken" disabled> </input>
-                                                    <div class="connectionStatus"></div>
-                                                         <span class="input-group-btn input-group-btn-check">
+                                                    <input type="text" class="form-control" id="accessToken"  name="accessToken" readonly> </input>
+                                                    <span class="input-group-btn input-group-btn-check">
+                                                        <button class="btn btn-info btn-check" data-clipboard-target="#accessToken">Copy</button>
+                                                    </span>
+                                                    <span class="input-group-btn input-group-btn-check">
                                                                <button class="btn btn-info btn-check" id="btnRevoke"> Revoke & Re-generate </button>
-                                                         </span>
+                                                     </span>
 
                                                 </div>
 
@@ -308,6 +310,7 @@ include("/templates/header.jag");
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.1/jquery.min.js"></script>
+    <script src="js/clipboard.js-master/clipboard.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="js/custom/constants.js"></script>
@@ -317,6 +320,7 @@ include("/templates/header.jag");
     <script src="directories/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/admin/csrf.js"></script>
     <script>
+        var clipboard = new Clipboard('.btn');
         var messageContainer = "<div class='alert' role='alert'>" +
                 "<span class='alert-content'></span></div>";
 
