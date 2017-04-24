@@ -168,7 +168,7 @@ include("/templates/header.jag");
                         <div class="row">
                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>
+                                    <span class="steps-text">If you have an agent configured, enter the connection URL below and click Save.</span>
                                     </br></br>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
