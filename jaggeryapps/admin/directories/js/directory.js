@@ -810,13 +810,14 @@ function verifyConnection(agentUrl) {
 
 function drawConnections(properties) {
 
-
+    var isRecordExist = false;
     $('#accessToken').val(properties[0].accessToken);
     var table = document.getElementById("tblConnection");
     if(properties != null) {
         $("#tblConnection tr").remove();
         for (var j in properties) {
             if (properties[j].node != null && properties[j].node != "") {
+                isRecordExist = true;
                 var row = table.insertRow(0);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -831,6 +832,12 @@ function drawConnections(properties) {
                 cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
 
             }
+        }
+
+        if (isRecordExist) {
+            $("#connectionStatus").text("Agent status");
+        } else {
+            $("#connectionStatus").text("No agent connection found");
         }
     }
 }

@@ -130,7 +130,7 @@ include("/templates/header.jag");
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="connection-block">
-                                <span class="connection-status">Agent status </span>
+                                <span class="connection-status" id="connectionStatus" name="connectionStatus">Agent status</span>
                                 <table id="tblConnection" name="tblConnection">
                                 </table>
                                 <!--<div class="col-xs-8 col-sm-10 col-md-10 col-lg-11">-->

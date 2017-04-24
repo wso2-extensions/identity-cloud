@@ -22,7 +22,7 @@ include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
-serverUrl = serverUrl + "/TokenMgtAdminService";
+serverUrl = serverUrl + "/AgentMgtService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var i18n = session.get("i18n");
