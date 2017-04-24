@@ -137,7 +137,7 @@ include("/templates/header.jag");
                             <div class="block-heading">Step 2</div>
                             <ul style="list-style: none;">
                                 <li>
-                                    <span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>  &nbsp;If you have an agent configured, enter the connection url bellow and click Save.</span>
+                                    <span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>  &nbsp;If you have an agent configured, enter the connection url below and click Save.</span>
                                 </li>
                             </ul>
                         </div>
