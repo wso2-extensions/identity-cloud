@@ -517,7 +517,6 @@ function populateDirectory(domain) {
 
 function populateAgentConnection(domain) {
 
-    var directoryName = "";
     $.ajax({
         url: DIRECTORY_CONNECTIONS_GET_LIST,
         type: "GET",
