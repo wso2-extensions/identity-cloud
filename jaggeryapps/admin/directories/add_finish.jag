@@ -49,6 +49,22 @@ function addUserStore(){
                 '<xsd1:name>DirectoryName</xsd1:name>' +
                 '<xsd1:value>' + name + '</xsd1:value>' +
                 '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageConsumeTimeout</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messageconsumetimeout + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageLifetime</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messagelifetime + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageRetryLimit</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messageretrylimit + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
                 '</xsd:userStoreDTO>' +
                 '</xsd:addUserStore>';
 
