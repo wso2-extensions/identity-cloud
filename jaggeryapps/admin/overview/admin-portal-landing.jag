@@ -84,8 +84,7 @@ include("/util/encode.jag");
                     <div class="add-issue-content">
                         <h1>Looks like it's your first time on Identity Cloud</h1>
                         </br>
-                        <h4>Want us to configure some sample data for you ? or you can just start by setting up your
-                            user store</h4>
+                        <h4>Do you want us to configure some sample data for you? If not, get started by setting up your user store</h4>
                         </br>
                         <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure',cookie,userName)">
                             <i class="fw fw fw-service"></i>
