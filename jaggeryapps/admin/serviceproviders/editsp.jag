@@ -424,7 +424,7 @@ include("../templates/leftpane.jag");
                                                            <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
                                title="The unique SAML identifier of your application."></i>
                                                          </label>
-                                                         <input type="text" class="form-control" id="issuer" name="issuer" placeholder="sample-application.com" readonly>
+                                                         <input type="text" class="form-control" id="issuer" name="issuer" readonly>
                                                          <input id="hiddenIssuer" type="hidden" value="" name="hiddenIssuer">
                                                           <div class="issuer-status"></div>
                                                              <label id="issuer-error" class="error" hidden="" >An application with the issuer name already exists</label>
