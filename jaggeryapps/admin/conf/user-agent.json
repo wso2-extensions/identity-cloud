@@ -1,6 +1,6 @@
 {
     "messageBrokerUrl":"tcp://localhost:61616",
     "messagelifetime":"60000",
-    "messageretrylimit":"3",
+    "messageretrylimit":"2",
     "messageconsumetimeout":"4000"
 }
