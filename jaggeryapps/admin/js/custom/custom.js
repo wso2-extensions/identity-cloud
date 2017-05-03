@@ -157,6 +157,10 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
     //adding go to store link
     $('.navbar-secondary .container-fliud .row').append('<div class="pull-right"><a href="'+ USER_PORTAL_LINK +'" target="_blank" class="link-white link-store"><i class="fw fw-deploy"></i> Go to Store</a></div>');
 
+    $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+    });
+
 }(jQuery));
 
 
@@ -598,3 +602,6 @@ function checkAppList(cookie,userName) {
 
     return spList;
 }
+$(document).ready(function () {
+
+})
