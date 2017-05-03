@@ -395,6 +395,7 @@ include("/templates/header.jag");
         var domain = 'is-wso2.com';
         populateDirectory(domain);
         populateAgentConnection(domain);
+        populateAccessToken(domain);
 
         setInterval(function(){
             populateAgentConnection(domain) // this will run after every 2 seconds
