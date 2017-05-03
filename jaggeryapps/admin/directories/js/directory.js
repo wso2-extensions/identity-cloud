@@ -564,6 +564,47 @@ function populateAgentConnection(domain) {
     });
 }
 
+function populateAccessToken(domain) {
+    $.ajax({
+        url: ACCESS_TOKEN_GET_PATH,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                $('#accessToken').val($.parseJSON(data).return);
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
+
+
 function downloadAgent() {
 
     $.ajax({
@@ -810,7 +851,6 @@ function verifyConnection(agentUrl) {
 function drawConnections(properties) {
 
     var isRecordExist = false;
-    $('#accessToken').val(properties[0].accessToken);
     var table = document.getElementById("tblConnection");
     if(properties != null) {
         $("#tblConnection tr").remove();
