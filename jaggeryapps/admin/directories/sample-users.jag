@@ -78,8 +78,7 @@ include("/templates/header.jag");
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
             <% var url = "/" + ADMIN_PORTAL_NAME + "/directories"; %>
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
-               title="Back to Overview">
+            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
