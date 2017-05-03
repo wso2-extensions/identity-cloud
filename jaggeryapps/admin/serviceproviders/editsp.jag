@@ -1036,7 +1036,6 @@ include("../templates/leftpane.jag");
             <div   id="process-icon"><i class="fw-loader5 fw-spin fw-5x"></i></div>
                 <div class="app-listing-loader">
                     <div class="loading-logo">
-                        <div class="signal"></div>
                         <p style="padding-top: 20px">Loading..</p>
 
                     </div>
