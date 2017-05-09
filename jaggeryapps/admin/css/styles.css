@@ -505,13 +505,43 @@ a.btn-action {
     min-height: 13em;
     position: relative;
     z-index: 100;
-    padding: 1em;
     text-align: center;
     color: #fff;
+    overflow: hidden;
     cursor: pointer;
-    border: 2px solid transparent;
 }
 
+.cloud-app-type > .description {
+    color: #fff;
+    text-decoration: none;
+    position: absolute;
+    padding: 15px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    transform: translateY(100%);
+    transition: all 0.35s ease;
+    font-size: 14px;
+}
+
+.cloud-app-type > .description > i {
+    opacity: 0.9;
+    bottom: 0;
+    left: 0;
+    font-size: 25px;
+    position: absolute;
+    display: block;
+}
+
+.cloud-app-type:hover{
+    transform: translateY(0%);
+}
+
+.cloud-app-type:hover > .description {
+    transform: translate(0, 0);
+}
 .thumbnail {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -552,7 +582,22 @@ a.btn-action {
 .thumbnail.icon img {
     width: 100%;
 }
-
+.cloud-app-type > .description > img {
+    bottom: 3%;
+    left: 3%;
+    position: absolute;
+    display: block;
+    width:15%;
+}
+.app-thumbnail.icon .square-element img.app-img {
+    top:46%;
+}
+.app-thumbnail.icon:before {
+    padding-top: 78%;
+}
+.cloud-app-type .app-thumbnail img {
+    width: 75%;
+}
 .fw-custom-x{
     font-size: 5.6em;
 }
@@ -3529,7 +3574,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
 }
 
 .add-custom-app {
-    border: 2px dashed #676767;
+    outline:2px dashed #676767;
 }
 .link-white, .link-white:hover, .link-white:focus{
     color: #eeeeee;
@@ -3750,4 +3795,28 @@ a.disabled {
 }
 .remove-padding-right {
     padding-right: 0px !important;
+}
+.app-color-one-dark {
+    background-color: #414141;
+    border-color: #414141;
+}
+.app-color-two-dark {
+    background-color: #274d6b;
+    border-color: #274d6b;
+}
+.app-color-three-dark {
+    background-color: #d18e1b;
+    border-color: #d18e1b;
+}
+.app-color-five-dark {
+    background-color: #53648e;
+    border-color: #53648e;
+}
+.app-color-six-dark {
+    background-color: #306d81;
+    border-color: #306d81;
+}
+.app-color-nine-dark {
+    background-color: #2d2c2c;
+    border-color: #2d2c2c;
 }
