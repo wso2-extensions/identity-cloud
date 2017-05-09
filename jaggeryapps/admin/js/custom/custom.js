@@ -602,6 +602,4 @@ function checkAppList(cookie,userName) {
 
     return spList;
 }
-$(document).ready(function () {
 
-})
