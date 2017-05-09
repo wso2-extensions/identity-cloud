@@ -42,7 +42,9 @@ public class IdentityCloudAuthenticatorServiceComponent {
     }
 
     protected void setRealmService(RealmService realmService) {
-        log.debug("Setting the Realm Service");
+        if (log.isDebugEnabled()){
+            log.debug("Setting the Realm Service");
+        }
         IdentityCloudAuthenticatorServiceComponent.realmService = realmService;
     }
 
@@ -51,7 +53,7 @@ public class IdentityCloudAuthenticatorServiceComponent {
             IdentityCloudFederatedAuthenticator federatedCustomAuth = new IdentityCloudFederatedAuthenticator();
             ctxt.getBundleContext().registerService(ApplicationAuthenticator.class.getName(), federatedCustomAuth, null);
             if (log.isDebugEnabled()) {
-                log.info("IdentityCloudFederatedAuthenticator bundle is activated");
+                log.debug("IdentityCloudFederatedAuthenticator bundle is activated");
             }
         } catch (Throwable e) {
             log.error("IdentityCloudFederatedAuthenticator bundle activation Failed", e);
@@ -60,12 +62,14 @@ public class IdentityCloudAuthenticatorServiceComponent {
 
     protected void deactivate(ComponentContext ctxt) {
         if (log.isDebugEnabled()) {
-            log.info("IdentityCloudFederatedAuthenticator bundle is deactivated");
+            log.debug("IdentityCloudFederatedAuthenticator bundle is deactivated");
         }
     }
 
     protected void unsetRealmService(RealmService realmService) {
-        log.debug("UnSetting the Realm Service");
+        if (log.isDebugEnabled()) {
+            log.debug("UnSetting the Realm Service");
+        }
         IdentityCloudAuthenticatorServiceComponent.realmService = null;
     }
 }
