@@ -30,6 +30,7 @@ import org.wso2.carbon.identity.application.authentication.framework.exception.I
 import org.wso2.carbon.identity.application.authentication.framework.model.AuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkUtils;
 import org.wso2.carbon.identity.application.authenticator.basicauth.BasicAuthenticatorConstants;
+import org.wso2.carbon.identity.application.common.model.ClaimMapping;
 import org.wso2.carbon.identity.application.common.model.User;
 import org.wso2.carbon.identity.base.IdentityRuntimeException;
 import org.wso2.carbon.identity.cloud.authenticator.federated.internal.IdentityCloudAuthenticatorServiceComponent;
@@ -41,6 +42,7 @@ import org.wso2.carbon.user.api.UserRealm;
 import org.wso2.carbon.user.core.UserCoreConstants;
 import org.wso2.carbon.user.core.UserStoreException;
 import org.wso2.carbon.user.core.UserStoreManager;
+import org.wso2.carbon.user.core.claim.Claim;
 import org.wso2.carbon.user.core.util.UserCoreUtil;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
@@ -302,6 +304,22 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
 
         if (rememberMe != null && "on".equals(rememberMe)) {
             context.setRememberMe(true);
+        }
+
+        String tenantAwareUsername = MultitenantUtils.getTenantAwareUsername(username);
+        try {
+            Claim[] userClaimValues = userStoreManager.getUserClaimValues(tenantAwareUsername, "default");
+            Map<ClaimMapping, String> claims = new HashMap<>();
+            for (Claim userClaim : userClaimValues) {
+                claims.put(ClaimMapping.build(userClaim.getClaimUri(), userClaim.getClaimUri(), null,
+                        false), userClaim.getValue());
+            }
+            context.getSubject().setUserAttributes(claims);
+        } catch (UserStoreException e) {
+            log.warn("Error while retrieving claims for user : " + username);
+            if (log.isDebugEnabled()){
+                log.debug("Error while retrieving claims for user : " + username, e);
+            }
         }
     }
 
