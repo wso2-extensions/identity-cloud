@@ -364,6 +364,7 @@
         <module>components/org.wso2.carbon.identity.cloud.web.jaggery</module>
         <module>components/org.wso2.carbon.identity.cloud.observer.tenant</module>
         <module>components/org.wso2.carbon.identity.cloud.listener.claim.onprem</module>
+        <module>components/org.wso2.carbon.identity.cloud.authenticator.federated</module>
         <module>samples/userstores/jdbc-sample-userstore/components/org.wso2.carbon.identity.user.store.jdbc.sample
         </module>
         <module>samples/webapps/cafelebens</module>
