@@ -9,27 +9,22 @@ var showedOnce = false;
 
 function addOrUpdateUserDirectory() {
     var name = document.getElementById("drName").value;
-    var agentUrl = document.getElementById("agentUrl").value;
+    var accessToken = document.getElementById("accessToken").value;
     var agentUniqueId = document.getElementById("uniqueid").value;
     var agentDisabled = document.getElementById("disabled").value;
     var url;
     var data;
 
-
-    if (!validateDirectory(name, agentUrl)) {
+    if (!validateDirectory(name)) {
         return;
-    }
-
-    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-        agentUrl = agentUrl.substring(0, agentUrl.length - 1);
     }
 
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        data = "name=" + name + "&url=" + agentUrl + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
+        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
         url = DIRECTORY_UPDATE_FINISH_PATH;
     } else {
-        data = "name=" + name + "&url=" + agentUrl;
+        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain;
         url = DIRECTORY_ADD_FINISH_PATH;
     }
 
@@ -139,7 +134,7 @@ function updateUserDirectory() {
     var url;
     var data;
 
-    if (!validateDirectory(name, agentUrl)) {
+    if (!validateDirectory(name)) {
         return;
     }
 
@@ -224,19 +219,12 @@ function updateUserDirectory() {
         });
 }
 
-function validateDirectory(name, agentUrl) {
+function validateDirectory(name) {
     if (name.length == 0) {
         message({labelId: 'drName-error', content: 'Directory name can\'t be empty', type: 'error'});
         return false;
     } else {
         $('#drName-error').hide();
-    }
-
-    if (agentUrl.length == 0) {
-        message({labelId: 'agentUrl-error', content: 'Agent URL can\'t be empty', type: 'error'});
-        return false;
-    } else {
-        $('#agentUrl-error').hide();
     }
 
     return true;
@@ -351,8 +339,6 @@ function drawList() {
 
 function deleteDirectory(domainname) {
 
-    $("#btn-progress").show();
-    $("#btn-delete").hide();
     $("#delete-label-text").hide();
     $("#process-icon").show();
     $("#delete-heading").text("Deleting User Directory");
@@ -426,6 +412,53 @@ function deleteDirectory(domainname) {
         });
 }
 
+function revokeAndRegenerateAccessToken(domainname) {
+
+    $("#revoke-label-text").hide();
+    $("#revoke-process-icon").show();
+    $("#revoke-heading").text("Revoking & Re-generating access token");
+    $("#revoke-buttons-block").hide();
+
+    var accessToken = document.getElementById("accessToken").value;
+    $.ajax({
+        url: ACCESS_TOKEN_UPDATE_FINISH_PATH,
+        type: "POST",
+        data: "domain=" + domainname + "&oldaccesstoken=" + accessToken + "&newaccesstoken=" + generateAccessToken(),
+    })
+        .done(function (data) {
+            var resp = $.parseJSON(data);
+            if (resp.success == true) {
+                urlResolver('directory',cookie,userName);
+            } else {
+
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            }
+        })
+        .fail(function () {
+            $("#btn-progress").hide();
+            $("#btn-delete").show();
+            message({content: 'Error while deleting directory. ', type: 'servererror'});
+        })
+        .always(function () {
+        });
+}
+
 function populateDirectory(domain) {
 
     var directoryName = "";
@@ -464,7 +497,6 @@ function populateDirectory(domain) {
                     arr[0] = directoryList;
                     directoryList = arr;
                 }
-
                 for (var i in directoryList) {
                     if (directoryList[i].domainId == domain) {
                         directoryName = directoryList[i].description;
@@ -482,6 +514,96 @@ function populateDirectory(domain) {
         }
     });
 }
+
+function populateAgentConnection(domain) {
+
+    $.ajax({
+        url: DIRECTORY_CONNECTIONS_GET_LIST,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                if (data) {
+                    connectionsList = $.parseJSON(data).return;
+                }
+                if (connectionsList != null && connectionsList.constructor !== Array) {
+                    var arr = [];
+                    arr[0] = connectionsList;
+                    connectionsList = arr;
+                }
+                drawConnections(connectionsList);
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
+
+function populateAccessToken(domain) {
+    $.ajax({
+        url: ACCESS_TOKEN_GET_PATH,
+        type: "GET",
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                $('#accessToken').val($.parseJSON(data).return);
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+}
+
 
 function downloadAgent() {
 
@@ -549,8 +671,10 @@ function downloadAgentRedirect(param) {
                     }
                 }
             } else {
-                urlResolver(param,cookie,userName);
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
+                $("#archImage").hide();
+                $("#downloadHeader").hide();
+                $("#downloadGuide").show();
             }
         },
         error: function (e) {
@@ -724,24 +848,51 @@ function verifyConnection(agentUrl) {
 
 }
 
+function drawConnections(properties) {
+
+    var isRecordExist = false;
+    var table = document.getElementById("tblConnection");
+    if(properties != null) {
+        $("#tblConnection tr").remove();
+        for (var j in properties) {
+            if (properties[j].node != null && properties[j].node != "") {
+                isRecordExist = true;
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+
+                if (properties[j].status == 'C') {
+                    cell1.innerHTML = "<i class='fw fw-success' style='color: 05d505;'></i>";
+                } else {
+                    cell1.innerHTML = "<i class='fw fw-error' style='color: red;'></i>";
+                }
+                cell2.innerHTML = properties[j].node;
+                cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
+
+            }
+        }
+
+        if (isRecordExist) {
+            $("#connectionStatus").text("Agent status");
+        } else {
+            $("#connectionStatus").text("No agent connection found");
+        }
+    }
+}
 
 function drawUpdatePage(directoryName, properties) {
 
-    var agentEndpoint;
     var agentUniqueId;
     var agentDisabled;
 
     for (var j in properties) {
-        if (properties[j].name == endpointurl) {
-            agentEndpoint = properties[j].value;
-        } else if (properties[j].name == uniqueId) {
+        if (properties[j].name == uniqueId) {
             agentUniqueId = properties[j].value;
         } else if (properties[j].name == disabled) {
             agentDisabled = properties[j].value;
         }
     }
-
-    $('#agentUrl').val(agentEndpoint);
     $('#uniqueid').val(agentUniqueId);
     $('#disabled').val(agentDisabled);
 }
@@ -775,32 +926,33 @@ function cancel() {
 function initValidate() {
 
     $("#agent-download-form").validate();
-    jQuery.validator.addMethod("connection", function () {
-        return testConnection(document.getElementById('agentUrl').value);
-    }, "wrong nic number");
+    $.validator.addMethod("directory", function (value, element) {
+        return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
+    }, $.validator.messages.directoryname);
 
-    $.validator.addMethod("url2", function (value, element) {
-        return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
-    }, $.validator.messages.url);
-
-    $("input[id*=agentUrl]").rules("add", {
+    $("input[id*=drName]").rules("add", {
         required: true,
-        url2: true,
+        directory: true,
         messages: {
             required: "This field cannot be empty",
-            url: "Please enter valid URL",
+            directoryname: "Please enter valid directory name",
             connection: "Connection is not valid"
         }
     });
 }
 
+function updateAccessToken() {
+    document.getElementById('accessToken').value = generateAccessToken();
+}
 
-function validateBeforeSubmit() {
-    initValidate();
-    if ($("#agent-download-form").valid()) {
-        testConnection(document.getElementById('agentUrl').value);
+function generateAccessToken() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    for( var i=0; i < 32; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
+    return text;
 }
 
 $("#agent-download-form").submit(function(e) {
