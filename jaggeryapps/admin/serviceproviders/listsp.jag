@@ -67,8 +67,8 @@ var tenantDomain = userInfo.tenantDomain;
                 <span class="hidden-xs">Add Application</span>
             </a>
 
-            <a href="javascript:downloadIDPMetaData('<%=encode.forJavaScript(tenantDomain)%>')" class="btn-action" data-toggle="tooltip"
-               data-placement="right" title="Download WSO2 Identity Cloud SAML Identity Provider Metadata.">
+            <a href="javascript:downloadIDPMetaData('<%=encode.forJavaScript(tenantDomain)%>')" class="btn-action btn-action-secondary pull-right" data-toggle="tooltip"
+               data-placement="left" title="Download WSO2 Identity Cloud SAML Identity Provider Metadata.">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-download fw-stack-1x"></i>
