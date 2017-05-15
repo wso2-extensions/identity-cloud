@@ -79,8 +79,7 @@ include("../templates/leftpane.jag");
 <div class="right-pane">
 <!-- BOF App  menu actionbar -->
 <div class="action-bar">
-    <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders" class="btn-action" data-toggle="tooltip" data-placement="top"
-        title="Back to Applications">
+    <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders" class="btn-action">
     <span class="fw-stack fw-lg btn-action-ico">
     <i class="fw fw-circle-outline fw-stack-2x"></i>
     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -160,10 +159,10 @@ include("../templates/leftpane.jag");
                           <form class="form-horizontal" role="form" id="custom-config-form" name="custom-config-form">
                               <div class="form-group">
                                   <div class="col-md-12">
-                                      <label>Select App Type <span class="required">*</span> <i
+                                      <label>Select App Type <span class="required">*</span></label> <i
                                               class="fa fa-question-circle help-tips" data-toggle="tooltip"
-                                              data-placement="left"
-                                              title="The application templates that allow you to create different types of applications."></i> </label>
+                                              data-placement="right"
+                                              title="The application templates that allow you to create different types of applications."></i>
                                       <div id="custom-apptype-content">
                                       </div>
                                   </div>
@@ -181,11 +180,12 @@ include("../templates/leftpane.jag");
                           <form class="form-horizontal" role="form">
                               <div class="form-group">
                                   <div class="col-md-12">
-                                      <label>Select Security Protocol <span class="required">*</span> <i
-                                              class="fa fa-question-circle help-tips" data-toggle="tooltip"
-                                              data-placement="left"
-                                              title="This is the authentication protocol standard that your application uses to communicate."></i>
+                                      <label>Select Security Protocol <span class="required">*</span>
                                       </label>
+                                      <i class="fa fa-question-circle help-tips" data-toggle="tooltip"
+                                              data-placement="right"
+                                              title="This is the authentication protocol standard that your application uses to communicate."></i>
+
                                       <div id="custom-security-content">
 
 
@@ -239,15 +239,16 @@ include("../templates/leftpane.jag");
                               <div id="gw-config">
                                  <div class="form-group">
                                     <div class="col-md-12">
-                                       <label>Context <span class="required">*</span> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The gateway proxy context of your application."></i></label>
+                                       <label>Context <span class="required">*</span></label>
+                                       <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                            title="The gateway proxy context of your application."></i>
                                        <input type="text" class="form-control" id="gw-app-context" name="gw-app-context" >
                                     </div>
                                  </div>
                                  <div class="form-group">
                                     <div class="col-md-12">
-                                       <label>Access URL <span class="required">*</span> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The URL from which your application can be accessed."></i></label>
+                                       <label>Access URL <span class="required">*</span></label> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                            title="The URL from which your application can be accessed."></i>
                                        <input type="text" class="form-control" id="gw-app-url" name="gw-app-url" >
                                     </div>
                                  </div>
@@ -373,17 +374,16 @@ include("../templates/leftpane.jag");
                                           </div>
                                           <div id="samlmeta" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlmeta-header" >
                                              <div class="panel-body inverse">
-                                                <form id="addMetadata" class="form-horizontal" role="form" style="color: black;" enctype="multipart/form-data">
+                                                <form id="addMetadata" class="form-horizontal" role="form" enctype="multipart/form-data">
                                                    <div class="form-group " id="fileRow">
                                                       <div class="col-md-12">
                                                          <div hidden>
                                                             <input type="file" id="uploadfile" onchange="updateCustomSP(this);"/>
                                                          </div>
                                                          <!--<label for="metadataFileName">File Name<span class="required">*</span></label>-->
-                                                         <label>Select file <span class="required">*</span>
-                                                           <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                               title="You can upload samal sso configurations from file"></i>
-                                                         </label>
+                                                         <label>Select file <span class="required">*</span></label>
+                                                           <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                              title="You can upload samal sso configurations from file"></i>
                                                          <div class="input-group input-wrap">
                                                             <input type="text" class="form-control" id="metadataFileName" name="metadataFileName" disabled="disabled">
                                                             <div class="upload-status"></div>
@@ -413,18 +413,17 @@ include("../templates/leftpane.jag");
                                           </div>
                                           <div id="samlconfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="samlconfig-header" >
                                              <div class="panel-body inverse">
-                                                <form id="addServiceProvider" class="form-horizontal" role="form" style="color: black;" name="addServiceProvider" action="">
+                                                <form id="addServiceProvider" class="form-horizontal" role="form" name="addServiceProvider" action="">
                                                    <!--<h4>New Service Provider</h4>-->
                                                    <input type="hidden" id="hiddenFields" name="hiddenFields" value="">
 
                                                    <!--Issuer-->
                                                    <div class="form-group" id="issuerRow">
                                                       <div class="col-md-12">
-                                                         <label for="issuer">Issuer <span class="required">*</span>
-                                                           <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                               title="The unique SAML identifier of your application."></i>
-                                                         </label>
-                                                         <input type="text" class="form-control" id="issuer" name="issuer" placeholder="sample-application.com" readonly>
+                                                         <label for="issuer">Issuer <span class="required">*</span></label>
+                                                           <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                              title="The unique SAML identifier of your application."></i>
+                                                         <input type="text" class="form-control" id="issuer" name="issuer" readonly>
                                                          <input id="hiddenIssuer" type="hidden" value="" name="hiddenIssuer">
                                                           <div class="issuer-status"></div>
                                                              <label id="issuer-error" class="error" hidden="" >An application with the issuer name already exists</label>
@@ -434,10 +433,9 @@ include("../templates/leftpane.jag");
                                                    <div id="acsRow">
                                                       <div class="form-group " id="assertionConsumerURLInputRow">
                                                          <div class="col-md-12">
-                                                            <label for="assertionConsumerURLTxt">Assertion Consumer URLs<span class="required">*</span>
-                                                             <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                               title="The SAML assertion consumer service URLs of your application. This is the location where the SAML assertion is sent with the HTTP POST."></i>
-                                                            </label>
+                                                            <label for="assertionConsumerURLTxt">Assertion Consumer URLs<span class="required">*</span></label>
+                                                             <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                                title="The SAML assertion consumer service URLs of your application. This is the location where the SAML assertion is sent with the HTTP POST."></i>
                                                             <div class="input-group input-wrap">
                                                                <input type="text" class="form-control" id="assertionConsumerURLTxt"  name="assertionConsumerURLTxt">
                                                                <div class="urlStatus hide"></div>
@@ -603,9 +601,9 @@ include("../templates/leftpane.jag");
                                                    <!--Certificate -->
                                                    <div class="form-group" id="certificateRow">
                                                       <div class="col-md-12">
-                                                         <label for="publicCertificate">Public Certificate (PEM)
-                                                             <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                                 title="Base 64 encoded X509 public certificate that is used to verify the digital signature and encrypt the assertion. This can be obtained from the Applications page by clicking DOWNLOAD IDP METADATA."></i></label>
+                                                         <label for="publicCertificate">Public Certificate (PEM) </label>
+                                                             <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                                title="Base 64 encoded X509 public certificate that is used to verify the digital signature and encrypt the assertion. This can be obtained from the Applications page by clicking DOWNLOAD IDP METADATA."></i>
                                                          <textarea id="publicCertificate" name="publicCertificate" class="form-control" rows="8" ></textarea>
                                                       </div>
                                                    </div>
@@ -623,9 +621,9 @@ include("../templates/leftpane.jag");
                                                       <!--Audience Text-->
                                                       <div class="form-group ">
                                                          <div class="col-md-12">
-                                                            <label for="audience">Audience Restriction <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
+                                                            <label for="audience">Audience Restriction</label> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
                                                             title="The intended audience of the SAML assertion."></i>
-                                                            </label>
+
                                                             <div class="input-group input-wrap">
                                                                <input id="audience" class="form-control" type="text"  name="audience" class="input-add">
                                                                <div class="input-group-btn">
@@ -657,9 +655,10 @@ include("../templates/leftpane.jag");
                                                       <!--Recipient-->
                                                       <div class="form-group">
                                                          <div class="col-md-12">
-                                                            <label for="recipient">Recipient Validation <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The intended recipients of the SAML assertion."></i>
-                                                            </label>
+                                                            <label for="recipient">Recipient Validation</label>
+                                                            <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                               title="The intended recipients of the SAML assertion."></i>
+
                                                             <div class="input-group input-wrap">
                                                                <input id="recipient" class="form-control" type="text" name="recipient" class="input-add">
                                                                <div class="input-group-btn">
@@ -838,10 +837,9 @@ include("../templates/leftpane.jag");
                                                    <!--Callback Url-->
                                                    <div class="form-group" id="callback_row" hidden>
                                                       <div class="col-md-12">
-                                                         <label for="callback">Redirect URL
-                                                         <span class="required">*</span>  <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
+                                                         <label for="callback">Redirect URL <span class="required">*</span></label>
+                                                         <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
                                                             title="The redirection endpoint URL of your application. This is the location where the OpenID Connect authentication response is redirected."></i>
-                                                         </label>
                                                          <input type="text" class="form-control callback" id="callback" name="callback" required />
                                                          <div class="callbackStatus"></div>
                                                       </div>
@@ -885,15 +883,17 @@ include("../templates/leftpane.jag");
                                                 <form class="form-horizontal" role="form" id="wsfed-form" name="wsfed-form">
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <label for="passiveSTSRealm">Realm <span class="required">*</span> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The security domain of your application."></i> </label>
+                                                         <label for="passiveSTSRealm">Realm <span class="required">*</span></label>
+                                                         <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                            title="The security domain of your application."></i>
                                                          <input type="text" class="form-control required" id="passiveSTSRealm" name="passiveSTSRealm"/>
                                                       </div>
                                                    </div>
                                                    <div class="form-group">
                                                       <div class="col-md-12">
-                                                         <label for="passiveSTSWReply">Wreply URL <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The endpoint URL of your application to which Passive STS responses are directed."></i></label>
+                                                         <label for="passiveSTSWReply">Wreply URL </label>
+                                                         <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                                            title="The endpoint URL of your application to which Passive STS responses are directed."></i>
                                                          <input type="text" class="form-control" id="passiveSTSWReply" name="passiveSTSWReply" />
                                                       </div>
                                                    </div>
@@ -931,30 +931,34 @@ include("../templates/leftpane.jag");
                               <div id="gw-config">
                                  <div class="form-group">
                                     <div class="col-md-12">
-                                       <label>Display Name <span class="required">*</span> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The name displayed for the application in the user portal."></i></label>
+                                       <label>Display Name <span class="required">*</span></label>
+                                       <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                          title="The name displayed for the application in the user portal."></i>
                                        <input type="text" class="form-control" id="store-app-name" name="store-app-name" >
                                        <input type="hidden" class="form-control" id="app-id" name="app-id" >
                                     </div>
                                  </div>
                                  <div class="form-group" id="store-app-url-sec">
                                     <div class="col-md-12">
-                                       <label>Access URL <span class="required">*</span> <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="The URL from which your application can be accessed."></i></label>
+                                       <label>Access URL <span class="required">*</span></label>
+                                       <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                          title="The URL from which your application can be accessed."></i>
                                        <input type="text" class="form-control" id="store-app-url" name="store-app-url" >
                                     </div>
                                  </div>
                                  <div class="form-group">
                                     <div class="col-md-12">
-                                       <label>Tags<i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                                                            title="Tags to categorize your applications in the user portal."></i></label>
+                                       <label>Tags</label>
+                                       <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                          title="Tags to categorize your applications in the user portal."></i>
                                        <select class="form-control" id="store-app-tags" name="store-app-tags" multiple="multiple"></select>
                                     </div>
                                  </div>
                                  <div class="form-group">
                                     <div class="col-md-12">
-                                       <label>Visibility <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="left"
-                               title="User roles who can access or view the application."></i> </label>
+                                       <label>Visibility </label>
+                                       <i class="fa fa-question-circle help-tips" data-toggle="tooltip" data-placement="right"
+                                          title="User roles who can access or view the application."></i>
                                        <input type="text" class="form-control" id="store-app-visibility" name="store-app-visibility" >
                                     </div>
                                  </div>
@@ -1015,7 +1019,7 @@ include("../templates/leftpane.jag");
                    <i class="fw fw-circle-outline fw-stack-2x"></i>
                    <i class="fw fw-save fw-stack-1x"></i>
                    </span>
-                   Update
+                   Save
                    </button>
                  </div>
             </div>
@@ -1032,7 +1036,6 @@ include("../templates/leftpane.jag");
             <div   id="process-icon"><i class="fw-loader5 fw-spin fw-5x"></i></div>
                 <div class="app-listing-loader">
                     <div class="loading-logo">
-                        <div class="signal"></div>
                         <p style="padding-top: 20px">Loading..</p>
 
                     </div>

@@ -53,15 +53,13 @@ var tenantDomain = userInfo.tenantDomain;
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
-               title="Back to Overview">
+            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
                 </span> Back to Overview
             </a>
-            <a href="serviceproviders/add" class="btn-action" data-toggle="tooltip"
-               data-placement="top" title="Tooltip on top">
+            <a href="serviceproviders/add" class="btn-action">
                 <span class="fw-stack fw-lg ">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-add fw-stack-1x"></i>
@@ -70,7 +68,7 @@ var tenantDomain = userInfo.tenantDomain;
             </a>
 
             <a href="javascript:downloadIDPMetaData('<%=encode.forJavaScript(tenantDomain)%>')" class="btn-action" data-toggle="tooltip"
-               data-placement="top" title="Download WSO2 Identity Cloud SAML Identity Provider Metadata.">
+               data-placement="right" title="Download WSO2 Identity Cloud SAML Identity Provider Metadata.">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-download fw-stack-1x"></i>
