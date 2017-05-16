@@ -1,5 +1,6 @@
 <% require("../util/constants.jag"); %>
 <script>
+   var serverUrl = window.location.host;
    var userName = null;
    var cookie = null;
    cookie = "<%=session.get('auth-cookie')%>";
@@ -17,23 +18,8 @@
            <li class="serviceproviders">
                <a href="/<%=ADMIN_PORTAL_NAME%>/serviceproviders"><i class="fw fw-globe"></i> Applications</a>
            </li>
-<!--           <li>
-               <a href="">
-                   <i class="fw fw-view"></i>
-                   Custom theme</a>
-               <ul>
-                   <li>
-                       <a href="/<%=ADMIN_PORTAL_NAME%>/customTheme/themeUpload">
-                           <i class="fw fw-upload"></i>
-                           Upload</a>
-                   </li>
-                   <li>
-                       <a href="/<%=ADMIN_PORTAL_NAME%>/customTheme/themeList">
-                           <i class="fw fw-list"></i>
-                       </i>
-                       List</a>
-                    </li>
-                </ul>
-             </li>-->
+           <li class="themes">
+               <a onclick="checkThemeList();"><i class="fa fa-paint-brush"></i> User Portal Themes</a>
+           </li>
        </ul>
-   </div>
+</div>

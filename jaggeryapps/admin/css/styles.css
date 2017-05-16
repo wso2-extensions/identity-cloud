@@ -3826,3 +3826,6 @@ a.disabled {
 .btn-action-secondary:hover{
     background-color: #242424;
 }
+.file-upload-control input[type=file] {
+    display: none;
+}

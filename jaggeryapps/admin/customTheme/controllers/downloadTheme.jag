@@ -24,28 +24,36 @@ var i18n = session.get("i18n");
 var appManager = require("thememanager");
 var managerHostObj = new appManager.ThemeManager();
 
-deleteTheme();
+downloadTheme();
 
-function deleteTheme() {
-    var error = false;
-    var errorMsg = "Theme successfully deleted.";
+function downloadTheme() {
     var userInfo = session.get("userInfo");
     var tenantDomain = userInfo.tenantDomain + "";
 
     try {
-        //delete theme
-        managerHostObj.deleteCustomTheme(tenantDomain);
-    } catch (e) {
-        var msg = "Could not delete the theme of tenant :" + tenantDomain;
-        log.error(msg, e);
-        error = true;
-        errorMsg = msg;
-    }
+        var themeInfo = managerHostObj.getDeployedThemeInfo(tenantDomain);
+        var parsedResult = JSON.parse(themeInfo);
+        var themeName = parsedResult['themeName'];
+        var themeFilePath = managerHostObj.downloadCustomTheme(tenantDomain);
 
-    print({
-        "error": error,
-        "errorMsg": errorMsg
-    });
+        var file = new File("file://" + themeFilePath);
+        if (file.isExists()) {
+            response.addHeader('Content-Disposition', "attachment;filename=" + themeName + ".zip");
+            print(file.getStream());
+            managerHostObj.deleteCustomThemeTempDirectory(themeFilePath);
+        } else {
+            response.sendError(400);
+        }
+    } catch (e) {
+        error = true;
+        errorMsg = "Error while downloading the theme.";
+        log.error(errorMsg, e);
+
+        print({
+            "error": error,
+            "errorMsg": errorMsg
+        });
+    }
 }
 
 %>
