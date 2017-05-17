@@ -69,82 +69,106 @@ include("../templates/leftpane.jag");
 <div id="addSPBody" class="container-fluid">
 
         <div class="container-fluid app-type-listing">
-            <div class="row listing padding-bottom-xlg" data-count="7.0">
-
+            <div class="row listing" data-count="7.0">
                  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-nine add-custom-app" id="1.0" data-description="You can add a custom application that is used by your organization to the WSO2 Identity Cloud. This enables you to configure single sign-on for your application." data-appname="Custom Application" sp-type="custom">
-                        <div class="thumbnail icon">
+                     <div class="cloud-app-type app-color-nine add-custom-app" id="1.0" data-appname="Custom Application" sp-type="custom">
+                        <div class="thumbnail icon app-thumbnail">
                             <div class="square-element">
-                                <img class="" src="../images/is/custom-app.png" alt="">
+                                <img class="app-img" src="../images/is/custom-app.png" alt="">
                             </div>
+                            <div>Custom Application</div>
                         </div>
+                        <div class="description app-color-nine-dark">
+                            <img class="" src="../images/is/custom-app.png" alt="">
+                            <span>You can add a custom application that is used by your organization to the WSO2 Identity Cloud. This enables you to configure single sign-on for your application.</span>
+                        </div>
+                    </div>
+                 </div>
 
-                        <div class="type-name">Custom Application</div>
-                    </div>
-                </div>
-
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-one cloud-app-type-max" id="2.0"
-                         data-description="The Salesforce CRM platform can be accessed by employees of your organization completely over the internet. Adding a Salesforce application to the WSO2 Identity Cloud enables you to configure single sign-on for Salesforce." data-appname="Salesforce" sp-type='salesforce'>
-                        <div class="thumbnail icon">
+                     <div class="cloud-app-type app-color-one cloud-app-type-max" id="2.0" data-appname="Salesforce" sp-type='salesforce'>
+                        <div class="thumbnail icon app-thumbnail">
                             <div class="square-element">
-                                <img class="" src="../images/is/salesforce.png" alt="">
+                                <img class="app-img" src="../images/is/salesforce.png" alt="">
                             </div>
+                            <span>Salesforce</span>
                         </div>
-                        <div class="type-name" >Salesforce</div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-six" id="3.0" data-description="NetSuite is a cloud-based ERP used by businesses. Adding a NetSuite application to the WSO2 Identity Cloud enables you to configure single sign-on for NetSuite." data-appname="NetSuite" sp-type="netsuite">
-                        <div class="thumbnail icon">
-                            <div class="square-element">
-                                <img class="" src="../images/is/netsuit.png" alt="">
-                            </div>
+                        <div class="description app-color-one-dark">
+                            <img class="" src="../images/is/salesforce.png" alt="">
+                            <span>The Salesforce CRM platform can be accessed by employees of your organization completely over the internet. Adding a Salesforce application to the WSO2 Identity Cloud enables you to configure single sign-on for Salesforce.</span>
                         </div>
-                        <div class="type-name">NetSuite</div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
-                    <div class="cloud-app-type app-color-two" id="4.0" data-description="Concur is a business travel and expense management system. Adding a Concur application to the WSO2 Identity Cloud enables you to configure single sign-on for Concur." data-appname="Concur" sp-type="concur">
-                        <div class="thumbnail icon">
-                            <div class="square-element">
-                                <img class="" src="../images/is/concur.png" alt="">
-                            </div>
-                        </div>
-                        <div class="type-name">Concur</div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-                    <div class="cloud-app-type app-color-three" id="5.0" data-description="Zuora is a cloud-based subscription management platform. Adding a Zuora application to the WSO2 Identity Cloud enables you to configure single sign-on for Zuora." data-appname="Zuora" sp-type="zuora">
-                        <div class="thumbnail icon">
+                     <div class="cloud-app-type  app-color-six" id="3.0" data-appname="NetSuite" sp-type="netsuite">
+                        <div class="thumbnail icon app-thumbnail">
                             <div class="square-element">
-                                <img class="" src="../images/is/zuora.png" alt="">
+                                <img class="app-img" src="../images/is/netsuit.png" alt="">
                             </div>
+                            <span>NetSuite</span>
                         </div>
-                        <div class="type-name">Zuora</div>
+                        <div class="description app-color-six-dark">
+                            <img class="" src="../images/is/netsuit.png" alt="">
+                            <span>NetSuite is a cloud-based ERP used by businesses. Adding a NetSuite application to the WSO2 Identity Cloud enables you to configure single sign-on for NetSuite.</span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
-                    <div class="cloud-app-type app-color-one" id="6.0" data-description="Amazon Web Services offers scalable cloud computing services. Adding an AWS application to the WSO2 Identity Cloud enables you to configure single sign-on for AWS." data-appname="AWS" sp-type="aws">
-                        <div class="thumbnail icon">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+                     <div class="cloud-app-type  app-color-two" id="4.0" data-appname="Concur" sp-type="concur">
+                        <div class="thumbnail icon app-thumbnail">
                             <div class="square-element">
-                                <img class="" src="../images/is/aws.png" alt="">
+                                <img class="app-img" src="../images/is/concur.png" alt="">
                             </div>
+                            <span>Concur</span>
                         </div>
-                        <div class="type-name">AWS</div>
+                        <div class="description app-color-two-dark">
+                            <img class="" src="../images/is/concur.png" alt="">
+                            <span>Concur is a business travel and expense management system. Adding a Concur application to the WSO2 Identity Cloud enables you to configure single sign-on for Concur.</span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 ">
-                    <div class="cloud-app-type app-color-five cloud-app-type-max" id="7.0"
-                         data-description="GoToMeeting is an online communication portal used for conference calls and networking. Adding a GoToMeeting application to the WSO2 Identity Cloud enables you to configure single sign-on for GoToMeeting." data-appname="GoToMeeting" sp-type="gotomeeting">
-                        <div class="thumbnail icon">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+                     <div class="cloud-app-type  app-color-three" id="5.0" data-appname="Zuora" sp-type="zuora">
+                        <div class="thumbnail icon app-thumbnail">
                             <div class="square-element">
-                                <img class="" src="../images/is/gotomeeting.png" alt="">
+                                <img class="app-img" src="../images/is/zuora.png" alt="">
                             </div>
+                            <span>Zuora</span>
                         </div>
-                        <div class="type-name" >GoToMeeting</div>
+                        <div class="description app-color-three-dark">
+                            <img class="" src="../images/is/zuora.png" alt="">
+                            <span>Zuora is a cloud-based subscription management platform. Adding a Zuora application to the WSO2 Identity Cloud enables you to configure single sign-on for Zuora.</span>
+                        </div>
+                    </div>
+                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+                     <div class="cloud-app-type  app-color-one" id="6.0" data-appname="AWS" sp-type="aws">
+                        <div class="thumbnail icon app-thumbnail">
+                            <div class="square-element">
+                                <img class="app-img" src="../images/is/aws.png" alt="">
+                            </div>
+                            <span>AWS</span>
+                        </div>
+                        <div class="description app-color-one-dark">
+                            <img class="" src="../images/is/aws.png" alt="">
+                            <span>Amazon Web Services offers scalable cloud computing services. Adding an AWS application to the WSO2 Identity Cloud enables you to configure single sign-on for AWS.</span>
+                        </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+                     <div class="cloud-app-type  app-color-five cloud-app-type-max" id="7.0" data-appname="GoToMeeting" sp-type="gotomeeting">
+                        <div class="thumbnail icon app-thumbnail">
+                            <div class="square-element">
+                                <img class="app-img" src="../images/is/gotomeeting.png" alt="">
+                            </div>
+                            <span>GoToMeeting</span>
+                        </div>
+                        <div class="description app-color-five-dark">
+                            <img class="" src="../images/is/gotomeeting.png" alt="">
+                            <span>GoToMeeting is an online communication portal used for conference calls and networking. Adding a GoToMeeting application to the WSO2 Identity Cloud enables you to configure single sign-on for GoToMeeting.</span>
+                        </div>
+                    </div>
+                 </div>
 
             </div>
 
@@ -198,90 +222,12 @@ include("../templates/footer.jag");
     $(document).on('click', '.cloud-app-type', function(){
 
         $('.listing').find('.longme').detach();
-        if($('.cloud-app-type').hasClass('cloud-app-selected')){
-            $('.cloud-app-type').removeClass('cloud-app-selected');
-            $(this).addClass('cloud-app-selected');
-        }else{
-            $(this).addClass('cloud-app-selected');
 
-        }
+        var sptype = $(this).attr('sp-type');
+        drawAddSP(sptype);
+        return false;
 
-        var width = $( window ).width(),
-                currentcount = parseInt($(this).attr('id')),
-                appDescription = $(this).attr('data-description'),
-                appName = $(this).attr('data-appname'),
-                sptype=$(this).attr('sp-type'),
-                dataCount = parseInt($('.listing').attr('data-count'));
-
-        //content replace with data attributes
-        $('.app-type-info-template').find('.app-type-name').html(appName);
-        $('.app-type-info-template').find('.app-description').html(appDescription);
-
-        var drawadd = '<div class="col-sm-4 col-md-4 col-lg-5 description-action">'+
-                                '<a href="" class="cu-btn cu-btn-md cu-btn-blue" onclick="drawAddSP(\''+sptype+'\');return false">'+
-                                   '<span>Continue </span>'+
-                                   '<span class="fw-stack fw-lg btn-action-ico">'+
-                                   '<i class="fw fw-circle-outline fw-stack-2x"></i>'+
-                                   '<i class="fw fw-right-arrow fw-stack-1x"></i></span></a>'+
-                            '</div>';
-           $('.app-type-info-template').find('.drawAdd').html(drawadd);
-        var appendHtml =$('.app-type-info-template').html();
-        if(width >=1170){
-            if(currentcount%7 == 0){
-                $('#'+currentcount+'\\.0').parent().after(appendHtml);
-                $('.longme').fadeIn('slow')
-            }else{
-                var ctest = currentcount+(7- currentcount%7);
-                if(ctest > dataCount){
-                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-                }else{
-                    $('#'+ctest+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-                }
-
-            }
-        }else if(width >=970){
-            if(currentcount%4 == 0){
-                $('#'+currentcount+'\\.0').parent().after(appendHtml);
-                $('.longme').fadeIn('slow')
-            }else{
-                var ctest = parseInt(currentcount)+(4- currentcount%4);
-                if(ctest > dataCount){
-                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-                }else{
-                    $('#'+ctest+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-
-                }
-
-            }
-        }else if(width >=750 ){
-            if(currentcount%2 == 0){
-                $('#'+currentcount+'\\.0').parent().after(appendHtml);
-                $('.longme').fadeIn('slow')
-            }else{
-                var ctest = parseInt(currentcount)+1;
-                if(ctest > dataCount){
-                    $('#'+ dataCount+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-                }else{
-                    $('#'+ctest+'\\.0').parent().after(appendHtml);
-                    $('.longme').fadeIn('slow')
-
-                }
-
-            }
-
-        }else if(width <750 ){
-            $('#'+currentcount+'\\.0').parent().after(appendHtml);
-            $('.longme').fadeIn('slow')
-
-        }
-
-
-    })
+    });
 
     $('.side-pane-trigger').click(function(){
         var rightPane = $('.right-pane');
