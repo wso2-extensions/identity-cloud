@@ -32,10 +32,10 @@ function getAccessToken(){
     try{
         var domain = request.getParameter('domain');
         webService = new ws.WSRequest();
-        var getAccesstokenPayload = '<xsd:getAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+        var getAccesstokenPayload = '<xsd:getActiveAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
-                '</xsd:getAccessToken>';
-        var result = callWSReturnJSON(webService, serverUrl, "urn:getAccessToken", null,getAccesstokenPayload);
+                '</xsd:getActiveAccessToken>';
+        var result = callWSReturnJSON(webService, serverUrl, "urn:getActiveAccessToken", null,getAccesstokenPayload);
         print(result);
     }catch(e){
         print(getErrorMessage(e.message));
