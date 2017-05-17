@@ -350,6 +350,50 @@ function checkDirectory(domain) {
     return returnval;
 }
 
+function checkAccessToken(domain) {
+    var returnval = false;
+    $.ajax({
+        url: ACCESS_TOKEN_GET_PATH,
+        type: "GET",
+        async: false,
+        data: "domain=" + domain,
+        success: function (data) {
+            var resp = $.parseJSON(data);
+
+
+            if (resp.success == false) {
+                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
+                } else {
+                    if (resp.message != null && resp.message.length > 0) {
+                        message({
+                            content: resp.message, type: 'error', cbk: function () {
+                            }
+                        });
+                    } else {
+                        message({
+                            content: 'Error occurred while loading values for the grid.',
+                            type: 'error',
+                            cbk: function () {
+                            }
+                        });
+                    }
+                }
+            } else {
+                if (data) {
+                    returnval =  $.parseJSON(data).return;
+                }
+            }
+        },
+        error: function (e) {
+            message({
+                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                }
+            });
+        }
+    });
+    return returnval;
+}
 /**
  * This method will resolve what url to navigate based on user click.
  * @param param
@@ -415,8 +459,14 @@ function urlResolver(param,cookie,userName) {
                     }
 
                 } else {
-                    newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
-                    window.location.href = newUrl;
+                    var accessToken = checkAccessToken(DEFAULT_USER_STORE_DOMAIN);
+                    if (accessToken) {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                        window.location.href = newUrl;
+                    } else {
+                        newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
+                        window.location.href = newUrl;
+                    }
                 }
                 break;
             case 'overview':
@@ -489,7 +539,6 @@ function urlResolver(param,cookie,userName) {
  * @param domainname
  */
 function deleteDirectory(domainname) {
-
     $("#btn-progress").show();
     $("#btn-delete").hide();
     $("#delete-label-text").hide();
@@ -529,6 +578,7 @@ function deleteDirectory(domainname) {
                     }
                 }
                 urlResolver('overview',cookie,userName);
+
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
