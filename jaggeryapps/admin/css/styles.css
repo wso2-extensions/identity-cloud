@@ -3820,3 +3820,9 @@ a.disabled {
     background-color: #2d2c2c;
     border-color: #2d2c2c;
 }
+.btn-action-secondary {
+    background: #393939;
+}
+.btn-action-secondary:hover{
+    background-color: #242424;
+}
