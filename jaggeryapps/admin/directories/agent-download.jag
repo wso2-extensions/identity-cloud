@@ -111,7 +111,7 @@ include("/templates/header.jag");
                     <div class="app-listing-loader">
                         <div class="loading-logo">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3em"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    x="0px" y="0px"
                     viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
                         <path class="circle" stroke-width="1.4" stroke-miterlimit="10" d="M6.534,
                         0.748C7.546,0.683,8.578,0.836,9.508,1.25 c1.903,0.807,3.339,2.615,3.685,4.654c0.244,
@@ -151,118 +151,18 @@ include("/templates/header.jag");
 
                         </div>
                     </div>
-
+                    <br/>
                     <div style="width:60%; text-align: center">
-                        <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
+                        <button type="button" class="cu-btn cu-btn-md cu-btn-blue" id="btn-save">
                                     <span class="fw-stack btn-action-ico">
                                         <i class="fw fw-circle-outline fw-stack-2x"></i>
                                         <i class="fw fw-download fw-stack-1x"></i>
-                                    </span>
-                                    <span class="btn-content">Download Agent</span>
-                        </a>
+                                    </span>  Connect my LDAP to Cloud
+                        </button>
 
-                        <div class="row" >
-                            <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                                <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
-                            </div>
                         </div>
                     </div>
-
-
-
-
-                    <div id="configure-agent" >
-                    <div class="comment-line"></div>
-
-                        <div class="row">
-                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <!--<span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Save.</span>-->
-                                    <!--</br></br>-->
-
-
-                                    <div class="row">
-                                        <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>-->
-                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                                            <div class="form-group">
-                                                <div class="text-agent-archi margin-bottom-xs">Directory Name :</div>
-                                                <div class="input-group input-group-flex">
-                                                    <input id="drName" name="drName" type="text" class="form-control" placeholder="Enter directory name" autofocus />
-                                                </div>
-
-                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <!--<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>-->
-                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                                            <div class="form-group">
-                                                <div class="text-agent-archi margin-bottom-xs">Enter this token during installation :</div>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="accessToken"  name="accessToken" readonly> </input>
-                                                    <span class="input-group-btn input-group-btn-check">
-                                                        <button class="btn btn-info btn-check" data-clipboard-target="#accessToken">Copy</button>
-                                                    </span>
-                                                    <span class="input-group-btn input-group-btn-check">
-                                                           <button   class="btn btn-info btn-check" onclick="updateAccessToken();"> Re-generate </button>
-                                                    </span>
-                                                </div>
-
-                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group" id="action-buttons">
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                        id="btn-save">
-                                                    <span class="fw-stack fw-save">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                    </span>
-                                                    Save
-                                                </button>
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                        id="btn-save">
-                                                    <span class="fw-stack btn-action-ico">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                        <i class="fw fw-list fw-stack-1x"></i>
-                                                    </span>
-                                                    Skip Application List
-                                                </button>
-
-                                                <!--<a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">-->
-                                                <!--<span class="fw-stack btn-action-ico">-->
-                                                    <!--<i class="fw fw-circle-outline fw-stack-2x"></i>-->
-                                                    <!--<i class="fw fw-list fw-stack-1x"></i>-->
-                                                <!--</span>-->
-                                                <!--<span class="btn-content">Skip to Application List</span>-->
-                                                 <!--</a>-->
-
-
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                        id="add-directory-loading" style="display: none;" disabled>
-                                                    <span class="fw-stack btn-action-ico">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                        <i class="fw fw-save fw-stack-1x"></i>
-                                                    </span>
-                                                    Creating ...
-                                                </button>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div id="push"></div>
-                                            <div id="push"></div>
-                                        </div>
-                                    </div>
-                                </form>
-                             </div>
-                        </div>
-                    </div>
-                    </div>
+                   </div>
                 </div>
             </div>
         </div><!-- /.container -->
@@ -286,20 +186,23 @@ include("/templates/header.jag");
                 <div class="modal-header">
                     <button id="btn-close" type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 id="model-title" class="modal-title">Creating User Directory</h4>
+                    <h4 id="model-title" class="modal-title">Configuring User Directory</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                     <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
+                                         <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>
+                                            <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px"> Please wait. This will take few seconds. <br/> We are removing sample user records and configuring Identity Cloud <br/> to work with the directory agent. Agent file download will begin shortly.</label>
+                                         </div>
+                                         <br/>
                                          <div id="verified" style="display: none" hidden class="noti-success">
                                               <span class="fw-stack fw-lg btn-action-ico noti-success">
                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-check fw-stack-1x"></i>
                                                 </span>
-                                             <span class="connection-status">User directory configured.</span>
+                                             <span class="connection-status">User directory configured successfully.</span>
                                         </div>
                                 </div>
                             </div>
@@ -307,7 +210,7 @@ include("/templates/header.jag");
                     </div>
                 </div>
                 <div id="model-button-ok" class="modal-footer" id="delete-buttons-block" hidden>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = APP_LIST_PATH;">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = DIRECTORY_LIST_PATH">Continue</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -344,37 +247,17 @@ include("/templates/header.jag");
             }
         });
 
-        $('#btn-delete').on('click', function (e) {
-            $('#connection-popup-modal').modal({
-                show: true
-            });
-        });
-
         $('#btn-save').on('click', function (e) {
-         initValidate();
-            if ($("#agent-download-form").valid()) {
                 $('#connection-popup-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
+                    deleteDirectory(SAMPLE_USER_STORE_DOMAIN,"");
                     addOrUpdateUserDirectory();
-                }, 1000);
-            }
+                    downloadAgentRedirect();
+           }, 1000);
         });
 
-        $("#agentUrl").keypress(function (e) {
-         initValidate();
-            if (e.which == 13) {
-                if ($("#agent-download-form").valid()) {
-                    $('#connection-popup-modal').modal({
-                        show: true
-                    });
-                    setTimeout(function () {
-                        addOrUpdateUserDirectory();
-                    }, 1000);
-                }
-            }
-        });
     </script>
 
     <script>
@@ -383,11 +266,27 @@ include("/templates/header.jag");
         cookie = "<%=session.get('auth-cookie')%>";
         userName = "<%=session.get('user')%>";
         $("#drName").removeAttr('readonly');
-        populateDirectory('is-wso2.com');
+        checkDirectoryCreated();
 
-        window.onload = function() {
-            document.getElementById('accessToken').value = generateAccessToken();
-        };
+        function checkDirectoryCreated(){
+                var currentUrl, context, newUrl, directoryList, isUserStoreExist;
+                currentUrl = window.location.href.toString();
+                if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
+                    context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
+                    directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    isUserStoreExist = false;
+                    if (directoryList) {
+                        if (directoryList.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                            isUserStoreExist = true;
+                        }
+                        if (isUserStoreExist) {
+                            newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                            window.location.href = newUrl;
+                        }
+                    }
+                }
+        }
+
     </script>
 
 </body>
