@@ -23,7 +23,7 @@ include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
-serverUrl = serverUrl + "/CloudDirectoryAdminService";
+serverUrl = serverUrl + "/AgentMgtService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var download = request.getParameter("download");
@@ -38,7 +38,7 @@ if(download == "true") {
 function createAgent(){
     try{
         webService = new ws.WSRequest();
-        var result = callWSReturnJSON(webService, serverUrl, "urn:generateAgentFile", null);
+        var result = callWSReturnJSON(webService, serverUrl, "urn:getAgentFilePath", null);
         session.put(AGENT_FILE_PATH_SESSION, result.return);
         print('{"success":true}');
     }catch(e){
