@@ -3,33 +3,21 @@ var endpointurl = "EndPointURL";
 var uniqueId = "UniqueID";
 var disabled = "Disabled";
 var properties = null;
-const CONNECTION_NOT_ESTABLISHED_MSG = "The connection to the provided URL could not be established.";
-var showWarning = false;
-var showedOnce = false;
 
 function addOrUpdateUserDirectory() {
-    var name = document.getElementById("drName").value;
-    var accessToken = document.getElementById("accessToken").value;
     var agentUniqueId = document.getElementById("uniqueid").value;
     var agentDisabled = document.getElementById("disabled").value;
     var url;
     var data;
-
-    if (!validateDirectory(name)) {
-        return;
-    }
-
     var domain = $('#domain').attr('value');
     if (domain != null && domain != 'null') {
-        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
+        data = "name=" + name + "&accessToken=" + generateAccessToken() + "&domain=" + userstoredomain + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
         url = DIRECTORY_UPDATE_FINISH_PATH;
     } else {
-        data = "name=" + name + "&accessToken=" + accessToken + "&domain=" + userstoredomain;
+        data = "name=" + name + "&accessToken=" + generateAccessToken() + "&domain=" + userstoredomain;
         url = DIRECTORY_ADD_FINISH_PATH;
     }
 
-    $("#btn-save").hide();
-    $("#add-directory-loading").show();
     var dirList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
     var currentCount = 0 ;
     var newCount = 0 ;
@@ -74,11 +62,12 @@ function addOrUpdateUserDirectory() {
                 }
 
                 if (!retryState) {
-                    $(".connection-status").first().html("User directory indexing retry count exceeded.");
+                    $(".connection-status").first().html("User directory configuration is still not completed. You can continue configuring user store agent until it complete.");
                     $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").removeClass("fw-check");
                     $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").addClass("fw-cancel");
                 }
 
+                //window.top.location.href = DIRECTORY_LIST_PATH;
                 // when success connection creation
                 $("#model-button-ok").show();
                 $("#model-text").hide();
@@ -86,13 +75,6 @@ function addOrUpdateUserDirectory() {
                 $("#process-icon").hide();
                 $("#model-title").text("User Directory");
                 $("#btn-close").hide();
-                $("#add-directory-loading").hide();
-                if (!$("#btn-success").is(':visible')) {
-                    $("#action-buttons").html('<a class="cu-btn cu-btn-md cu-btn-blue" ' +
-                        'href="javascript:urlResolver(&#39applist&#39,cookie,userName)"> <span class="fw-stack fw-lg btn-action-ico"> ' +
-                        '<i class="fw fw-circle-outline fw-stack-2x"></i> <i class="fw fw-list fw-stack-1x"></i> </span> ' +
-                        '<span>Skip to application list</span> </a>');
-                }
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -116,118 +98,10 @@ function addOrUpdateUserDirectory() {
 
         })
         .fail(function () {
-            $("#btn-save").show();
-            $("#add-directory-loading").hide();
             message({content: 'Error while adding Directory. ', type: 'servererror'});
         })
         .always(function () {
         });
-}
-
-function updateUserDirectory() {
-    // since we are using only one user directory
-    var domain = userstoredomain;
-    var name = document.getElementById("drName").value;
-    var agentUrl = document.getElementById("agentUrl").value;
-    var agentUniqueId = document.getElementById("uniqueid").value;
-    var agentDisabled = document.getElementById("disabled").value;
-    var url;
-    var data;
-
-    if (!validateDirectory(name)) {
-        return;
-    }
-
-    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-        agentUrl = agentUrl.substring(0, agentUrl.length - 1);
-    }
-
-    if (domain != null && domain != 'null') {
-        data = "name=" + name + "&url=" + agentUrl + "&uniqueid=" + agentUniqueId + "&disabled=" + agentDisabled;
-        url = DIRECTORY_UPDATE_FINISH_PATH;
-    } else {
-        data = "name=" + name + "&url=" + agentUrl;
-        url = DIRECTORY_ADD_FINISH_PATH;
-    }
-
-
-    $("#btn-save").hide();
-    $("#add-directory-loading").show();
-    var currentUrl = checkDirectory(DEFAULT_USER_STORE_DOMAIN).properties[75].value;
-    $.ajax({
-            url: url,
-            type: "POST",
-            async: false,
-            cache: false,
-            data: data,
-        })
-        .done(function (data) {
-
-            var resp = $.parseJSON(data);
-            if (resp.success == true) {
-
-                var retryCount = 0;
-                var retryState = true;
-
-                while (agentUrl != currentUrl && retryState) {
-                    wait(DIRECTORY_TIMEOUT);
-                    var directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
-                    retryCount += 1;
-                    if (directoryList && directoryList.properties) {
-                        currentUrl = directoryList.properties[75].value;
-                    } else if (directoryList.length >= 1) {
-                        $.each(directoryList, function (key, value) {
-                            if (value.domainId === DEFAULT_USER_STORE_DOMAIN) {
-                                currentUrl = value.properties[75].value;
-                            }
-                        });
-                    }
-
-                    if (retryCount > RETRY_COUNT) {
-                        retryState = false;
-                    }
-                }
-                window.location.href = DIRECTORY_LIST_PATH;
-            } else {
-
-                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
-                } else {
-                    if (resp.message != null && resp.message.length > 0) {
-                        message({
-                            content: resp.message, type: 'error', cbk: function () {
-                            }
-                        });
-                    } else {
-                        message({
-                            content: 'Error occurred while loading values for the grid.',
-                            type: 'error',
-                            cbk: function () {
-                            }
-                        });
-                    }
-                }
-            }
-
-        })
-        .fail(function () {
-            $("#btn-save").show();
-            $("#add-directory-loading").hide();
-            message({content: 'Error while adding Directory. ', type: 'servererror'});
-        })
-        .always(function () {
-        });
-}
-
-function validateDirectory(name) {
-    if (name.length == 0) {
-        message({labelId: 'drName-error', content: 'Directory name can\'t be empty', type: 'error'});
-        return false;
-    } else {
-        $('#drName-error').hide();
-    }
-
-    return true;
 }
 
 function getDirectories() {
@@ -320,7 +194,7 @@ function drawList() {
                 '                        </a>' +
                 '                        <ul class="dropdown-menu app-extra-menu" role="menu">' +
                 '                            <li><a href="' + DIRECTORY_ADD_PATH + '?domain=' + userstoredomain + '">Edit</a></li>' +
-                '                            <li><a href="" onclick = deleteDirectory(\'' + userstoredomain + '\');>Delete</a></li>' +
+                '                            <li><a href="" onclick = deleteDirectory(userstoredomain,\''+overview+'\');>Delete</a></li>' +
                 '                        </ul>' +
                 '                    </div>' +
                 '               </div>';
@@ -337,8 +211,7 @@ function drawList() {
 
 }
 
-function deleteDirectory(domainname) {
-
+function deleteDirectory(domainname, redirectPage) {
     $("#delete-label-text").hide();
     $("#process-icon").show();
     $("#delete-heading").text("Deleting User Directory");
@@ -381,7 +254,9 @@ function deleteDirectory(domainname) {
                         retryState = false;
                     }
                 }
-                urlResolver('overview',cookie,userName);
+                if (redirectPage) {
+                    urlResolver(redirectPage, cookie, userName);
+                }
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -461,7 +336,6 @@ function revokeAndRegenerateAccessToken(domainname) {
 
 function populateDirectory(domain) {
 
-    var directoryName = "";
     $.ajax({
         url: DIRECTORY_GET_LIST_PATH,
         type: "GET",
@@ -499,11 +373,10 @@ function populateDirectory(domain) {
                 }
                 for (var i in directoryList) {
                     if (directoryList[i].domainId == domain) {
-                        directoryName = directoryList[i].description;
                         properties = directoryList[i].properties;
                     }
                 }
-                drawUpdatePage(directoryName, properties);
+                drawUpdatePage(properties);
             }
         },
         error: function (e) {
@@ -516,43 +389,45 @@ function populateDirectory(domain) {
 }
 
 function populateAgentConnection(domain) {
-
     $.ajax({
         url: DIRECTORY_CONNECTIONS_GET_LIST,
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            $("#noconnectiondiv").show();
+            $("#downloadGuide").show();
+            if (data) {
+                var resp = $.parseJSON(data);
 
-
-            if (resp.success == false) {
-                if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                    window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
-                } else {
-                    if (resp.message != null && resp.message.length > 0) {
-                        message({
-                            content: resp.message, type: 'error', cbk: function () {
-                            }
-                        });
+                if (resp.success == false) {
+                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
+                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                     } else {
-                        message({
-                            content: 'Error occurred while loading values for the grid.',
-                            type: 'error',
-                            cbk: function () {
-                            }
-                        });
+                        if (resp.message != null && resp.message.length > 0) {
+                            message({
+                                content: resp.message, type: 'error', cbk: function () {
+                                }
+                            });
+                        } else {
+                            message({
+                                content: 'Error occurred while loading values for the grid.',
+                                type: 'error',
+                                cbk: function () {
+                                }
+                            });
+                        }
                     }
+                } else {
+                    if (data) {
+                        connectionsList = $.parseJSON(data).return;
+                    }
+                    if (connectionsList != null && connectionsList.constructor !== Array) {
+                        var arr = [];
+                        arr[0] = connectionsList;
+                        connectionsList = arr;
+                    }
+                    drawConnections(connectionsList);
                 }
-            } else {
-                if (data) {
-                    connectionsList = $.parseJSON(data).return;
-                }
-                if (connectionsList != null && connectionsList.constructor !== Array) {
-                    var arr = [];
-                    arr[0] = connectionsList;
-                    connectionsList = arr;
-                }
-                drawConnections(connectionsList);
             }
         },
         error: function (e) {
@@ -604,7 +479,6 @@ function populateAccessToken(domain) {
     });
 }
 
-
 function downloadAgent() {
 
     $.ajax({
@@ -645,10 +519,11 @@ function downloadAgent() {
     });
 }
 
-function downloadAgentRedirect(param) {
+function downloadAgentRedirect() {
     $.ajax({
         url: DIRECTORY_DOWNLOAD_FINISH_PATH,
         type: "GET",
+        async:false,
         data: "domain=" + domain,
         success: function (data) {
             var resp = $.parseJSON(data);
@@ -672,9 +547,6 @@ function downloadAgentRedirect(param) {
                 }
             } else {
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
-                $("#archImage").hide();
-                $("#downloadHeader").hide();
-                $("#downloadGuide").show();
             }
         },
         error: function (e) {
@@ -687,170 +559,11 @@ function downloadAgentRedirect(param) {
     });
 }
 
-function showHideConfigureAgentURL() {
-    if ($("#configure-agent").is(":visible")) {
-        $("#configure-agent").slideToggle(1000);
-        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
-            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-down fw-stack-1x">' +
-            '</i></span><span class="btn-content">  Configure Agent URL</span>');
-    } else {
-        $("#configure-agent").slideToggle(1000);
-        $("#btn-configure-agent-url").html('<span class="fw-stack btn-action-ico">' +
-            '<i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-up fw-stack-1x">' +
-            '</i></span><span class="btn-content">  Configure Agent URL</span>');
-    }
-}
-
-function validateURL(textval) {
-    var isValidated = validateInput(document.getElementById("agentUrl"));
-    return isValidated["isValid"] == true;
-}
-function checkhttps(url){
-    var urlregex = getPattern("https-url");
-    return urlregex.test(url);
-}
-function checkhttp(url){
-    var urlregex = getPattern("http-url");
-    return urlregex.test(url);
-}
-
-function testConnection(agentUrl) {
-    var messageContainer = "<label class='' for='agentUrl' role='alert'>" +
-        "<span class='alert-content'></span></label>";
-
-    if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-        agentUrl = agentUrl + "status";
-    } else {
-        agentUrl = agentUrl + "/" + "status";
-    }
-
-
-    $.ajax({
-        url: DIRECTORY_TEST_CONNECTION_PATH,
-        type: "GET",
-        data: "url=" + agentUrl,
-        success: function (data) {
-            if (data) {
-                $('.connectionStatus').html('');
-                if ($.parseJSON(data).return == "true") {
-                    $('.connectionStatus').html($(messageContainer).addClass('success').hide()
-                        .fadeIn('fast').delay(3000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content')
-                        .text('The connection to provided URL was successful.');
-                    
-                } else if ($.parseJSON(data).return == "false") {
-                    $('.connectionStatus').html($(messageContainer).addClass('error').hide()
-                        .fadeIn('fast').delay(3000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content')
-                        .text(CONNECTION_NOT_ESTABLISHED_MSG);
-                } else {
-                    $('.connectionStatus').html($(messageContainer).addClass('error').hide()
-                        .fadeIn('fast').delay(3000).fadeOut('fast'));
-                    $('.connectionStatus').find('.alert-content')
-                        .text(CONNECTION_NOT_ESTABLISHED_MSG);
-                    var resp = $.parseJSON(data);
-                    if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                        window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
-                    } else {
-                        if (resp.message != null && resp.message.length > 0) {
-                            message({
-                                content: resp.message, type: 'error', cbk: function () {
-                                }
-                            });
-                        } else {
-                            message({
-                                content: 'Error occurred while loading values for the grid.',
-                                type: 'error',
-                                cbk: function () {
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        },
-        error: function (e) {
-            $('.connectionStatus').html('');
-            $('.connectionStatus').html($(messageContainer).addClass('error').hide()
-                .fadeIn('fast').delay(3000).fadeOut('fast'));
-            $('.connectionStatus').find('.alert-content')
-                .text(CONNECTION_NOT_ESTABLISHED_MSG);
-        }
-    });
-
-}
-
-
-function verifyConnection(agentUrl) {
-    if (agentUrl) {
-        var messageContainer = "<div class='alert' role='alert'>" +
-            "<span class='alert-content'></span></div>";
-
-        if (agentUrl.substring(agentUrl.length - 1, agentUrl.length) == "/") {
-            agentUrl = agentUrl + "status";
-        } else {
-            agentUrl = agentUrl + "/" + "status";
-        }
-        
-        $('.connectionStatus').empty();
-
-        $.ajax({
-            url: DIRECTORY_TEST_CONNECTION_PATH,
-            type: "GET",
-            data: "url=" + agentUrl,
-            success: function (data) {
-                if (data) {
-                    if ($.parseJSON(data).return == "true") {
-                        $("#verified").show();
-                        $("#process-icon").hide();
-                        $("#unverified").hide();
-                        $("#progress-icon").hide();
-                    } else if ($.parseJSON(data).return == "false") {
-                        $("#verified").hide();
-                        $("#unverified").show();
-                        $("#progress-icon").hide();
-                    } else {
-                        var resp = $.parseJSON(data);
-                        if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
-                            window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
-                        } else {
-                            if (resp.message != null && resp.message.length > 0) {
-                                $("#verified").hide();
-                                $("#unverified").show();
-                                $("#progress-icon").hide();
-                            } else {
-                                message({
-                                    content: 'Error occurred while loading values for the grid.',
-                                    type: 'error',
-                                    cbk: function () {
-                                    }
-                                });
-                            }
-                        }
-                    }
-                }
-            },
-            error: function (e) {
-                $('.connectionStatus').append($(messageContainer).addClass('alert-error').hide()
-                    .fadeIn('fast').delay(2000).fadeOut('fast'));
-                $('.connectionStatus').find('.alert-content')
-                    .text(CONNECTION_NOT_ESTABLISHED_MSG)
-                $("#verified").hide();
-                $("#unverified").show();
-                $("#progress-icon").hide();
-            }
-        });
-    } else {
-        $("#verified").hide();
-        $("#unverified").show();
-        $("#progress-icon").hide();
-    }
-
-}
-
 function drawConnections(properties) {
 
+    $("#downloadGuide").hide();
     var isRecordExist = false;
+    var isConnected = false;
     var table = document.getElementById("tblConnection");
     if(properties != null) {
         $("#tblConnection tr").remove();
@@ -863,25 +576,32 @@ function drawConnections(properties) {
                 var cell3 = row.insertCell(2);
 
                 if (properties[j].status == 'C') {
-                    cell1.innerHTML = "<i class='fw fw-success' style='color: 05d505;'></i>";
+                    isConnected = true;
+                    cell1.innerHTML = "<i class='fw-lg fw-success' style='color: 05d505;'></i>";
                 } else {
-                    cell1.innerHTML = "<i class='fw fw-error' style='color: red;'></i>";
+                    cell1.innerHTML = "<i class='fw-lg fw-error' style='color: red;'></i>";
                 }
                 cell2.innerHTML = properties[j].node;
                 cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
 
             }
         }
+        if(isConnected){
+            $("#connectionInfodiv").show();
+        }else{
+            $("#connectionInfodiv").hide();
+        }
 
         if (isRecordExist) {
-            $("#connectionStatus").text("Agent status");
+            $("#noconnectiondiv").hide();
         } else {
-            $("#connectionStatus").text("No agent connection found");
+            $("#noconnectiondiv").show();
+            $("#downloadGuide").show();
         }
     }
 }
 
-function drawUpdatePage(directoryName, properties) {
+function drawUpdatePage(properties) {
 
     var agentUniqueId;
     var agentDisabled;
@@ -925,24 +645,20 @@ function cancel() {
 
 function initValidate() {
 
-    $("#agent-download-form").validate();
-    $.validator.addMethod("directory", function (value, element) {
-        return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
-    }, $.validator.messages.directoryname);
-
-    $("input[id*=drName]").rules("add", {
-        required: true,
-        directory: true,
-        messages: {
-            required: "This field cannot be empty",
-            directoryname: "Please enter valid directory name",
-            connection: "Connection is not valid"
-        }
-    });
-}
-
-function updateAccessToken() {
-    document.getElementById('accessToken').value = generateAccessToken();
+//    $("#agent-download-form").validate();
+//    $.validator.addMethod("directory", function (value, element) {
+//        return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
+//    }, $.validator.messages.directoryname);
+//
+//    $("input[id*=drName]").rules("add", {
+//        required: true,
+//        directory: true,
+//        messages: {
+//            required: "This field cannot be empty",
+//            directoryname: "Please enter valid directory name",
+//            connection: "Connection is not valid"
+//        }
+//    });
 }
 
 function generateAccessToken() {
@@ -970,40 +686,3 @@ function wait(ms){
         end = new Date().getTime();
     }
 }
-
-$('#agentUrl').on('input', function() {
-    var messageContainer = "<label class='' for='agentUrl' role='alert'>" +
-        "<span class='alert-content'></span></label>";
-    var agentUrl = $('#agentUrl').val();
-
-    showWarning = checkhttp(agentUrl);
-    if (!showedOnce && showWarning) {
-        $('.connectionStatus').html($(messageContainer).addClass('warning'));
-        $('.connectionStatus').find('.alert-content')
-            .text('Your connection is not secure. Use https.');
-        showedOnce = true;
-    } else if (checkhttps(agentUrl)) {
-        $('.connectionStatus').html('');
-        showedOnce = false;
-    }
-
-    if (agentUrl.includes("localhost:")) {
-        $.validator.addMethod("localhostUrl", function (value, element) {
-                var re = new RegExp(/^(localhost:)/);
-                return this.optional(element) || re.test(value);
-            },
-            $.validator.messages.localhostUrl);
-
-        $("input[id*=agentUrl]").rules("add", {
-            localhostUrl: true,
-            messages: {
-                localhostUrl: "'localhost' can not be used within the agent URL."
-            }
-        });
-    } else {
-        $("input[id*=agentUrl]").rules("add", {
-            localhostUrl: false
-        });
-    }
-
-});
