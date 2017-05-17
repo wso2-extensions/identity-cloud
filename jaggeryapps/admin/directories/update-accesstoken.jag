@@ -24,21 +24,21 @@ var tokenServerUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 
-updateAccessToken();
-function updateAccessToken(){
+revokeAndRegenrateAccessToken();
+function revokeAndRegenrateAccessToken(){
 
     try{
         var oldAccessToken = request.getParameter('oldaccesstoken');
         var newAccessToken = request.getParameter('newaccesstoken');
         var domain = request.getParameter('domain');
 
-        var updateTokenPayload = '<xsd:updateAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+        var updateTokenPayload = '<xsd:revokeAndRegenerateAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
                 '<xsd:oldToken>'+ oldAccessToken + '</xsd:oldToken>' +
                 '<xsd:newToken>'+ newAccessToken + '</xsd:newToken>' +
                 '<xsd:domain>'+ domain + '</xsd:domain>' +
-                '</xsd:updateAccessToken>';
+                '</xsd:revokeAndRegenerateAccessToken>';
         webService = new ws.WSRequest();
-        callWSInOnly(webService, tokenServerUrl, "urn:updateAccessToken", updateTokenPayload);
+        callWSInOnly(webService, tokenServerUrl, "urn:revokeAndRegenerateAccessToken", updateTokenPayload);
         print('{"success":true}');
 
     }catch(e){
