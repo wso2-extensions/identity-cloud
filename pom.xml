@@ -204,6 +204,21 @@
                 <artifactId>org.wso2.carbon.claim.mgt</artifactId>
                 <version>${carbon.identity.framework.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.userstore.onprem</groupId>
+                <artifactId>org.wso2.carbon.identity.user.store.common</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-core</artifactId>
+                <version>${activemq-core-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-all</artifactId>
+                <version>${activemq-all-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -425,5 +440,7 @@
         <json-smart.version>1.3</json-smart.version>
         <encoder.wso2.version>1.2.0.wso2v1</encoder.wso2.version>
         <apache.httpcomponents.version>4.3.1.wso2v1</apache.httpcomponents.version>
+        <activemq-all-version>5.10.0</activemq-all-version>
+        <activemq-core-version>5.7.0</activemq-core-version>
     </properties>
 </project>
