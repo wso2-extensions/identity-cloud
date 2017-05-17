@@ -45,10 +45,6 @@ function addUserStore(){
                 '<xsd1:name>MessageBrokerEndPointURL</xsd1:name>' +
                 '<xsd1:value>' + userAgentConf.messageBrokerUrl + '</xsd1:value>' +
                 '</xsd1:properties>' +
-                '<xsd1:properties>' +
-                '<xsd1:name>DirectoryName</xsd1:name>' +
-                '<xsd1:value>' + name + '</xsd1:value>' +
-                '</xsd1:properties>' +
 
                 '<xsd1:properties>' +
                 '<xsd1:name>MessageConsumeTimeout</xsd1:name>' +
