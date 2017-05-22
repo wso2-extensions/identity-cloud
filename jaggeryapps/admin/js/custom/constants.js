@@ -1,12 +1,14 @@
 const ADMIN_PORTAL_NAME = "admin";
 const DIRECTORY_PATH = "directories";
 const APP_LIST = "serviceproviders";
+const CUSTOM_THEME = "customTheme"
 const SAMPLE_PATH = "samples";
 const APP_DETAIL_TIMEOUT = 400;
 const DIRECTORY_UPDATE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "update_finish";
 const DIRECTORY_ADD_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "add_finish";
 const DIRECTORY_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH;
 const APP_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + APP_LIST;
+const CUSTOM_THEME_PATH = "/" + ADMIN_PORTAL_NAME + "/" + CUSTOM_THEME;
 const DIRECTORY_GET_LIST_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory-list";
 const DIRECTORY_GET_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "get-directory";
 const DIRECTORY_DELETE_FINISH_PATH = "/" + ADMIN_PORTAL_NAME + "/" + DIRECTORY_PATH + "/" + "delete_finish";

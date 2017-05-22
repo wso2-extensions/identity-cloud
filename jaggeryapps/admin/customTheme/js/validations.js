@@ -1,4 +1,3 @@
-<%
 /*
  * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
@@ -16,36 +15,27 @@
  *   specific language governing permissions and limitations
  *   under the License.
  */
-%>
 
-<%
-var log = new Log();
-var i18n = session.get("i18n");
-var appManager = require("thememanager");
-var managerHostObj = new appManager.ThemeManager();
+function validateInputs() {
 
-deleteTheme();
-
-function deleteTheme() {
-    var error = false;
-    var errorMsg = "Theme successfully deleted.";
-    var userInfo = session.get("userInfo");
-    var tenantDomain = userInfo.tenantDomain + "";
-
-    try {
-        //delete theme
-        managerHostObj.deleteCustomTheme(tenantDomain);
-    } catch (e) {
-        var msg = "Could not delete the theme of tenant :" + tenantDomain;
-        log.error(msg, e);
-        error = true;
-        errorMsg = msg;
+    if ($("#themeUploadForm").valid()) {
+        uploadTheme();
     }
-
-    print({
-        "error": error,
-        "errorMsg": errorMsg
-    });
 }
 
-%>
+$(function () {
+
+    $("form[name='themeUploadForm']").validate({
+        rules: {
+            'themeName': "required",
+            'themeFileInput': "required"
+        },
+        messages: {
+            'themeName': "Theme name is a required field",
+            'themeFileInput': "Please select a theme file"
+        },
+        submitHandler: function () {
+            return false;
+        }
+    });
+});
