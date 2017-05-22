@@ -162,6 +162,7 @@ include("/templates/header.jag");
 
                         </div>
                     </div>
+
                    </div>
                 </div>
             </div>
@@ -179,6 +180,11 @@ include("/templates/header.jag");
     </div>
 
     <!-- MODEL -->
+
+    <!--<div class="alert alert-success" role="alert" id="successAlert" name="successAlert">-->
+        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+         <!--User directory configured successfully.-->
+    <!--</div>-->
 
     <div id="connection-popup-modal" class="modal">
         <div class="modal-dialog modal-dialog-margin-top-md">
@@ -230,8 +236,6 @@ include("/templates/header.jag");
 
     <script>
         var clipboard = new Clipboard('.btn');
-        var messageContainer = "<div class='alert' role='alert'>" +
-                "<span class='alert-content'></span></div>";
 
         $('.side-pane-trigger').click(function () {
             var rightPane = $('.right-pane');
@@ -252,9 +256,10 @@ include("/templates/header.jag");
                     show: true
                 });
                 setTimeout(function () {
+                    downloadAgentRedirect();
                     deleteDirectory(SAMPLE_USER_STORE_DOMAIN,"");
                     addOrUpdateUserDirectory();
-                    downloadAgentRedirect();
+                    window.top.location.href = DIRECTORY_LIST_PATH;
            }, 1000);
         });
 

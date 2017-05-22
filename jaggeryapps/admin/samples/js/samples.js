@@ -138,6 +138,16 @@ function addSampleUsers(){
 
 }
 
+function gotoOverview() {
+    var currentUrl, context, newUrl;
+    currentUrl = window.location.href.toString();
+    if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
+        context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
+        newUrl = context + ADMIN_PORTAL_NAME + "/overview/appoverview";
+        window.location.href = newUrl;
+    }
+
+}
 
 function getSampleUsers(){
     userList = null;
@@ -153,6 +163,7 @@ function getSampleUsers(){
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
                 } else {
                     if (resp.message != null && resp.message.length > 0) {
+                        gotoOverview();
                         message({
                             content: resp.message, type: 'error', cbk: function () {
                             }

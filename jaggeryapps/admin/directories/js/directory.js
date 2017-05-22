@@ -62,17 +62,19 @@ function addOrUpdateUserDirectory() {
                 }
 
                 if (!retryState) {
-                    $(".connection-status").first().html("User directory configuration is still not completed. You can continue configuring user store agent until it complete.");
+                    //$(".connection-status").first().html("User directory configuration is still not completed. You can continue configuring user store agent until it complete.");
                     $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").removeClass("fw-check");
                     $("#verified").find("span:nth-child(1)").find("i:nth-child(2)").addClass("fw-cancel");
                 }
 
-                //window.top.location.href = DIRECTORY_LIST_PATH;
+
                 // when success connection creation
-                $("#model-button-ok").show();
+                //$("#model-button-ok").show();
                 $("#model-text").hide();
-                $("#verified").show();
+                //$("#verified").show();
                 $("#process-icon").hide();
+                $("#model-title").hide();
+                $("#connection-popup-modal").hide();
                 $("#model-title").text("User Directory");
                 $("#btn-close").hide();
             } else {
@@ -467,7 +469,11 @@ function populateAccessToken(domain) {
                     }
                 }
             } else {
-                $('#accessToken').val($.parseJSON(data).return);
+                if ($.parseJSON(data).return) {
+                    $('#accessToken').val($.parseJSON(data).return);
+                } else {
+                    gotoDirectoryConfigure();
+                }
             }
         },
         error: function (e) {
@@ -477,6 +483,16 @@ function populateAccessToken(domain) {
             });
         }
     });
+}
+
+function gotoDirectoryConfigure(){
+    var currentUrl, context, newUrl;
+    currentUrl = window.location.href.toString();
+    if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
+        context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
+        newUrl = context + ADMIN_PORTAL_NAME + "/directories/downloadagent";
+        window.location.href = newUrl;
+    }
 }
 
 function downloadAgent() {
@@ -546,6 +562,7 @@ function downloadAgentRedirect() {
                     }
                 }
             } else {
+                alert("Download");
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },

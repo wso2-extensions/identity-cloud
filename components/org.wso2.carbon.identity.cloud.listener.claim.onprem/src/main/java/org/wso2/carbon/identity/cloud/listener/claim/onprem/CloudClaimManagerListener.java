@@ -148,7 +148,9 @@ public class CloudClaimManagerListener extends AbstractClaimManagerListener {
 
                             if (responseMessage != null) {
                                 UserOperation response = (UserOperation) ((ObjectMessage) responseMessage).getObject();
-                                JSONObject jsonObject = new JSONObject(response.getResponseData());
+                                JSONObject jsonResponse = new JSONObject(response.getResponseData());
+                                JSONObject jsonObject = new JSONObject(jsonResponse
+                                        .get(UserStoreConstants.UM_JSON_ELEMENT_RESPONSE_DATA_RESULT).toString());
 
                                 String cacheKey = getTenantDomainCacheKey(domainName, tenantDomain);
                                 addTenantDomainClaimToCache(cacheKey, claimURI);
