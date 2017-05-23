@@ -3,12 +3,12 @@ function drawAddSP(sptype) {
     output = '<div class="container-fluid form-listing">'+
         '<div class="col-md-5 forms">'+
         '<div class="form-group">'+
-        '<label for="spName">Application Name: </label>'+
-        '<input id="spName" name="spName" type="text" class="form-control" placeholder="Enter application name" autofocus/>'+
+        '<label for="spName">Application Name </label>'+
+        '<input id="spName" name="spName" type="text" class="form-control" autofocus/>'+
         '<label id="spName-error" class="error" hidden="" for="issuer">This field is required.</label>'+
         '</div>'+
         '<div class="form-group">'+
-        '<label for="spDesc" >Description: </label>'+
+        '<label for="spDesc" >Description </label>'+
         '<textarea id="spDesc" name="spDesc" class="form-control" rows="3" ></textarea>'+
         '<input type="hidden" value="'+sptype+'" id="spType" name="spType" />\n' +
         '</div>'+
@@ -32,7 +32,7 @@ function validateSPName(sptype) {
     var regExp = new RegExp("^[a-zA-Z0-9._|-]*$");
     if (spName.length == 0) {
         message({
-            labelId: 'spName-error', content: 'Service Provider name can\'t be empty', type: 'error'
+            labelId: 'spName-error', content: 'Application Name is a required field', type: 'error'
         });
         return false;
     } else if(!regExp.test(spName)) {
