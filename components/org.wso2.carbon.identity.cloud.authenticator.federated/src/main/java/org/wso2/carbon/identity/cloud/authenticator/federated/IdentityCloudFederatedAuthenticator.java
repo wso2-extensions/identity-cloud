@@ -313,7 +313,11 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
             for (Claim userClaim : userClaimValues) {
                 claims.put(ClaimMapping.build(userClaim.getClaimUri(), userClaim.getClaimUri(), null,
                         false), userClaim.getValue());
+                if (log.isDebugEnabled()) {
+                    log.debug("retrieving claims for user : " + username + " claim uri : " + userClaim.getClaimUri());
+                }
             }
+
             context.getSubject().setUserAttributes(claims);
         } catch (UserStoreException e) {
             log.warn("Error while retrieving claims for user : " + username);
@@ -346,5 +350,10 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
     @Override
     public String getName() {
         return IdentityCloudFederatedAuthenticatorConstants.AUTHENTICATOR_NAME;
+    }
+
+    @Override
+    protected boolean retryAuthenticationEnabled() {
+        return true;
     }
 }
