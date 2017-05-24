@@ -562,7 +562,6 @@ function downloadAgentRedirect() {
                     }
                 }
             } else {
-                alert("Download");
                 document.getElementById('ifrmDownload').src = DIRECTORY_DOWNLOAD_FINISH_PATH + "?download=true";
             }
         },
