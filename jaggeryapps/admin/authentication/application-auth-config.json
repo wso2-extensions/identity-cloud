@@ -1,7 +1,6 @@
 {
   "authenticator": {
-    "authenticatorName": "BasicIdentityCloudAuthenticator",
-    "authenticatorDisplayName": "BasicIdentityCloudAuth",
-    "authenticationType": "local"
+    "authenticationType": "federated",
+    "identityProviderName": "SHARED_CloudAuthenticator"
   }
 }
