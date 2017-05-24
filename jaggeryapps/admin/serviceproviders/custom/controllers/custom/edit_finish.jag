@@ -362,13 +362,24 @@ function updateSP(){
         }
 
         updateSp = updateSp + '<xsd1:localAndOutBoundAuthenticationConfig>' +
-        '<xsd1:authenticationSteps> ' +
-        '<xsd1:localAuthenticatorConfigs>' +
+            '<xsd1:authenticationSteps>';
+
+        if (appAuthConfig && appAuthConfig.authenticator.authenticationType == "federated") {
+            updateSp = updateSp + '<xsd1:federatedIdentityProviders>' +
+                '<xsd1:alwaysSendMappedLocalSubjectId>false</xsd1:alwaysSendMappedLocalSubjectId>' +
+                '<xsd1:identityProviderName>' + (appAuthConfig.authenticator.identityProviderName) +'</xsd1:identityProviderName>' +
+                '<xsd1:primary>true</xsd1:primary>' +
+                '</xsd1:federatedIdentityProviders>';
+        } else {
+
+            updateSp = updateSp + '<xsd1:localAuthenticatorConfigs>' +
         '<xsd1:name>' + ((appAuthConfig && appAuthConfig.authenticator.authenticatorName) ? appAuthConfig.authenticator.authenticatorName : "basic") + '</xsd1:name>' +
         '<xsd1:displayName>' + ((appAuthConfig && appAuthConfig.authenticator.authenticatorDisplayName) ? appAuthConfig.authenticator.authenticatorDisplayName : "basic") + '</xsd1:displayName>' +
         '<xsd1:enabled>true</xsd1:enabled>' +
-        '</xsd1:localAuthenticatorConfigs>' +
-        '<xsd1:stepOrder>1</xsd1:stepOrder>' +
+                '</xsd1:localAuthenticatorConfigs>';
+        }
+
+        updateSp = updateSp + '<xsd1:stepOrder>1</xsd1:stepOrder>' +
         '<xsd1:attributeStep>true</xsd1:attributeStep>' +
         '<xsd1:subjectStep>true</xsd1:subjectStep>' +
         '</xsd1:authenticationSteps>' +
