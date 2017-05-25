@@ -1,5 +1,5 @@
 {
-    "messageBrokerUrl":"tcp://localhost:61616",
+    "messageBrokerUrl":"failover:(tcp://localhost:61616,tcp://localhost:61617)",
     "messagelifetime":"60000",
     "messageretrylimit":"2",
     "messageconsumetimeout":"4000"
