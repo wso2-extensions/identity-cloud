@@ -21,33 +21,73 @@ include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
-serverUrl = serverUrl + "/UserStoreConfigAdminService";
+var userStoreServerUrl = serverUrl + "/UserStoreConfigAdminService";
+var tokenServerUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
 var domain="is-wso2.com";
-
+addUserStore();
+addAccessToken();
 function addUserStore(){
 
     try{
         var name = request.getParameter('name');
-        var url = request.getParameter('url');
-
+        var accessToken = request.getParameter('accessToken');
+        var userAgentConf = getUserAgentConfig();
 
         var createUserStore = '<xsd:addUserStore xmlns:xsd ="http://org.apache.axis2/xsd" xmlns:xsd1="http://dto.configuration.store.user.identity.carbon.wso2.org/xsd">' +
                 '<xsd:userStoreDTO>' +
-                '<xsd1:className>org.wso2.carbon.identity.user.store.ws.WSUserStoreManager</xsd1:className>' +
+                '<xsd1:className>org.wso2.carbon.identity.user.store.outbound.WSOutboundUserStoreManager</xsd1:className>' +
                 '<xsd1:description>' + name + '</xsd1:description>' +
                 '<xsd1:disabled>false</xsd1:disabled>' +
                 '<xsd1:domainId>' + domain + '</xsd1:domainId>' +
                 '<xsd1:properties>' +
-                '<xsd1:name>EndPointURL</xsd1:name>' +
-                '<xsd1:value>' + url + '</xsd1:value>' +
+                '<xsd1:name>MessageBrokerEndPointURL</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messageBrokerUrl + '</xsd1:value>' +
                 '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageConsumeTimeout</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messageconsumetimeout + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageLifetime</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messagelifetime + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
+                '<xsd1:properties>' +
+                '<xsd1:name>MessageRetryLimit</xsd1:name>' +
+                '<xsd1:value>' + userAgentConf.messageretrylimit + '</xsd1:value>' +
+                '</xsd1:properties>' +
+
                 '</xsd:userStoreDTO>' +
                 '</xsd:addUserStore>';
 
         webService = new ws.WSRequest();
-        callWSInOnly(webService, serverUrl, "urn:addUserStore", createUserStore);
+        callWSInOnly(webService, userStoreServerUrl, "urn:addUserStore", createUserStore);
+
+    }catch(e){
+        log.error(e);
+        print(getErrorMessage(e.message));
+
+    }
+}
+
+
+function addAccessToken(){
+
+    try{
+        var name = request.getParameter('name');
+        var domain = request.getParameter('domain');
+        var accessToken = request.getParameter('accessToken');
+
+        var addTokenPayload = '<xsd:insertAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+                '<xsd:domain>'+ domain + '</xsd:domain>' +
+                '<xsd:token>'+ accessToken + '</xsd:token>' +
+                '</xsd:insertAccessToken>';
+        webService = new ws.WSRequest();
+        callWSInOnly(webService, tokenServerUrl, "urn:insertAccessToken", addTokenPayload);
         print('{"success":true}');
 
     }catch(e){
@@ -56,7 +96,19 @@ function addUserStore(){
 
     }
 }
-addUserStore();
+
+function getUserAgentConfig() {
+    var path = "/conf/user-agent.json";
+    var file = new File(path);
+    file.open("r");
+    var json = "";
+
+    json = file.readAll();
+    file.close();
+    var jsonConf = parse(json);
+    return jsonConf;
+};
+
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
         if (message.indexOf('401 Error: Unauthorized') > -1) {

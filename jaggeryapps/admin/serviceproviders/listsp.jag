@@ -87,7 +87,7 @@ var tenantDomain = userInfo.tenantDomain;
                 <div class="col-centered col-xs-10 col-sm-9  col-md-9 col-lg-9">
                     <div class="add-issue-content">
                         <h2>Let's add some applications!</h2>
-                        <h4>We will guide you on adding applications.Get started by clicking the button below.</h4>
+                        <h4>We will guide you on adding applications. Get started by clicking the button below.</h4>
                         <a style="margin-top: 15px" id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" href="serviceproviders/add">
                         <span class="fw-stack fw-lg fw fw-add">
                             <i class="fw fw-circle-outline fw-stack-2x"></i>

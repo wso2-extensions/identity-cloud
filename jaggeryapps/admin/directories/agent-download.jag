@@ -46,6 +46,13 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+
+        .input-group-flex {
+            display: flex;
+        }
+    </style>
 </head>
 <body>
 
@@ -89,7 +96,8 @@ include("/templates/header.jag");
     <!-- left pane wrapper -->
     <div class="right-pane">
         <div class="action-bar">
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
+            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Back to Overview">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -103,7 +111,7 @@ include("/templates/header.jag");
                     <div class="app-listing-loader">
                         <div class="loading-logo">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3em"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    x="0px" y="0px"
                     viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
                         <path class="circle" stroke-width="1.4" stroke-miterlimit="10" d="M6.534,
                         0.748C7.546,0.683,8.578,0.836,9.508,1.25 c1.903,0.807,3.339,2.615,3.685,4.654c0.244,
@@ -123,100 +131,39 @@ include("/templates/header.jag");
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="full-content">
 
-                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
-                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
-                    <div class="margin-bottom-md">
-
-                    <div class="text-agent-archi margin-bottom-xs">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premises LDAP server.</div>
+                    <br>
+                    <div class="text-agent-archi margin-bottom-xs" id="downloadHeader">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premises LDAP server.</div>
                     <div class="agent-archi">
-                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture">
-                    </div>
-                    </br></br>
-                    <div class="row" >
-                        <div class="col-xs-12 col-sm-12  col-md-12 col-lg-12">
-                            <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <a class="cu-btn cu-btn-md cu-btn-blue" href="javascript:downloadAgentRedirect('agentguide')">
-                                <span class="fw-stack btn-action-ico">
-                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                    <i class="fw fw-download fw-stack-1x"></i>
-                                </span>
-                                <span class="btn-content">Download Agent</span>
-                            </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:showHideConfigureAgentURL()" id="btn-configure-agent-url">
-                                <span class="fw-stack btn-action-ico">
-                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                    <i class="fw fw-down fw-stack-1x"></i>
-                                </span>
-                                <span class="btn-content"> Configure Agent URL</span>
-                            </a>
-                            <a class="cu-btn cu-btn-md cu-btn-blue secondary-btn" href="javascript:urlResolver('applist',cookie,userName)">
-                                <span class="fw-stack btn-action-ico">
-                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                    <i class="fw fw-list fw-stack-1x"></i>
-                                </span>
-                                <span class="btn-content">Skip to Application List</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div id="configure-agent" hidden>
-                    <div class="comment-line"></div>
-
-                        <div class="row">
-                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <span class="steps-text">If you have an agent configured, enter the connection URL below and click Save.</span>
-                                    </br></br>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
-                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="agentUrl"
-                                                           placeholder="https://useragent.example.com/wso2agent"  name="agentUrl"> </input>
-                                                    <div class="connectionStatus"></div>
-                                                         <span class="input-group-btn input-group-btn-check">
-                                                               <button   class="btn btn-info btn-check" onclick="validateBeforeSubmit();"> Test Connection </button>
-                                                         </span>
-
-                                                </div>
-
-                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture" id="archImage"/>
+                        <div style="display: none" id="downloadGuide">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <p>Follow below guide to connect your local user store.</p>
                                     </br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group" id="action-buttons">
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                        id="btn-save">
-                                                    <span class="fw-stack fw-save">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                    </span>
-                                                    Save
-                                                </button>
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position"
-                                                        id="add-directory-loading" style="display: none;" disabled>
-                                                    <span class="fw-stack btn-action-ico">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                        <i class="fw fw-save fw-stack-1x"></i>
-                                                    </span>
-                                                    Creating ...
-                                                </button>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div id="push"></div>
-                                            <div id="push"></div>
-                                        </div>
-                                    </div>
-                                </form>
-                             </div>
+                                    <ul style="list-style: none;">
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded zip file.</span></li>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Enter following token during agent installation</span>
+                                            <div class="help-block" >Tip:For more details, see the <a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store">DOCUMENTATION</a>.</div>
+                                        </li>
+                                    </ul>
+                                </div>
+
                         </div>
                     </div>
+                    <br/>
+                    <div style="width:60%; text-align: center">
+                        <button type="button" class="cu-btn cu-btn-md cu-btn-blue" id="btn-save">
+                                    <span class="fw-stack btn-action-ico">
+                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                        <i class="fw fw-download fw-stack-1x"></i>
+                                    </span>  Connect my LDAP to Cloud
+                        </button>
+
+                        </div>
                     </div>
+
+                   </div>
                 </div>
             </div>
         </div><!-- /.container -->
@@ -224,9 +171,20 @@ include("/templates/header.jag");
     <div class="clearfix"></div>
     <div id="push"></div>
     </div>
-    <%include("/templates/footer.jag");%>
+    <div id="footer">
+        <div class="container-fluid">
+            <div class="footer-text">WSO2 Cloud V: 1.2 . &copy; 2016 <i class="fw fw-wso2 fw-2x"></i> All Rights
+                Reserved.
+            </div>
+        </div>
+    </div>
 
     <!-- MODEL -->
+
+    <!--<div class="alert alert-success" role="alert" id="successAlert" name="successAlert">-->
+        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+         <!--User directory configured successfully.-->
+    <!--</div>-->
 
     <div id="connection-popup-modal" class="modal">
         <div class="modal-dialog modal-dialog-margin-top-md">
@@ -234,20 +192,23 @@ include("/templates/header.jag");
                 <div class="modal-header">
                     <button id="btn-close" type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 id="model-title" class="modal-title">Creating User Directory</h4>
+                    <h4 id="model-title" class="modal-title">Configuring User Directory</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                     <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
+                                         <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>
+                                            <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px"> Please wait. This will take few seconds. <br/> We are removing sample user records and configuring Identity Cloud <br/> to work with the directory agent. Agent file download will begin shortly.</label>
+                                         </div>
+                                         <br/>
                                          <div id="verified" style="display: none" hidden class="noti-success">
                                               <span class="fw-stack fw-lg btn-action-ico noti-success">
                                                      <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                     <i class="fw fw-check fw-stack-1x"></i>
                                                 </span>
-                                             <span class="connection-status">User directory configured.</span>
+                                             <span class="connection-status">User directory configured successfully.</span>
                                         </div>
                                 </div>
                             </div>
@@ -255,13 +216,14 @@ include("/templates/header.jag");
                     </div>
                 </div>
                 <div id="model-button-ok" class="modal-footer" id="delete-buttons-block" hidden>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = APP_LIST_PATH;">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = DIRECTORY_LIST_PATH">Continue</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../js/jquery-1.11.1/jquery.min.js"></script>
+    <script src="../js/clipboard.js-master/clipboard.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="../js/custom/constants.js"></script>
@@ -273,8 +235,7 @@ include("/templates/header.jag");
 
 
     <script>
-        var messageContainer = "<div class='alert' role='alert'>" +
-                "<span class='alert-content'></span></div>";
+        var clipboard = new Clipboard('.btn');
 
         $('.side-pane-trigger').click(function () {
             var rightPane = $('.right-pane');
@@ -290,37 +251,18 @@ include("/templates/header.jag");
             }
         });
 
-        $('#btn-delete').on('click', function (e) {
-            $('#connection-popup-modal').modal({
-                show: true
-            });
-        });
-
         $('#btn-save').on('click', function (e) {
-         initValidate();
-            if ($("#agent-download-form").valid()) {
                 $('#connection-popup-modal').modal({
                     show: true
                 });
                 setTimeout(function () {
+                    downloadAgentRedirect();
+                    deleteDirectory(SAMPLE_USER_STORE_DOMAIN,"");
                     addOrUpdateUserDirectory();
-                }, 1000);
-            }
+                    window.top.location.href = DIRECTORY_LIST_PATH;
+           }, 1000);
         });
 
-        $("#agentUrl").keypress(function (e) {
-         initValidate();
-            if (e.which == 13) {
-                if ($("#agent-download-form").valid()) {
-                    $('#connection-popup-modal').modal({
-                        show: true
-                    });
-                    setTimeout(function () {
-                        addOrUpdateUserDirectory();
-                    }, 1000);
-                }
-            }
-        });
     </script>
 
     <script>
@@ -329,7 +271,28 @@ include("/templates/header.jag");
         cookie = "<%=session.get('auth-cookie')%>";
         userName = "<%=session.get('user')%>";
         $("#drName").removeAttr('readonly');
-        populateDirectory('is-wso2.com');
+        checkDirectoryCreated();
+
+        function checkDirectoryCreated(){
+                var currentUrl, context, newUrl, directoryList, isUserStoreExist;
+                currentUrl = window.location.href.toString();
+                if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
+                    context = window.location.href.toString().split(ADMIN_PORTAL_NAME)[0];
+                    directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
+                    isUserStoreExist = false;
+                    if (directoryList) {
+                        if (directoryList.domainId === DEFAULT_USER_STORE_DOMAIN) {
+                            isUserStoreExist = true;
+                        }
+                        if (isUserStoreExist) {
+                            newUrl = context + ADMIN_PORTAL_NAME + "/directories";
+                            window.location.href = newUrl;
+                        }
+                    }
+                }
+        }
+
     </script>
+
 </body>
 </html>

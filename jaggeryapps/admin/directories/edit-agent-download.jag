@@ -66,13 +66,15 @@ include("/templates/header.jag");
             </div>
             <div class="breadcrumb-secondary">
                 <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / User Directory
+
             </div>
         </div>
     </div>
+</div>
 </div><!-- EOF App  menu -->
 <div class="inner-wrapper">
-    <!-- left pane wrapper -->
-    <%
+<!-- left pane wrapper -->
+<%
     include("/templates/leftpane.jag");
     require("../util/constants.jag");
     include("/util/encode.jag");
@@ -90,130 +92,91 @@ include("/templates/header.jag");
 
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
+            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
+               title="Back to Overview">
+                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-left-arrow fw-stack-1x"></i>
+                </span> Back to Overview
+            </a>
+
+           <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Delete Connection" id="btn-delete">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-delete fw-stack-1x"></i>
                 </span> Delete Connection
             </a>
-            <a href="#" class="btn-action" data-toggle="tooltip" data-placement="top"
-               id="btn-progress" style="display: none" disabled>
+            <a class="btn-action" href="javascript:downloadAgentRedirect()">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
-                    <i class="fw fw-delete fw-stack-1x"></i>
-                </span> Deleting ...
+                    <i class="fw fw-download fw-stack-1x"></i>
+                </span> Download Agent
             </a>
+
         </div><!-- EOF App  menu actionbar-->
 
         <div class="container-fluid app-content-section">
             <div class="row padding-bottom-xlg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
-                    <input id="drName" name="drName" type="text" value="Default" class="form-control"
-                           placeholder="Enter directory name" autofocus style="visibility: hidden"/>
+                    <div class="agent-archi">
+                        <div id="downloadGuide" name="downloadGuide" style="display: none">
+                                <br/>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <p class="steps-text">Follow below guide to connect your local user store.</p>
+                                    <ul style="list-style: none;">
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Extract the downloaded zip file.</span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Enter following token during agent installation</span></li>
+                                    </ul>
+                                </div>
 
+                        </div>
+                    </div>
+                    <br/>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="connection-block">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="connection-status">Connection </span></div>
-                                <div class="col-xs-8 col-sm-10 col-md-10 col-lg-11">
-                                    <div id="progress-icon">
-                                        <div class="app-listing-loader">
-                                            <div class="loading-logo">
-                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3em"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
-                                                        <path class="circle" stroke-width="1.4" stroke-miterlimit="10" d="M6.534,
-                                                        0.748C7.546,0.683,8.578,0.836,9.508,1.25 c1.903,0.807,3.339,2.615,3.685,4.654c0.244,
-                                                        1.363,0.028,2.807-0.624,4.031c-0.851,1.635-2.458,2.852-4.266,3.222 c-1.189,0.25-2.45,
-                                                        0.152-3.583-0.289c-1.095-0.423-2.066-1.16-2.765-2.101C1.213,9.78,0.774,8.568,0.718,
-                                                        7.335 C0.634,5.866,1.094,4.372,1.993,3.207C3.064,1.788,4.76,0.867,6.534,0.748z"/>
-                                                        <path class="pulse-line" stroke-width="0.55" stroke-miterlimit="10" d="M12.602,
-                                                        7.006c-0.582-0.001-1.368-0.001-1.95,0 c-0.491,0.883-0.782,1.4-1.278,2.28C8.572,
-                                                        7.347,7.755,5.337,6.951,3.399c-0.586,1.29-1.338,3.017-1.923,
-                                                        4.307 c-1.235,0-2.38-0.002-3.615,0"/>
-                                                    </svg>
-                                                <div class="signal"></div>
+                             <form id="agent-download-form" name="agent-download-form" role="form">
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                                        <div class="form-group">
+                                            <div class="text-agent-archi margin-bottom-xs">Installation Token :</div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="accessToken"  name="accessToken" readonly> </input>
+                                                <span class="input-group-btn input-group-btn-check">
+                                                    <button class="btn btn-info btn-check" data-clipboard-target="#accessToken">Copy</button>
+                                                </span>
+                                                <span class="input-group-btn input-group-btn-check">
+                                                           <button class="btn btn-info btn-check" id="btnRevoke"> Revoke & Re-generate </button>
+                                                 </span>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="help-block" style="padding-top:10px;"><i class="fw fw-document"><a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store" target="_blank" style="font-family:'Roboto', sans-serif;font-size:15px">    How to setup the agent</a></i></div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                             </form>
+                         </div>
+                     </div>
 
-                                    <div id="verified" style="display: none" class="noti-success connection-check">
-                                        <span class="fw-stack btn-action-ico ">
-                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                            <i class="fw fw-check fw-stack-1x"></i>
-                                        </span>
-                                        <span class="connection-status">Verified</span>
-                                    </div>
-                                    <div id="unverified" style="display: none" class="noti-warning connection-check">
-                                        <span><i class="fw fw-2x fw-warning"></i></span>
-                                        <span class="connection-status">&nbspConnection Broken</span>
-                                    </div>
 
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                            <div class="connection-block" id="connectiondiv" name="connectiondiv">
+                                <span class="text-agent-archi margin-bottom-xs">Agent Status:</span>
+                                <table id="tblConnection" name="tblConnection">
+                                </table>
+                                <div class="message message-warning" id="noconnectiondiv" name="noconnectiondiv" style="display: none">
+                                            <span>No agents connected at the moment</span>
+                                </div>
+                                <div class="message message-info" id="connectionInfodiv" name="connectionInfodiv" style="display: none">
+                                            <span>Now you can try to log into user portal with one of the accounts from the directory you configured.</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="margin-bottom-md">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <a class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position secondary-btn" href="javascript:downloadAgentRedirect()">
-                                    <span class="fw-stack btn-action-ico">
-                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                        <i class="fw fw-download fw-stack-1x"></i>
-                                    </span>
-                                    <span>Download Agent</span>
-                                </a>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="help-note margin-top-1x margin-bottom-xs">Note: Currently only LDAP is supported as a WSO2 user store agent.</div>
-                            </div>
-                        </div>
-
-                        <div class="blue-hr"></div>
-
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                 <form id="agent-download-form" name="agent-download-form" role="form">
-                                    <span class="steps-text">If you have an agent configured, enter the connection URL bellow and click Update.</span>
-                                    </br></br>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><h4>Agent URL </h4></div>
-                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="agentUrl"
-                                                           placeholder="https://useragent.example.com/wso2agent" name="agentUrl">
-                                                    <div class="connectionStatus"></div>
-                                                         <span class="input-group-btn input-group-btn-check">
-                                                               <button class="btn btn-info" type="button"
-                                                                       onclick="validateBeforeSubmit()">Test Connection</button>
-                                                         </span>
-                                                </div>
-
-                                                <label id="agentUrl-error" class="error" hidden="" for="issuer">This field is required.</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button type="button" class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" id="btn-update">
-                                                    <span class="fw-stack">
-                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                        <i class="fw fw-save fw-stack-1x"></i>
-                                                    </span>
-                                                    Update Details
-                                                </button>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div id="push"></div>
-                                        </div>
-                                    </div>
-                                 </form>
-                             </div>
-                         </div>
                     </div>
 
                 </div>
@@ -229,7 +192,7 @@ include("/templates/header.jag");
         <div class="modal-dialog modal-dialog-margin-top-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Cancel"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 id="delete-heading" class="modal-title">Delete Directory</h4>
                 </div>
@@ -248,8 +211,8 @@ include("/templates/header.jag");
                     </div>
                 </div>
                 <div class="modal-footer" id="delete-buttons-block">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="delete-confirm" type="button" onclick="deleteDirectory('is-wso2.com');"
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="delete-confirm" type="button" onclick="deleteDirectory('is-wso2.com','overview');"
                             class="btn btn-primary">Confirm
                     </button>
                 </div>
@@ -257,33 +220,41 @@ include("/templates/header.jag");
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- MODEL -->
-    <div id="update-modal" class="modal fade">
+    <div id="revokeregenerate-confirm-modal" class="modal fade">
         <div class="modal-dialog modal-dialog-margin-top-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close close-override" data-dismiss="modal" aria-label="Cancel"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 id="delete-heading" class="modal-title">Updating Directory</h4>
+                    <h4 id="revoke-heading" class="modal-title">Revoke & Re-generate Access token</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form">
                                 <div class="form-group">
-                                <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
+                                <div id="revoke-process-icon" hidden><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
+                                    <label for="demote-reason-text" class="control-label" id="revoke-label-text">This will disconnect already connected agents. Are you
+                                        sure , you want to revoke & regenerate access token ? </label>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="modal-footer" id="revoke-buttons-block">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="delete-confirm" type="button" onclick="revokeAndRegenerateAccessToken('is-wso2.com');"
+                            class="btn btn-primary">Confirm
+                    </button>
+                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.1/jquery.min.js"></script>
+    <script src="js/clipboard.js-master/clipboard.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap-3.2.0/bootstrap.min.js"></script>
     <script src="js/custom/constants.js"></script>
@@ -293,6 +264,7 @@ include("/templates/header.jag");
     <script src="directories/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/admin/csrf.js"></script>
     <script>
+        var clipboard = new Clipboard('.btn');
         var messageContainer = "<div class='alert' role='alert'>" +
                 "<span class='alert-content'></span></div>";
 
@@ -316,49 +288,29 @@ include("/templates/header.jag");
             });
         });
 
-        $('#btn-update').on('click', function (e) {
-            initValidate();
-            if ($("#agent-download-form").valid()) {
-                $('#update-modal').modal({
-                    show: true
-                });
-                setTimeout(function () {
-                    updateUserDirectory();
-                }, 1000);
-            }
+        $('#btnRevoke').on('click', function (e) {
+            $('#revokeregenerate-confirm-modal').modal({
+                show: true
+            });
         });
 
-        $("#agentUrl").keypress(function (e) {
-            initValidate();
-            if (e.which == 13) {
-                if ($("#agent-download-form").valid()) {
-                    $('#update-modal').modal({
-                        show: true
-                    });
-                    setTimeout(function () {
-                        updateUserDirectory();
-                    }, 1000);
-                }
-            }
-        });
-
-        $(document).ready(function () {
-        var timeout = setInterval(function () {
-              verifyConnection(document.getElementById('agentUrl').value);
-
-                clearTimeout(timeout);
-            }, 400);
-
-        });
 
     </script>
 
     <script>
+
         var userName = null;
         var cookie = null;
         cookie = "<%=session.get('auth-cookie')%>";
         userName = "<%=session.get('user')%>";
-        populateDirectory('is-wso2.com');
+        var domain = 'is-wso2.com';
+        populateDirectory(domain);
+        populateAgentConnection(domain);
+        populateAccessToken(domain);
+
+        setInterval(function(){
+            populateAgentConnection(domain) // this will run after every 2 seconds
+        }, 2000);
 
     </script>
 </body>

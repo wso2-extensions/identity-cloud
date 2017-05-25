@@ -18,52 +18,30 @@
  */
 
 var log = new Log();
-
 include("../controllers/wsUtil.jag");
 var util = require("../util/utility.jag");
 
 var serverUrl = util.getServerUrl();
-serverUrl = serverUrl + "/AgentMgtService";
+serverUrl = serverUrl + "/TokenMgtAdminService";
 var ws = require('ws');
 var webService = new ws.WSRequest();
-var download = request.getParameter("download");
-const AGENT_FILE_PATH_SESSION = "agentFilePath";
+var i18n = session.get("i18n");
 
-if(download == "true") {
-    downloadAgent();
-}else{
-    createAgent();
-}
-
-function createAgent(){
+getAccessToken();
+function getAccessToken(){
     try{
+        var domain = request.getParameter('domain');
         webService = new ws.WSRequest();
-        var result = callWSReturnJSON(webService, serverUrl, "urn:getAgentFilePath", null);
-        session.put(AGENT_FILE_PATH_SESSION, result.return);
-        print('{"success":true}');
+        var getAccesstokenPayload = '<xsd:getActiveAccessToken xmlns:xsd="http://org.apache.axis2/xsd">' +
+                '<xsd:domain>'+ domain + '</xsd:domain>' +
+                '</xsd:getActiveAccessToken>';
+        var result = callWSReturnJSON(webService, serverUrl, "urn:getActiveAccessToken", null,getAccesstokenPayload);
+        print(result);
     }catch(e){
         print(getErrorMessage(e.message));
         log.error(e);
     }
 }
-
-function downloadAgent(){
-    try{
-        var agentFilePath = session.get(AGENT_FILE_PATH_SESSION);
-        var file = new File("file://" + agentFilePath);
-        session.remove(AGENT_FILE_PATH_SESSION);
-        if (file.isExists()) {
-            response.addHeader('Content-Disposition', 'attachment;filename="wso2agent.zip"');
-            print(file.getStream());
-        } else {
-            response.sendError(400);
-        }
-    }catch(e){
-        print(getErrorMessage(e.message));
-        log.error(e);
-    }
-}
-
 
 function getErrorMessage(message) {
     if (message != null && message.length > 0) {
@@ -78,5 +56,4 @@ function getErrorMessage(message) {
     }
     return '{"success":false, "message":null}';
 }
-
 %>
