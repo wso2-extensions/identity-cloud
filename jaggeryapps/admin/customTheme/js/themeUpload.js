@@ -1,22 +1,26 @@
+/*
+ * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *   KIND, either express or implied.  See the License for the
+ *   specific language governing permissions and limitations
+ *   under the License.
+ */
+
 function uploadTheme() {
 
-
-    var themeType = $("#themeType").val();
+    var themeName = $("#themeName").val();
+    var description = $("#themeDescription").val();
     var themeFile = $("#themeFile")[0].files[0];
-
-    if (themeType == null) {
-        message({labelId: 'themeType-error', content: 'Please select a Theme Type', type: 'error'});
-        return;
-    } else {
-        $('#themeType-error').hide();
-    }
-
-    if (themeFile == undefined) {
-        message({labelId: 'themeFile-error', content: 'Please select a Theme File', type: 'error'});
-        return;
-    } else {
-        $('#themeFile-error').hide();
-    }
 
     var fileName = $("#themeFile").val().split('/').pop().split('\\').pop();
     var fileExt = fileName.substr(fileName.length - 4);
@@ -28,10 +32,12 @@ function uploadTheme() {
         var formData = new FormData();
         formData.append('themeFile', themeFile);
         formData.append('cookie', cookie);
-        formData.append('themeType', themeType);
         formData.append('fileName', fileName);
+        formData.append('themeName', themeName);
+        formData.append('description', description);
 
-        var str = "/admin/customTheme/themeUpload_finish";
+        var str = "/" + ADMIN_PORTAL_NAME + "/customTheme/themeUpload_finish";
+
         $.ajax({
                    url: str,
                    type: 'POST',
@@ -40,33 +46,14 @@ function uploadTheme() {
                    processData: false,
                    success: function (data) {
                        var result = JSON.parse(data);
-                       alert(result.errorMsg);
 
-                       //Refresh the pae when there's no errors
+                       // Redirect to themeInfo page when there's no errors
                        if (!result.error) {
-                           location.reload();
+                           window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeList';
                        }
                    }
                });
 
     }
 
-}
-
-
-function loadThemeList() {
-    var str = "/admin/customTheme/themeTypes";
-    $.ajax({
-               url: str,
-               type: 'GET',
-               data: "printDetails=" + true,
-               success: function (data) {
-                   $.each(JSON.parse(data), function (key, value) {
-                       $('#themeType')
-                           .append($("<option></option>")
-                                       .attr("value", value)
-                                       .text(value));
-                   });
-               }
-           });
 }

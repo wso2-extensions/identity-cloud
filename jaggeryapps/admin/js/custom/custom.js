@@ -29,6 +29,40 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         }
 });
 
+$.file_input = function() {
+    var elem = '.file-upload-control';
+
+    return $(elem).each(function() {
+
+        //Input value change function
+        $(elem + ' :file').change(function() {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+
+        //Button click function
+        $(elem + ' .browse').click(function() {
+            $(this).parents('.input-group').find(':file').click();
+        });
+
+        //File select function
+        $(elem + ' :file').on('fileselect', function(event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) {
+                    alert(log);
+                }
+            }
+        });
+
+    });
+};
 
 (function($) {
     
@@ -157,6 +191,12 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
     //adding go to store link
     $('.navbar-secondary .container-fliud .row').append('<div class="pull-right"><a href="'+ USER_PORTAL_LINK +'" target="_blank" class="link-white link-store"><i class="fw fw-deploy"></i> Go to Store</a></div>');
 
+    $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+    });
+
+    $.file_input();
+
 }(jQuery));
 
 
@@ -195,6 +235,8 @@ $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         $('.directories').addClass('active');
     }else if (window.location.href.indexOf("serviceproviders") > -1) {
         $('.serviceproviders').addClass('active');
+    }else if (window.location.href.indexOf("theme") > -1) {
+        $('.themes').addClass('active');
     }
 }( jQuery ));
 
@@ -647,4 +689,25 @@ function checkAppList(cookie,userName) {
     });
 
     return spList;
+}
+
+/**
+ * This method will check whether a user portal theme exists
+ */
+function checkThemeList() {
+    var str = "/" + ADMIN_PORTAL_NAME + "/customTheme/getThemeList";
+
+    $.ajax({
+        url: str,
+        type: 'GET',
+        success: function (data) {
+            var parsedResult = JSON.parse(data);
+            if (parsedResult['themeName'] == null) {
+                window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeUpload';
+            } else {
+                window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeList';
+            }
+        }
+    });
+
 }

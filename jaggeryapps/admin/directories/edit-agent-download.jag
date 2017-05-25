@@ -185,13 +185,7 @@ include("/templates/header.jag");
         <div class="clearfix"></div>
         <div id="push"></div>
     </div>
-    <div id="footer">
-        <div class="container-fluid">
-            <div class="footer-text">WSO2 Cloud V: 1.2 . &copy; 2016 <i class="fw fw-wso2 fw-2x"></i> All Rights
-                Reserved.
-            </div>
-        </div>
-    </div>
+    <%include("/templates/footer.jag");%>
     <!-- MODEL -->
 
     <div id="demote-confirm-modal" class="modal fade">

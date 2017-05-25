@@ -1,17 +1,17 @@
 <%
 /*
-* Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
-*
-*   WSO2 Inc. licenses this file to you under the Apache License,
-*   Version 2.0 (the "License"); you may not use this file except
-*   in compliance with the License.
-*   You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*   Unless required by applicable law or agreed to in writing,
-*   software distributed under the License is distributed on an
-*   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing,
+ *   software distributed under the License is distributed on an
+ *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  *   KIND, either express or implied.  See the License for the
  *   specific language governing permissions and limitations
  *   under the License.
@@ -26,177 +26,191 @@
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap-3.2.0/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/fontwso2-1.2/css/font-wso2.css">
-            <link href="../css/font-awesome-4.2.0/font-awesome.min.css" rel="stylesheet">
-                <link href="../css/web-fonts/Roboto.css" rel="stylesheet">
-                    <link href="../css/datatables-1.10.7/jquery.dataTables.min.css" rel="stylesheet">
-                        <link href="../css/datatables-1.10.7/dataTables.responsive.css" rel="stylesheet">
-                            <link href="../css/datatables-1.10.7/jquery.dataTables.override.css" rel="stylesheet">
-                                <link href="../css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/fontwso2-1.2/css/font-wso2.css">
+    <link href="../css/font-awesome-4.2.0/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/web-fonts/Roboto.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <script src="../js/jquery-1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/noty-2.3.5/jquery.noty.packaged.min.js"></script>
+    <script type="text/javascript" src="../js/noty-2.3.5/themes/noty.theme.wso2.js"></script>
+    <link rel="shortcut icon" href="../images/favicon.png">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
 
-                                    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-                                    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-                                    <!--[if lt IE 9]>
-                                    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-                                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                                    <![endif]-->
-                                </head>
-                                <body>
+<body>
+    <%
+        include( "/templates/header.jag");
+        include( "/util/encode.jag");
+    %>
+    <%
+        var domainName=request.getParameter( "domain");
+    %>
+            <input type="hidden" value="<%=encode.forHtml(domainName)%>" id="domain">
+            <input type="hidden" value="" id="uniqueid">
+            <input type="hidden" value="false" id="disabled">
+            <!-- BOF App  menu -->
+            <div class="navbar navbar-secondary">
+                <div class="container-fliud">
+                    <div class="row">
+                        <div class="side-pane-trigger">
+                            <i class="fa fa-reorder"></i>
+                        </div>
+                        <div class="breadcrumb-secondary">
+                            <i class="fw fw-security "></i>
+                            <span class="hidden-xs">Identity Cloud&nbsp;</span> / Custom Theme / Add
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- EOF App  menu -->
+            <div class="inner-wrapper">
+                <!-- left pane wrapper -->
+                <!-- left pane wrapper -->
+                <%include( "/templates/leftpane.jag");%>
+                    <!-- left pane wrapper -->
+                    <div class="right-pane">
+                        <!-- BOF App  menu actionbar -->
+                        <div class="action-bar">
+                            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top" title="Back to Overview">
+                                <span class="fw-stack fw-lg btn-action-ico">
+                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    <i class="fw fw-left-arrow fw-stack-1x"></i>
+                </span> Back to Overview
+                            </a>
+                        </div>
+                        <!-- EOF App  menu actionbar-->
+                        <div class="container-fluid app-content-section">
 
-<%
-include("/templates/header.jag");
-include("/util/encode.jag");
-%>
-
-<%
-var domainName = request.getParameter("domain");
-%>
-<input type="hidden" value="<%=encode.forHtml(domainName)%>" id="domain">
-                                            <input type="hidden" value="" id="uniqueid">
-                                                <input type="hidden" value="false" id="disabled">
-
-                                                    <!-- BOF App  menu -->
-                                                    <div class="navbar navbar-secondary">
-                                                        <div class="container-fliud">
-                                                            <div class="row">
-                                                                <div class="side-pane-trigger">
-                                                                    <i class="fa fa-reorder"></i>
-                                                                </div>
-                                                                <div class="breadcrumb-secondary">
-                                                                    <i class="fw fw-security "></i>
-                                                                    <span class="hidden-xs">Identity Cloud&nbsp;</span>
-                                                                    / Custom Theme / Add
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    <!--BOF Store Config-->
+                                    <div id="theme-upload-section">
+                                        <!--<label for="store-description" >Store Configuration </label>-->
+                                        <div class="panel-group" id="store-accordion">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body inverse">
+                                                    <form class="form-horizontal" role="form" id="themeUploadForm" name="themeUploadForm">
+                                                        <div id="gw-config">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <label>Theme Name <span class="required">*</span> <i class="fa fa-question-circle help-tips"
+                                                                        data-toggle="tooltip" data-placement="left" title="The name to be identified the user portal theme."></i>
+                                                                    </label>
+                                                                    <input type="text" class="form-control" id="themeName" name="themeName">
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- EOF App  menu -->
-                                                    <div class="inner-wrapper">
-                                                        <!-- left pane wrapper -->
-                                                        <!-- left pane wrapper -->
-                                                        <%include("/templates/leftpane.jag");%>
-
-                                                        <!-- left pane wrapper -->
-                                                        <div class="right-pane">
-
-
-                                                            <!-- BOF App  menu actionbar -->
-                                                            <div class="action-bar">
-                                                                <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
-                                                                    title="Back to Overview">
-                                                                    <span class="fw-stack fw-lg btn-action-ico">
-                                                                        <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                                        <i class="fw fw-left-arrow fw-stack-1x"></i>
-                                                                    </span>
-                                                                    Back to Overview
-                                                                </a>
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <label>Description</label>
+                                                                    <textarea class="form-control" rows="3" id="themeDescription" name="themeDescription"></textarea>
+                                                                </div>
                                                             </div>
-                                                            <!-- EOF App  menu actionbar-->
 
-
-                                                            <div class="container-fluid app-content-section">
-                                                                <div class="row padding-bottom-xlg">
-                                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
-
-                                                                        <div class="margin-bottom-md margin-top-2x">
-                                                                            <!-- Nav tabs -->
-                                                                            <div class="row">
-                                                                            <div class="col-sm-12 col-md-5">
-
-
-                                                                                <div class="form-group">
-
-                                                                                        <label>Theme Type
-                                                                                            <span class="required">*</span>
-                                                                                        </label>
-                                                                                        <label id="themeType-error" class="error" hidden="">This field is required.</label>
-                                                                                        <select name="themeType" class="form-control" id="themeType">
-                                                                                            <option selected="true" disabled="disabled">---Choose---</option>
-                                                                                        </select>
-
-                                                                                </div>
-                                                                                <div class="form-group">
-
-                                                                                        <label>Theme File
-                                                                                            <span class="required">*</span>
-                                                                                        </label>
-                                                                                        <label id="themeFile-error" class="error" hidden="">This field is required.</label>
-                                                                                        <input type="file" name="themeFile" size="40" id="themeFile" class="form-control" accept='application/zip,application/rar'>
-
-
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="uploadTheme();">
-                                                                                        <span class="fw-stack btn-action-ico">
-                                                                                            <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                                                            <i class="fw fw-save fw-stack-1x"></i>
-                                                                                        </span>
-                                                                                        Update
-                                                                                    </button>
-                                                                                </div>
-
-                                                                                </div>
-
-
-                                                                                <!-- Tab panes -->
-
+                                                            <form class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-12">
+                                                                        <label class="control-label">File Upload <span class="required">*</span> <i class="fa fa-question-circle help-tips"
+                                                                            data-toggle="tooltip" data-placement="left" title="Please upload a zip file."></i>
+                                                                        </label>
+                                                                        <div class="input-group input-wrap file-upload-control">
+                                                                            <input type="text" class="form-control" readonly="" id="themeFileInput" name="themeFileInput">
+                                                                            <input type="file" class="form-control" multiple="" accept='application/zip' id="themeFile" name="themeFile">
+                                                                            <div class="input-group-btn">
+                                                                                <button class="btn btn-info browse" type="button" title="Browse File">
+                                                                                    <i class="fw fw-file-browse" aria-hidden="true"></i>
+                                                                                    <span class="hidden-xs">Browse</span>
+                                                                                </button>
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
-                                                                <!-- /.container -->
+                                                            </form>
 
-
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div id="push"></div>
                                                         </div>
-                                                        <div id="footer">
-                                                            <div class="container-fluid">
-                                                                <div class="footer-text">WSO2 Cloud V: 1.2 . &copy; 2015
-                                                                    <i class="fw fw-wso2 fw-2x"></i>
-                                                                    All Rights Reserved.</div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-                                                        <script src="../js/jquery-1.11.1/jquery.min.js"></script>
-                                                        <!-- Include all compiled plugins (below), or include individual files as needed -->
-                                                        <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
-                                                        <script src="../js/custom/main.js" type="text/javascript" type="text/javascript" ></script>
-                                                        <script src="../js/datatables-1.10.7/jquery.dataTables.min.js"></script>
-                                                        <script src="../js/datatables-1.10.7/dataTables.responsive.min.js"></script>
-                                                        <script src="../js/datatables-1.10.7/jquery.dataTables.columnFilter.js"></script>
-                                                        <!-- include custom js functions -->
-                                                        <script src="../js/custom/custom.js"></script>
-                                                        <script src="js/directory.js"></script>
-                                                        <script src="../js/custom/constants.js"></script>
+                                                        <!--EOF Theme Upload Config-->
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                        <script src="../customTheme/js/themeUpload.js"></script>
-                                                        <script>
-                                                            $('.side-pane-trigger').click(function(){
-                                                            var rightPane = $('.right-pane');
-                                                            var leftPane = $('.left-pane');
-                                                            if (rightPane.hasClass('visible')){
-                                                            rightPane.animate({"left":"0em"}, "slow").removeClass('visible');
-                                                            leftPane.animate({"left":"-18em"}, "slow");
-                                                            $(this).find('i').removeClass('fa-arrow-left').addClass('fa-reorder');
-                                                            } else {
-                                                            rightPane.animate({"left":"18em"}, "slow").addClass('visible');
-                                                            leftPane.animate({"left":"0em"}, "slow");
-                                                            $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
-                                                            }
-                                                            });
-                                                        </script>
-                                                        <script>
-                                                            var serverUrl = window.location.host;
-                                                            var cookie = null;
-                                                            var userName = null;
-                                                            cookie = "<%=session.get('auth-cookie')%>";
-                                                            userName = "<%=session.get('user')%>";
-                                                            loadThemeList();
+                            </form>
+                            <div class="form-group">
+                                <button class="cu-btn cu-btn-sm cu-btn-blue cu-btn-position" onclick="validateInputs();">
+                                    <span class="fw-stack btn-action-ico">
+                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                 <i class="fw fw-save fw-stack-1x"></i>
+                                 </span> Save
+                                </button>
+                            </div>
+                        </div>
 
-                                                        </script>
-                                                    </body>
-                                                </html>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div id="push"></div>
+            </div>
+            <div id="footer">
+                <div class="container-fluid">
+                    <div class="footer-text">WSO2 Cloud V: 1.2 . &copy; 2015
+                        <i class="fw fw-wso2 fw-2x"></i> All Rights Reserved.
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <%include("/templates/footer.jag");%>
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="../js/jquery-1.11.1/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="../js/bootstrap-3.2.0/bootstrap.min.js"></script>
+            <script src="../js/custom/main.js" type="text/javascript" type="text/javascript"></script>
+            <script src="../js/datatables-1.10.7/jquery.dataTables.min.js"></script>
+            <script src="../js/datatables-1.10.7/dataTables.responsive.min.js"></script>
+            <script src="../js/datatables-1.10.7/jquery.dataTables.columnFilter.js"></script>
+            <!-- include custom js functions -->
+            <script src="../js/custom/custom.js"></script>
+            <script src="../customTheme/js/jquery.validate.min.js"></script>
+            <!--<script src="js/directory.js"></script>-->
+            <script src="../js/custom/constants.js"></script>
+            <script src="../customTheme/js/validations.js"></script>
+            <script src="../customTheme/js/themeUpload.js"></script>
+            <script>
+                $('.side-pane-trigger').click(function() {
+                    var rightPane = $('.right-pane');
+                    var leftPane = $('.left-pane');
+                    if (rightPane.hasClass('visible')) {
+                        rightPane.animate({
+                            "left": "0em"
+                        }, "slow").removeClass('visible');
+                        leftPane.animate({
+                            "left": "-18em"
+                        }, "slow");
+                        $(this).find('i').removeClass('fa-arrow-left').addClass('fa-reorder');
+                    } else {
+                        rightPane.animate({
+                            "left": "18em"
+                        }, "slow").addClass('visible');
+                        leftPane.animate({
+                            "left": "0em"
+                        }, "slow");
+                        $(this).find('i').removeClass('fa-reorder').addClass('fa-arrow-left');
+                    }
+                });
+            </script>
+            <script>
+                var serverUrl = window.location.host;
+                var cookie = null;
+                var userName = null;
+                cookie = "<%=session.get('auth-cookie')%>";
+                userName = "<%=session.get('user')%>";
+            </script>
+</body>
+
+</html>
