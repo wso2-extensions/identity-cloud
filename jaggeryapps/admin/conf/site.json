@@ -7,7 +7,7 @@
         "serverContext" : "https://localhost:9443"
     },
     "customStoreThemeConfig" : {
-        "whitelist" : ["css", "svg"]
+        "whitelist" : ["css", "png"]
     },
     "headerUrls" : {
         "support" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/contact-us.jag",
