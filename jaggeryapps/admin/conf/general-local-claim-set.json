@@ -22,6 +22,8 @@
     "http://wso2.org/claims/telephone",
     "http://wso2.org/claims/title",
     "http://wso2.org/claims/url",
-    "http://wso2.org/claims/username"
+    "http://wso2.org/claims/username",
+    "http://wso2.org/claims/salesforcesharedaccount"
+
   ]
 }
