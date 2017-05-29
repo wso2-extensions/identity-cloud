@@ -14,6 +14,7 @@
         "profile" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user-profile.jag",
         "appCloud" : "https://apps.cloud.wso2.com/appmgt/site/pages/index.jag",
         "apiCloud" : "https://api.cloud.wso2.com/publisher/",
+        "deviceCloud" : "https://device.cloud.wso2.com/devicemgt/",
         "organization" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag",
         "members" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag",
         "documentation" : "https://docs.wso2.com/display/IdentityCloud/WSO2+Identity+Cloud+Documentation",

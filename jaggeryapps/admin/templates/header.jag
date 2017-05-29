@@ -112,6 +112,10 @@ function resolveUserName(user) {
                            <i class="fw fw-service fw-3x"></i>
                            <div class="cloud-name">Integration Cloud</div>
                        </a>
+                      <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.deviceCloud%>">
+                           <i class="fa fa-3x fa-mobile"></i>
+                           <div class="cloud-name">Device Cloud</div>
+                       </a>
                        <div class="clearfix"></div> <!-- to make seperate -->
                    </div>
                    <div class="cloud-actions">
