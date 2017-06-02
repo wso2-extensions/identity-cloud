@@ -48,7 +48,12 @@ var appManagementClient = function () {
 
             // AppM backend do not sent a response for this API call.
             var response = appMHttpClientObjs.doPut(endPoint, httpHeadersObj, stringify(application));
-            updateLifeCycleStatus(application.id, 'Unpublish', this.config.publisher.endpoint);
+
+            var lifecycleState = getLifeCycleStatus(application.id, this.config.publisher.endpoint);
+
+            if (lifecycleState == 'PUBLISHED') {
+                updateLifeCycleStatus(application.id, 'Unpublish', this.config.publisher.endpoint);
+            }
             updateLifeCycleStatus(application.id, 'Re-Publish', this.config.publisher.endpoint);
         } catch (e) {
             log.error(e.message);
@@ -155,6 +160,20 @@ var appManagementClient = function () {
         } catch (e) {
             log.error(e.message);
         }
+    }
+
+    function getLifeCycleStatus(appId, endpoint) {
+        try {
+            var endPoint = endpoint + 'apps/webapp/id/' + appId;
+            httpHeadersObj.addHeader(WSO2IdentiryUser, AuthUser);
+            httpHeadersObj.addHeader(ContentType, ApplicationJson);
+
+            var response = appMHttpClientObjs.doGet(endPoint, httpHeadersObj);
+            var parsedResponse = JSON.parse(response);
+        } catch (e) {
+            log.error(e.message);
+        }
+        return parsedResponse.lifecycleState;
     }
 
     Publisher.prototype.getRoles = function () {
