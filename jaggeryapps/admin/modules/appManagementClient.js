@@ -48,8 +48,6 @@ var appManagementClient = function () {
 
             // AppM backend do not sent a response for this API call.
             var response = appMHttpClientObjs.doPut(endPoint, httpHeadersObj, stringify(application));
-            updateLifeCycleStatus(application.id, 'Unpublish', this.config.publisher.endpoint);
-            updateLifeCycleStatus(application.id, 'Re-Publish', this.config.publisher.endpoint);
         } catch (e) {
             log.error(e.message);
         }
