@@ -132,18 +132,18 @@ include("/templates/header.jag");
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="full-content">
 
                     <br>
-                    <div class="text-agent-archi margin-bottom-xs" id="downloadHeader">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premises LDAP server.</div>
+                    <div class="text-agent-archi margin-bottom-xs" id="downloadHeader">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premise LDAP server.</div>
                     <div class="agent-archi">
                         <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture" id="archImage"/>
                         <div style="display: none" id="downloadGuide">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <p>Follow below guide to connect your local user store.</p>
-                                    </br>
+                                    </br><br/>
                                     <ul style="list-style: none;">
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded zip file.</span></li>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Extract the downloaded .zip file.</span></li>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Configure the userstore-config.xml file with the values relevant to your on premise userstore. </span>
                                         <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span>
-                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Enter following token during agent installation</span>
+                                        <li><span class="steps-text"><i class="fa fa-caret-right fa-lg" aria-hidden="true"></i> &nbsp;Enter following token during agent installation.</span>
                                             <div class="help-block" >Tip:For more details, see the <a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store">DOCUMENTATION</a>.</div>
                                         </li>
                                     </ul>
