@@ -33,15 +33,31 @@ if (userInfo) {
 }
 const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
 var headerConfig;
+var identityMgtUrl;
+var mainMenu;
+var userMenu;
+var expandMenu;
+var tenantDisplayName;
+
+headerConfig  = readFile("/conf/toplink_menu.json");
+
 try {
 
-    if (!application.get("headerUrls")) {
-        headerConfig  = readFile("/conf/site.json");
-        application.put("headerUrls",headerConfig.headerUrls);
-        headerConfig = headerConfig.headerUrls;
-    } else {
-        headerConfig = application.get("headerUrls");
-    }
+  identityMgtUrl = headerConfig.Identity;
+  mainMenu = headerConfig.Main;
+  userMenu = headerConfig.User;
+  expandMenu = headerConfig.Expand;
+
+  for (var attr in mainMenu) {
+     var dropDowns = mainMenu[attr].dropDown;
+     var icon = mainMenu[attr].icon;
+     var url = mainMenu[attr].url;
+     var target = mainMenu[attr].target;
+         if(attr == "Domain"){
+            attr = tenantDisplayName;
+            }
+}
+
 }catch (e) {
     log.error('error occurred while reading site.json' + e);
 }
@@ -59,7 +75,6 @@ function resolveUserName(user) {
       const USER_PORTAL_LINK = '<%="/user-portal/t/" + tenantDomain%>';
 </script>
 <!-- BOF cloud menu -->
-
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -73,26 +88,62 @@ function resolveUserName(user) {
                class="hidden-md hidden-sm hidden-lg cloud-menu-popover">
                 <i class="fw fw-tiles"></i>
             </a>
-            <a class="navbar-brand" href="<%=headerConfig.cloudIndexPage%>"><img src="/<%=ADMIN_PORTAL_NAME%>/images/logo.png" alt="wso2-logo" > Cloud</a>
+          <a class="navbar-brand" href="<%=identityMgtUrl.url%>"><img src="/<%=ADMIN_PORTAL_NAME%>/images/logo.png" alt="wso2-logo" > Cloud</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav menu-right">
-                <li><a href="#"><i class="fw fw-organization  "></i> <%=tenantDomain%> </a></li>
-                <li><a href="<%=headerConfig.documentation%>"><i class="fa fa-book"></i> Documentation</a></li>
-                <li><a href="<%=headerConfig.support%>"><i class="fa fa-envelope"></i> Support</a></li>
+                <%
+                    for (var attr in mainMenu) {
+                        var dropDowns = mainMenu[attr].dropDown;
+                        var icon = mainMenu[attr].icon;
+                        var url = mainMenu[attr].url;
+                        var target = mainMenu[attr].target;
+                        if(attr == "Domain"){
+                            attr = tenantDomain;
+                        }
+                %>
+                <li class="dropdown">
+                    <%
+                        if(dropDowns == "false"){
+                    %>
+                    <a href="<%=url%>"  target="<%=target%>"><i class="<%=icon%>"></i> <%=attr%></a>
+                    <%
+                        }else{
+                    %>
+                    <a href="<%=url%>"  target="<%=target%>" class="dropdown-toggle" data-toggle="dropdown"><i class="<%=icon%>"></i> <%=attr%>
+                        <i class="fa fa-chevron-circle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                    <%
+                       for (var dropsDown in dropDowns) {
+                            var dropDownUrl = dropDowns[dropsDown].url;
+                            var dropDownIcon = dropDowns[dropsDown].icon;
+                            var dropDownTarget = dropDowns[dropsDown].target;
+                    %>
+                        <li><a href="<%=dropDownUrl%>" target="<%=dropDownTarget%>"><i class="<%=dropDownIcon%>"></i> <%=dropsDown%></a></li>
+                    <%
+                         }%></ul>
+                    <% } %>
+                </li>
+                <% } %>
                 <li class="dropdown user-name">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=encode.forHtml(resolveUserName(MultitenantUtils.getTenantAwareUsername(session.get(LOGGED_IN_USER))))%>
-                        <i class="fa fa-chevron-circle-down"></i>
-                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/user.png" alt="user" class="user-image"></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="<%=headerConfig.profile%>">Profile</a></li>
-                        <li><a href="<%=proxyContextPath + "/" + ADMIN_PORTAL_NAME %>/samlsso.jag?logout=true">Logout</a></li>
-
-</ul>
+                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/user.png" alt="user" class="user-image">
+                        <i class="fa fa-chevron-circle-down"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                        <%
+                            var dropDowns = userMenu.dropDown;
+                            for (var dropDown in dropDowns) {
+                                var icon = dropDowns[dropDown].icon;
+                                var url = dropDowns[dropDown].url;
+                        %>
+                            <li><a href="<%=url%>"><%=dropDown%></a></li>
+                        <% } %>
+                        </ul>
                 </li>
                 <li class="cloud-menu hidden-xs">
                     <a href="#" id="cloud-menu-popover" data-toggle="popover" data-placement="bottom"
-                            class="cloud-menu-popover">
+                       class="cloud-menu-popover">
                         <i class="fw fw-tiles"></i>
                     </a>
                 </li>
@@ -100,40 +151,44 @@ function resolveUserName(user) {
             <!-- BOF cloud menu content -->
             <div class="cloud-menu-content hide">
                 <div id="popover-head" class="hide">
-                    Navigate to Cloud
+                    <span style="color:white;">Navigate to Cloud</span>
                 </div>
                 <div id="popover-content" class="hide">
-                   <div class="cloud-apps">
-                       <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.apiCloud%>">
-                           <i class="fw fw-api fa-3x"></i>
-                           <div class="cloud-name">API Cloud</div>
-                       </a>
-                       <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.appCloud%>">
-                           <i class="fw fw-service fw-3x"></i>
-                           <div class="cloud-name">Integration Cloud</div>
-                       </a>
-                      <a class="cloud-block add-padding-top-2x" href="<%=headerConfig.deviceCloud%>">
-                           <i class="fa fa-3x fa-mobile"></i>
-                           <div class="cloud-name">Device Cloud</div>
-                       </a>
-                       <div class="clearfix"></div> <!-- to make seperate -->
-                   </div>
-                   <div class="cloud-actions">
-                       <h3>Manage your cloud</h3>
-                       <a class="cloud-block-invert add-padding-top-3x" href="<%=headerConfig.organization%>" target="_self">
-                           <i class="fa fa-3x fa-institution"></i>
-                           <div class="cloud-name">Organizations</div>
-                       </a>
-                       <a class="cloud-block-invert add-padding-top-3x" href="<%=headerConfig.members%>" target="_self">
-                           <i class="fa fa-3x fa-users"></i>
-                           <div class="cloud-name">Members</div>
-                       </a>
-
-                   </div>
+                    <div class="cloud-apps"><%
+                        var clouds = expandMenu.Navigate.clouds;
+                        var subscriptionInfo ="";
+                        for (var cloud in clouds) {
+                            var icon = clouds[cloud].icon;
+                            var url = clouds[cloud].url;
+                            var target = clouds[cloud].target; %>
+                             <a class="cloud-block" href="<%=url%>" target="<%=target%>">
+                             <i class="<%=icon%>" ></i>
+                     <div class="cloud-name"> <%=cloud%></div>
+                        </a>
+                     <% }%>
+                        <div class="clearfix"> </div><!-- to make seperate -->
+                    </div>
+                    <div class="cloud-actions">
+                        <h3 style="color: white">Manage your cloud</h3>
+                        <%
+                        var actions = expandMenu.Manage;
+                        for (var action in actions) {
+                            if (action != "Custom Url" || (action == "Custom Url" && isUserAdmin)) {
+                                var icon = actions[action].icon;
+                                var url = actions[action].url;
+                                var target = actions[action].target;
+                        %>
+                             <a class="cloud-block-invert" href="<%=url%>" target="<%=target%>">
+                             <i class="<%=icon%>"></i>
+                              <div class="cloud-name"><%=action%></div></a><%
+                            }
+                        }
+                        %>
+                    </div>
                 </div>
-            </div>
             <!-- EOF cloud menu content -->
-        </div><!--/.nav-collapse -->
+            </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>
 <!-- EOF cloud menu -->

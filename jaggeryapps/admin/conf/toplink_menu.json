@@ -1,0 +1,84 @@
+{
+  "Identity":{
+    "url": "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/index.jag"
+  },
+  "Main": {
+    "Domain": {
+      "url": "#",
+      "icon": "fa fa-bank",
+      "dropDown": "false",
+      "target": "_parent"
+    },
+    "Documentation": {
+      "url": "https://docs.wso2.com/display/IdentityCloud/WSO2+Identity+Cloud+Documentation",
+      "icon": "fa fa-book",
+      "target": "_blank",
+      "dropDown": "false"
+    },
+    "Support": {
+      "url": "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/contact-us.jag",
+      "icon": "fa fa-envelope",
+      "target": "_self",
+      "dropDown": "false"
+    }
+  },
+  "User": {
+    "url": "#",
+    "icon": "fa fa-user",
+    "dropDown": {
+      "Profile": {
+        "url": "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user-profile.jag",
+        "icon": "fa fa-user",
+        "dropDown": "false"
+      },
+      "Logout": {
+        "url": "https://identity.cloudstaging.wso2.com/admin/samlsso.jag?logout=true",
+        "icon": "fa fa-sign-out",
+        "dropDown": "false"
+      }
+    }
+  },
+  "Expand": {
+    "Navigate": {
+      "url": "#",
+      "icon": "fa fa-cloud",
+      "clouds": {
+        "API Cloud": {
+          "id": "api_cloud",
+          "url": "https://api.cloud.wso2.com/publisher/",
+          "icon": "fw fw-api fa-3x",
+          "dropDown": "false",
+          "target": "_self"
+        },
+        "Integration Cloud": {
+          "id": "integration_cloud",
+          "url": "https://integration.cloudstaging.wso2.com/appmgt/",
+          "icon": "fa fa-3x fa-cubes",
+          "dropDown": "false",
+          "target": "_self"
+        },
+        "Device Cloud": {
+          "id": "device_cloud",
+          "url": "https://device.cloud.wso2.com/devicemgt/",
+          "icon": "fa fa-3x fa-mobile",
+          "dropDown": "false",
+          "target": "_blank"
+        }
+      }
+    },
+    "Manage" : {
+      "Organization": {
+        "url": "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/organization.jag",
+        "icon": "fa fa-3x  fa-institution",
+        "isDropDown": "false",
+        "target": "_self"
+      },
+      "Members": {
+        "url": "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/user.jag",
+        "icon": "fa fa-3x  fa-users",
+        "isDropDown": "false",
+        "target": "_self"
+      }
+    }
+  }
+}
