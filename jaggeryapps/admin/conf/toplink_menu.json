@@ -53,16 +53,16 @@
         "Integration Cloud": {
           "id": "integration_cloud",
           "url": "https://integration.cloudstaging.wso2.com/appmgt/",
-          "icon": "fa fa-3x fa-cubes",
+          "icon": "fw fw-3x fw-service",
           "dropDown": "false",
           "target": "_self"
         },
         "Device Cloud": {
           "id": "device_cloud",
           "url": "https://device.cloud.wso2.com/devicemgt/",
-          "icon": "fa fa-3x fa-mobile",
+          "icon": "fw fw-3x fw-mobile",
           "dropDown": "false",
-          "target": "_blank"
+          "target": "_self"
         }
       }
     },

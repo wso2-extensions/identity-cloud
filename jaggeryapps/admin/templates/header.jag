@@ -32,6 +32,7 @@ if (userInfo) {
     tenantDomain = userInfo.tenantDomain;
 }
 const USERPORTAL_LINK = "/user-portal/t/" + tenantDomain;
+
 var headerConfig;
 var identityMgtUrl;
 var mainMenu;
@@ -39,7 +40,7 @@ var userMenu;
 var expandMenu;
 var tenantDisplayName;
 
-headerConfig  = readFile("/conf/toplink_menu.json");
+headerConfig  = getJsonFromFile("/conf/toplink_menu.json");
 
 try {
 
@@ -48,16 +49,15 @@ try {
   userMenu = headerConfig.User;
   expandMenu = headerConfig.Expand;
 
-  for (var attr in mainMenu) {
+  for(var attr in mainMenu) {
      var dropDowns = mainMenu[attr].dropDown;
      var icon = mainMenu[attr].icon;
      var url = mainMenu[attr].url;
      var target = mainMenu[attr].target;
-         if(attr == "Domain"){
-            attr = tenantDisplayName;
-            }
-}
-
+     if(attr == "Domain"){
+         attr = tenantDisplayName;
+     }
+   }
 }catch (e) {
     log.error('error occurred while reading site.json' + e);
 }
@@ -68,6 +68,30 @@ function resolveUserName(user) {
     }
     return user;
 }
+
+function getJsonFromFile(pathTofile) {
+    var cloudConfig = application.get(pathTofile);
+         if (cloudConfig==null) {
+             if(log.isDebugEnabled()){
+                log.debug("Reading Json file : " + pathTofile);
+         }
+
+        try{
+            var file = new File(pathTofile);
+            file.open("r");
+            var data = file.readAll();
+            cloudConfig = parse(data);
+            file.close();
+            application.put(pathTofile,cloudConfig);
+        } catch (e) {
+            log.error("Error while reading file " + pathTofile + "\n" + e);
+            throw "Error while reading file " + pathTofile + "\n" + e;
+        }
+       }
+
+     return cloudConfig;
+};
+
 
 %>
 <script>
@@ -98,31 +122,27 @@ function resolveUserName(user) {
                         var icon = mainMenu[attr].icon;
                         var url = mainMenu[attr].url;
                         var target = mainMenu[attr].target;
-                        if(attr == "Domain"){
+                          if(attr == "Domain"){
                             attr = tenantDomain;
-                        }
+                          }
                 %>
                 <li class="dropdown">
-                    <%
-                        if(dropDowns == "false"){
-                    %>
-                    <a href="<%=url%>"  target="<%=target%>"><i class="<%=icon%>"></i> <%=attr%></a>
-                    <%
-                        }else{
-                    %>
-                    <a href="<%=url%>"  target="<%=target%>" class="dropdown-toggle" data-toggle="dropdown"><i class="<%=icon%>"></i> <%=attr%>
-                        <i class="fa fa-chevron-circle-down"></i>
+                    <% if(dropDowns == "false"){ %>
+                      <a href="<%=url%>"  target="<%=target%>"><i class="<%=icon%>"></i> <%=attr%></a>
+                    <% }else{ %>
+                      <a href="<%=url%>"  target="<%=target%>" class="dropdown-toggle" data-toggle="dropdown"><i class="<%=icon%>"></i> <%=attr%>
+                         <i class="fa fa-chevron-circle-down"></i>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
+                         <ul class="dropdown-menu" role="menu">
                     <%
                        for (var dropsDown in dropDowns) {
-                            var dropDownUrl = dropDowns[dropsDown].url;
-                            var dropDownIcon = dropDowns[dropsDown].icon;
-                            var dropDownTarget = dropDowns[dropsDown].target;
+                             var dropDownUrl = dropDowns[dropsDown].url;
+                             var dropDownIcon = dropDowns[dropsDown].icon;
+                             var dropDownTarget = dropDowns[dropsDown].target;
                     %>
-                        <li><a href="<%=dropDownUrl%>" target="<%=dropDownTarget%>"><i class="<%=dropDownIcon%>"></i> <%=dropsDown%></a></li>
+                       <li><a href="<%=dropDownUrl%>" target="<%=dropDownTarget%>"><i class="<%=dropDownIcon%>"></i> <%=dropsDown%></a></li>
                     <%
-                         }%></ul>
+                       }%></ul>
                     <% } %>
                 </li>
                 <% } %>
@@ -161,7 +181,7 @@ function resolveUserName(user) {
                             var icon = clouds[cloud].icon;
                             var url = clouds[cloud].url;
                             var target = clouds[cloud].target; %>
-                             <a class="cloud-block" href="<%=url%>" target="<%=target%>">
+                             <a class="cloud-block add-padding-top-2x" href="<%=url%>" target="<%=target%>">
                              <i class="<%=icon%>" ></i>
                      <div class="cloud-name"> <%=cloud%></div>
                         </a>
@@ -178,7 +198,7 @@ function resolveUserName(user) {
                                 var url = actions[action].url;
                                 var target = actions[action].target;
                         %>
-                             <a class="cloud-block-invert" href="<%=url%>" target="<%=target%>">
+                             <a class="cloud-block-invert add-padding-top-3x" href="<%=url%>" target="<%=target%>">
                              <i class="<%=icon%>"></i>
                               <div class="cloud-name"><%=action%></div></a><%
                             }
