@@ -208,7 +208,9 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
                 if (!isAuthenticated) {
                     // If user is not authenticated from secondary user store, then authenticate starting from primary
                     // user store.
-                    isAuthenticated = userStoreManager.authenticate(tenantAwareUsername, password);
+                    isAuthenticated = userStoreManager.authenticate(UserCoreConstants
+                            .PRIMARY_DEFAULT_DOMAIN_NAME + UserCoreConstants.DOMAIN_SEPARATOR + tenantAwareUsername,
+                            password);
                 }
             } else {
                 throw new AuthenticationFailedException("Cannot find the user realm for the given tenant: " +
