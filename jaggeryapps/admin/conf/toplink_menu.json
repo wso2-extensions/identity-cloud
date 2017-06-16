@@ -1,0 +1,84 @@
+{
+  "Identity":{
+    "url": "#"
+  },
+  "Main": {
+    "Domain": {
+      "url": "#",
+      "icon": "fa fa-bank",
+      "dropDown": "false",
+      "target": "_parent"
+    },
+    "Documentation": {
+      "url": "#",
+      "icon": "fa fa-book",
+      "target": "_blank",
+      "dropDown": "false"
+    },
+    "Support": {
+      "url": "#",
+      "icon": "fa fa-envelope",
+      "target": "_self",
+      "dropDown": "false"
+    }
+  },
+  "User": {
+    "url": "#",
+    "icon": "fa fa-user",
+    "dropDown": {
+      "Profile": {
+        "url": "#",
+        "icon": "fa fa-user",
+        "dropDown": "false"
+      },
+      "Logout": {
+        "url": "#",
+        "icon": "fa fa-sign-out",
+        "dropDown": "false"
+      }
+    }
+  },
+  "Expand": {
+    "Navigate": {
+      "url": "#",
+      "icon": "fa fa-cloud",
+      "clouds": {
+        "API Cloud": {
+          "id": "api_cloud",
+          "url": "#",
+          "icon": "fw fw-api fa-3x",
+          "dropDown": "false",
+          "target": "_self"
+        },
+        "Integration Cloud": {
+          "id": "integration_cloud",
+          "url": "#",
+          "icon": "fw fw-3x fw-service",
+          "dropDown": "false",
+          "target": "_self"
+        },
+        "Device Cloud": {
+          "id": "device_cloud",
+          "url": "#",
+          "icon": "fw fw-3x fw-mobile",
+          "dropDown": "false",
+          "target": "_self"
+        }
+      }
+    },
+    "Manage" : {
+      "Organization": {
+        "url": "#",
+        "icon": "fa fa-3x  fa-institution",
+        "isDropDown": "false",
+        "target": "_self"
+      },
+      "Members": {
+        "url": "#",
+        "icon": "fa fa-3x  fa-users",
+        "isDropDown": "false",
+        "target": "_self"
+      }
+    }
+  }
+}
