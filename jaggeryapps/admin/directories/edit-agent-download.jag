@@ -121,14 +121,14 @@ include("/templates/header.jag");
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 forms">
                     <div class="agent-archi">
                         <div id="downloadGuide" name="downloadGuide" style="display: none">
-                                <br/>
+                                <br/><br/>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <p class="steps-text">Follow below guide to connect your local user store.</p>
                                     <ul style="list-style: none;">
-                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Extract the downloaded zip file.</span></li>
-                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Configure the userstore-mgt.xml file with the values relevant to your on premise userstore. </span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Extract the downloaded .zip file.</span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Configure the userstore-config.xml file with the values relevant to your on premise userstore. </span></li>
                                         <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Run the wso2agent.sh/wso2agent.bat file and start the agent. </span></li>
-                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Enter following token during agent installation</span></li>
+                                        <li><i class="fa fa-caret-right fa-lg"></i> <span class="steps-text">&nbsp;Enter following token during agent installation.</span></li>
                                     </ul>
                                 </div>
 
@@ -138,11 +138,9 @@ include("/templates/header.jag");
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                              <form id="agent-download-form" name="agent-download-form" role="form">
-
-                                <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
                                         <div class="form-group">
-                                            <div class="text-agent-archi margin-bottom-xs">Installation Token :</div>
+                                            <label class="text-agent-archi">Installation Token</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="accessToken"  name="accessToken" readonly> </input>
                                                 <span class="input-group-btn input-group-btn-check">
@@ -157,24 +155,19 @@ include("/templates/header.jag");
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                              </form>
                          </div>
                      </div>
-
-
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
-                            <div class="connection-block" id="connectiondiv" name="connectiondiv">
-                                <span class="text-agent-archi margin-bottom-xs">Agent Status:</span>
-                                <table id="tblConnection" name="tblConnection">
-                                </table>
-                                <div class="message message-warning" id="noconnectiondiv" name="noconnectiondiv" style="display: none">
-                                            <span>No agents connected at the moment</span>
-                                </div>
-                                <div class="message message-info" id="connectionInfodiv" name="connectionInfodiv" style="display: none">
-                                            <span>Now you can try to log into user portal with one of the accounts from the directory you configured.</span>
-                                </div>
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                        <div id="connectiondiv" name="connectiondiv">
+                            <h4 class="margin-bottom-xs">Agent Status</h4>
+                            <table id="tblConnection" name="tblConnection">
+                            </table>
+                            <div class="message message-warning" id="noconnectiondiv" name="noconnectiondiv" style="display: none">
+                                        <span>No agents connected at the moment</span>
+                            </div>
+                            <div class="message message-info" id="connectionInfodiv" name="connectionInfodiv" style="display: none">
+                                        <span>Now you can try to log into the user portal with one of the accounts from the directory you configured.</span>
                             </div>
                         </div>
                     </div>

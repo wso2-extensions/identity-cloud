@@ -583,9 +583,9 @@ function drawConnections(properties) {
 
                 if (properties[j].status == 'C') {
                     isConnected = true;
-                    cell1.innerHTML = "<i class='fw-lg fw-success' style='color: 05d505;'></i>";
+                    cell1.innerHTML = '<span class="fw-stack btn-action-ico noti-success"><i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-check fw-stack-1x"></i></span>';
                 } else {
-                    cell1.innerHTML = "<i class='fw-lg fw-error' style='color: red;'></i>";
+                    cell1.innerHTML = '<span class="fw-stack btn-action-ico noti-error"><i class="fw fw-circle-outline fw-stack-2x"></i><i class="fw fw-cancel fw-stack-1x"></i></span>';
                 }
                 cell2.innerHTML = properties[j].node;
                 cell3.innerHTML = properties[j].status == 'C' ? "Connected" : "Failed";
