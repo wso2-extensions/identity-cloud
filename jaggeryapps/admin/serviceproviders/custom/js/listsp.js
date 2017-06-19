@@ -220,10 +220,13 @@ function    drawList() {
 function drawListOverview(spList) {
     var output = "";
     var count = 0;
+    var appOverlay = "";
+    var overlayText = "";
     $("#ovr-app-listing").empty();
     if (spList != null) {
         $('#spList').show();
         $('#emptyList').hide();
+        
         for (var i in spList) {
             var appName = spList[i].applicationName;
             count += 1;
@@ -231,6 +234,8 @@ function drawListOverview(spList) {
                 var spdesc = spList[i].description;
                 var spimage = '<img src="../images/is/custom.png " class="square-element">';
                 var sampleIcon = '';
+                appOverlay = '';
+                overlayText = '';
 
                 if(appName == APP_NAME1 || appName == APP_NAME2) {
                     sampleIcon ='<div class="app-sample-icon" title="Sample"><span>Sample</span></div>';
@@ -266,8 +271,8 @@ function drawListOverview(spList) {
                     }
                     setCustomImage(appName);
                 }
-                output = output + '<div class="col-xs-6 col-sm-4  col-md-4 col-lg-4 pull-right">' +
-                    '                    <div class="cloud-app-listing app-color-one">' +
+                output = output + '<div class="col-xs-12 col-sm-6  col-md-4 col-lg-4 pull-right">' +
+                    '                    <div class="cloud-app-listing app-color-one icon-app">' +
                                             sampleIcon +
                     '                        <a href="/' + ADMIN_PORTAL_NAME + '/serviceprovider/' + spList[i].applicationName + '">' +
                     '                            <div class="app-icon">' +
@@ -286,9 +291,15 @@ function drawListOverview(spList) {
                     '                    </div>' +
                     '               </div>';
             }
-
         }
+
         $("#ovr-app-listing").append(output);
+
+        if(spList.length > 3){
+            $('.view-all').parent().removeClass('hide');
+            $("#viewAllCount").html(spList.length-2);
+            $('.icon-app').last().hide();
+        }
     }
 }
 
