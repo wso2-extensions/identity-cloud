@@ -65,7 +65,7 @@ include("/templates/header.jag");
                 <i class="fa fa-reorder"></i>
             </div>
             <div class="breadcrumb-secondary">
-                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span>
+                <i class="fw fw-security "></i> <span class="hidden-xs">Identity Cloud&nbsp;</span> / Admin Portal / Overview
             </div>
         </div>
     </div>
@@ -94,12 +94,9 @@ include("/templates/header.jag");
                                             </span>
                                             <span class="connection-status config-details">Configured</span>
                                         </div>
+                                        <span class="v-ruler"></span>
                                         <a href="#" onclick="urlResolver('directory',cookie,userName);">
-                                            <span class="fw-stack btn-action-ico">
-                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                <i class="fw fw-edit fw-stack-1x"></i>
-                                            </span>
-                                            <span class=" config-details">View</span>
+                                            <span class="add-padding-left-5x secondary-link">View</span>
                                         </a>
                                     </div>
                                 </div>
@@ -123,34 +120,22 @@ include("/templates/header.jag");
 
                                     <div class="col-xs-12 col-md-5 col-lg-5">
                                         <div class="block-life-cycle">
-                                            <div class="block-number  ">
-                                                <strong id="appCount" style="font-size: 120%"> 0</strong>
-                                            </div>
-                                            <div class="block-text" id="appText">
-                                                Applications Enabled
-
-                                            </div>
+                                            <span class="block-number  ">
+                                                <span id="appCount" style="font-size: 120%"> 0</span>
+                                            </span>
+                                            <span class="block-text" id="appText">
+                                                Applications
+                                            </span>
                                             <div class="clearfix"></div>
                                             </br></br>
                                             <div class="row">
                                             <!-- BOF permission based icon section -->
-                                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                                                    <div class="permission-change-block">
-                                                        <a class="block-action-button" onclick="urlResolver('addApp',cookie,userName)">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <a  onclick="urlResolver('addApp',cookie,userName)" class="btn block-action-button">
                                                             <span class="fw-stack fw-add ">
                                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                             </span> Add Application
                                                         </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                                                    <div class="permission-change-block">
-                                                        <a class="block-action-button" onclick="urlResolver('applist',cookie,userName)">
-                                                            <span class="fw-stack fw-view ">
-                                                                <i class="fw fw-circle-outline fw-stack-2x"></i>
-                                                            </span> View Applications
-                                                        </a>
-                                                    </div>
                                                 </div>
                                             <!-- EOF permission based icon section -->
                                             </div>
@@ -158,9 +143,18 @@ include("/templates/header.jag");
                                     </div>
 
                                     <div class="col-xs-12 col-md-7 col-lg-7">
+                                         <div  class="row row-centered app-listing" style="top:1em">
+                                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pull-right hide">
+                                                 <div class="cloud-app-listing app-color-one view-all" onclick="urlResolver('applist',cookie,userName)">
+                                                       <div class="text-viewAll">
+                                                            <span>+</span><span id="viewAllCount"></span>
+                                                       </div>
 
-                                        <div id="ovr-app-listing" class="row row-centered app-listing" style="top:1em">
-
+                                                       <div class="app-icon"></div>
+                                                       <div class="app-name" >See All</div>
+                                                 </div>
+                                            </div>
+                                            <div id="ovr-app-listing"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -223,15 +217,20 @@ include("/templates/header.jag");
                      if (appList.length == 2 && appList[0].applicationName === APP_NAME1 && appList[1].applicationName === APP_NAME2) {
                          drawListOverview(appList);
                          $("#appCount").html("2");
-                         $("#appText").html("Sample Apps Enabled");
+                         $("#appText").html("Sample Applications");
                      }else {
                          drawListOverview(appList);
                          $("#appCount").html(appList.length);
-                         $("#appText").html("Application Enabled");
+
+                         if(appList.length == 1){
+                             $("#appText").html("Application");
+                         } else {
+                             $("#appText").html("Applications");
+                         }
                    }
                 } else {
                       $("#appCount").html("0");
-                      $("#appText").html("Application Enabled");
+                      $("#appText").html("Applications");
                 }
 
         </script>
