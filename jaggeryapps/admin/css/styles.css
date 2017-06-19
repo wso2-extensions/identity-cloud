@@ -1398,10 +1398,7 @@ svg .outer {
     text-decoration: underline;
 }
 .block-action-button {
-    /* width: 100%; */
     margin-top: 10px;
-    /* text-align: right; */
-    /* float: right; */
     padding: 8px;
     cursor: pointer;
     background-color: #383d44;

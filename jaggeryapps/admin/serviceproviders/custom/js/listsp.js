@@ -226,18 +226,7 @@ function drawListOverview(spList) {
     if (spList != null) {
         $('#spList').show();
         $('#emptyList').hide();
-
-        //
-        // output = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 pull-right">' +
-        //     '                    <div class="cloud-app-listing app-color-one wrap app-overlay">' +
-        //     '                        <div class="text"><span>+'+ (spList.length-count-2) +'</span></div>' +
-        //     '                           <div class="text"><span class="text-viewAll">View All</span></div>'+
-        //     '                        <a href="/serviceprovider/">' +
-        //     '                            <div class="app-icon">' +
-        //     '                            </div>' +
-        //     '                        </a>' +
-        //     '                    </div>' +
-        //     '               </div>';
+        
         for (var i in spList) {
             var appName = spList[i].applicationName;
             count += 1;
