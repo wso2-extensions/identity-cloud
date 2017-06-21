@@ -356,7 +356,12 @@ function checkDirectory(domain) {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch(err) {
+                window.location.href = "login.jag";
+            }
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -383,7 +388,7 @@ function checkDirectory(domain) {
         },
         error: function (e) {
             message({
-                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                content: 'Error occurred while loading directory information.', type: 'error', cbk: function () {
                 }
             });
         }
@@ -400,8 +405,12 @@ function checkAccessToken(domain) {
         async: false,
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
-
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch(err) {
+                window.location.href = "login.jag";
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -594,7 +603,13 @@ function deleteDirectory(domainname) {
             data: "domain=" + domainname,
         })
         .done(function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch(err) {
+                window.location.href = "login.jag";
+            }
+
             if (resp.success == true) {
 
                 var directoryLength = 0, newDirectoryLength = 0;
@@ -665,7 +680,12 @@ function checkAppList(cookie,userName) {
         data: "&user=" + userName,
         success: function (data) {
             if (data) {
-                var resp = $.parseJSON(data);
+                var resp;
+                try {
+                    resp = $.parseJSON(data);
+                } catch(err) {
+                    window.location.href = "login.jag";
+                }
 
                 if (resp.success == false) {
 
@@ -701,7 +721,12 @@ function checkThemeList() {
         url: str,
         type: 'GET',
         success: function (data) {
-            var parsedResult = JSON.parse(data);
+            var parsedResult;
+            try {
+                parsedResult = JSON.parse(data);
+            } catch(err) {
+                window.location.href = "login.jag";
+            }
             if (parsedResult['themeName'] == null) {
                 window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeUpload';
             } else {

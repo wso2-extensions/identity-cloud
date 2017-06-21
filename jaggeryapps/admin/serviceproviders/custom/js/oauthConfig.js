@@ -34,7 +34,11 @@ function preDrawOAuthConfigPage() {
             type: "GET",
             data: "&user=" + userName + "&appName=" + appdata.applicationName + "&clientID=" + clientID + "&action=getOAuthConfigs",
             success: function (data) {
-                oauthClient = $.parseJSON(data);
+                try {
+                    oauthClient = $.parseJSON(data);
+                } catch(err) {
+                    window.location.href = "login.jag";
+                }
                 allowedGrantTypes = oauthClient.grantTypes;
                 drawOAuthEditPage();
             },
@@ -57,7 +61,11 @@ function preDrawOAuthConfigPage() {
             type: "GET",
             data: "&user=" + userName + "&action=getOAuthConfigs",
             success: function (data) {
-                oauthClient = $.parseJSON(data);
+                try {
+                    oauthClient = $.parseJSON(data);
+                } catch(err) {
+                    window.location.href = "login.jag";
+                }
                 allowedGrantTypes = oauthClient.grantTypes;
                 drawOAuthConfigPage();
             },

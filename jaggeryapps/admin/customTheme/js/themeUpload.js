@@ -45,7 +45,12 @@ function uploadTheme() {
                    contentType: false,
                    processData: false,
                    success: function (data) {
-                       var result = JSON.parse(data);
+                       var result;
+                       try {
+                           result = JSON.parse(data);
+                       } catch(err) {
+                           window.location.href = "login.jag";
+                       }
 
                        // Redirect to themeInfo page when there's no errors
                        if (!result.error) {

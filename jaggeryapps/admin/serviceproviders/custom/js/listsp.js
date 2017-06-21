@@ -64,7 +64,12 @@ function reloadGrid() {
         data: "&user=" + userName,
         success: function (data) {
             if (data) {
-                var resp = $.parseJSON(data);
+                var resp;
+                try {
+                    resp = $.parseJSON(data);
+                } catch(err) {
+                    window.location.href = "login.jag";
+                }
 
                 if (resp.success == false) {
                     if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -312,7 +317,12 @@ function setCustomImage(appName) {
                async: true,
                success: function (data) {
                    if (data != null) {
-                       var result = JSON.parse(data);
+                       var result;
+                       try {
+                           result = JSON.parse(data);
+                       } catch(err) {
+                           window.location.href = "login.jag";
+                       }
                        if (result != null && result.thumbnailUrl != undefined) {
                            var link = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
                            $('#' + appName).attr('src', link);
