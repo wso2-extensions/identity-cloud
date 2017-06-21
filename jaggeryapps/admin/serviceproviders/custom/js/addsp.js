@@ -55,7 +55,12 @@ function registerCustomSP(sptype) {
     })
         .done(function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
