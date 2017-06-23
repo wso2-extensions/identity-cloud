@@ -1,0 +1,12 @@
+{
+    "userInfo" : {
+        "cloudAdminUserName" : "#",
+        "cloudAdminPassword" : "#"
+    },
+    "headerUrls" : {
+        "cloudMgtUrl" : "#",
+        "billingLoginUrl" : "#",
+        "billingStatusUrl" : "#",
+        "firstLoginUrl" : "#"
+    }
+}
