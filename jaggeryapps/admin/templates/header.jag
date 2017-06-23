@@ -3,6 +3,7 @@ include("/util/constants.jag");
 include("/util/encode.jag");
 var  MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 var user = session.get('user');
+
 var log = new Log();
 var util = require("/util/utility.jag");
 var authzFailure = request.getParameter("authz_failure");
@@ -28,6 +29,7 @@ if (proxyContextPath === 'null' || proxyContextPath == null || proxyContextPath.
 }
 
 var userInfo = session.get("userInfo");
+
 if (userInfo) {
     tenantDomain = userInfo.tenantDomain;
 }
@@ -62,6 +64,122 @@ try {
     log.error('error occurred while reading site.json' + e);
 }
 
+var billing = billing || (function () {
+
+    var isExpired;
+    var isTrial;
+    var accountContent;
+    var subscription = "identity_cloud";
+
+    var isTrailExpired = function (){
+        return isExpired;
+    };
+
+    var isTrialAccount = function (){
+        return isTrial;
+    };
+
+    var getAccountContent = function (){
+        return accountContent;
+    };
+
+    var getSubscription = function (){
+        return subscription;
+    };
+
+    var initBillingInfo = function (cloudMgtUrl) {
+
+        var tenantDomain = userInfo.tenantDomain;
+        var type = {PAID : "PAID", TRIAL: "TRIAL", FREE : "FREE"};
+        var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
+
+        var cloudMgtIndexPage = cloudMgtUrl + "site/pages/index.jag";
+
+        var trialPeriod = 14;
+        var date;
+        var noOfDays;
+        var queryString ="SELECT TYPE, STATUS, DATE_FORMAT(END_DATE,'%Y-%m-%d %T') AS END_DATE FROM BILLING_STATUS " +
+                            "WHERE TENANT_DOMAIN='" + tenantDomain + "' && SUBSCRIPTION='" + subscription + "' ORDER BY TYPE;";
+        var db = new Database("identity_mgt");
+        var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        var results = db.query(queryString);
+
+        db.close();
+        var addDays = function (date, days){
+            var cal = Packages.java.util.Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Packages.java.util.Calendar.DATE, days);
+            return cal.getTime();
+        };
+
+        if(results.length > 0) {
+            var potentialDisabled = false;
+            for (var rowNum in results) {
+                if((results[rowNum]["STATUS"] === status.ACTIVE || results[rowNum]["STATUS"] === status.PENDING_DISABLE) && results[rowNum]["TYPE"] === type.PAID) {
+                    accountContent="Account";
+                    isExpired = false;
+                    break;
+                } else if((results[rowNum]["STATUS"] === status.ACTIVE || results[rowNum]["STATUS"] === status.EXTENDED) && results[rowNum]["TYPE"] === type.TRIAL) {
+                    date=results[0]["END_DATE"];
+                    var currDate = new java.util.Date();
+                    var endDate =  sqlDateFormatter.parse(date);
+                    var diff = endDate.getTime() - currDate.getTime();
+                    if(diff > 0) {
+                        isExpired = false;
+                        isTrial = true;
+                        noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                        accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
+                    } else {
+                        isExpired = true;
+                        accountContent="Trial Expired";
+                    }
+                    break;
+                } else if(results[rowNum]["STATUS"] === status.INACTIVE && results[rowNum]["TYPE"] === type.TRIAL) {
+                    var acStartDate = new Packages.java.util.Date();
+                    var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
+                    db = new Database("identity_mgt");
+                    queryString = "UPDATE BILLING_STATUS SET STATUS = ('ACTIVE'), START_DATE " +
+                              "= ('"+ sqlDateFormatter.format(acStartDate) +"') , END_DATE = " +
+                              "('"+ acEndDate +"') WHERE (TENANT_DOMAIN, SUBSCRIPTION, TYPE) = ('" + tenantDomain + "','" + subscription + "','" + type.TRIAL + "')";
+                    db.query(queryString);
+                    log.info("Trial account activated for tenant: " + tenantDomain);
+                    db.close();
+                    isExpired = false;
+                    isTrial = true;
+                    accountContent = "Trial – "+ (trialPeriod)  +" days to upgrade";
+                    break;
+                } else if (results[rowNum]["STATUS"] === status.DISABLED && (results[rowNum]["TYPE"] === type.PAID || results[rowNum]["TYPE"] === type.TRIAL)) {
+                    if (potentialDisabled){
+                        log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
+                        response.sendRedirect(cloudMgtIndexPage);
+                    } else {
+                        potentialDisabled = true;
+                    }
+                }
+            }
+        }
+    }
+
+    return {
+        isTrailExpired:isTrailExpired,
+        isTrialAccount:isTrialAccount,
+        getAccountContent:getAccountContent,
+        getSubscription:getSubscription,
+        initBillingInfo:initBillingInfo
+    };
+}());
+
+billing.initBillingInfo("https://cloudmgt.cloud.wso2.com/");
+var isTrailExpired = billing.isTrailExpired();
+var isTrialAccount = billing.isTrialAccount();
+var subscription = billing.getSubscription();
+var accountContent = billing.getAccountContent();
+
+log.info("isTrailExpired" + isTrailExpired);
+log.info("isTrialAccount" + isTrialAccount);
+log.info("subscription" + subscription);
+log.info("accountContent" + accountContent);
+
 function resolveUserName(user) {
     if (user && user.indexOf("/") > -1) {
         user = user.substring(user.lastIndexOf("/") + 1);
@@ -92,12 +210,13 @@ function getJsonFromFile(pathTofile) {
      return cloudConfig;
 };
 
-
 %>
 <script>
     //solving user-portal link
       const USER_PORTAL_LINK = '<%="/user-portal/t/" + tenantDomain%>';
 </script>
+
+
 <!-- BOF cloud menu -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -116,96 +235,143 @@ function getJsonFromFile(pathTofile) {
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav menu-right">
+
                 <%
-                    for (var attr in mainMenu) {
+                   for (var attr in mainMenu) {
                         var dropDowns = mainMenu[attr].dropDown;
                         var icon = mainMenu[attr].icon;
                         var url = mainMenu[attr].url;
                         var target = mainMenu[attr].target;
-                          if(attr == "Domain"){
-                            attr = tenantDomain;
-                          }
-                %>
-                <li class="dropdown">
-                    <% if(dropDowns == "false"){ %>
-                      <a href="<%=url%>"  target="<%=target%>"><i class="<%=icon%>"></i> <%=attr%></a>
-                    <% }else{ %>
-                      <a href="<%=url%>"  target="<%=target%>" class="dropdown-toggle" data-toggle="dropdown"><i class="<%=icon%>"></i> <%=attr%>
-                         <i class="fa fa-chevron-circle-down"></i>
-                    </a>
-                         <ul class="dropdown-menu" role="menu">
-                    <%
-                       for (var dropsDown in dropDowns) {
-                             var dropDownUrl = dropDowns[dropsDown].url;
-                             var dropDownIcon = dropDowns[dropsDown].icon;
-                             var dropDownTarget = dropDowns[dropsDown].target;
-                    %>
-                       <li><a href="<%=dropDownUrl%>" target="<%=dropDownTarget%>"><i class="<%=dropDownIcon%>"></i> <%=dropsDown%></a></li>
-                    <%
-                       }%></ul>
-                    <% } %>
-                </li>
-                <% } %>
-                <li class="dropdown user-name">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=encode.forHtml(resolveUserName(MultitenantUtils.getTenantAwareUsername(session.get(LOGGED_IN_USER))))%>
-                        <img src="/<%=ADMIN_PORTAL_NAME%>/images/user.png" alt="user" class="user-image">
-                        <i class="fa fa-chevron-circle-down"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                        <%
-                            var dropDowns = userMenu.dropDown;
-                            for (var dropDown in dropDowns) {
-                                var icon = dropDowns[dropDown].icon;
-                                var url = dropDowns[dropDown].url;
-                        %>
-                            <li><a href="<%=url%>"><%=dropDown%></a></li>
-                        <% } %>
-                        </ul>
-                </li>
-                <li class="cloud-menu hidden-xs">
-                    <a href="#" id="cloud-menu-popover" data-toggle="popover" data-placement="bottom"
-                       class="cloud-menu-popover">
-                        <i class="fw fw-tiles"></i>
-                    </a>
-                </li>
-            </ul>
-            <!-- BOF cloud menu content -->
-            <div class="cloud-menu-content hide">
-                <div id="popover-head" class="hide">
-                    <span style="color:white;">Navigate to Cloud</span>
-                </div>
-                <div id="popover-content" class="hide">
-                    <div class="cloud-apps"><%
-                        var clouds = expandMenu.Navigate.clouds;
-                        var subscriptionInfo ="";
-                        for (var cloud in clouds) {
-                            var icon = clouds[cloud].icon;
-                            var url = clouds[cloud].url;
-                            var target = clouds[cloud].target; %>
-                             <a class="cloud-block add-padding-top-2x" href="<%=url%>" target="<%=target%>">
-                             <i class="<%=icon%>" ></i>
-                     <div class="cloud-name"> <%=cloud%></div>
-                        </a>
-                     <% }%>
-                        <div class="clearfix"> </div><!-- to make seperate -->
-                    </div>
-                    <div class="cloud-actions">
-                        <h3 style="color: white">Manage your cloud</h3>
-                        <%
-                        var actions = expandMenu.Manage;
-                        for (var action in actions) {
-                            if (action != "Custom Url" || (action == "Custom Url" && isUserAdmin)) {
-                                var icon = actions[action].icon;
-                                var url = actions[action].url;
-                                var target = actions[action].target;
-                        %>
-                             <a class="cloud-block-invert add-padding-top-3x" href="<%=url%>" target="<%=target%>">
-                             <i class="<%=icon%>"></i>
-                              <div class="cloud-name"><%=action%></div></a><%
+                            if(attr == "Domain"){
+                               attr = tenantDomain;
                             }
-                        }
-                        %>
-                    </div>
+
+                <!-- For Menu items without drop downs -->
+                       if(dropDowns == "false"){ %>
+                           <li class="visible-inline-block">
+                           <a href="<%=url%>" target="<%=target%>" title="<%=attr%>">
+                              <% if (attr == "Support" && isTrialAccount) { %>
+                                    <span style="color: #ff8c27;">
+                                        <i class="<%=icon%> " title="<%=attr%>"></i>
+                                    </span>
+                                    <span class="hidden-xs" style="color: #ff8c27;"> <%=attr%> </span>
+                              <% } else { %>
+
+                                    <i class="<%=icon%> " title="<%=attr%>"></i>
+                                    <span class="hidden-xs"> <%=attr%> </span>
+                              <% } %> </a> </li> <%
+                        } else {
+                              <!-- For Menu items with drop downs -->
+                              %> <li class="dropdown visible-inline-block"> <%
+                                   if ( attr == "Account") { %>
+                                 <a href="#" target="<%=target%>" class="dropdown" data-toggle="dropdown" title="<%=attr%>">
+                              <%   if( accountContent != "Account" ) { %>
+                                     <span class="" style="color: red">
+                                     <i class="<%=icon%> " title="<%=attr%>"></i> </span>
+                                     <span class="hidden-xs" style="color: red"> <%=accountContent%> </span>
+                              <% } else { %>
+                                     <i class="<%=icon%>" title="<%=attr%>"></i>
+                                     <span class="hidden-xs"> <%=accountContent%> </span>
+                              <% } %>
+                                     <span class="caret"></span> </a>
+                              <% } else { %>
+                                     <a href="#" target="<%=target%>" class="dropdown" data-toggle="dropdown" title="<%=attr%>">
+                                      <i class="<%=icon%> " title="<%=attr%>"></i>
+                                     <span class="hidden-xs"> <%=attr%> </span>
+                                     <span class="caret"></span> </a>
+                              <% } %>
+                              <ul class="dropdown-menu dropdown-menu-right float-remove-xs position-static-xs text-center-xs remove-margin-xs slideInDown" role="menu">
+                                   <% for (var dropDown in dropDowns) {
+                                           var dropDownUrl = dropDowns[dropDown].url;
+                                           var dropDownIcon = dropDowns[dropDown].icon;
+                                           var dropDownTarget = dropDowns[dropDown].target;
+                                               if (attr == "Account" && accountContent == "Account") {
+                                                    if (dropDown == "Request Extension") {
+                                                    //do not show Request Extension if Billing is enabled
+                                                    } else {
+                                                        if (dropDown == "Upgrade Now") {
+                                                        dropDownUrl = (dropDownUrl.split("?")[0]).replace("payment-plans", "account-summary");
+                                                        dropDown = "Account Summary";
+                                                        }
+                                   %>
+                                      <li>
+                                      <a title="<%=dropDown%>" href="<%=dropDownUrl%>" target="<%=dropDownTarget%>">
+                                      <i class="<%=dropDownIcon%>" title="<%=dropDown%>"></i> <%=dropDown%> </a> </li>
+                                   <%               }
+                                                } else { %>
+                                      <li>
+                                      <a title="<%=dropDown%>" href="<%=dropDownUrl%>" target="<%=dropDownTarget%>">
+                                      <i class="<%=dropDownIcon%>" title="<%=dropDown%>"></i> <%=dropDown%> </a> </li>
+                                   <%
+                                                }
+                                        }
+                                   %>
+                                   </ul></li>
+
+                              <% }
+                   }%>
+
+                 <li class="dropdown user-name">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=encode.forHtml(resolveUserName(MultitenantUtils.getTenantAwareUsername(session.get(LOGGED_IN_USER))))%>
+                         <img src="/<%=ADMIN_PORTAL_NAME%>/images/user.png" alt="user" class="user-image">
+                         <i class="fa fa-chevron-circle-down"></i></a>
+                         <ul class="dropdown-menu" role="menu">
+                         <%
+                             var dropDowns = userMenu.dropDown;
+                             for (var dropDown in dropDowns) {
+                                 var icon = dropDowns[dropDown].icon;
+                                 var url = dropDowns[dropDown].url;
+                         %>
+                             <li><a href="<%=url%>"><%=dropDown%></a></li>
+                         <% } %>
+                         </ul>
+                 </li>
+                 <li class="cloud-menu hidden-xs">
+                     <a href="#" id="cloud-menu-popover" data-toggle="popover" data-placement="bottom"
+                        class="cloud-menu-popover">
+                         <i class="fw fw-tiles"></i>
+                     </a>
+                 </li>
+            </ul>
+
+            <!-- BOF cloud menu content -->
+        <div class="cloud-menu-content hide">
+            <div id="popover-head" class="hide">
+                <span style="color:white;">Navigate to Cloud</span>
+            </div>
+            <div id="popover-content" class="hide">
+                <div class="cloud-apps"><%
+                    var clouds = expandMenu.Navigate.clouds;
+                    var subscriptionInfo ="";
+                    for (var cloud in clouds) {
+                        var icon = clouds[cloud].icon;
+                        var url = clouds[cloud].url;
+                        var target = clouds[cloud].target; %>
+                         <a class="cloud-block add-padding-top-2x" href="<%=url%>" target="<%=target%>">
+                         <i class="<%=icon%>" ></i>
+                 <div class="cloud-name"> <%=cloud%></div>
+                    </a>
+                 <% }%>
+                    <div class="clearfix"> </div><!-- to make seperate -->
                 </div>
+                <div class="cloud-actions">
+                    <h3 style="color: white">Manage your cloud</h3>
+                    <%
+                    var actions = expandMenu.Manage;
+                    for (var action in actions) {
+                        if (action != "Custom Url" || (action == "Custom Url" && isUserAdmin)) {
+                            var icon = actions[action].icon;
+                            var url = actions[action].url;
+                            var target = actions[action].target;
+                    %>
+                         <a class="cloud-block-invert add-padding-top-3x" href="<%=url%>" target="<%=target%>">
+                         <i class="<%=icon%>"></i>
+                          <div class="cloud-name"><%=action%></div></a><%
+                        }
+                    }
+                    %>
+                </div>
+            </div>
             <!-- EOF cloud menu content -->
             </div><!--/.nav-collapse -->
         </div>
