@@ -1,7 +1,6 @@
 <%
 
 var userInfoClient = require('/controllers/login-logout/loggedUserInfoAdminClient.jag');
-var userAccountConnectorClient = require('/controllers/account-connection/userAccountAssociationClient.jag');
 var authzFailure ;
 
 include("/util/constants.jag");
@@ -90,18 +89,6 @@ if (samlResponse != null) {
 					    header = parse(stringify(header));
 					    
 					    session.put(USER_HEADER, header);
-
-                        //Get connected Accounts
-                        try {
-                            var connectedAccounts = userAccountConnectorClient.getAccountAssociationsOfUser();
-                            if (connectedAccounts != null && connectedAccounts.length > 0) {
-                                session.put(CONNECTED_ACCOUNTS, connectedAccounts);
-                            } else {
-                                session.remove(CONNECTED_ACCOUNTS);
-                            }
-                        } catch(e){
-                            log.error(e);
-                        }
 
 					    response.sendRedirect("index.jag");
                     } else if (success === NO_ADMIN_PERMISSION) {
