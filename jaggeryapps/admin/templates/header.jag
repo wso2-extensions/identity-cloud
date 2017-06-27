@@ -119,7 +119,7 @@ var billing = billing || (function () {
 
         var billingStatusData = {
             "action": "getBillingStatusOfTenant",
-            "tenantDomain": "wso42458",
+            "tenantDomain": tenantDomain,
             "cloudType": subscription
         };
 
@@ -162,7 +162,7 @@ var billing = billing || (function () {
              var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
              var firstLoginData = {
                      "action": "informFirstLogin",
-                     "tenantDomain": "wso42458",
+                     "tenantDomain": tenantDomain,
                      "cloudType": subscription
                  };
 
