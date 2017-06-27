@@ -1,12 +1,12 @@
 {
     "userInfo" : {
-        "cloudAdminUserName" : "cloudadmin",
-        "cloudAdminPassword" : "cloudadmin"
+        "cloudAdminUserName" : "#",
+        "cloudAdminPassword" : "#"
     },
     "headerUrls" : {
-        "cloudMgtUrl" : "https://cloudmgt.cloud.wso2.com/",
-        "billingLoginUrl" : "https://cloudmgt.cloudstaging.wso2.com/cloudmgt/site/blocks/user/authenticate/ajax/login.jag",
-        "billingStatusUrl" : "https://cloudmgt.cloudstaging.wso2.com/cloudmgt/site/blocks/admin/admin.jag",
-        "firstLoginUrl" : "https://cloudmgt.cloudstaging.wso2.com/cloudmgt/site/blocks/admin/admin.jag"
+        "cloudMgtUrl" : "#",
+        "billingLoginUrl" : "#",
+        "billingStatusUrl" : "#",
+        "firstLoginUrl" : "#"
     }
 }
