@@ -356,7 +356,12 @@ function checkDirectory(domain) {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -383,7 +388,7 @@ function checkDirectory(domain) {
         },
         error: function (e) {
             message({
-                content: 'Error occurred while lading directory information.', type: 'error', cbk: function () {
+                content: 'Error occurred while loading directory information.', type: 'error', cbk: function () {
                 }
             });
         }
@@ -400,8 +405,12 @@ function checkAccessToken(domain) {
         async: false,
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
-
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -440,7 +449,7 @@ function checkAccessToken(domain) {
  * This method will resolve what url to navigate based on user click.
  * @param param
  */
-function urlResolver(param,cookie,userName) {
+function urlResolver(param,userName) {
     var currentUrl, context, newUrl, directoryList, isSampleExist, currrentDomain;
     currentUrl = window.location.href.toString();
     if (currentUrl && currentUrl.indexOf(ADMIN_PORTAL_NAME) > -1) {
@@ -514,7 +523,7 @@ function urlResolver(param,cookie,userName) {
             case 'overview':
 
                 directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
-                var appList  = checkAppList(cookie,userName);
+                var appList  = checkAppList(userName);
                 isSampleExist = false;
                 currrentDomain = false;
                 if ((!appList && directoryList)) {
@@ -570,6 +579,11 @@ function urlResolver(param,cookie,userName) {
                 }
 
                 break;
+            case 'login':
+                newUrl = context + ADMIN_PORTAL_NAME + "/login";
+                window.location.href = newUrl;
+                break;
+
             default:
         }
     }
@@ -594,7 +608,13 @@ function deleteDirectory(domainname) {
             data: "domain=" + domainname,
         })
         .done(function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
+
             if (resp.success == true) {
 
                 var directoryLength = 0, newDirectoryLength = 0;
@@ -619,7 +639,7 @@ function deleteDirectory(domainname) {
                         newDirectoryLength = -1;
                     }
                 }
-                urlResolver('overview',cookie,userName);
+                urlResolver('overview',userName);
 
             } else {
 
@@ -656,7 +676,7 @@ function deleteDirectory(domainname) {
  * @param userName
  * @returns list of applications
  */
-function checkAppList(cookie,userName) {
+function checkAppList(userName) {
     var spList = null;
     $.ajax({
         url: "/" + ADMIN_PORTAL_NAME + "/serviceproviders/getSPList",
@@ -665,7 +685,12 @@ function checkAppList(cookie,userName) {
         data: "&user=" + userName,
         success: function (data) {
             if (data) {
-                var resp = $.parseJSON(data);
+                var resp;
+                try {
+                    resp = $.parseJSON(data);
+                } catch (err) {
+                    urlResolver('login');
+                }
 
                 if (resp.success == false) {
 
@@ -701,7 +726,12 @@ function checkThemeList() {
         url: str,
         type: 'GET',
         success: function (data) {
-            var parsedResult = JSON.parse(data);
+            var parsedResult;
+            try {
+                parsedResult = JSON.parse(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (parsedResult['themeName'] == null) {
                 window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeUpload';
             } else {

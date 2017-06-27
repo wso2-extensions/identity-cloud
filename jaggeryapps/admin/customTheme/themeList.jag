@@ -75,7 +75,7 @@
                     <div class="right-pane">
                         <!-- BOF App  menu actionbar -->
                         <div class="action-bar">
-                            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
+                            <a onclick="urlResolver('overview', userName);" class="btn-action">
                                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -208,11 +208,6 @@
                 });
             </script>
             <script>
-                var serverUrl = window.location.host;
-                var userName = null;
-                var cookie = null;
-                cookie = "<%=session.get('auth-cookie')%>";
-                userName = "<%=session.get('user')%>";
                 showThemeInfo();
             </script>
 </body>
