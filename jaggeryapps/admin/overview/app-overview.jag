@@ -95,7 +95,7 @@ include("/templates/header.jag");
                                             <span class="connection-status config-details">Configured</span>
                                         </div>
                                         <span class="v-ruler"></span>
-                                        <a href="#" onclick="urlResolver('directory',cookie,userName);">
+                                        <a href="#" onclick="urlResolver('directory',userName);">
                                             <span class="add-padding-left-5x secondary-link">View</span>
                                         </a>
                                     </div>
@@ -131,7 +131,7 @@ include("/templates/header.jag");
                                             <div class="row">
                                             <!-- BOF permission based icon section -->
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                        <a  onclick="urlResolver('addApp',cookie,userName)" class="btn block-action-button">
+                                                        <a  onclick="urlResolver('addApp',userName)" class="btn block-action-button">
                                                             <span class="fw-stack fw-add ">
                                                                 <i class="fw fw-circle-outline fw-stack-2x"></i>
                                                             </span> Add Application
@@ -145,7 +145,7 @@ include("/templates/header.jag");
                                     <div class="col-xs-12 col-md-7 col-lg-7">
                                          <div  class="row row-centered app-listing" style="top:1em">
                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pull-right hide">
-                                                 <div class="cloud-app-listing app-color-one view-all" onclick="urlResolver('applist',cookie,userName)">
+                                                 <div class="cloud-app-listing app-color-one view-all" onclick="urlResolver('applist',userName)">
                                                        <div class="text-viewAll">
                                                             <span>+</span><span id="viewAllCount"></span>
                                                        </div>
@@ -207,12 +207,9 @@ include("/templates/header.jag");
         </script>
 
         <script>
-            var userName = null;
-            var cookie = null;
-            cookie = "<%=session.get('auth-cookie')%>";
-            userName = "<%=session.get('user')%>";
+            var userName = "<%=session.get('user')%>";
 
-            var appList = checkAppList(cookie, userName);
+            var appList = checkAppList(userName);
                 if (appList) {
                      if (appList.length == 2 && appList[0].applicationName === APP_NAME1 && appList[1].applicationName === APP_NAME2) {
                          drawListOverview(appList);

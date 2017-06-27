@@ -30,7 +30,12 @@ function addOrUpdateUserDirectory() {
         })
         .done(function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == true) {
 
                 if (dirList && dirList.domainId) {
@@ -104,7 +109,12 @@ function getDirectories() {
         data: "",
         success: function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -215,7 +225,12 @@ function deleteDirectory(domainname, redirectPage) {
             data: "domain=" + domainname,
         })
         .done(function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == true) {
 
                 var directoryLength = 0,newDirectoryLength = 0 ;
@@ -247,7 +262,7 @@ function deleteDirectory(domainname, redirectPage) {
                     }
                 }
                 if (redirectPage) {
-                    urlResolver(redirectPage, cookie, userName);
+                    urlResolver(redirectPage, userName);
                 }
             } else {
 
@@ -293,9 +308,14 @@ function revokeAndRegenerateAccessToken(domainname) {
         data: "domain=" + domainname + "&oldaccesstoken=" + accessToken + "&newaccesstoken=" + generateAccessToken(),
     })
         .done(function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == true) {
-                urlResolver('directory',cookie,userName);
+                urlResolver('directory', userName);
             } else {
 
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -333,7 +353,12 @@ function populateDirectory(domain) {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
 
             if (resp.success == false) {
@@ -389,7 +414,12 @@ function populateAgentConnection(domain) {
             $("#noconnectiondiv").show();
             $("#downloadGuide").show();
             if (data) {
-                var resp = $.parseJSON(data);
+                var resp;
+                try {
+                    resp = $.parseJSON(data);
+                } catch (err) {
+                    urlResolver('login');
+                }
 
                 if (resp.success == false) {
                     if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -437,8 +467,12 @@ function populateAccessToken(domain) {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
-
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -492,7 +526,12 @@ function downloadAgent() {
         type: "GET",
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -532,7 +571,12 @@ function downloadAgentRedirect() {
         async:false,
         data: "domain=" + domain,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';

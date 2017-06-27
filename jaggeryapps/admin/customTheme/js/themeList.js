@@ -22,7 +22,12 @@ function showThemeInfo() {
                url: str,
                type: 'GET',
                success: function (data) {
-                   var parsedResult = JSON.parse(data);
+                   var parsedResult;
+                   try {
+                       parsedResult = JSON.parse(data);
+                   } catch (err) {
+                       urlResolver('login');
+                   }
                    var themeName = parsedResult['themeName'];
                    var description = parsedResult['themeDescription'];
                    $("#themeName").val(themeName);
@@ -55,7 +60,12 @@ function showDeleteModal() {
             type: 'POST',
             data: "",
             success: function (data) {
-                var result = JSON.parse(data);
+                var result;
+                try {
+                    result = JSON.parse(data);
+                } catch (err) {
+                    urlResolver('login');
+                }
                 // Redirect to theme upload page when there's no errors
                 if (!result.error) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeUpload';
