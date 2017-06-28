@@ -20,24 +20,6 @@
       "icon": "fa fa-envelope",
       "target": "_self",
       "dropDown": "false"
-    },
-    "Account": {
-      "url": "#",
-      "icon": "fw fw-resource",
-      "isAdminOnly": true,
-      "target": "_blank",
-      "dropDown": {
-        "Upgrade Now": {
-          "url": "#",
-          "icon": "fw fw-export",
-          "target": "_self"
-        },
-        "Request Extension": {
-          "url": "#",
-          "icon": "fw fw-mail",
-          "target": "_blank"
-        }
-      }
     }
   },
   "User": {
