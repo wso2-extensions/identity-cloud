@@ -91,9 +91,8 @@ var billing = billing || (function () {
     var initBillingInfo = function (){
 
     var headerConfig  = getJsonFromFile("/conf/urls.json");
-    var billingStatusUrl = headerConfig.headerUrls.billingStatusUrl;
+    var billingStatusFirstLoginUrl = headerConfig.headerUrls.billingStatusFirstLoginUrl;
     var billingLoginUrl = headerConfig.headerUrls.billingLoginUrl;
-    var firstLoginUrl = headerConfig.headerUrls.firstLoginUrl;
     var cloudMgtUrl = headerConfig.headerUrls.cloudMgtUrl;
     var cloudMgtIndexPage = cloudMgtUrl+ "site/pages/index.jag";
     var cloudAdminUserName = headerConfig.userInfo.cloudAdminUserName;
@@ -125,7 +124,7 @@ var billing = billing || (function () {
 
         try{
 
-            billingResult = post(billingStatusUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
+            billingResult = post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
         } catch(e){
             log.error('Error occurred while retrieving billing status data' +e);
         }
@@ -168,7 +167,7 @@ var billing = billing || (function () {
 
              // Informing - first login
              try {
-                 billingResult = post(firstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
+                 billingResult = post(billingStatusFirstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
              } catch(e){
                      log.error('Error occurred while performing inform of first login'+e);
              }

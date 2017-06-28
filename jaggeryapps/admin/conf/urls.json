@@ -6,7 +6,6 @@
     "headerUrls" : {
         "cloudMgtUrl" : "#",
         "billingLoginUrl" : "#",
-        "billingStatusUrl" : "#",
-        "firstLoginUrl" : "#"
+        "billingStatusFirstLoginUrl" : "#"
     }
 }
