@@ -67,27 +67,28 @@ try {
 
 var billing = billing || (function () {
 
+
     var isTrial;
     var accountContent;
     var subscription = "identity_cloud";
 
-    var isTrailExpired = function () {
+    var isTrailExpired = function (){
         return isExpired;
     };
 
-    var isTrialAccount = function () {
+    var isTrialAccount = function (){
         return isTrial;
     };
 
-    var getAccountContent = function () {
+    var getAccountContent = function (){
         return accountContent;
     };
 
-    var getSubscription = function () {
+    var getSubscription = function (){
         return subscription;
     };
 
-    var initBillingInfo = function () {
+    var initBillingInfo = function (){
 
     var headerConfig  = getJsonFromFile("/conf/urls.json");
     var billingStatusFirstLoginUrl = headerConfig.headerUrls.billingStatusFirstLoginUrl;
@@ -97,7 +98,7 @@ var billing = billing || (function () {
     var cloudAdminUserName = headerConfig.userInfo.cloudAdminUserName;
     var cloudAdminPassword = headerConfig.userInfo.cloudAdminPassword;
 
-    var billingResult = {};
+    var billingResult ={};
 
     log.info("Performing logging to Identity-Cloud .... ");
 
@@ -121,9 +122,10 @@ var billing = billing || (function () {
             "cloudType": subscription
         };
 
-        try {
+        try{
+
             billingResult = post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
-        } catch(e) {
+        } catch(e){
             log.error('Error occurred while retrieving billing status data' +e);
         }
 
@@ -176,18 +178,18 @@ var billing = billing || (function () {
              isTrial = true;
              accountContent = "Trial – "+ (trialPeriod)  +" days to upgrade";
           } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
-             if (potentialDisabled) {
+             if (potentialDisabled){
                  log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
                  response.sendRedirect(cloudMgtIndexPage);
              } else {
                  potentialDisabled = true;
              }
           }
-        } else {
+        } else{
                 log.info("Cloud not logged into the Identity-Cloud");
         }
 
- } catch(e) {
+ } catch(e){
         log.error('Error occurred while performing logging operation to identity-cloud' +e);
  }
 };
@@ -289,7 +291,7 @@ function getJsonFromFile(pathTofile) {
                             }
 
                 <!-- For Menu items without drop downs -->
-                       if(dropDowns == "false") { %>
+                       if(dropDowns == "false"){ %>
                            <li class="visible-inline-block">
                            <a href="<%=url%>" target="<%=target%>" title="<%=attr%>">
                               <% if (attr == "Support" && isTrialAccount) { %>
@@ -341,9 +343,9 @@ function getJsonFromFile(pathTofile) {
                                       <i class="<%=dropDownIcon%>" title="<%=dropDown%>"></i> <%=dropDown%> </a> </li>
                                    <%               }
                                                 } else {
-                                                     if(dropDown == "Request Extension") {
+                                                     if(dropDown == "Request Extension"){
                                                           var requestExtension = dropDownUrl;
-                                                     } else if(dropDown == "Upgrade Now") {
+                                                     } else if(dropDown == "Upgrade Now"){
                                                           var upgradeNow = dropDownUrl;
                                                      }
                                                 %>
