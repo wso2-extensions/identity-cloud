@@ -1,28 +1,5 @@
-<div id="footer" hidden>
+<div id="footer">
    <div class="container-fluid">
        <div class="footer-text">WSO2 Cloud &copy; 2017 <i class="fw fw-wso2 fw-2x"></i> All Rights Reserved.</div>
    </div>
 </div>
-<div id="trial-modal" class="modal">
-        <div class="modal-dialog modal-dialog-margin-top-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button id="btn-close" type="button" class="close close-override" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 id="model-title" class="modal-title">Trial Expired</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <span>Was it a successful trial? Your trial unfortunately expired,
-                                  however it is really easy to upgrade to a paid plan and keep using WSO2 Identity Cloud.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = '<%=requestExtension%>'">Request Extension</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href = '<%=upgradeNow%>'">Update Now</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
