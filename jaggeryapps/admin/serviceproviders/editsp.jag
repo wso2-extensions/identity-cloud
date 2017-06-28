@@ -39,6 +39,7 @@
         <!-- BOF cloud menu -->
         <%
 require("../util/constants.jag");
+var docUrls = require('/conf/site.json').appTypeDocUrls;
 var appStatus = null;
 var matcher = new URIMatcher(request.getRequestURI());
 var applicationName;
@@ -141,16 +142,15 @@ include("../templates/leftpane.jag");
               <div class="btn-group" id="custom-app-dropdown" style="display: none;">
                   <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" id="app-type-dropdown">Select App Type<span
                           class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                      <li><a id="agenttype" href="#">Agent</a></li>
-                      <li><a id="proxytype" href="#">Proxy</a></li>
+                  <ul class="dropdown-menu" id="app-type-drop-down">
+                      <li><a id="agenttype" href="#">Standards-Based Federation</a></li>
+                      <li><a id="proxytype" href="#">Proxy-Based Federation</a></li>
                       <li><a id="shortcut" href="#">Shortcut</a></li>
                   </ul>
-                   <div class="app-drop-down-status" style="margin-top: 35px"></div>
-                   <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
+                  <div class="app-drop-down-status" style="margin-top: 35px"></div>
+                  <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
               </div>
               <!--EO Dropdown for custom app config-->
-
 
               <!--App Type Selection Panel-->
               <div id="customConfig" class="panel panel-default" hidden>
@@ -168,6 +168,11 @@ include("../templates/leftpane.jag");
                                   </div>
                               </div>
                           </form>
+                          <div class="description-block" id="app-type-description">
+                              <span class="add-padding-right-1x"><i class="fw fw-info"></i></span>
+                              <span id="app-type-desc-span"></span>
+                              <a id="app-type-desc-url" href="" target="_blank" class="add-padding-left-1x"><span><i class="fw fw-document"></i></span> Documentation.</a>
+                          </div>
                       </div>
                   </div>
               </div>
@@ -1123,10 +1128,12 @@ function changeRadioGroup(obj) {
 $("#custom-app-dropdown .dropdown-menu li a").click(function () {
 
     var selText = $(this).text();
+    var selId = this.id;
+    var docUrls = <%=docUrls%>;
     $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
 
-    switch (selText) {
-        case 'Agent':
+    switch (selId) {
+        case 'agenttype':
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
             $("#security-type").show();
@@ -1136,8 +1143,11 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
+            //set app type description
+            $("#app-type-desc-span").text("Application should be able to generate standard SSO requests and process responses.");
+            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.agentType) ? docUrls.agentType : '#'));
             break;
-        case 'Proxy':
+        case 'proxytype':
             $("#skipgateway").prop('checked', false);
             $("#skipgateway-check").closest('.form-group').hide();
             $("#store-app-url-sec").hide();
@@ -1157,17 +1167,25 @@ $("#custom-app-dropdown .dropdown-menu li a").click(function () {
             $("#security-accordion").show();
             $("#cladimconfig-header").remove();
             $("#inbound-auth-header").hide();
- 	    $("#claim_dialect_custom").show().closest('label').show();
+            $("#claim_dialect_custom").show().closest('label').show();
             $("#securityconfig").show();
             $("#claim-title").show();
+
+            //set app type description
+            $("#app-type-desc-span").text("Identity gateway handles authentication on behalf of the application.");
+            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.proxyType) ? docUrls.proxyType : '#'));
             break;
-        case 'Shortcut' :
+        case 'shortcut' :
             $("#skipgateway").prop('checked', true);
             $("#security-type").hide();
             $("#securityconfig").hide();
             $("#claim-title").hide();
             $("#gw-config-section").hide();
             $("#store-app-url-sec").show();
+
+            //set app type description
+            $("#app-type-desc-span").text("A direct hyperlink to the application (without enforcing any authentication).");
+            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.shortcut) ? docUrls.shortcut : '#'));
             break;
         default:
     }

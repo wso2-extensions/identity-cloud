@@ -3790,8 +3790,14 @@ a.disabled {
 .add-padding-top-3x {
     padding-top: 15px !important;
 }
+.add-padding-right-1x {
+    padding-right: 5px !important;
+}
 .add-padding-right-5x {
     padding-right: 25px !important;
+}
+.add-padding-left-1x {
+    padding-left: 5px !important;
 }
 .add-padding-left-5x {
     padding-left: 25px !important;
@@ -3875,3 +3881,10 @@ a.disabled {
 .v-ruler{
     border-left: 2px solid #777;
 }
+
+.description-block {
+    padding-top: 5px;
+    color: #d2d2d2;
+    margin-top:-12px;
+    font-size: 12px;
+ }

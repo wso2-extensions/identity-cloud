@@ -21,6 +21,11 @@
         "cloudIndexPage" : "https://cloudmgt.cloud.wso2.com/cloudmgt/site/pages/index.jag"
     },
     "hideRolesFromPrimaryUserStore":true,
-    "rolesToBeHidden":[]
+    "rolesToBeHidden":[],
+    "appTypeDocUrls" : {
+        "agentType" : "#",
+        "proxyType" : "#",
+        "shortcut" : "#"
+    }
 
 }
