@@ -80,7 +80,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-nine-dark">
                             <img class="" src="../images/is/custom-app.png" alt="">
-                            <span>You can add a custom application that is used by your organization to the WSO2 Identity Cloud. This enables you to configure single sign-on for your application.</span>
+                            <span>You can add a custom application that is used by your organization to WSO2 Identity Cloud. This enables you to configure single sign-on for your application.</span>
                         </div>
                     </div>
                  </div>
@@ -95,7 +95,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-one-dark">
                             <img class="" src="../images/is/salesforce.png" alt="">
-                            <span>The Salesforce CRM platform can be accessed by employees of your organization completely over the internet. Adding a Salesforce application to the WSO2 Identity Cloud enables you to configure single sign-on for Salesforce.</span>
+                            <span>The Salesforce CRM platform can be accessed by employees of your organization completely over the internet. Adding a Salesforce application to WSO2 Identity Cloud enables you to configure single sign-on for Salesforce.</span>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-six-dark">
                             <img class="" src="../images/is/netsuit.png" alt="">
-                            <span>NetSuite is a cloud-based ERP used by businesses. Adding a NetSuite application to the WSO2 Identity Cloud enables you to configure single sign-on for NetSuite.</span>
+                            <span>NetSuite is a cloud-based ERP used by businesses. Adding a NetSuite application to WSO2 Identity Cloud enables you to configure single sign-on for NetSuite.</span>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-two-dark">
                             <img class="" src="../images/is/concur.png" alt="">
-                            <span>Concur is a business travel and expense management system. Adding a Concur application to the WSO2 Identity Cloud enables you to configure single sign-on for Concur.</span>
+                            <span>Concur is a business travel and expense management system. Adding a Concur application to WSO2 Identity Cloud enables you to configure single sign-on for Concur.</span>
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-three-dark">
                             <img class="" src="../images/is/zuora.png" alt="">
-                            <span>Zuora is a cloud-based subscription management platform. Adding a Zuora application to the WSO2 Identity Cloud enables you to configure single sign-on for Zuora.</span>
+                            <span>Zuora is a cloud-based subscription management platform. Adding a Zuora application to WSO2 Identity Cloud enables you to configure single sign-on for Zuora.</span>
                         </div>
                     </div>
                  </div>
@@ -151,7 +151,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-one-dark">
                             <img class="" src="../images/is/aws.png" alt="">
-                            <span>Amazon Web Services offers scalable cloud computing services. Adding an AWS application to the WSO2 Identity Cloud enables you to configure single sign-on for AWS.</span>
+                            <span>Amazon Web Services offers scalable cloud computing services. Adding an AWS application to the Identity Cloud enables you to configure single sign-on for AWS.</span>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@ include("../templates/leftpane.jag");
                         </div>
                         <div class="description app-color-five-dark">
                             <img class="" src="../images/is/gotomeeting.png" alt="">
-                            <span>GoToMeeting is an online communication portal used for conference calls and networking. Adding a GoToMeeting application to the WSO2 Identity Cloud enables you to configure single sign-on for GoToMeeting.</span>
+                            <span>GoToMeeting is an online communication portal used for conference calls and networking. Adding a GoToMeeting application to WSO2 Identity Cloud enables you to configure single sign-on for GoToMeeting.</span>
                         </div>
                     </div>
                  </div>

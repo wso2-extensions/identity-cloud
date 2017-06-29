@@ -24,7 +24,7 @@ function deleteCustomSP(applicationName) {
 function showDeleteModal(applicationName) {
     $('.delete-modal-content').html('');
     $('.btn-ok').html('');
-    $('.delete-modal-content').append("Are you sure you want to delete Application: "+applicationName+"?");
+    $('.delete-modal-content').append("Are you sure you want to delete " +applicationName+ " Application?");
     $('#delete-buttons-block .btn-ok').prepend('<button type="button" class="btn btn-default" onclick="deleteCustomSP(\'' + applicationName + '\');">Yes</button>')
     $('#delete-popup-modal').modal('show');
 }

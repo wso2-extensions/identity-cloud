@@ -106,9 +106,9 @@ include("/templates/header.jag");
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div class="message message-warning sample-userstore-msg">
-                                            <span><i class="icon fw fw-warning"></i>Don't forget to connect actual user store </span>
+                                            <span><i class="icon fw fw-warning"></i>Do not forget to connect an actual user store. </span>
                                             <button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href='/<%=ADMIN_PORTAL_NAME%>/directories/downloadagent'">
-                                                <span class="hidden-xs">Connect your user store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>
+                                                <span class="hidden-xs">Connect your User Store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>
                                             </button>
                                         </div>
                                     </div>
