@@ -135,8 +135,7 @@ var billing = billing || (function () {
             log.error('Error occurred while retrieving billing status data' + e);
         }
 
-        if(billingResult && billingResult.data && billingResult.data.data && billingResult.data.data.isPaidAccount &&
-           billingResult.data.data.billingPlanStatus ) {
+        if(billingResult && billingResult.data && billingResult.data.data) {
                 isPaidAccount = billingResult.data.data.isPaidAccount;
                 billingPlanStatus = billingResult.data.data.billingPlanStatus;
         } else {
