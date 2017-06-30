@@ -116,6 +116,7 @@ var billing = billing || (function () {
     };
 
  try{
+
     var loginResult = post(billingLoginUrl, data, {}, 'json');
 
     if(loginResult && loginResult.data) {
@@ -139,7 +140,7 @@ var billing = billing || (function () {
                 isPaidAccount = billingResult.data.data.isPaidAccount;
                 billingPlanStatus = billingResult.data.data.billingPlanStatus;
         } else {
-            log.error('Response mismatch error for billingResult response' + e);
+            log.error('Response mismatch error for billingResult response');
         }
 
                 var endDate = billingResult.data.data.endDate;
