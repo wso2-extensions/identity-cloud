@@ -10,6 +10,8 @@ var log = new Log();
 var util = require("/util/utility.jag");
 var authzFailure = request.getParameter("authz_failure");
 var tenantDomain = "";
+var isPaidAccount;
+var billingPlanStatus;
 util.setServerURL("true");
 
 if (user == null) {
@@ -94,7 +96,7 @@ var billing = billing || (function () {
     var billingStatusFirstLoginUrl = headerConfig.headerUrls.billingStatusFirstLoginUrl;
     var billingLoginUrl = headerConfig.headerUrls.billingLoginUrl;
     var cloudMgtUrl = headerConfig.headerUrls.cloudMgtUrl;
-    var cloudMgtIndexPage = cloudMgtUrl+ "site/pages/index.jag";
+    var cloudMgtIndexPage = cloudMgtUrl + "site/pages/index.jag";
     var cloudAdminUserName = headerConfig.userInfo.cloudAdminUserName;
     var cloudAdminPassword = headerConfig.userInfo.cloudAdminPassword;
 
@@ -114,9 +116,9 @@ var billing = billing || (function () {
     };
 
  try{
-    var loginResult = post(billingLoginUrl,data, {}, 'json');
+    var loginResult = post(billingLoginUrl, data, {}, 'json');
 
-    if(loginResult.data = true){
+    if(loginResult && loginResult.data) {
 
         var jsessionid = loginResult.xhr.getResponseHeader("Set-Cookie").match(/JSESSIONID=[^;]+/)[0];
 
@@ -129,23 +131,29 @@ var billing = billing || (function () {
         try {
             billingResult = post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
         } catch(e) {
-            log.error('Error occurred while retrieving billing status data' +e);
+            log.error('Error occurred while retrieving billing status data' + e);
         }
 
-        var isPaidAccount = billingResult.data.data.isPaidAccount;
-        var billingPlanStatus = billingResult.data.data.billingPlanStatus;
-        var endDate = billingResult.data.data.endDate;
-        var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        var noOfDays;
-        var potentialDisabled = false;
+        if(billingResult && billingResult.data && billingResult.data.data && billingResult.data.data.isPaidAccount &&
+           billingResult.data.data.billingPlanStatus ) {
+                isPaidAccount = billingResult.data.data.isPaidAccount;
+                billingPlanStatus = billingResult.data.data.billingPlanStatus;
+        } else {
+            log.error('Response mismatch error for billingResult response' + e);
+        }
+
+                var endDate = billingResult.data.data.endDate;
+                var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                var noOfDays;
+                var potentialDisabled = false;
 
         var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
 
         if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.PENDING_DISABLE) && isPaidAccount === true) {
-              accountContent="Account";
+              accountContent = "Account";
               isExpired = false;
           } else if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.EXTENDED) && isPaidAccount !== true) {
-              date=endDate;
+              date = endDate;
               var currDate = new java.util.Date();
               var endDate =  sqlDateFormatter.parse(date);
               var diff = endDate.getTime() - currDate.getTime();
@@ -156,7 +164,7 @@ var billing = billing || (function () {
                   accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
               } else {
                   isExpired = true;
-                  accountContent="Trial Expired";
+                  accountContent = "Trial Expired";
 
               }
           } else if(billingPlanStatus === status.INACTIVE && isPaidAccount !== true) {
@@ -172,14 +180,14 @@ var billing = billing || (function () {
              try {
                  billingResult = post(billingStatusFirstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
              } catch(e){
-                     log.error('Error occurred while performing inform of first login'+e);
+                     log.error('Error occurred while performing inform of first login' + e);
              }
 
              log.info("Trial account activated for tenant: " + tenantDomain);
 
              isExpired = false;
              isTrial = true;
-             accountContent = "Trial – "+ (trialPeriod)  +" days to upgrade";
+             accountContent = "Trial – " + (trialPeriod)  +" days to upgrade";
           } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
              if (potentialDisabled) {
                  log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
@@ -189,11 +197,11 @@ var billing = billing || (function () {
              }
           }
         } else {
-                log.info("Cloud not logged into the Identity-Cloud");
+                log.info("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
         }
 
  } catch(e) {
-        log.error('Error occurred while performing logging operation to identity-cloud' +e);
+        log.error('Error occurred while performing logging operation to identity-cloud' + e);
  }
 };
 
@@ -212,10 +220,7 @@ var isTrialAccount = billing.isTrialAccount();
 var subscription = billing.getSubscription();
 var accountContent = billing.getAccountContent();
 
-log.info("isTrailExpired " + isTrailExpired);
-log.info("isTrialAccount " + isTrialAccount);
-log.info("subscription " + subscription);
-log.info("accountContent " + accountContent);
+log.info("Tenant domain - " + tenantDomain +", isTrailExpired - " + isTrailExpired + " , isTrialAccount - " + isTrialAccount + " , subscription - " + subscription + " , accountContent - " + accountContent);
 
 function resolveUserName(user) {
     if (user && user.indexOf("/") > -1) {
@@ -394,7 +399,7 @@ function getJsonFromFile(pathTofile) {
             <div id="popover-content" class="hide">
                 <div class="cloud-apps"><%
                     var clouds = expandMenu.Navigate.clouds;
-                    var subscriptionInfo ="";
+                    var subscriptionInfo = "";
                     for (var cloud in clouds) {
                         var icon = clouds[cloud].icon;
                         var url = clouds[cloud].url;
