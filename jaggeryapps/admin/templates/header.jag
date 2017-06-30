@@ -189,12 +189,8 @@ var billing = billing || (function () {
              isTrial = true;
              accountContent = "Trial – " + (trialPeriod)  +" days to upgrade";
           } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
-             if (potentialDisabled) {
                  log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
                  response.sendRedirect(cloudMgtIndexPage);
-             } else {
-                 potentialDisabled = true;
-             }
           }
         } else {
                 log.info("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
