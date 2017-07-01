@@ -12,7 +12,11 @@ function preDrawSAMLConfigPage(samlsp) {
         type: "GET",
         data: "&user=" + userName,
         success: function (data) {
-            samlClient = $.parseJSON(data);
+            try {
+                samlClient = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             var tableTitle = "Configurations";
             var isEditSP = false;
             var issuer = samlsp.inboundAuthKey;

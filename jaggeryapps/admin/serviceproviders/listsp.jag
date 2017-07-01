@@ -53,7 +53,7 @@ var tenantDomain = userInfo.tenantDomain;
     <div class="right-pane">
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
+            <a onclick="urlResolver('overview', userName);" class="btn-action">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -188,9 +188,9 @@ include("/templates/footer.jag");
             $("#msg-issue-element").show();
             var warning = $(
                     '<div class="message message-warning sample-userstore-msg">'+
-                        '<span><i class="icon fw fw-warning"></i>You are running with a sample user store. Don\'t forget to connect actual user store </span>'+
+                        '<span><i class="icon fw fw-warning"></i>You are running with a sample user store. Do not forget to connect an actual user store. </span>'+
                         '<button class="btn cu-btn cu-btn-md cu-btn-blue pull-right connect-btn" onclick="window.location.href=\'/admin/directories/downloadagent\'">'+
-                            '<span class="hidden-xs">Connect your user store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>'+
+                            '<span class="hidden-xs">Connect your User Store &nbsp;&nbsp;<i class="fw fw-settings fw-lg"></i></span>'+
                         '</button>'+
                     '</div>');
              $("#msg-issue").html( warning);

@@ -75,7 +75,7 @@
                     <div class="right-pane">
                         <!-- BOF App  menu actionbar -->
                         <div class="action-bar">
-                            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action">
+                            <a onclick="urlResolver('overview', userName);" class="btn-action">
                                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="message message-info">
-                                        <span><i class="icon fw fw-info"></i>Following theme is currently applied in <a href="<%=USERPORTAL_LINK%>" target="_blank" class="link-underline">user portal.</a> If you want to change this theme, delete and upload a new theme.</span>
+                                        <span><i class="icon fw fw-info"></i>The following theme is currently applied in the <a href="<%=USERPORTAL_LINK%>" target="_blank" class="link-underline">user portal.</a> If you want to change this theme, delete and upload a new theme.</span>
                                     </div>
                                 </div>
                             </div>
@@ -208,11 +208,6 @@
                 });
             </script>
             <script>
-                var serverUrl = window.location.host;
-                var userName = null;
-                var cookie = null;
-                cookie = "<%=session.get('auth-cookie')%>";
-                userName = "<%=session.get('user')%>";
                 showThemeInfo();
             </script>
 </body>

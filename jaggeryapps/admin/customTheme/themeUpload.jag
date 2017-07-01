@@ -76,7 +76,7 @@
                     <div class="right-pane">
                         <!-- BOF App  menu actionbar -->
                         <div class="action-bar">
-                            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top" title="Back to Overview">
+                            <a onclick="urlResolver('overview', userName);" class="btn-action" data-toggle="tooltip" data-placement="top" title="Back to Overview">
                                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                     <i class="fw fw-left-arrow fw-stack-1x"></i>
@@ -115,7 +115,7 @@
                                                                 <div class="form-group">
                                                                     <div class="col-sm-12">
                                                                         <label class="control-label">File Upload <span class="required">*</span> <i class="fa fa-question-circle help-tips"
-                                                                            data-toggle="tooltip" data-placement="left" title="Please upload a zip file."></i>
+                                                                            data-toggle="tooltip" data-placement="right" title="Please upload a ZIP file."></i>
                                                                         </label>
                                                                         <div class="input-group input-wrap file-upload-control">
                                                                             <input type="text" class="form-control" readonly="" id="themeFileInput" name="themeFileInput">

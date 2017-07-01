@@ -22,7 +22,12 @@ function showThemeInfo() {
                url: str,
                type: 'GET',
                success: function (data) {
-                   var parsedResult = JSON.parse(data);
+                   var parsedResult;
+                   try {
+                       parsedResult = JSON.parse(data);
+                   } catch (err) {
+                       urlResolver('login');
+                   }
                    var themeName = parsedResult['themeName'];
                    var description = parsedResult['themeDescription'];
                    $("#themeName").val(themeName);
@@ -42,7 +47,7 @@ function showDeleteModal() {
 
     $('.delete-modal-content').html('');
     $('.btn-ok').html('');
-    $('.delete-modal-content').append("Are you sure you want to delete theme: \"" + htmlEncode(themeName)  + "\"?" +
+    $('.delete-modal-content').append("Are you sure you want to delete theme: " + htmlEncode(themeName)  + "?" +
         "<p>This will delete the current theme from user portal and revert back to the default theme</p>");
     $('#delete-buttons-block .btn-ok').prepend('<button type="button" class="btn btn-default" id="delete">Yes</button>')
     $('#delete-popup-modal').modal('show');
@@ -55,7 +60,12 @@ function showDeleteModal() {
             type: 'POST',
             data: "",
             success: function (data) {
-                var result = JSON.parse(data);
+                var result;
+                try {
+                    result = JSON.parse(data);
+                } catch (err) {
+                    urlResolver('login');
+                }
                 // Redirect to theme upload page when there's no errors
                 if (!result.error) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/customTheme/themeUpload';

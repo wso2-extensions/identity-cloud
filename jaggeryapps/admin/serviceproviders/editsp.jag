@@ -115,7 +115,6 @@ include("../templates/leftpane.jag");
                        src="../images/sample-app-image.png" alt="wso2" title="wso2" class="logo">
                        <div style="padding: 20px">
                          <h3 id="app-name"> Salesforce </h3>
-                         <h5 > Use <span id="app-desc-name"> salesforce </span> settings to add application </h5>
                        </div>
 
                </div>
@@ -271,7 +270,7 @@ include("../templates/leftpane.jag");
             <div id="dynamic-sso-config" class="panel panel-default" style="display: none;">
             </div>
 
-            <div class="panel-group" id="security-accordion" >
+            <div id="security-accordion" >
             <label id="claim-title" for="service-provider-description" >Claim Configuration </label>
 
 
@@ -982,7 +981,7 @@ include("../templates/leftpane.jag");
                                             </div>
                                         </div>
 
-                                        <span class="help-note">Upload a thumbnail image to show in the store details page</span>
+                                        <span class="help-note">Upload a thumbnail image</span>
                                         <input type="hidden" class="form-control" id="store-app-thumbnail-url" name="store-app-thumbnail-url" >
                                     </div>
                                   </div>

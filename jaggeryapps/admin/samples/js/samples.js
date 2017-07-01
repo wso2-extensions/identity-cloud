@@ -10,7 +10,12 @@ function setupSamples(){
     })
         .done(function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == true) {
                 while (!checkUserStoreExist(resp.domain)) {
                     setTimeout(function () {
@@ -58,7 +63,12 @@ function checkUserStoreExist(domain){
     })
         .done(function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
                     window.top.location.href = window.location.protocol + '//' + serverUrl + '/' + ADMIN_PORTAL_NAME + '/logout.jag';
@@ -103,7 +113,12 @@ function addSampleUsers(){
     })
         .done(function (data) {
 
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
             if (resp.success == true) {
                 window.location.href = SAMPLE_USERS_LIST_PATH;
             } else {
@@ -156,7 +171,12 @@ function getSampleUsers(){
         type: "GET",
         data: "&user=" + userName,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {

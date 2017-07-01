@@ -92,7 +92,7 @@ include("/templates/header.jag");
 
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
+            <a onclick="urlResolver('overview', userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Overview">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -147,27 +147,34 @@ include("/templates/header.jag");
                                                     <button class="btn btn-info btn-check" data-clipboard-target="#accessToken">Copy</button>
                                                 </span>
                                                 <span class="input-group-btn input-group-btn-check">
-                                                           <button class="btn btn-info btn-check" id="btnRevoke"> Revoke & Re-generate </button>
+                                                           <button class="btn btn-info btn-check" id="btnRevoke"> Revoke and Re-generate </button>
                                                  </span>
                                             </div>
-                                            <div class="input-group">
-                                                <div class="help-block" style="padding-top:10px;"><i class="fw fw-document"><a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store" target="_blank" style="font-family:'Roboto', sans-serif;font-size:15px">    How to setup the agent</a></i></div>
+                                            <div class="help-block" style="padding-top:5px;">
+                                                <p>Refer to the <a href="https://docs.wso2.com/display/IdentityCloud/Configuring+an+On-premise+User+Store" target="_blank">documentation</a> on how to setup the agent.</p>
                                             </div>
                                         </div>
                                     </div>
                              </form>
                          </div>
                      </div>
-                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="connectiondiv" name="connectiondiv">
                             <h4 class="margin-bottom-xs">Agent Status</h4>
                             <table id="tblConnection" name="tblConnection">
                             </table>
                             <div class="message message-warning" id="noconnectiondiv" name="noconnectiondiv" style="display: none">
-                                        <span>No agents connected at the moment</span>
+                                        <span>No agents connected at the moment.</span>
                             </div>
-                            <div class="message message-info" id="connectionInfodiv" name="connectionInfodiv" style="display: none">
-                                        <span>Now you can try to log into the user portal with one of the accounts from the directory you configured.</span>
+                            <div id="connectionInfodiv" name="connectionInfodiv" style="display: none">
+                                <div class="message message-info">
+                                            <span><i class="icon fw fw-info"></i> Now you can log in to the user portal with one of the accounts from the directory you configured.</span>
+                                </div>
+                                <div class="note-container">
+                                    <div class="help-note">
+                                           Note: Username of the login account should be in email address format.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +203,7 @@ include("/templates/header.jag");
                                 <div class="form-group">
                                 <div id="process-icon" hidden><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
                                     <label for="demote-reason-text" class="control-label" id="delete-label-text">Are you
-                                        sure , you want to delete the user directory ? </label>
+                                        sure you want to delete the user directory? </label>
 
                                 </div>
                             </div>
@@ -219,7 +226,7 @@ include("/templates/header.jag");
                 <div class="modal-header">
                     <button type="button" class="close close-override" data-dismiss="modal" aria-label="Cancel"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 id="revoke-heading" class="modal-title">Revoke & Re-generate Access token</h4>
+                    <h4 id="revoke-heading" class="modal-title">Revoke and Re-generate Access token</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -227,8 +234,8 @@ include("/templates/header.jag");
                             <div class="form">
                                 <div class="form-group">
                                 <div id="revoke-process-icon" hidden><i class="fw-loader5 fw-spin fw-3x"></i>  <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px">Please wait. This will take a few seconds.</label> </div>
-                                    <label for="demote-reason-text" class="control-label" id="revoke-label-text">This will disconnect already connected agents. Are you
-                                        sure , you want to revoke & regenerate access token ? </label>
+                                    <label for="demote-reason-text" class="control-label" id="revoke-label-text">This will disconnect agents that are already connected. Are you
+                                        sure you want to revoke and regenerate the access token? </label>
 
                                 </div>
                             </div>

@@ -276,7 +276,13 @@ function setCustomImage(appName) {
         async: true,
         success: function (data) {
             if (data != null) {
-                var result = JSON.parse(data);
+                var result;
+                try {
+                    result = JSON.parse(data);
+                }
+                catch(err) {
+                    urlResolver('login');
+                }
                 if (result != null && result.thumbnailUrl != undefined) {
                     var thumbnailLink = "/user-portal/storage/webapp/" + result.id + '/' + result.thumbnailUrl;
                     $('#sp-img-thumb').attr('src', thumbnailLink);
@@ -338,7 +344,12 @@ function preDrawSPDetails(appName){
         type: "GET",
         data: "&user=" + userName + "&spName=" + appName,
         success: function (data) {
-            var resp = $.parseJSON(data);
+            var resp;
+            try {
+                resp = $.parseJSON(data);
+            } catch (err) {
+                urlResolver('login');
+            }
 
             if (resp.success == false) {
                 if (typeof resp.reLogin != 'undefined' && resp.reLogin == true) {
@@ -381,7 +392,13 @@ function preDrawAppDetails(appName){
                data: "&user=" + userName + "&spName=" + appName,
                contentType: "multipart/form-data",
                success: function (data) {
-                   drawAppDetails(JSON.parse(data));
+                   var resp;
+                   try {
+                       resp = JSON.parse(data);
+                   } catch (err) {
+                       urlResolver('login');
+                   }
+                   drawAppDetails(resp);
                },
                error: function (e) {
                    message({
@@ -575,7 +592,12 @@ function updateCustomSP(file) {
     })
         .done(function (data) {
             if (data) {
-                var resp = JSON.parse(data);
+                var resp;
+                try {
+                    resp = JSON.parse(data);
+                } catch (err) {
+                    urlResolver('login');
+                }
                 if (!resp.success) {
                     if (resp.code && resp.code == 409) {
                         if ($("#radioCf").is(":checked")) {
@@ -792,7 +814,11 @@ function getRoles() {
                type: 'GET',
                async: false,
                success: function (data) {
-                   roles = JSON.parse(data);
+                   try {
+                       roles = JSON.parse(data);
+                   } catch (err) {
+                       urlResolver('login');
+                   }
                }
            });
     return roles
@@ -806,7 +832,11 @@ function getAllTags() {
                type: 'GET',
                async: false,
                success: function (data) {
-                   tags = JSON.parse(data);
+                   try {
+                       tags = JSON.parse(data);
+                   } catch (err) {
+                       urlResolver('login');
+                   }
                }
            });
 
