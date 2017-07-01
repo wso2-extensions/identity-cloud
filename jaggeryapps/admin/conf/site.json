@@ -26,6 +26,11 @@
         "agentType" : "#",
         "proxyType" : "#",
         "shortcut" : "#"
+    },
+    "appTypeDesc" : {
+        "agentType" : "Application should be able to generate standard SSO requests and process responses sent by identity provider. For more refer ",
+        "proxyType" : "The application do not need to handle the SSO logic. There is a central gateway provided which act as a proxy for application and handle SSO requests/responses on behalf application and send a signed JWT token to the application. For more information refer ",
+        "shortcut" : "A direct hyperlink to the application (without enforcing any authentication). This type can be used, when you have some web sites, applications having own authentications etc, but  those should get listed in a central place alone with all the other apps.  For more information refer "
     }
 
 }

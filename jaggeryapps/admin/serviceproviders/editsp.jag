@@ -40,6 +40,7 @@
         <%
 require("../util/constants.jag");
 var docUrls = require('/conf/site.json').appTypeDocUrls;
+var appTypeDesc = require('/conf/site.json').appTypeDesc;
 var appStatus = null;
 var matcher = new URIMatcher(request.getRequestURI());
 var applicationName;
@@ -136,22 +137,6 @@ include("../templates/leftpane.jag");
 
               <!--EO Drop down for manual config and upload content-->
 
-              <!--BO Dropdown for custom app config-->
-
-
-              <div class="btn-group" id="custom-app-dropdown" style="display: none;">
-                  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" id="app-type-dropdown">Select App Type<span
-                          class="caret"></span></a>
-                  <ul class="dropdown-menu" id="app-type-drop-down">
-                      <li><a id="agenttype" href="#">Standards-Based Federation</a></li>
-                      <li><a id="proxytype" href="#">Proxy-Based Federation</a></li>
-                      <li><a id="shortcut" href="#">Shortcut</a></li>
-                  </ul>
-                  <div class="app-drop-down-status" style="margin-top: 35px"></div>
-                  <label id="agentUrl-error" class="error" hidden="" >This field is required.</label>
-              </div>
-              <!--EO Dropdown for custom app config-->
-
               <!--App Type Selection Panel-->
               <div id="customConfig" class="panel panel-default" hidden>
                   <div role="tabpanel" aria-labelledby="gatewayconfig-header">
@@ -163,16 +148,30 @@ include("../templates/leftpane.jag");
                                               class="fa fa-question-circle help-tips" data-toggle="tooltip"
                                               data-placement="right"
                                               title="The application templates that allow you to create different types of applications."></i>
+
+                                      <!--BO App Type Radio Button Group-->
                                       <div id="custom-apptype-content">
+
+                                          <label class="radio"><input id="agenttype" type="radio" name="toggler" value="1" class="custom-radio"/>Standards-based Federation</label>
+                                          <div id="blk-1" class="toHide" style="display:none">
+                                              <span id="app-type-desc-span-1"></span>
+                                              <a id="app-type-desc-url-1" href="" target="_blank">Documentation.</a>
+                                          </div>
+                                          <label class="radio"><input id="proxytype" type="radio" name="toggler" class="custom-radio" value="2"/>Proxy-based Federation</label>
+                                          <div id="blk-2" class="toHide" style="display:none">
+                                              <span id="app-type-desc-span-2"></span>
+                                              <a id="app-type-desc-url-2" href="" target="_blank">Documentation.</a>
+                                          </div>
+                                          <label class="radio"><input id="shortcut" type="radio" name="toggler" value="3" class="custom-radio"/>Shortcut</label>
+                                          <div id="blk-3" class="toHide" style="display:none">
+                                              <span id="app-type-desc-span-3"></span>
+                                              <a id="app-type-desc-url-3" href="" target="_blank">Documentation.</a>
+                                          </div>
                                       </div>
+                                      <!--EO App Type Radio Button Group-->
                                   </div>
                               </div>
                           </form>
-                          <div class="description-block" id="app-type-description">
-                              <span class="add-padding-right-1x"><i class="fw fw-info"></i></span>
-                              <span id="app-type-desc-span"></span>
-                              <a id="app-type-desc-url" href="" target="_blank" class="add-padding-left-1x"><span><i class="fw fw-document"></i></span> Documentation.</a>
-                          </div>
                       </div>
                   </div>
               </div>
@@ -1123,72 +1122,74 @@ function changeRadioGroup(obj) {
     }
 }
 
+$("#custom-apptype-content label.radio input").click(function() {
 
+            var selText = $(this).text();
+            var selId = this.id;
+            var docUrls = <%=docUrls%>;
+            var appTypeDesc = <%=appTypeDesc%>;
 
-$("#custom-app-dropdown .dropdown-menu li a").click(function () {
+            switch (selId) {
+                case 'agenttype':
+                    $("#skipgateway").prop('checked', true);
+                    $("#gw-config-section").hide();
+                    $("#security-type").show();
+                     //show claim config
+                    $("#subjectMappingSelection").hide();
+                    $('#subject_claim_uri').val('')
+                    $("#security-accordion").show();
+                    $("#cladimconfig-header").remove();
+                    $("#inbound-auth-header").hide();
+                    //set app type description
+                    $("#app-type-desc-span-1").text((appTypeDesc && appTypeDesc.agentType) ? appTypeDesc.agentType : '');
+                    $("#app-type-desc-url-1").attr('href', ((docUrls && docUrls.agentType) ? docUrls.agentType : '#'));
+                    break;
+                case 'proxytype':
+                    $("#skipgateway").prop('checked', false);
+                    $("#skipgateway-check").closest('.form-group').hide();
+                    $("#store-app-url-sec").hide();
+                    $("#security-type").hide();
+                    $("#gw-config-section").show();
+                    $("#gatewayconfig").attr('class', '');
+                    $("#gw-config-section").find('.panel-heading').remove();
 
-    var selText = $(this).text();
-    var selId = this.id;
-    var docUrls = <%=docUrls%>;
-    $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                    $("#gatewayConfigForm").validate(); //sets up the validator since dynamically added elements here
+                    $("input[id*=gw-app-context]").rules("add", "required");
+                    $("input[id*=gw-app-url]").rules("add", "required");
+                    $("input[id*=gw-app-url]").rules("add", "url");
 
-    switch (selId) {
-        case 'agenttype':
-            $("#skipgateway").prop('checked', true);
-            $("#gw-config-section").hide();
-            $("#security-type").show();
-             //show claim config
-            $("#subjectMappingSelection").hide();
-            $('#subject_claim_uri').val('')
-            $("#security-accordion").show();
-            $("#cladimconfig-header").remove();
-            $("#inbound-auth-header").hide();
-            //set app type description
-            $("#app-type-desc-span").text("Application should be able to generate standard SSO requests and process responses.");
-            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.agentType) ? docUrls.agentType : '#'));
-            break;
-        case 'proxytype':
-            $("#skipgateway").prop('checked', false);
-            $("#skipgateway-check").closest('.form-group').hide();
-            $("#store-app-url-sec").hide();
-            $("#security-type").hide();
-            $("#gw-config-section").show();
-            $("#gatewayconfig").attr('class', '');
-            $("#gw-config-section").find('.panel-heading').remove();
+                    //show claim config
+                    $("#subjectMappingSelection").hide();
+                    $('#subject_claim_uri').val('')
+                    $("#security-accordion").show();
+                    $("#cladimconfig-header").remove();
+                    $("#inbound-auth-header").hide();
+                    $("#claim_dialect_custom").show().closest('label').show();
+                    $("#securityconfig").show();
+                    $("#claim-title").show();
 
-            $("#gatewayConfigForm").validate(); //sets up the validator since dynamically added elements here
-            $("input[id*=gw-app-context]").rules("add", "required");
-            $("input[id*=gw-app-url]").rules("add", "required");
-            $("input[id*=gw-app-url]").rules("add", "url");
+                    //set app type description
+                    $("#app-type-desc-span-2").text((appTypeDesc && appTypeDesc.proxyType) ? appTypeDesc.proxyType : '');
+                    $("#app-type-desc-url-2").attr('href', ((docUrls && docUrls.proxyType) ? docUrls.proxyType :
+                    '#'));
+                    break;
+                case 'shortcut' :
+                    $("#skipgateway").prop('checked', true);
+                    $("#security-type").hide();
+                    $("#securityconfig").hide();
+                    $("#claim-title").hide();
+                    $("#gw-config-section").hide();
+                    $("#store-app-url-sec").show();
 
-            //show claim config
-            $("#subjectMappingSelection").hide();
-            $('#subject_claim_uri').val('')
-            $("#security-accordion").show();
-            $("#cladimconfig-header").remove();
-            $("#inbound-auth-header").hide();
-            $("#claim_dialect_custom").show().closest('label').show();
-            $("#securityconfig").show();
-            $("#claim-title").show();
+                    //set app type description
+                    $("#app-type-desc-span-3").text((appTypeDesc && appTypeDesc.shortcut) ? appTypeDesc.shortcut : '');
+                    $("#app-type-desc-url-3").attr('href', ((docUrls && docUrls.shortcut) ? docUrls.shortcut : '#'));
+                    break;
+                default:
+            }
 
-            //set app type description
-            $("#app-type-desc-span").text("Identity gateway handles authentication on behalf of the application.");
-            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.proxyType) ? docUrls.proxyType : '#'));
-            break;
-        case 'shortcut' :
-            $("#skipgateway").prop('checked', true);
-            $("#security-type").hide();
-            $("#securityconfig").hide();
-            $("#claim-title").hide();
-            $("#gw-config-section").hide();
-            $("#store-app-url-sec").show();
-
-            //set app type description
-            $("#app-type-desc-span").text("A direct hyperlink to the application (without enforcing any authentication).");
-            $("#app-type-desc-url").attr('href', ((docUrls && docUrls.shortcut) ? docUrls.shortcut : '#'));
-            break;
-        default:
-    }
+            $('.toHide').slideUp('fast');
+            $("#blk-"+$(this).val()).show('fast');
 });
 
 var samlconf, oauthconf, wsfedconf = null;
