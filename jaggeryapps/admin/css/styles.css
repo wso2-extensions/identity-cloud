@@ -3799,6 +3799,9 @@ a.disabled {
 .add-padding-left-1x {
     padding-left: 5px !important;
 }
+.add-padding-left-4x {
+    padding-left: 20px !important;
+}
 .add-padding-left-5x {
     padding-left: 25px !important;
 }
@@ -3893,6 +3896,6 @@ a.disabled {
     font-size: 12px;
  }
 
-#customConfig .radio{
+#customConfig .radio {
     padding-left: 20px;
 }

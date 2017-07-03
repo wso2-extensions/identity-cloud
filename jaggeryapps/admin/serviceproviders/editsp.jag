@@ -151,20 +151,20 @@ include("../templates/leftpane.jag");
                                       <!--BO App Type Radio Button Group-->
                                       <div id="custom-apptype-content">
 
-                                          <label class="radio"><input id="agenttype" type="radio" name="toggler" value="1" class="custom-radio"/>Standards-based Federation</label>
-                                          <div id="blk-1" class="toHide" style="display:none">
+                                          <label class="radio" style="padding-bottom: 10px;"><input id="agenttype" type="radio" name="toggler" value="1" class="custom-radio"/>Standards-based Federation</label>
+                                          <div id="blk-1" class="toHide description-block add-padding-left-4x" style="display:none">
                                               <span id="app-type-desc-span-1"></span>
-                                              <a id="app-type-desc-url-1" href="" target="_blank">Documentation.</a>
+                                              <a id="app-type-desc-url-1" href="" target="_blank">documentation.</a>
                                           </div>
-                                          <label class="radio"><input id="proxytype" type="radio" name="toggler" class="custom-radio" value="2"/>Proxy-based Federation</label>
-                                          <div id="blk-2" class="toHide" style="display:none">
+                                          <label class="radio" style="padding-bottom: 10px;"><input id="proxytype" type="radio" name="toggler" class="custom-radio" value="2"/>Proxy-based Federation</label>
+                                          <div id="blk-2" class="toHide description-block add-padding-left-4x" style="display:none">
                                               <span id="app-type-desc-span-2"></span>
-                                              <a id="app-type-desc-url-2" href="" target="_blank">Documentation.</a>
+                                              <a id="app-type-desc-url-2" href="" target="_blank">documentation.</a>
                                           </div>
-                                          <label class="radio"><input id="shortcut" type="radio" name="toggler" value="3" class="custom-radio"/>Shortcut</label>
-                                          <div id="blk-3" class="toHide" style="display:none">
+                                          <label class="radio" style="padding-bottom: 10px;"><input id="shortcut" type="radio" name="toggler" value="3" class="custom-radio"/>Shortcut</label>
+                                          <div id="blk-3" class="toHide description-block add-padding-left-4x" style="display:none">
                                               <span id="app-type-desc-span-3"></span>
-                                              <a id="app-type-desc-url-3" href="" target="_blank">Documentation.</a>
+                                              <a id="app-type-desc-url-3" href="" target="_blank">documentation.</a>
                                           </div>
                                       </div>
                                       <!--EO App Type Radio Button Group-->
