@@ -155,7 +155,7 @@ function drawAppDetails(data) {
                 //Agent type
                 $('#storeAppType').val(APP_AGENT_TYPE);
                 $("#custom-app-dropdown").click();
-                $("#custom-app-dropdown #agenttype").click();
+                $("#custom-apptype-content #agenttype").click();
 
                 $("#skipgateway").prop('checked', true);
                 $("#gw-config-section").hide();
@@ -165,7 +165,7 @@ function drawAppDetails(data) {
             } else if (storeAppType == APP_SHORTCUT_TYPE){
                 //shortcut type
                 $('#storeAppType').val(APP_SHORTCUT_TYPE);
-                $("#custom-app-dropdown #shortcut").click();
+                $("#custom-apptype-content #shortcut").click();
                 $("#security-type").hide();
                 $("#security-accordion").show();
                 $("#gw-config-section").hide();
@@ -173,7 +173,7 @@ function drawAppDetails(data) {
         } else if (data && data.skipGateway == "false"){
             //proxy type
             $('#storeAppType').val(APP_PROXY_TYPE);
-            $("#custom-app-dropdown #proxytype").click();
+            $("#custom-apptype-content #proxytype").click();
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
             $("#gw-config-section").find('.panel-heading').remove();
@@ -183,7 +183,7 @@ function drawAppDetails(data) {
         } else {
             $('#storeAppType').val(APP_AGENT_TYPE);
             $("#custom-app-dropdown").click();
-            $("#custom-app-dropdown #agenttype").click();
+            $("#custom-apptype-content #agenttype").click();
 
             $("#skipgateway").prop('checked', true);
             $("#gw-config-section").hide();
