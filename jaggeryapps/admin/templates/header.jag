@@ -69,7 +69,6 @@ try {
 }
 
 var billing = billing || (function () {
-
     var isTrial;
     var accountContent;
     var subscription = "identity_cloud";
@@ -115,90 +114,96 @@ var billing = billing || (function () {
         "password": cloudAdminPassword
     };
 
- try{
+     try{
 
-    var loginResult = post(billingLoginUrl, data, {}, 'json');
+        var loginResult = post(billingLoginUrl, data, {}, 'json');
 
-    if(loginResult && loginResult.data) {
+        if(loginResult && loginResult.data) {
 
-        var jsessionid = loginResult.xhr.getResponseHeader("Set-Cookie").match(/JSESSIONID=[^;]+/)[0];
+            var jsessionid = loginResult.xhr.getResponseHeader("Set-Cookie").match(/JSESSIONID=[^;]+/)[0];
 
-        var billingStatusData = {
-            "action": "getBillingStatusOfTenant",
-            "tenantDomain": tenantDomain,
-            "cloudType": subscription
-        };
+            var billingStatusData = {
+                "action": "getBillingStatusOfTenant",
+                "tenantDomain": tenantDomain,
+                "cloudType": subscription
+            };
 
-        try {
-            billingResult = post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
-        } catch(e) {
-            log.error('Error occurred while retrieving billing status data' + e);
-        }
+            try {
+                billingResult = post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
+            } catch(e) {
+                log.error('Error occurred while retrieving billing status data for tenant domain : ' + tenantDomain + ' error : ' + e);
+            }
 
-        if(billingResult && billingResult.data && billingResult.data.data) {
-                isPaidAccount = billingResult.data.data.isPaidAccount;
-                billingPlanStatus = billingResult.data.data.billingPlanStatus;
-        } else {
-            log.error('Response mismatch error for billingResult response');
-        }
+            if(billingResult && billingResult.data && billingResult.data.data) {
+                    isPaidAccount = billingResult.data.data.isPaidAccount;
+                    billingPlanStatus = billingResult.data.data.billingPlanStatus;
+            } else {
+                log.error('Response mismatch error for billingResult response');
+            }
 
-                var endDate = billingResult.data.data.endDate;
-                var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                var noOfDays;
-                var potentialDisabled = false;
+            var endDate = billingResult.data.data.endDate;
+            var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            var noOfDays;
+            var potentialDisabled = false;
 
-        var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
+            var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
 
-        if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.PENDING_DISABLE) && isPaidAccount === true) {
-              accountContent = "Account";
-              isExpired = false;
-          } else if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.EXTENDED) && isPaidAccount !== true) {
-              date = endDate;
-              var currDate = new java.util.Date();
-              var endDate =  sqlDateFormatter.parse(date);
-              var diff = endDate.getTime() - currDate.getTime();
-              if(diff > 0) {
+            if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.PENDING_DISABLE) && isPaidAccount === true) {
+                  accountContent = "Account";
                   isExpired = false;
-                  isTrial = true;
-                  noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                  accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
-              } else {
-                  isExpired = true;
-                  accountContent = "Trial Expired";
+              } else if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.EXTENDED) && isPaidAccount !== true) {
+                  date = endDate;
+                  var currDate = new java.util.Date();
+                  var endDate =  sqlDateFormatter.parse(date);
+                  var diff = endDate.getTime() - currDate.getTime();
+                  if(diff > 0) {
+                      isExpired = false;
+                      isTrial = true;
+                      noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                      accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
+                  } else {
+                      isExpired = true;
+                      accountContent = "Trial Expired";
 
+                  }
+              } else if(billingPlanStatus === status.INACTIVE && isPaidAccount !== true) {
+                 var acStartDate = new Packages.java.util.Date();
+                 var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
+                 var firstLoginData = {
+                         "action": "informFirstLogin",
+                         "tenantDomain": tenantDomain,
+                         "cloudType": subscription
+                     };
+
+                 // Informing - first login
+                 try {
+                     billingResult = post(billingStatusFirstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
+                 } catch(e){
+                         log.error('Error occurred while performing inform of first login' + e);
+                 }
+
+                 if (log.isDebugEnabled()) {
+                      log.debug("Trial account activated for tenant: " + tenantDomain);
+                 }
+
+                 isExpired = false;
+                 isTrial = true;
+                 accountContent = "Trial – " + (trialPeriod)  +" days to upgrade";
+              } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
+                          if (log.isDebugEnabled()) {
+                               log.debug("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
+                          }
+                               response.sendRedirect(cloudMgtIndexPage);
               }
-          } else if(billingPlanStatus === status.INACTIVE && isPaidAccount !== true) {
-             var acStartDate = new Packages.java.util.Date();
-             var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
-             var firstLoginData = {
-                     "action": "informFirstLogin",
-                     "tenantDomain": tenantDomain,
-                     "cloudType": subscription
-                 };
+            } else {
+                      if (log.isDebugEnabled()) {
+                           log.info("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
+                      }
+            }
 
-             // Informing - first login
-             try {
-                 billingResult = post(billingStatusFirstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
-             } catch(e){
-                     log.error('Error occurred while performing inform of first login' + e);
-             }
-
-             log.info("Trial account activated for tenant: " + tenantDomain);
-
-             isExpired = false;
-             isTrial = true;
-             accountContent = "Trial – " + (trialPeriod)  +" days to upgrade";
-          } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
-                 log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
-                 response.sendRedirect(cloudMgtIndexPage);
-          }
-        } else {
-                log.info("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
-        }
-
- } catch(e) {
-        log.error('Error occurred while performing logging operation to identity-cloud' + e);
- }
+     } catch(e) {
+            log.error('Error occurred while performing logging operation to identity-cloud' + e);
+     }
 };
 
     return {
@@ -216,7 +221,9 @@ var isTrialAccount = billing.isTrialAccount();
 var subscription = billing.getSubscription();
 var accountContent = billing.getAccountContent();
 
-log.info("Tenant domain - " + tenantDomain +", isTrailExpired - " + isTrailExpired + " , isTrialAccount - " + isTrialAccount + " , subscription - " + subscription + " , accountContent - " + accountContent);
+if (log.isDebugEnabled()) {
+     log.debug("Tenant domain - " + tenantDomain +", isTrailExpired - " + isTrailExpired + " , isTrialAccount - " + isTrialAccount + " , subscription - " + subscription + " , accountContent - " + accountContent);
+}
 
 function resolveUserName(user) {
     if (user && user.indexOf("/") > -1) {
