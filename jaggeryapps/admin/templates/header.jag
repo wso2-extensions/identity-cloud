@@ -197,7 +197,7 @@ var billing = billing || (function () {
               }
             } else {
                       if (log.isDebugEnabled()) {
-                           log.info("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
+                           log.debug("Cloud Admin - " + cloudAdminUserName + " not logged into the Identity-Cloud");
                       }
             }
 
