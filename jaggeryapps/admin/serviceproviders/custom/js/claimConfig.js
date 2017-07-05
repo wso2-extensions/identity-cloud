@@ -280,7 +280,7 @@ function getClaimUrisClaimConfig(spClaimConfig, isLocalClaimsSelected, claimMapp
         data: "&user=" + userName + "&clientAction=getClaimURIs",
         success: function (data) {
             try {
-                spConfigClaimUris = $.parseJSON(data);
+                spConfigClaimUris = $.parseJSON(data).return;
             } catch (err) {
                 urlResolver('login');
             }
