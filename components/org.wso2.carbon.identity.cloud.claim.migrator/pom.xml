@@ -3,7 +3,7 @@
     <parent>
         <artifactId>identity-cloud</artifactId>
         <groupId>org.wso2.carbon.identity.cloud</groupId>
-        <version>2.0.15-SNAPSHOT</version>
+        <version>3.0.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
