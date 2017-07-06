@@ -181,14 +181,18 @@ var billing = billing || (function () {
                  } catch(e){
                          log.error('Error occurred while performing inform of first login' , e);
                  }
-
-                 if (log.isDebugEnabled()) {
-                      log.debug("Trial account activated for tenant: " + tenantDomain);
-                 }
+                 if (!billingResult.data.error) {
+                     if (log.isDebugEnabled()) {
+                           log.debug("Trial account activated for tenant: " + tenantDomain);
+                     }
 
                  isExpired = false;
                  isTrial = true;
                  accountContent = "Trial – " + (trialPeriod)  + " days to upgrade";
+
+                 }else {
+                  log.error('error occured while informing first login :' + billingResult.data.content);
+                 }
               } else if (billingPlanStatus === status.DISABLED) {
                   if (log.isDebugEnabled()) {
                        log.debug("Access denied for tenant: " + tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
