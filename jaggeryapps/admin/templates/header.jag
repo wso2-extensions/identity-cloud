@@ -191,7 +191,7 @@ var billing = billing || (function () {
                  accountContent = "Trial – " + (trialPeriod)  + " days to upgrade";
 
                  }else {
-                  log.error('error occured while informing first login :' + billingResult.data.content);
+                  log.error('error occurred while informing first login :' + billingResult.data.content);
                  }
               } else if (billingPlanStatus === status.DISABLED) {
                   if (log.isDebugEnabled()) {
