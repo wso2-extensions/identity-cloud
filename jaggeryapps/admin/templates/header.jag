@@ -182,24 +182,29 @@ var billing = billing || (function () {
                          log.error('Error occurred while performing inform of first login' , e);
                  }
 
-                 if (log.isDebugEnabled()) {
-                      log.debug("Trial account activated for tenant: " + tenantDomain);
-                 }
+                 if (!billingResult.data.error) {
+                     if (log.isDebugEnabled()) {
+                          log.debug("Trial account activated for tenant: " + tenantDomain);
+                     }
 
                  isExpired = false;
                  isTrial = true;
                  accountContent = "Trial – " + (trialPeriod)  + " days to upgrade";
+
+                 } else {
+                  log.error('error occurred while informing first login :' + billingResult.data.content);
+                 }
               } else if (billingPlanStatus === status.DISABLED) {
-                  if (log.isDebugEnabled()) {
-                       log.debug("Access denied for tenant: " + tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
-                  }
-                  response.sendRedirect(cloudMgtIndexPage);
+                      if (log.isDebugEnabled()) {
+                           log.debug("Access denied for tenant: " + tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
+                      }
+                      response.sendRedirect(cloudMgtIndexPage);
               }
-            } else {
-                  if (log.isDebugEnabled()) {
-                       log.debug("Cloud Admin - " + cloudAdminUserName + " could not logged into the Identity-Cloud");
-                  }
-            }
+        } else {
+              if (log.isDebugEnabled()) {
+                   log.debug("Cloud Admin - " + cloudAdminUserName + " could not logged into the Identity-Cloud");
+              }
+        }
 
      } catch(e) {
             log.error('Error occurred while performing logging operation to identity-cloud' , e);
