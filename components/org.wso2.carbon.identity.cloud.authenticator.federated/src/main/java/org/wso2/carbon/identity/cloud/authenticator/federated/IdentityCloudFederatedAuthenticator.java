@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.base.MultitenantConstants;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.application.authentication.framework.AbstractApplicationAuthenticator;
 import org.wso2.carbon.identity.application.authentication.framework.FederatedApplicationAuthenticator;
 import org.wso2.carbon.identity.application.authentication.framework.config.ConfigurationFacade;
@@ -254,6 +255,9 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
 
         String tenantAwareUsername = MultitenantUtils.getTenantAwareUsername(username);
         try {
+            int tenantId = IdentityTenantUtil.getTenantIdOfUser(username);
+            PrivilegedCarbonContext.startTenantFlow();
+            PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId, true);
             Claim[] userClaimValues = userStoreManager.getUserClaimValues(tenantAwareUsername, "default");
             Map<ClaimMapping, String> claims = new HashMap<>();
             for (Claim userClaim : userClaimValues) {
@@ -269,6 +273,8 @@ public class IdentityCloudFederatedAuthenticator extends AbstractApplicationAuth
             if (log.isDebugEnabled()){
                 log.debug("Error while retrieving claims for user : " + username, e);
             }
+        } finally {
+            PrivilegedCarbonContext.endTenantFlow();
         }
     }
 

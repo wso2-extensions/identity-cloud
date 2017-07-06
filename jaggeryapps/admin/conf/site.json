@@ -26,6 +26,12 @@
         "agentType" : "#",
         "proxyType" : "#",
         "shortcut" : "#"
+    },
+    "appTypeDesc" : {
+        "agentType" : "The application should be able to generate standard SSO requests and process responses sent by the identity provider. The supported standards are SAML2 Web SSO, OpenID Connect, and WS-Federation (Passive). For more information, see the ",
+        "proxyType" : "The application does not need to handle the SSO requests and responses. There is a central gateway provided that acts as a proxy for the application and handles SSO requests/responses on behalf of the application. This sends a signed JWT token to the application. For more information, see the  ",
+        "shortcut" : "A direct hyperlink to the application (without enforcing any authentication). This type can be used for web sites, applications having their own authentications etc, but those should get listed in a central place along with all the other apps. For more information, see the "
+
     }
 
 }

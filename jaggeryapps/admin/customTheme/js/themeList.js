@@ -47,7 +47,7 @@ function showDeleteModal() {
 
     $('.delete-modal-content').html('');
     $('.btn-ok').html('');
-    $('.delete-modal-content').append("Are you sure you want to delete theme: \"" + htmlEncode(themeName)  + "\"?" +
+    $('.delete-modal-content').append("Are you sure you want to delete theme: " + htmlEncode(themeName)  + "?" +
         "<p>This will delete the current theme from user portal and revert back to the default theme</p>");
     $('#delete-buttons-block .btn-ok').prepend('<button type="button" class="btn btn-default" id="delete">Yes</button>')
     $('#delete-popup-modal').modal('show');

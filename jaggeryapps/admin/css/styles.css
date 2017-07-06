@@ -3629,7 +3629,7 @@ table.dataTable .subtable th, table.dataTable .subtable td{
     padding-bottom: 8px;
 }
 .steps-text {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 300;
 }
 .conf-guide ul {
@@ -3799,6 +3799,9 @@ a.disabled {
 .add-padding-left-1x {
     padding-left: 5px !important;
 }
+.add-padding-left-4x {
+    padding-left: 20px !important;
+}
 .add-padding-left-5x {
     padding-left: 25px !important;
 }
@@ -3882,9 +3885,17 @@ a.disabled {
     border-left: 2px solid #777;
 }
 
+#connection-popup-modal .fw-loader5{
+    margin-top: -40px;
+}
+
 .description-block {
     padding-top: 5px;
     color: #d2d2d2;
     margin-top:-12px;
     font-size: 12px;
  }
+
+#customConfig .radio {
+    padding-left: 20px;
+}

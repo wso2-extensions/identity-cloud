@@ -132,7 +132,7 @@ include("/templates/header.jag");
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="full-content">
 
                     <br>
-                    <div class="text-agent-archi margin-bottom-xs" id="downloadHeader">Configure <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premise LDAP server.</div>
+                    <div class="text-agent-archi margin-bottom-xs" id="downloadHeader">Configure the <b>WSO2 Identity Cloud Agent</b> to enable authentication with your on-premise LDAP server.</div>
                     <div class="agent-archi">
                         <img src="/<%=ADMIN_PORTAL_NAME%>/images/agent-architecture.png"  class="img-responsive" alt="agent architecture" id="archImage"/>
                         <div style="display: none" id="downloadGuide">
@@ -200,7 +200,7 @@ include("/templates/header.jag");
                             <div class="form">
                                 <div class="form-group">
                                          <div  id="process-icon"><i class="fw-loader5 fw-spin fw-3x"></i>
-                                            <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px"> Please wait. This will take few seconds. <br/> We are removing sample user records and configuring Identity Cloud <br/> to work with the directory agent. Agent file download will begin shortly.</label>
+                                            <label for="demote-reason-text" id="model-text" class="control-label" style="padding-left: 20px"> Please wait. This will take a few seconds. <br/> We are removing sample user records and configuring Identity Cloud <br/> to work with the directory agent. Agent file download will begin shortly.</label>
                                          </div>
                                          <br/>
                                          <div id="verified" style="display: none" hidden class="noti-success">
