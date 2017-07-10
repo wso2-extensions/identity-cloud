@@ -3,6 +3,7 @@ include("/util/constants.jag");
 include("/util/encode.jag");
 var  MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 var user = session.get('user');
+var isExpired;
 
 var log = new Log();
 var util = require("/util/utility.jag");
@@ -66,7 +67,7 @@ try {
 
 var billing = billing || (function () {
 
-    var isExpired;
+
     var isTrial;
     var accountContent;
     var subscription = "identity_cloud";
@@ -87,98 +88,132 @@ var billing = billing || (function () {
         return subscription;
     };
 
-    var initBillingInfo = function (cloudMgtUrl) {
+    var initBillingInfo = function (){
 
-        var tenantDomain = userInfo.tenantDomain;
-        var type = {PAID : "PAID", TRIAL: "TRIAL", FREE : "FREE"};
-        var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
+    var headerConfig  = getJsonFromFile("/conf/urls.json");
+    var billingStatusUrl = headerConfig.headerUrls.billingStatusUrl;
+    var billingLoginUrl = headerConfig.headerUrls.billingLoginUrl;
+    var firstLoginUrl = headerConfig.headerUrls.firstLoginUrl;
+    var cloudMgtUrl = headerConfig.headerUrls.cloudMgtUrl;
+    var cloudMgtIndexPage = cloudMgtUrl+ "site/pages/index.jag";
+    var cloudAdminUserName = headerConfig.userInfo.cloudAdminUserName;
+    var cloudAdminPassword = headerConfig.userInfo.cloudAdminPassword;
 
-        var cloudMgtIndexPage = cloudMgtUrl + "site/pages/index.jag";
+    var billingResult ={};
 
-        var trialPeriod = 14;
-        var date;
-        var noOfDays;
-        var queryString ="SELECT TYPE, STATUS, DATE_FORMAT(END_DATE,'%Y-%m-%d %T') AS END_DATE FROM BILLING_STATUS " +
-                            "WHERE TENANT_DOMAIN='" + tenantDomain + "' && SUBSCRIPTION='" + subscription + "' ORDER BY TYPE;";
-        var db = new Database("identity_mgt");
-        var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        var results = db.query(queryString);
+    log.info("Performing logging to Identity-Cloud .... ");
 
-        db.close();
-        var addDays = function (date, days){
-            var cal = Packages.java.util.Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Packages.java.util.Calendar.DATE, days);
-            return cal.getTime();
+    var data = {
+        "action": "login",
+        "userName": cloudAdminUserName,
+        "password": cloudAdminPassword
+    };
+
+ try{
+    var loginResult = post(billingLoginUrl,data, {}, 'json');
+
+    if(loginResult.data = true){
+        log.info("Successfully logged into the Identity-Cloud");
+
+        var jsessionid = loginResult.xhr.getResponseHeader("Set-Cookie").match(/JSESSIONID=[^;]+/)[0];
+
+        var billingStatusData = {
+            "action": "getBillingStatusOfTenant",
+            "tenantDomain": "wso42458",
+            "cloudType": subscription
         };
 
-        if(results.length > 0) {
-            var potentialDisabled = false;
-            for (var rowNum in results) {
-                if((results[rowNum]["STATUS"] === status.ACTIVE || results[rowNum]["STATUS"] === status.PENDING_DISABLE) && results[rowNum]["TYPE"] === type.PAID) {
-                    accountContent="Account";
-                    isExpired = false;
-                    break;
-                } else if((results[rowNum]["STATUS"] === status.ACTIVE || results[rowNum]["STATUS"] === status.EXTENDED) && results[rowNum]["TYPE"] === type.TRIAL) {
-                    date=results[0]["END_DATE"];
-                    var currDate = new java.util.Date();
-                    var endDate =  sqlDateFormatter.parse(date);
-                    var diff = endDate.getTime() - currDate.getTime();
-                    if(diff > 0) {
-                        isExpired = false;
-                        isTrial = true;
-                        noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                        accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
-                    } else {
-                        isExpired = true;
-                        accountContent="Trial Expired";
-                    }
-                    break;
-                } else if(results[rowNum]["STATUS"] === status.INACTIVE && results[rowNum]["TYPE"] === type.TRIAL) {
-                    var acStartDate = new Packages.java.util.Date();
-                    var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
-                    db = new Database("identity_mgt");
-                    queryString = "UPDATE BILLING_STATUS SET STATUS = ('ACTIVE'), START_DATE " +
-                              "= ('"+ sqlDateFormatter.format(acStartDate) +"') , END_DATE = " +
-                              "('"+ acEndDate +"') WHERE (TENANT_DOMAIN, SUBSCRIPTION, TYPE) = ('" + tenantDomain + "','" + subscription + "','" + type.TRIAL + "')";
-                    db.query(queryString);
-                    log.info("Trial account activated for tenant: " + tenantDomain);
-                    db.close();
-                    isExpired = false;
-                    isTrial = true;
-                    accountContent = "Trial – "+ (trialPeriod)  +" days to upgrade";
-                    break;
-                } else if (results[rowNum]["STATUS"] === status.DISABLED && (results[rowNum]["TYPE"] === type.PAID || results[rowNum]["TYPE"] === type.TRIAL)) {
-                    if (potentialDisabled){
-                        log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
-                        response.sendRedirect(cloudMgtIndexPage);
-                    } else {
-                        potentialDisabled = true;
-                    }
-                }
-            }
+        try{
+
+            billingResult = post(billingStatusUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
+        } catch(e){
+            log.error('Error occurred while retrieving billing status data' +e);
         }
-    }
+
+        var isPaidAccount = billingResult.data.data.isPaidAccount;
+        var billingPlanStatus = billingResult.data.data.billingPlanStatus;
+        var endDate = billingResult.data.data.endDate;
+        var sqlDateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        var noOfDays;
+        var potentialDisabled = false;
+
+        var status = {ACTIVE : "ACTIVE", INACTIVE : "INACTIVE", EXTENDED : "EXTENDED", PENDING_DISABLE: "PENDING_DISABLE", DISABLED : "DISABLED"};
+
+        if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.PENDING_DISABLE) && isPaidAccount === true) {
+              accountContent="Account";
+              isExpired = false;
+          } else if((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.EXTENDED) && isPaidAccount !== true) {
+              date=endDate;
+              var currDate = new java.util.Date();
+              var endDate =  sqlDateFormatter.parse(date);
+              var diff = endDate.getTime() - currDate.getTime();
+              if(diff > 0) {
+                  isExpired = false;
+                  isTrial = true;
+                  noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                  accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
+              } else {
+                  isExpired = true;
+                  accountContent="Trial Expired";
+
+              }
+          } else if(billingPlanStatus === status.INACTIVE && isPaidAccount !== true) {
+             var acStartDate = new Packages.java.util.Date();
+             var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
+             var firstLoginData = {
+                     "action": "informFirstLogin",
+                     "tenantDomain": "wso42458",
+                     "cloudType": subscription
+                 };
+
+             // Informing - first login
+             try {
+                 billingResult = post(firstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
+             } catch(e){
+                     log.error('Error occurred while performing inform of first login'+e);
+             }
+
+             log.info("Trial account activated for tenant: " + tenantDomain);
+
+             isExpired = false;
+             isTrial = true;
+             accountContent = "Trial – "+ (trialPeriod)  +" days to upgrade";
+          } else if (billingPlanStatus === status.DISABLED && (isPaidAccount === true || isPaidAccount !== true)) {
+             if (potentialDisabled){
+                 log.info("Access denied for tenant: " +tenantDomain + " with a DISABLED subscription. Redirected to CloudMgt");
+                 response.sendRedirect(cloudMgtIndexPage);
+             } else {
+                 potentialDisabled = true;
+             }
+          }
+        } else{
+                log.info("Cloud not logged into the Identity-Cloud");
+        }
+
+ } catch(e){
+        log.error('Error occurred while performing logging operation to identity-cloud' +e);
+ }
+};
 
     return {
         isTrailExpired:isTrailExpired,
         isTrialAccount:isTrialAccount,
         getAccountContent:getAccountContent,
         getSubscription:getSubscription,
-        initBillingInfo:initBillingInfo
+        initBillingInfo:initBillingInfo,
     };
 }());
 
-billing.initBillingInfo("https://cloudmgt.cloud.wso2.com/");
+billing.initBillingInfo();
 var isTrailExpired = billing.isTrailExpired();
 var isTrialAccount = billing.isTrialAccount();
 var subscription = billing.getSubscription();
 var accountContent = billing.getAccountContent();
 
-log.info("isTrailExpired" + isTrailExpired);
-log.info("isTrialAccount" + isTrialAccount);
-log.info("subscription" + subscription);
-log.info("accountContent" + accountContent);
+log.info("isTrailExpired " + isTrailExpired);
+log.info("isTrialAccount " + isTrialAccount);
+log.info("subscription " + subscription);
+log.info("accountContent " + accountContent);
 
 function resolveUserName(user) {
     if (user && user.indexOf("/") > -1) {
@@ -214,6 +249,16 @@ function getJsonFromFile(pathTofile) {
 <script>
     //solving user-portal link
       const USER_PORTAL_LINK = '<%="/user-portal/t/" + tenantDomain%>';
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    <%if(isExpired){%>
+          $('#trial-modal').modal();
+    <%}%>
+    });
 </script>
 
 
@@ -298,7 +343,13 @@ function getJsonFromFile(pathTofile) {
                                       <a title="<%=dropDown%>" href="<%=dropDownUrl%>" target="<%=dropDownTarget%>">
                                       <i class="<%=dropDownIcon%>" title="<%=dropDown%>"></i> <%=dropDown%> </a> </li>
                                    <%               }
-                                                } else { %>
+                                                } else {
+                                                     if(dropDown == "Request Extension"){
+                                                          var requestExtension = dropDownUrl;
+                                                     } else if(dropDown == "Upgrade Now"){
+                                                          var upgradeNow = dropDownUrl;
+                                                     }
+                                                %>
                                       <li>
                                       <a title="<%=dropDown%>" href="<%=dropDownUrl%>" target="<%=dropDownTarget%>">
                                       <i class="<%=dropDownIcon%>" title="<%=dropDown%>"></i> <%=dropDown%> </a> </li>
