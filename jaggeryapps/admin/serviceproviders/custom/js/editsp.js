@@ -151,10 +151,13 @@ function drawAppDetails(data) {
             $("#skipgateway").hide();
             $("#custom-app-dropdown").click();
             $("#security-type").hide();
+            $("#custom-apptype-content input[name=toggler]").prop("disabled", true);
             if (storeAppType == APP_AGENT_TYPE) {
                 //Agent type
                 $('#storeAppType').val(APP_AGENT_TYPE);
                 $("#custom-app-dropdown").click();
+                $("#agenttype").prop("checked", true);
+                $('#blk-1').css('display','block');
                 $("#custom-apptype-content #agenttype").click();
 
                 $("#skipgateway").prop('checked', true);
@@ -165,6 +168,8 @@ function drawAppDetails(data) {
             } else if (storeAppType == APP_SHORTCUT_TYPE){
                 //shortcut type
                 $('#storeAppType').val(APP_SHORTCUT_TYPE);
+                $("#shortcut").prop("checked", true);
+                $('#blk-3').css('display','block');
                 $("#custom-apptype-content #shortcut").click();
                 $("#security-type").hide();
                 $("#security-accordion").show();
@@ -173,16 +178,21 @@ function drawAppDetails(data) {
         } else if (data && data.skipGateway == "false"){
             //proxy type
             $('#storeAppType').val(APP_PROXY_TYPE);
+            $("#proxytype").prop("checked", true);
+            $('#blk-2').css('display','block');
             $("#custom-apptype-content #proxytype").click();
             $("#gw-config-section").show();
             $("#gatewayconfig").attr('class', '');
             $("#gw-config-section").find('.panel-heading').remove();
             $("#claim_dialect_custom").hide().closest('label').hide();
             $("#subject-claim-dropdown").remove();
+            $("input[name=toggler]").prop("disabled", true);
 
         } else {
             $('#storeAppType').val(APP_AGENT_TYPE);
             $("#custom-app-dropdown").click();
+            $('#blk-1').css('display','block');
+            $("#agenttype").prop("checked", true);
             $("#custom-apptype-content #agenttype").click();
 
             $("#skipgateway").prop('checked', true);
