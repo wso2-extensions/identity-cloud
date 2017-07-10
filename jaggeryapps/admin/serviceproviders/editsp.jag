@@ -13,6 +13,9 @@
         <link href="../css/styles.css" rel="stylesheet">
         <link href="../css/select2-4.0.0/select2.min.css" rel="stylesheet">
         <link href="../css/select2-4.0.0/select2.override.css" rel="stylesheet">
+        <script>
+        var appTypeName = "";
+        </script>
        <script src="../js/jquery-1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="../serviceproviders/custom/serverinfo.jag"></script>
         <script type="text/javascript" src="../serviceproviders/custom/js/editsp.js" type="text/javascript"></script>
@@ -1139,6 +1142,7 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#security-accordion").show();
                     $("#cladimconfig-header").remove();
                     $("#inbound-auth-header").hide();
+                    appTypeName = "Agent";
                     break;
                 case 'proxytype':
                     $("#skipgateway").prop('checked', false);
@@ -1163,6 +1167,7 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#claim_dialect_custom").show().closest('label').show();
                     $("#securityconfig").show();
                     $("#claim-title").show();
+                    appTypeName = "Proxy";
                     break;
                 case 'shortcut' :
                     $("#skipgateway").prop('checked', true);
@@ -1171,6 +1176,7 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#claim-title").hide();
                     $("#gw-config-section").hide();
                     $("#store-app-url-sec").show();
+                    appTypeName = "Shortcut";
                     break;
                 default:
             }

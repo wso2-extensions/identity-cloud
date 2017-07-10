@@ -487,7 +487,7 @@ function updateCustomSP(file) {
         bannerFile = $('#store-app-banner')[0].files[0];
     }
 
-    var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim();
+    var selected = appTypeName;
     if(selected.trim() == "Proxy".trim()){
         $('#storeAppType').val(APP_PROXY_TYPE);
         $('#enableDefaultAttributeProfileHidden').val(true);
