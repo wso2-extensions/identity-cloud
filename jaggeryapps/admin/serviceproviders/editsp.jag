@@ -153,18 +153,18 @@ include("../templates/leftpane.jag");
 
                                           <label class="radio" style="padding-bottom: 10px;"><input id="agenttype" type="radio" name="toggler" value="1" class="custom-radio"/>Standards-based Federation</label>
                                           <div id="blk-1" class="toHide description-block add-padding-left-4x" style="display:none">
-                                              <span id="app-type-desc-span-1"></span>
-                                              <a id="app-type-desc-url-1" href="" target="_blank">documentation.</a>
+                                              <span id="app-type-desc-span-1"><%=appTypeDesc.agentType%></span>
+                                              <a id="app-type-desc-url-1" href="<%=docUrls.agentType%>" target="_blank">documentation.</a>
                                           </div>
                                           <label class="radio" style="padding-bottom: 10px;"><input id="proxytype" type="radio" name="toggler" class="custom-radio" value="2"/>Proxy-based Federation</label>
                                           <div id="blk-2" class="toHide description-block add-padding-left-4x" style="display:none">
-                                              <span id="app-type-desc-span-2"></span>
-                                              <a id="app-type-desc-url-2" href="" target="_blank">documentation.</a>
+                                              <span id="app-type-desc-span-2"> <%=appTypeDesc.proxyType%></span>
+                                              <a id="app-type-desc-url-2" href="<%=docUrls.proxyType%>" target="_blank">documentation.</a>
                                           </div>
                                           <label class="radio" style="padding-bottom: 10px;"><input id="shortcut" type="radio" name="toggler" value="3" class="custom-radio"/>Shortcut</label>
                                           <div id="blk-3" class="toHide description-block add-padding-left-4x" style="display:none">
-                                              <span id="app-type-desc-span-3"></span>
-                                              <a id="app-type-desc-url-3" href="" target="_blank">documentation.</a>
+                                              <span id="app-type-desc-span-3"><%=appTypeDesc.shortcut%></span>
+                                              <a id="app-type-desc-url-3" href="<%=docUrls.shortcut%>" target="_blank">documentation.</a>
                                           </div>
                                       </div>
                                       <!--EO App Type Radio Button Group-->
@@ -1139,9 +1139,6 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#security-accordion").show();
                     $("#cladimconfig-header").remove();
                     $("#inbound-auth-header").hide();
-                    //set app type description
-                    $("#app-type-desc-span-1").text((appTypeDesc && appTypeDesc.agentType) ? appTypeDesc.agentType : '');
-                    $("#app-type-desc-url-1").attr('href', ((docUrls && docUrls.agentType) ? docUrls.agentType : '#'));
                     break;
                 case 'proxytype':
                     $("#skipgateway").prop('checked', false);
@@ -1166,11 +1163,6 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#claim_dialect_custom").show().closest('label').show();
                     $("#securityconfig").show();
                     $("#claim-title").show();
-
-                    //set app type description
-                    $("#app-type-desc-span-2").text((appTypeDesc && appTypeDesc.proxyType) ? appTypeDesc.proxyType : '');
-                    $("#app-type-desc-url-2").attr('href', ((docUrls && docUrls.proxyType) ? docUrls.proxyType :
-                    '#'));
                     break;
                 case 'shortcut' :
                     $("#skipgateway").prop('checked', true);
@@ -1179,16 +1171,14 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#claim-title").hide();
                     $("#gw-config-section").hide();
                     $("#store-app-url-sec").show();
-
-                    //set app type description
-                    $("#app-type-desc-span-3").text((appTypeDesc && appTypeDesc.shortcut) ? appTypeDesc.shortcut : '');
-                    $("#app-type-desc-url-3").attr('href', ((docUrls && docUrls.shortcut) ? docUrls.shortcut : '#'));
                     break;
                 default:
             }
+});
 
-            $('.toHide').slideUp('fast');
-            $("#blk-"+$(this).val()).show('fast');
+$("#custom-apptype-content label.radio input").change(function(){
+    $('.toHide').slideUp('fast');
+    $("#blk-"+$(this).val()).show('fast');
 });
 
 var samlconf, oauthconf, wsfedconf = null;
