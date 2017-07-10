@@ -92,7 +92,7 @@ include("/templates/header.jag");
 
         <!-- BOF App  menu actionbar -->
         <div class="action-bar">
-            <a onclick="urlResolver('overview',cookie,userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
+            <a onclick="urlResolver('overview', userName);" class="btn-action" data-toggle="tooltip" data-placement="top"
                title="Back to Overview">
                 <span class="fw-stack fw-lg btn-action-ico">
                     <i class="fw fw-circle-outline fw-stack-2x"></i>
@@ -158,7 +158,7 @@ include("/templates/header.jag");
                              </form>
                          </div>
                      </div>
-                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div id="connectiondiv" name="connectiondiv">
                             <h4 class="margin-bottom-xs">Agent Status</h4>
                             <table id="tblConnection" name="tblConnection">
@@ -166,8 +166,15 @@ include("/templates/header.jag");
                             <div class="message message-warning" id="noconnectiondiv" name="noconnectiondiv" style="display: none">
                                         <span>No agents connected at the moment</span>
                             </div>
-                            <div class="message message-info" id="connectionInfodiv" name="connectionInfodiv" style="display: none">
-                                        <span>Now you can try to log into the user portal with one of the accounts from the directory you configured.</span>
+                            <div id="connectionInfodiv" name="connectionInfodiv" style="display: none">
+                                <div class="message message-info">
+                                            <span><i class="icon fw fw-info"></i> Now you can try to log into the user portal with one of the accounts from the directory you configured.</span>
+                                </div>
+                                <div class="note-container">
+                                    <div class="help-note">
+                                           Note: Username of login account should be in email address format.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

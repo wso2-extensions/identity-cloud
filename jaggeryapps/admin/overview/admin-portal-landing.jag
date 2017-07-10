@@ -86,7 +86,7 @@ include("/util/encode.jag");
                         </br>
                         <h4>Do you want us to configure some sample data for you? If not, get started by setting up your user store</h4>
                         </br>
-                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure',cookie,userName)">
+                        <a id="add-issue-button" class="cu-btn cu-btn-md cu-btn-blue" onclick="urlResolver('configure', userName)">
                             <i class="fw fw fw-service"></i>
                             <span>Start Configuring</span>
                         </a>
