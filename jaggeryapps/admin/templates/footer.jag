@@ -1,6 +1,6 @@
 <div id="footer">
    <div class="container-fluid">
-       <div class="footer-text">WSO2 Cloud &copy; 2017 <i class="fw fw-wso2 fw-2x"></i> All Rights Reserved.</div>
+       <div class="footer-text">WSO2 Cloud &copy; <% print(new Date().getFullYear().toString()); %> <i class="fw fw-wso2 fw-2x"></i> All Rights Reserved.</div>
    </div>
 </div>
 <div id="trial-modal" class="modal">
