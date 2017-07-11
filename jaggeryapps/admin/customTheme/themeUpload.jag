@@ -127,6 +127,9 @@
                                                                                 </button>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="description-block add-padding-top-3x">
+                                                                            <p>Refer to the <a href="https://docs.wso2.com/display/IdentityCloud/Configuring+Custom+Themes" target="_blank">documentation</a> for the required file structure.</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </form>
