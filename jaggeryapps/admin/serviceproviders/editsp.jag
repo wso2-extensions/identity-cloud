@@ -126,11 +126,11 @@ include("../templates/leftpane.jag");
           <div class="col-md-12">
                 <div class="btn-group hide" style="display: none" id="sso-drop-down">
                     <label class="radio-inline">
-                        <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
+                        <input type="radio" onchange="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
                                  id="radioCm" checked="true" checked />Configure Manually
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" onclick="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
+                        <input type="radio" onchange="changeRadioGroup($(this))" name="sso-radio" class="custom-radio"
                              id="radioCf"/>Upload SAML Metadata File
                     </label>
                 </div>
