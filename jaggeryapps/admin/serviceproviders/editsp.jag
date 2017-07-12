@@ -1167,6 +1167,8 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#claim_dialect_custom").show().closest('label').show();
                     $("#securityconfig").show();
                     $("#claim-title").show();
+                    //hide claim select options
+                    $("input[name='claim_dialect']").closest('.radio-inline').addClass('hide');
                     appTypeName = "Proxy";
                     break;
                 case 'shortcut' :

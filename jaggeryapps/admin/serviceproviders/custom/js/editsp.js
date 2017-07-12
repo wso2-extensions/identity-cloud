@@ -187,6 +187,8 @@ function drawAppDetails(data) {
             $("#claim_dialect_custom").hide().closest('label').hide();
             $("#subject-claim-dropdown").remove();
             $("input[name=toggler]").prop("disabled", true);
+            //hide claim select options
+            $("input[name='claim_dialect']").closest('.radio-inline').addClass('hide');
 
         } else {
             $('#storeAppType').val(APP_AGENT_TYPE);
