@@ -149,13 +149,11 @@ function drawAppDetails(data) {
             var storeAppType = getStoreAppType(data);
             $("#skipgateway").prop('checked', false);
             $("#skipgateway").hide();
-            $("#custom-app-dropdown").click();
             $("#security-type").hide();
             $("#custom-apptype-content input[name=toggler]").prop("disabled", true);
             if (storeAppType == APP_AGENT_TYPE) {
                 //Agent type
                 $('#storeAppType').val(APP_AGENT_TYPE);
-                $("#custom-app-dropdown").click();
                 $("#agenttype").prop("checked", true);
                 $('#blk-1').css('display','block');
                 $("#custom-apptype-content #agenttype").click();
@@ -192,7 +190,6 @@ function drawAppDetails(data) {
 
         } else {
             $('#storeAppType').val(APP_AGENT_TYPE);
-            $("#custom-app-dropdown").click();
             $('#blk-1').css('display','block');
             $("#agenttype").prop("checked", true);
             $("#custom-apptype-content #agenttype").click();
@@ -239,9 +236,6 @@ function renderCustomPage(data) {
                 $("#customConfig").show();
                 $("#sso-drop-down").removeClass('hide');
                 $("#btn-advance-setting").closest('.form-group').removeClass('hide');
-                var dropdown = $("#custom-app-dropdown");
-                dropdown.show();
-                $("#custom-apptype-content").append(dropdown);
                 setCustomImage(data.applicationName);
 
                 if(data.applicationName == APP_NAME1 || data.applicationName == APP_NAME2) {

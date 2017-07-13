@@ -1141,6 +1141,7 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $("#security-accordion").show();
                     $("#cladimconfig-header").remove();
                     $("#inbound-auth-header").hide();
+                    $("input[name='claim_dialect']").closest('.radio-inline').removeClass('hide');
                     appTypeName = "Agent";
                     break;
                 case 'proxytype':
