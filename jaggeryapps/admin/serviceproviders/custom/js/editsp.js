@@ -446,7 +446,7 @@ function updateSP() {
 
 function updateCustomSP(file) {
     $("#update-main").attr('disabled','true');
-    $("#update-spinner").show();
+    $("#update-spinner").removeClass('hide');
     $("#update-icon").hide();
 //    var str = PROXY_CONTEXT_PATH + "/dashboard/serviceproviders/custom/controllers/custom/edit_finish.jag";
     if(file != null && file.value != null && file.value.length > 0){
@@ -643,11 +643,10 @@ function updateCustomSP(file) {
 
         })
         .always(function () {
+            $("#update-main").removeAttr('disabled');
+            $("#update-spinner").addClass('hide');
+            $("#update-icon").show();
         });
-
-    $("#update-main").attr('disabled','false');
-    $("#update-spinner").hide();
-    $("#update-icon").show();
 }
 
 function getTags(){
