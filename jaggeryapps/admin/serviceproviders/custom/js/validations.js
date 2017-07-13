@@ -22,7 +22,7 @@ function validateInputs() {
         var selected = $("#custom-apptype-content input[name=toggler]:checked").attr('id');
         var secSelected = $("#custom-security-dropdown .dropdown-toggle").text();
 
-        if (selected.trim() == "agenttype".trim() && secSelected.trim() == "Select Security Protocol".trim()) {
+        if (selected.trim() == "agenttype" && secSelected.trim() == "Select Security Protocol".trim()) {
 
             $('.security-drop-down-status').append($(messageContainer).addClass('alert-error').hide()
                 .fadeIn('fast').delay(2000).fadeOut('fast'));
@@ -30,7 +30,7 @@ function validateInputs() {
             $(window).scrollTop($('.app-drop-down-status').position().top);
             //security-drop-down-status
             return false;
-        } else if (selected.trim() == "agenttype".trim() && secSelected.trim() == "SAML2 Web SSO".trim()) {
+        } else if (selected.trim() == "agenttype" && secSelected.trim() == "SAML2 Web SSO".trim()) {
             $("#addServiceProvider").validate({
                 focusInvalid: true,
                 invalidHandler: function(form, validator) {
@@ -71,7 +71,7 @@ function validateInputs() {
                 updateSP();
             }
 
-        } else if (selected.trim() == "agenttype".trim() && secSelected.trim() == "WS-Federation (Passive)".trim()) {
+        } else if (selected.trim() == "agenttype" && secSelected.trim() == "WS-Federation (Passive)".trim()) {
             $("#wsfed-form").validate({
                 focusInvalid: true,
                 invalidHandler: function(form, validator) {
@@ -85,7 +85,7 @@ function validateInputs() {
             if ($('#wsfed-form').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
-        } else if (selected.trim() == "agenttype".trim() && secSelected.trim() == "OpenID Connect".trim()) {
+        } else if (selected.trim() == "agenttype" && secSelected.trim() == "OpenID Connect".trim()) {
             $("#addAppForm").validate({
                 focusInvalid: true,
                 invalidHandler: function(form, validator) {
@@ -97,7 +97,7 @@ function validateInputs() {
             if ($('#addAppForm').valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
-        } else if (selected.trim() == "proxytype".trim()) {
+        } else if (selected.trim() == "proxytype") {
             //Add the whitespaces validation for the context.
             $.validator.addMethod("noSpace", function(value, element) {
                 var regExp = new RegExp("^[a-zA-Z0-9._|-]*$");
@@ -108,7 +108,7 @@ function validateInputs() {
             if ($("#gatewayConfigForm").valid() && $("#storeConfigForm").valid()) {
                 updateSP();
             }
-        } else if (selected.trim() == "shortcut".trim()) {
+        } else if (selected.trim() == "shortcut") {
             $('#gw-app-context').val($('#store-app-name').val());
             $('#gw-app-url').val($('#store-app-url').val());
             if ($("#storeConfigForm").valid()) {
