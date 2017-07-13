@@ -213,8 +213,8 @@ function generateSubjectURI(element) {
     }
     SubjectClaimURI += "</select> </div>";
     $("#claimsConfRow").after(SubjectClaimURI);
-    var selected = $("#custom-app-dropdown .dropdown-toggle").text().trim().toLowerCase();
-    if(selected == APP_PROXY_TYPE) {
+    var selected = $("#custom-apptype-content input[name=toggler]:checked").attr('id').trim().toLowerCase();
+    if(selected == "proxytype"){
         $("#subject-claim-dropdown").remove();
     }
 }
