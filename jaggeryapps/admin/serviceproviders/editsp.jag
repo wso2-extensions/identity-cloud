@@ -1140,6 +1140,7 @@ $("#custom-apptype-content label.radio input").click(function() {
                     $('#subject_claim_uri').val('')
                     $("#security-accordion").show();
                     $("#cladimconfig-header").remove();
+                    $("#securityconfig").show();
                     $("#inbound-auth-header").hide();
                     $("input[name='claim_dialect']").closest('.radio-inline').removeClass('hide');
                     appTypeName = "Agent";
