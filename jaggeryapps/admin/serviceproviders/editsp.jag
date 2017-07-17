@@ -1269,8 +1269,8 @@ $("#custom-security-content .dropdown-menu li a").click(function () {
 
 
 $("#store-app-thumbnail").change(function (e) {
-    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-        var file = e.originalEvent.srcElement.files[i];
+    for (var i = 0; i < e.originalEvent.target.files.length; i++) {
+        var file = e.originalEvent.target.files[i];
         var img = document.createElement("img");
         var ele = $('<img/>');
         var reader = new FileReader();
@@ -1289,8 +1289,8 @@ $("#store-app-thumbnail").change(function (e) {
 
 
 $("#store-app-banner").change(function (e) {
-    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-        var file = e.originalEvent.srcElement.files[i];
+    for (var i = 0; i < e.originalEvent.target.files.length; i++) {
+        var file = e.originalEvent.target.files[i];
         var img = document.createElement("img");
         var ele = $('<img/>');
         var reader = new FileReader();
