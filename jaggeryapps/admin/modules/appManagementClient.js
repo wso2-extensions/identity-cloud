@@ -121,10 +121,11 @@ var appManagementClient = function () {
 
             var response = appMHttpClientObjs.doGet(endPoint, httpHeadersObj);
             parsedResponse = JSON.parse(response);
+            return parsedResponse.id;
         } catch (e) {
             log.error(e.message);
+            return "";
         }
-        return parsedResponse.id;
     };
 
     Publisher.prototype.uploadImage = function (file) {
