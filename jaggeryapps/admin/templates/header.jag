@@ -78,8 +78,16 @@ var billing = billing || (function () {
                     billingResult =
                         post(billingStatusFirstLoginUrl,billingStatusData, {'Cookie':jsessionid+';'}, 'json');
                 } catch(e) {
-                    log.error('Error occurred while retrieving billing status data for tenant domain : ' +
-                              tenantDomain + ' error : ' , e);
+                    var msg = 'Error occurred while retrieving billing status data for tenant domain : ' +
+                              tenantDomain + ' error : ';
+                    log.error(msg , e);
+                    throw new Exception(msg, e);
+                }
+
+                if (!billingResult) {
+                    var msg = 'Billing data is null.';
+                    log.error(msg , e);
+                    throw new Exception(msg, e);
                 }
 
                 if (billingResult && billingResult.data && billingResult.data.data) {
@@ -117,7 +125,7 @@ var billing = billing || (function () {
                           accountContent = "Trial Expired";
 
                       }
-                  } else if (billingPlanStatus === status.INACTIVE && !isPaidAccount) {
+                } else if (billingPlanStatus === status.INACTIVE && !isPaidAccount) {
                      var acStartDate = new Packages.java.util.Date();
                      var acEndDate = sqlDateFormatter.format(addDays(acStartDate, trialPeriod));
                      var firstLoginData = {
@@ -131,7 +139,15 @@ var billing = billing || (function () {
                          billingResult =
                                 post(billingStatusFirstLoginUrl,firstLoginData, {'Cookie':jsessionid+';'}, 'json');
                      } catch(e){
-                             log.error('Error occurred while performing inform of first login' , e);
+                          var msg = 'Error occurred while performing inform of first login';
+                          log.error(msg, e);
+                          throw new Exception(msg);
+                     }
+
+                     if (!billingResult || !billingResult.data) {
+                        var msg = 'Billing data is null';
+                        log.error(msg, e);
+                        throw new Exception(msg);
                      }
 
                      if (!billingResult.data.error) {
