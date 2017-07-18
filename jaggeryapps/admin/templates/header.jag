@@ -64,7 +64,7 @@ var billing = billing || (function () {
 
             var loginResult = post(billingLoginUrl, data, {}, 'json');
 
-            if(loginResult && loginResult.data) {
+            if (loginResult && loginResult.data) {
 
                 var jsessionid = loginResult.xhr.getResponseHeader("Set-Cookie").match(/JSESSIONID=[^;]+/)[0];
 
@@ -83,8 +83,8 @@ var billing = billing || (function () {
                 }
 
                 if (billingResult && billingResult.data && billingResult.data.data) {
-                        isPaidAccount = billingResult.data.data.isPaidAccount;
-                        billingPlanStatus = billingResult.data.data.billingPlanStatus;
+                    isPaidAccount = billingResult.data.data.isPaidAccount;
+                    billingPlanStatus = billingResult.data.data.billingPlanStatus;
                 } else {
                     log.error('Response mismatch error for billingResult response for tenant: ' + tenantDomain);
                 }
@@ -99,8 +99,8 @@ var billing = billing || (function () {
 
                 if ((billingPlanStatus === status.ACTIVE ||
                     billingPlanStatus === status.PENDING_DISABLE) && isPaidAccount) {
-                      accountContent = "Account";
-                      isExpired = false;
+                    accountContent = "Account";
+                    isExpired = false;
                 } else if ((billingPlanStatus === status.ACTIVE || billingPlanStatus === status.EXTENDED) &&
                             !isPaidAccount) {
                       date = endDate;
@@ -139,19 +139,19 @@ var billing = billing || (function () {
                               log.debug("Trial account activated for tenant: " + tenantDomain);
                          }
 
-                     isExpired = false;
-                     isTrial = true;
-                     accountContent = "Trial – " + (trialPeriod)  + " days to upgrade";
+                         isExpired = false;
+                         isTrial = true;
+                         accountContent = "Trial – " + (trialPeriod)  + " days to upgrade";
 
                      } else {
-                      log.error('error occurred while informing first login :' + billingResult.data.content);
+                         log.error('error occurred while informing first login :' + billingResult.data.content);
                      }
                   } else if (billingPlanStatus === status.DISABLED) {
-                          if (log.isDebugEnabled()) {
-                               log.debug("Access denied for tenant: " + tenantDomain +
-                                         " with a DISABLED subscription. Redirected to CloudMgt");
-                          }
-                          response.sendRedirect(cloudMgtIndexPage);
+                         if (log.isDebugEnabled()) {
+                              log.debug("Access denied for tenant: " + tenantDomain +
+                                        " with a DISABLED subscription. Redirected to CloudMgt");
+                         }
+                         response.sendRedirect(cloudMgtIndexPage);
                   }
             } else {
                   if (log.isDebugEnabled()) {
