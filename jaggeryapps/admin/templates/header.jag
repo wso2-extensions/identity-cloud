@@ -111,7 +111,7 @@ var billing = billing || (function () {
                           isExpired = false;
                           isTrial = true;
                           noOfDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                          accountContent = "Trial - " + (noOfDays+1) + " days to upgrade";
+                          accountContent = "Trial - " + (noOfDays + 1) + " days to upgrade";
                       } else {
                           isExpired = true;
                           accountContent = "Trial Expired";
@@ -183,7 +183,7 @@ function resolveUserName(user) {
 
 function getJsonFromFile(pathTofile) {
     var cloudConfig = application.get(pathTofile);
-         if (cloudConfig==null) {
+         if (cloudConfig == null) {
              if(log.isDebugEnabled()){
                 log.debug("Reading Json file : " + pathTofile);
          }
