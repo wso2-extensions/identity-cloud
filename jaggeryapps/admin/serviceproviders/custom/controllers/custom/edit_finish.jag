@@ -568,13 +568,18 @@ function getThumbnailId() {
         var thumbnailFile = request.getFile("thumbnailFile");
 
         if (thumbnailFile) {
-            var thumbnailInputStream = thumbnailFile.getStream().getStream();
-            fileContent.setContent(thumbnailInputStream);
-            fileContent.setFileName(thumbnailFile.getName());
-            thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
+            try {
+                var thumbnailInputStream = thumbnailFile.getStream().getStream();
+                fileContent.setContent(thumbnailInputStream);
+                fileContent.setFileName(thumbnailFile.getName());
+                thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
 
-            if (thumbnailInputStream) {
-                thumbnailInputStream.close();
+            } catch (err) {
+                log.error("Can't upload thumbnail file for the application.", err);
+            } finally {
+                if (thumbnailInputStream) {
+                    thumbnailInputStream.close();
+                }
             }
 
         }
@@ -627,13 +632,20 @@ function getBannerId() {
         //  check whether an image binary comes with the request.
         var bannerFile = request.getFile("bannerFile");
         if (bannerFile != null) {
-            var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
-            var bannerInputStream = bannerFile.getStream().getStream();
-            fileContentObj.setContent(bannerInputStream);
-            fileContentObj.setFileName(bannerFile.getName());
-            bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+            try {
+                var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+                var bannerInputStream = bannerFile.getStream().getStream();
+                fileContentObj.setContent(bannerInputStream);
+                fileContentObj.setFileName(bannerFile.getName());
+                bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
 
-            bannerInputStream.close();
+            } catch (err) {
+                log.error("Can't upload banner file for the application.", err);
+            } finally {
+                if (bannerInputStream) {
+                    bannerInputStream.close();
+                }
+            }
         }
     }
 
