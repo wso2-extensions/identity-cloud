@@ -513,7 +513,7 @@ include("../templates/leftpane.jag");
                                                    </div>
 
                                                    <!--  Enable Single  Logout -->
-                                                   <div id="singleLogoutRow" hidden>
+                                                   <div id="singleLogoutRow">
                                                       <div class="form-group">
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
@@ -522,21 +522,21 @@ include("../templates/leftpane.jag");
                                                          </div>
                                                       </div>
                                                       <!--SLO Response URL-->
-                                                      <div class="form-group" id="sloResponseURL-form" hidden>
+                                                      <div class="form-group" id="sloResponseURL-form">
                                                          <div class="col-md-12">
                                                             <label for="sloResponseURL" class="control-label">SLO Response URL
                                                             </label>
                                                             <input type="text" class="form-control" id="sloResponseURL" name="sloResponseURL" disabled="disabled">
-                                                            <!--label id="issuer-error" class="error" for="cname" hidden>This field is required.</label-->
+                                                            <!--label id="issuer-error" class="error" for="cname">This field is required.</label-->
                                                          </div>
                                                       </div>
                                                       <!--SLO Request URL-->
-                                                      <div class="form-group" id="sloRequestURL-form" hidden>
+                                                      <div class="form-group" id="sloRequestURL-form">
                                                          <div class="col-md-12">
                                                             <label for="sloRequestURL" class="control-label"> SLO Request URL
                                                             </label>
                                                             <input type="text" class="form-control" id="sloRequestURL" name="sloRequestURL" disabled="disabled">
-                                                            <!--label id="issuer-error" class="error" for="cname" hidden>This field is required.</label-->
+                                                            <!--label id="issuer-error" class="error" for="cname">This field is required.</label-->
                                                          </div>
                                                       </div>
                                                    </div>
