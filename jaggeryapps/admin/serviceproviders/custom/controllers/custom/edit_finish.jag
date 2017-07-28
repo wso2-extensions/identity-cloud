@@ -522,122 +522,134 @@ function addApp(){
     }
 }
 
-function getThumbnailId(){
+function getThumbnailId() {
 
-  var thumbnailId = request.getParameter("thumbnailUrl");
-
-  // If there is no existing thumbnail for the application,
-  //  check whether an image binary comes with the request.
-  if(!thumbnailId){
+    var thumbnailId = request.getParameter("thumbnailUrl");
 
     var fileContent = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
     var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
     var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
 
-    var thumbnailFile = request.getFile("thumbnailFile");
-    if (thumbnailFile) {
+    // If there is no existing thumbnail for the application,
+    //check whether default type application
+    if (!thumbnailId && storeAppType === WELL_KNOWN_APP) {
+        // This can be a well known application.
+        // The image should be taken from the file system.
 
-        var thumbnailInputStream = thumbnailFile.getStream().getStream();
-        fileContent.setContent(thumbnailInputStream);
-        fileContent.setFileName(thumbnailFile.getName());
-        thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
+        var applicationType = request.getParameter("spType");
+        var thumbnailFileName = getImageFilePathForWellKnownAppType(applicationType);
 
-        if(thumbnailInputStream){
-          thumbnailInputStream.close();
+        var thumbnailFile;
+        var thumbnailInputStream;
+
+        try {
+            thumbnailFile = new File(thumbnailFileName);
+            thumbnailFile.open("r");
+
+            thumbnailInputStream = thumbnailFile.getStream().getStream();
+            fileContent.setContent(thumbnailInputStream);
+            fileContent.setFileName(applicationType + ".png");
+            thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
         }
-
-    }else if(storeAppType === WELL_KNOWN_APP){
-
-      // This can be a well known application.
-      // The image should be taken from the file system.
-
-      var applicationType = request.getParameter("spType");
-      var thumbnailFileName = getImageFilePathForWellKnownAppType(applicationType);
-
-      var thumbnailFile;
-      var thumbnailInputStream;
-
-      try {
-        thumbnailFile = new File(thumbnailFileName);
-        thumbnailFile.open("r");
-
-        thumbnailInputStream = thumbnailFile.getStream().getStream();
-        fileContent.setContent(thumbnailInputStream);
-        fileContent.setFileName(applicationType + ".png");
-        thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
-      }
-      catch(err) {
-        log.error("Can't read and upload thumbnail file for the application.", err);
-      }
-      finally {
-        if(thumbnailInputStream){
-          thumbnailInputStream.close();
+        catch (err) {
+            log.error("Can't read and upload thumbnail file for the application.", err);
         }
+        finally {
+            if (thumbnailInputStream) {
+                thumbnailInputStream.close();
+            }
 
-        if(thumbnailFile){
-          thumbnailFile.close();
+            if (thumbnailFile) {
+                thumbnailFile.close();
+            }
         }
-      }
+    } else {
+        //  check whether an image binary comes with the request.
+        var thumbnailFile = request.getFile("thumbnailFile");
+
+        if (thumbnailFile) {
+            try {
+                var thumbnailInputStream = thumbnailFile.getStream().getStream();
+                fileContent.setContent(thumbnailInputStream);
+                fileContent.setFileName(thumbnailFile.getName());
+                thumbnailId = String(apiProviderImplObj.uploadImage(fileContent));
+
+            } catch (err) {
+                log.error("Can't upload thumbnail file for the application.", err);
+            } finally {
+                if (thumbnailInputStream) {
+                    thumbnailInputStream.close();
+                }
+            }
+
+        }
     }
-  }
 
-  return thumbnailId;
+    return thumbnailId;
 }
 
-function getBannerId(){
+function getBannerId() {
 
-  // If there is no existing banner for the application,
-  //  check whether an image binary comes with the request.
-  var bannerId = request.getParameter("bannerUrl");
 
-  if(!bannerId){
+    var bannerId = request.getParameter("bannerUrl");
 
     var fileContent = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
     var apiProviderImpl = Packages.org.wso2.carbon.appmgt.impl.APIProviderImpl;
     var apiProviderImplObj = new apiProviderImpl(request.getParameter("user"));
 
-    var bannerFile = request.getFile("bannerFile");
-    if (bannerFile != null) {
-        var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
-        var bannerInputStream = bannerFile.getStream().getStream();
-        fileContentObj.setContent(bannerInputStream);
-        fileContentObj.setFileName(bannerFile.getName());
-        bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
+    // If there is no existing banner for the application,
+    //check whether default type application
+    if (!bannerId && storeAppType === WELL_KNOWN_APP) {
 
-        bannerInputStream.close();
-    }else if(storeAppType === WELL_KNOWN_APP){
+        // This can be a well known application.
+        // The image should be taken from the file system.
 
-      // This can be a well known application.
-      // The image should be taken from the file system.
+        var applicationType = request.getParameter("spType");
+        var bannerFileName = getImageFilePathForWellKnownAppType(applicationType);
 
-      var applicationType = request.getParameter("spType");
-      var bannerFileName = getImageFilePathForWellKnownAppType(applicationType);
+        var bannerFile;
+        var bannerInputStream;
+        try {
+            bannerFile = new File(bannerFileName);
+            bannerFile.open("r");
 
-      var bannerFile;
-      var bannerInputStream;
-      try {
-        bannerFile = new File(bannerFileName);
-        bannerFile.open("r");
+            bannerInputStream = bannerFile.getStream().getStream();
+            fileContent.setContent(bannerInputStream);
+            fileContent.setFileName(applicationType + ".png");
+            bannerId = String(apiProviderImplObj.uploadImage(fileContent));
+        } catch (err) {
+            log.error("Can't read and upload banner file for the application.", err);
+        } finally {
+            if (bannerInputStream) {
+                bannerInputStream.close();
+            }
 
-        bannerInputStream = bannerFile.getStream().getStream();
-        fileContent.setContent(bannerInputStream);
-        fileContent.setFileName(applicationType + ".png");
-        bannerId = String(apiProviderImplObj.uploadImage(fileContent));
-      }catch(err) {
-        log.error("Can't read and upload banner file for the application.", err);
-      }finally {
-        if(bannerInputStream){
-          bannerInputStream.close();
+            if (bannerFile) {
+                bannerFile.close();
+            }
         }
+    } else {
+        //  check whether an image binary comes with the request.
+        var bannerFile = request.getFile("bannerFile");
+        if (bannerFile != null) {
+            try {
+                var fileContentObj = new Packages.org.wso2.carbon.appmgt.api.model.FileContent;
+                var bannerInputStream = bannerFile.getStream().getStream();
+                fileContentObj.setContent(bannerInputStream);
+                fileContentObj.setFileName(bannerFile.getName());
+                bannerId = String(apiProviderImplObj.uploadImage(fileContentObj));
 
-        if(bannerFile){
-          bannerFile.close();
+            } catch (err) {
+                log.error("Can't upload banner file for the application.", err);
+            } finally {
+                if (bannerInputStream) {
+                    bannerInputStream.close();
+                }
+            }
         }
-      }
     }
-  }
 
-  return bannerId;
+    return bannerId;
 }
 
 function getImageFilePathForWellKnownAppType(applicationType){
