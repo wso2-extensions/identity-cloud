@@ -18,18 +18,20 @@
 
 package org.wso2.sample.is.sso.agent;
 
-import org.apache.axiom.om.util.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.wso2.carbon.identity.sso.agent.SSOAgentConstants;
 import org.wso2.carbon.identity.sso.agent.SSOAgentFilter;
 import org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 public class SSOAgentSampleFilter extends SSOAgentFilter {
 
@@ -64,10 +66,14 @@ public class SSOAgentSampleFilter extends SSOAgentFilter {
         // So we need to clean-up the IDP URL for the current request and then set the tenant domain if needed.
         idpURL = idpURL.replaceAll("/t/.*", "");
 
-        String tenantDomain = servletRequest.getParameter("tenantDomain");
-        if (StringUtils.isBlank(tenantDomain)) {
-            tenantDomain = (String) ((HttpServletRequest)servletRequest).getSession().getAttribute("tenantDomain");
-        } else {
+        String tenantDomain = null;
+        Object tenantDomainAttr = ((HttpServletRequest) servletRequest).getSession().getAttribute("tenantDomain");
+        if (tenantDomainAttr != null) {
+            tenantDomain = (String) tenantDomainAttr;
+        }
+
+        if (StringUtils.isBlank(tenantDomain) || tenantDomain.equals("null")) {
+            tenantDomain = servletRequest.getParameter("tenantDomain");
             ((HttpServletRequest)servletRequest).getSession().setAttribute("tenantDomain", tenantDomain);
         }
         

@@ -513,7 +513,7 @@ include("../templates/leftpane.jag");
                                                    </div>
 
                                                    <!--  Enable Single  Logout -->
-                                                   <div id="singleLogoutRow" hidden>
+                                                   <div id="singleLogoutRow">
                                                       <div class="form-group">
                                                          <div class="col-md-12">
                                                             <div class="checkbox">
