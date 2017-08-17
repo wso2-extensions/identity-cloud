@@ -143,15 +143,15 @@ function checkBackChannelAuth() {
 	if (canAuthenticate(authCookie, samlssoTokenId)) {
 		try {
 			setBackChannelAuthConfig();
+			// generate new session id before following through - fix for session fixation
+			session.invalidate();
+			session = request.getSession(true);
 			var issuer = authConfig.backChannelAuth.issuer;
 			var backChannelAuthHandler = Packages.org.wso2.carbon.cloud.back.channel.BackChannelAuthHandler;
 			var authInfo = backChannelAuthHandler.login(issuer, authCookie.value, samlssoTokenId.value);
 			if (authInfo) {
 				var username = String(authInfo.getUsername());
 				var sessionIndex = String(authInfo.getSessionIndex());
-				// generate new session id before following through - fix for session fixation
-				session.invalidate();
-				session = request.getSession(true);
 				session.put(LOGGED_IN_USER, username);
 				backChannelAuthHandler.setSession(session, sessionIndex, issuer);
 				//Append Path, Secure, HttpOnly to cookie - to avoid 'Invalid declaration for HTTPHeaders property'
@@ -173,7 +173,7 @@ function checkBackChannelAuth() {
 }
 
 function initAuthenticationProtocol(){
-	
+
 	if(application.get(AUTH_CONFIG_PARSED)){
 		return;
 	}
