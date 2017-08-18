@@ -17,8 +17,7 @@ function login(){
 	var user = session.get(LOGGED_IN_USER);	
     if(user == null){
     	//Check whether back chanel auth can be done
-    	var success = checkBackChannelAuth();
-    	if (success) {
+    	if (checkBackChannelAuth()) {
     		return;
     	}
     	if(application.get(SAML_ENABLED) === true){
@@ -46,8 +45,7 @@ lg.info('saml not enabled');
 }
 
 function canAuthenticate(authCookie, samlssoTokenId) {
-	var checkSSO = authConfig.EnableSAMLSSOLogin;
-	if (!checkSSO || session.get("LOGGED_IN_USER")) {
+	if (!authConfig.EnableSAMLSSOLogin || session.get("LOGGED_IN_USER")) {
 		return false;
 	}
 

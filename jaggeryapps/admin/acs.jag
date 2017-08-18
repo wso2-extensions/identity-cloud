@@ -130,13 +130,15 @@ if (samlResponse != null) {
     /*------------------------ handle back channel logout request end --------------------*/
     if (!invalidated) {
         var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
-
-        log.info("Session index of the SLO request is " + index);
-
+        if (log.isDebugEnabled()) {
+            log.debug("Session index of the SLO request is " + index);
+        }
         var httpSessionForSessionIndex = application.get('httpSessions')[index];
 
         if (httpSessionForSessionIndex) {
-            log.info("Invalidating http session for the session index " + index);
+            if (log.isDebugEnabled()) {
+                log.debug("Invalidating http session for the session index " + index);
+            }
             httpSessionForSessionIndex.invalidate();
             delete application.get('httpSessions')[index];
         }
