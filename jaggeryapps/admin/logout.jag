@@ -1,32 +1,14 @@
 <%
-include("util/constants.jag");
 
 var log = new Log();
-var authConfig = readFile("/authentication/auth_config.json");
 
-var invalidated = false;
-/*-------------------back channel auth logout request start------------------*/
-if (authConfig.backChannelAuth.enabled) {
-    log.info("Session invalidated for the user " + session.get(LOGGED_IN_USER) );
-    log.info("Trigger IDP initiated logout request");
-    session.invalidate();
-    invalidated = true;
-    var samlSSOURL = authConfig.backChannelAuth.samlSSOURL;
-    var issuer = authConfig.backChannelAuth.issuer;
-    var returnToURL = authConfig.backChannelAuth.returnToURL;
-    var sloURL = samlSSOURL + "?slo=true&spEntityID=" + issuer + "&returnTo=" + returnToURL;
-    response.sendRedirect(sloURL);
-}
-/*-------------------back channel auth logout request end ------------------*/
-
-if (!invalidated) {
-    var user = session.get('user');
-    if (user == null) {
-        response.sendRedirect("login.jag");
-    }
-
-    log.info("Session invalidated for user '" + session.get('user') + "'");
-    session.invalidate();
+var user = session.get('user');
+if (user == null) {
     response.sendRedirect("login.jag");
 }
+
+log.info("Session invalidated for user '" + session.get('user') +"'" );
+session.invalidate();
+response.sendRedirect("login.jag");
+
 %>

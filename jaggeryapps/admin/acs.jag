@@ -124,6 +124,7 @@ if (samlResponse != null) {
         if (backChannelAuthHandler.canLogout(issuer, samlRequest)) {
             log.info("Invalidate back channel authenticated session");
             backChannelAuthHandler.invalidateSession(issuer, samlRequest);
+            session.invalidate();
             invalidated = true;
         }
     }

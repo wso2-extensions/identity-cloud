@@ -4,6 +4,7 @@ include("constants.jag");
 
 var log = new Log();
 var identityServerURL = Packages.org.wso2.carbon.identity.core.util.IdentityUtil;
+var authConfig = readFile("/authentication/auth_config.json");
 
 function initI18N(){
 	var i18n = session.get(I18N)
@@ -391,6 +392,22 @@ function setServerURL(isWebContextRootAvailable) {
             serverCoreUrl = identityServerURL.getServerURL("", true, true);
             application.put(SERVER_CORE_URL, serverCoreUrl);
         }
+    }
+}
+
+function setBackChannelAuthConfig() {
+    if (!application.get(BACK_CHANNEL_CONFIGS_SET)) {
+        var tokenEP = authConfig.backChannelAuth.tokenEP;
+        var clientKey = authConfig.backChannelAuth.clientKey;
+        var clientSecret = authConfig.backChannelAuth.clientSecret;
+        var jwtAuthenticatorEP = authConfig.backChannelAuth.jwtAuthenticatorEP;
+
+        var backChannelAuthConfig = Packages.org.wso2.carbon.cloud.back.channel.config.BackChannelAuthConfig.getInstance();
+        backChannelAuthConfig.setTokenEP(tokenEP);
+        backChannelAuthConfig.setClientKey(clientKey);
+        backChannelAuthConfig.setClientSecret(clientSecret);
+        backChannelAuthConfig.setJwtAuthenticatorEP(jwtAuthenticatorEP);
+        application.put(BACK_CHANNEL_CONFIGS_SET, true);
     }
 }
 %>

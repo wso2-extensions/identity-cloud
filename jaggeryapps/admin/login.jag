@@ -12,14 +12,21 @@ var userInfoClient = require('/controllers/login-logout/loggedUserInfoAdminClien
 
 function login(){
     util.setServerURL("true");
+    util.setBackChannelAuthConfig();
 	initAuthenticationProtocol();
 	
 	var user = session.get(LOGGED_IN_USER);	
     if(user == null){
-    	//Check whether back chanel auth can be done
-    	if (checkBackChannelAuth()) {
-    		return;
-    	}
+        //Check whether back chanel auth can be done
+        var authCookie = request.getCookie("commonAuthId");
+        var samlssoTokenId = request.getCookie("samlssoTokenId");
+        if (canAuthenticate(authCookie, samlssoTokenId)) {
+            if (doBackChannelAuth(authCookie, samlssoTokenId)) {
+                //Return without SSO flow if back channel auth is successful
+                return;
+            }
+        }
+
     	if(application.get(SAML_ENABLED) === true){
 			if (session.get(AUTHZ_FAILURE) === 'true' || request.getParameter("authz_failure") === 'true') {
 				//redirect to the saml idp
@@ -45,133 +52,117 @@ lg.info('saml not enabled');
 }
 
 function canAuthenticate(authCookie, samlssoTokenId) {
-	if (!authConfig.EnableSAMLSSOLogin || session.get("LOGGED_IN_USER")) {
-		return false;
-	}
-
-	if (!authConfig.backChannelAuth.enabled) {
-		return false
-	}
-
-	if (authCookie && samlssoTokenId) {
-		return true;
-	}
-	log.info("Cookies not found for back channel authentication");
-	return false;
-}
-
-function setBackChannelAuthConfig() {
-	var tokenEP = authConfig.backChannelAuth.tokenEP;
-	var clientKey = authConfig.backChannelAuth.clientKey;
-	var clientSecret = authConfig.backChannelAuth.clientSecret;
-	var jwtAuthenticatorEP = authConfig.backChannelAuth.jwtAuthenticatorEP;
-
-	var backChannelAuthConfig = Packages.org.wso2.carbon.cloud.back.channel.config.BackChannelAuthConfig.getInstance();
-	backChannelAuthConfig.setTokenEP(tokenEP);
-	backChannelAuthConfig.setClientKey(clientKey);
-	backChannelAuthConfig.setClientSecret(clientSecret);
-	backChannelAuthConfig.setJwtAuthenticatorEP(jwtAuthenticatorEP);
+    if (!authConfig.EnableSAMLSSOLogin || session.get("LOGGED_IN_USER")) {
+        return false;
+    }
+    if (!authConfig.backChannelAuth.enabled) {
+        return false
+    }
+    if (authCookie && samlssoTokenId) {
+        return true;
+    }
+    if (log.isDebugEnabled()) {
+        log.debug("Cookies not found for back channel authentication");
+    }
+    return false;
 }
 
 function setSessionDetailsAndRedirection(username) {
-	var userInfo = userInfoClient.getUserInfo();
-	//Check if user has admin permission
-	var isAuthenticated = true;
-	if (userInfo == null) {
-		isAuthenticated = false;
-	} else {
-		if (userInfo.UIPermissionOfUser == null) {
-			isAuthenticated = false;
-		}
-		else {
-			isAuthenticated = false;
-			var permissions = userInfo.UIPermissionOfUser;
-			if (permissions.constructor !== Array) {
-				permissions = [permissions];
-			}
-			for (var perm in permissions) {
-				var permission = permissions[perm];
-				if (permission == ADMIN_LOGIN_PERMISSION_SUPER_TENANT || permission == ADMIN_LOGIN_PERMISSION_TENANT) {
-					isAuthenticated = true;
-					break;
-				}
-			}
-		}
-	}
+    var userInfo = userInfoClient.getUserInfo();
+    //Check if user has admin permission
+    var isAuthenticated = true;
+    if (userInfo == null) {
+        isAuthenticated = false;
+    } else {
+        if (userInfo.UIPermissionOfUser == null) {
+            isAuthenticated = false;
+        }
+        else {
+            isAuthenticated = false;
+            var permissions = userInfo.UIPermissionOfUser;
+            if (permissions.constructor !== Array) {
+                permissions = [permissions];
+            }
+            for (var perm in permissions) {
+                var permission = permissions[perm];
+                if (permission == ADMIN_LOGIN_PERMISSION_SUPER_TENANT || permission == ADMIN_LOGIN_PERMISSION_TENANT) {
+                    isAuthenticated = true;
+                    break;
+                }
+            }
+        }
+    }
 
-	//Update user details if admin
-	if (isAuthenticated) {
-		session.put(UI_USER_PERMISSIONS, userInfo.UIPermissionOfUser);
-		log.debug("Back channel auth user: " + userInfo.UIPermissionOfUser);
-		log.debug("Back channel auth user: " + session.get(LOGGED_IN_USER));
+    //Update user details if admin
+    if (isAuthenticated) {
+        session.put(UI_USER_PERMISSIONS, userInfo.UIPermissionOfUser);
+        if (log.isDebugEnabled()) {
+            log.debug("Back channel authenticated user: " + session.get(LOGGED_IN_USER) + " has UI permission: " +
+                    userInfo.UIPermissionOfUser);
+        }
 
-		var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
-		var tenantDomain = MultitenantUtils.getTenantDomain(username);
+        var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+        var tenantDomain = MultitenantUtils.getTenantDomain(username);
 
-		var tenantId = carbon.server.tenantId({
-			domain: tenantDomain
-		});
+        var tenantId = carbon.server.tenantId({
+            domain: tenantDomain
+        });
 
-		//Add tenantId and tenantdomain into userInfo object.
-		userInfo.tenantId = tenantId;
-		userInfo.tenantDomain = tenantDomain;
+        //Add tenantId and tenantdomain into userInfo object.
+        userInfo.tenantId = tenantId;
+        userInfo.tenantDomain = tenantDomain;
 
-		//Set userInfo object in session.
-		session.put("userInfo", userInfo);
+        //Set userInfo object in session.
+        session.put("userInfo", userInfo);
 
-		//create the header html for the user
-		var header = util.generateHeader(true, i18n);
+        //create the header html for the user
+        var header = util.generateHeader(true, i18n);
 
-		header = parse(stringify(header));
+        header = parse(stringify(header));
 
-		session.put(USER_HEADER, header);
+        session.put(USER_HEADER, header);
 
-		response.sendRedirect("index.jag");
-	} else if (isAuthenticated === NO_ADMIN_PERMISSION) {
-		response.sendRedirect("/admin/error/unauthorizedError.jag");
-	} else {
-		response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
-	}
+        response.sendRedirect("index.jag");
+    } else if (isAuthenticated === NO_ADMIN_PERMISSION) {
+        response.sendRedirect("/admin/error/unauthorizedError.jag");
+    } else {
+        response.sendRedirect("/" + ADMIN_PORTAL_NAME + "/samlsso.jag?logout=true&authz_failure=true");
+    }
 }
 
-function checkBackChannelAuth() {
-	var authCookie = request.getCookie("commonAuthId");
-	var samlssoTokenId = request.getCookie("samlssoTokenId");
-	var success = false;
-	if (canAuthenticate(authCookie, samlssoTokenId)) {
-		try {
-			setBackChannelAuthConfig();
-			// generate new session id before following through - fix for session fixation
-			session.invalidate();
-			session = request.getSession(true);
-			var issuer = authConfig.backChannelAuth.issuer;
-			var backChannelAuthHandler = Packages.org.wso2.carbon.cloud.back.channel.BackChannelAuthHandler;
-			var authInfo = backChannelAuthHandler.login(issuer, authCookie.value, samlssoTokenId.value);
-			if (authInfo) {
-				var username = String(authInfo.getUsername());
-				var sessionIndex = String(authInfo.getSessionIndex());
-				session.put(LOGGED_IN_USER, username);
-				backChannelAuthHandler.setSession(session, sessionIndex, issuer);
-				//Append Path, Secure, HttpOnly to cookie - to avoid 'Invalid declaration for HTTPHeaders property'
-				session.put("auth-cookie", authInfo.getCookie() + "; Path=/; Secure; HttpOnly");
-				session.put("back-channel-auth", "true");
-				session.put(SESSION_PROPERTY_SESSION_INDEX, sessionIndex);
-				log.info("Back channel login successful for user :" + username);
-				setSessionDetailsAndRedirection(username);
-				success = true;
-			} else {
-				log.info("Could not do back channel authentication. Continue with SAML flow");
-			}
-		} catch (e) {
-			log.error("Error while trying to authenticate using back channel authentication. Continue with SAML flow");
-			log.error(e);
-		}
-	}
-	return success;
+function doBackChannelAuth(authCookie, samlssoTokenId) {
+    var success = false;
+    try {
+        var issuer = authConfig.backChannelAuth.issuer;
+        var backChannelAuthHandler = Packages.org.wso2.carbon.cloud.back.channel.BackChannelAuthHandler;
+        var authInfo = backChannelAuthHandler.login(issuer, authCookie.value, samlssoTokenId.value);
+        if (authInfo) {
+            // generate new session id before following through - fix for session fixation
+            session.invalidate();
+            session = request.getSession(true);
+            var username = String(authInfo.getUsername());
+            var sessionIndex = String(authInfo.getSessionIndex());
+            session.put(LOGGED_IN_USER, username);
+            backChannelAuthHandler.setSession(session, sessionIndex, issuer);
+            //Append Path, Secure, HttpOnly to cookie - to avoid 'Invalid declaration for HTTPHeaders property'
+            session.put("auth-cookie", authInfo.getCookie() + "; Path=/; Secure; HttpOnly");
+            session.put("back-channel-auth", "true");
+            session.put(SESSION_PROPERTY_SESSION_INDEX, sessionIndex);
+            log.info("Back channel login successful for user :" + username);
+            setSessionDetailsAndRedirection(username);
+            success = true;
+        } else {
+            log.info("Could not do back channel authentication. Continue with SAML flow");
+        }
+    } catch (e) {
+        log.error("Error while trying to authenticate using back channel authentication. Continue with SAML flow");
+        log.error(e);
+    }
+    return success;
 }
 
 function initAuthenticationProtocol(){
-
+	
 	if(application.get(AUTH_CONFIG_PARSED)){
 		return;
 	}
