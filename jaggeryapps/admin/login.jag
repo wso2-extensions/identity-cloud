@@ -100,28 +100,20 @@ function setSessionDetailsAndRedirection(username) {
             log.debug("Back channel authenticated user: " + session.get(LOGGED_IN_USER) + " has UI permission: " +
                     userInfo.UIPermissionOfUser);
         }
-
         var MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils;
         var tenantDomain = MultitenantUtils.getTenantDomain(username);
-
         var tenantId = carbon.server.tenantId({
             domain: tenantDomain
         });
-
         //Add tenantId and tenantdomain into userInfo object.
         userInfo.tenantId = tenantId;
         userInfo.tenantDomain = tenantDomain;
-
         //Set userInfo object in session.
         session.put("userInfo", userInfo);
-
         //create the header html for the user
         var header = util.generateHeader(true, i18n);
-
         header = parse(stringify(header));
-
         session.put(USER_HEADER, header);
-
         response.sendRedirect("index.jag");
     } else if (isAuthenticated === NO_ADMIN_PERMISSION) {
         response.sendRedirect("/admin/error/unauthorizedError.jag");
@@ -148,11 +140,15 @@ function doBackChannelAuth(authCookie, samlssoTokenId) {
             session.put("auth-cookie", authInfo.getCookie() + "; Path=/; Secure; HttpOnly");
             session.put("back-channel-auth", "true");
             session.put(SESSION_PROPERTY_SESSION_INDEX, sessionIndex);
-            log.info("Back channel login successful for user :" + username);
+            if (log.isDebugEnabled()) {
+                log.debug("Back channel login successful for user :" + username);
+            }
             setSessionDetailsAndRedirection(username);
             success = true;
         } else {
-            log.info("Could not do back channel authentication. Continue with SAML flow");
+            if (log.isDebugEnabled()) {
+                log.debug("Could not do back channel authentication. Continue with SAML flow");
+            }
         }
     } catch (e) {
         log.error("Error while trying to authenticate using back channel authentication. Continue with SAML flow");
