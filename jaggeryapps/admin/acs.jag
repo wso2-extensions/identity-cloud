@@ -7,6 +7,7 @@ include("/util/constants.jag");
 var util = require("/util/utility.jag");
 var loginClient = require('/controllers/login-logout/SAML2SSOAuthenticationClient.jag');
 var carbon = require('carbon');
+var authConfig = readFile("/authentication/auth_config.json");
 
 var i18n = util.initI18N();
 var log = new Log();
@@ -113,18 +114,38 @@ if (samlResponse != null) {
 
     // This is an SLO request from the IDP.
     // Get the HTTP session object for the given session index, and invalidate it.
+    if (log.isDebugEnabled()) {
+        log.debug("SLO request received.");
+    }
+    var invalidated = false;
+    /*------------------------ handle back channel logout request start --------------------*/
+    if (authConfig.backChannelAuth.enabled) {
+        var backChannelAuthHandler = Packages.org.wso2.carbon.cloud.back.channel.BackChannelAuthHandler;
+        var issuer = authConfig.backChannelAuth.issuer;
+        if (backChannelAuthHandler.canLogout(issuer, samlRequest)) {
+            if (log.isDebugEnabled()) {
+                log.debug("Invalidate back channel authenticated session");
+            }
+            backChannelAuthHandler.invalidateSession(issuer, samlRequest);
+            session.invalidate();
+            invalidated = true;
+        }
+    }
+    /*------------------------ handle back channel logout request end --------------------*/
+    if (!invalidated) {
+        var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
+        if (log.isDebugEnabled()) {
+            log.debug("Session index of the SLO request is " + index);
+        }
+        var httpSessionForSessionIndex = application.get('httpSessions')[index];
 
-    log.info("SLO request received.")
-    var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
-
-    log.info("Session index of the SLO request is " + index);
-
-    var httpSessionForSessionIndex = application.get('httpSessions')[index];
-
-    if(httpSessionForSessionIndex){
-        log.info("Invalidating http session for the session index " + index);
-        httpSessionForSessionIndex.invalidate();
-        delete application.get('httpSessions')[index];
+        if (httpSessionForSessionIndex) {
+            if (log.isDebugEnabled()) {
+                log.debug("Invalidating http session for the session index " + index);
+            }
+            httpSessionForSessionIndex.invalidate();
+            delete application.get('httpSessions')[index];
+        }
     }
 }
 %>

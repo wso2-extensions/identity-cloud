@@ -14,5 +14,15 @@
 		"SAML.PrivateKeyPassword" : "wso2carbon",
 		"SAML.KeyStore" : "{carbon.home}/repository/resources/security/wso2carbon.jks"
 		
+	},
+	"backChannelAuth" : {
+		"enabled" : false,
+		"issuer" : "wso2.my.dashboard",
+		"tokenEP" : "https://localhost:9443/oauth2/token",
+		"clientKey" : "PxYmE2A4ceOESp2Kx8KqFscXwDoa",
+		"clientSecret": "syT5kJ5Lx3dAzQfFhkKfwMb8z3wa",
+		"jwtAuthenticatorEP" : "https://localhost:9443/services/LoggedUserInfoAdmin",
+		"returnToURL": "https://localhost:9444/cloudmgt",
+		"samlSSOURL" : "https://localhost:9443/samlsso"
 	}
 }

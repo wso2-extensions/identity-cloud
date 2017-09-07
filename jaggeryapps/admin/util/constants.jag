@@ -13,6 +13,7 @@ var USER_HEADER = "user-header";
 var I18N = "i18n";
 var SERVER_URL = "serverUrl";
 var SERVER_CORE_URL = "serverCoreUrl";
+var BACK_CHANNEL_CONFIGS_SET = "backChannel-authConfig-set";
 
 var AUTH_CONFIG_PARSED = "auth.config.parsed";
 var SAML_ENABLED = "saml.enabled";
