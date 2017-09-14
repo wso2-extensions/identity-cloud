@@ -521,7 +521,6 @@ function urlResolver(param,userName) {
                 }
                 break;
             case 'overview':
-
                 directoryList = checkDirectory(DEFAULT_USER_STORE_DOMAIN);
                 var appList  = checkAppList(userName);
                 isSampleExist = false;
@@ -684,14 +683,14 @@ function checkAppList(userName) {
         async:false,
         data: "&user=" + userName,
         success: function (data) {
-            if (data) {
+            //Backend sends empty response with a new line when SP list is empty - Need to exclude that
+            if (data && data.trim() != "") {
                 var resp;
                 try {
                     resp = $.parseJSON(data);
                 } catch (err) {
                     urlResolver('login');
                 }
-
                 if (resp.success == false) {
 
                 } else {
