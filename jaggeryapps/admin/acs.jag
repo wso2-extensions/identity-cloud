@@ -27,11 +27,6 @@ samlRequest = request.getParameter('SAMLRequest'),
 relayState = request.getParameter('RelayState'),
 sso = require('sso'),
 samlRespObj,
-keyStoreProps = {
-    KEY_STORE_NAME: samlConfig['SAML.KeyStore'],
-    KEY_STORE_PASSWORD: samlConfig['SAML.KeyStorePassword'],
-    IDP_ALIAS: samlConfig['SAML.IdPCertAlias']
-},
 httpSessions = application.get('httpSessions');
 
 if (!httpSessions) {

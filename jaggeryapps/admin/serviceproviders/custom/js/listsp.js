@@ -63,7 +63,8 @@ function reloadGrid() {
         type: "GET",
         data: "&user=" + userName,
         success: function (data) {
-            if (data) {
+            //Backend sends empty response with a new line when SP list is empty - Need to exclude that
+            if (data && data.trim() != "") {
                 var resp;
                 try {
                     resp = $.parseJSON(data);
