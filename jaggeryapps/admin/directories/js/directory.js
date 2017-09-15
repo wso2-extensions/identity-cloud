@@ -413,7 +413,8 @@ function populateAgentConnection(domain) {
         success: function (data) {
             $("#noconnectiondiv").show();
             $("#downloadGuide").show();
-            if (data) {
+            //Backend sends empty response with a new line when connection list is empty - Need to exclude that
+            if (data && data.trim() != "") {
                 var resp;
                 try {
                     resp = $.parseJSON(data);
