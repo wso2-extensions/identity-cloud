@@ -597,7 +597,8 @@ function updateCustomSP(file) {
                data: formData
     })
         .done(function (data) {
-            if (data && data.trim()!= "") {
+            //Backend sends empty response with a new line when SP list is empty - Need to exclude that
+            if (data && data.trim() != "") {
                 var resp;
                 try {
                     resp = JSON.parse(data);
