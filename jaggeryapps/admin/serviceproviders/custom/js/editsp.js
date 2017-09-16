@@ -597,7 +597,7 @@ function updateCustomSP(file) {
                data: formData
     })
         .done(function (data) {
-            if (data) {
+            if (data && data.trim()!= "") {
                 var resp;
                 try {
                     resp = JSON.parse(data);
@@ -872,18 +872,20 @@ function getAppType(appdata){
     return sptype;
 }
 
-function getStoreAppType(data){
-    var customProperties = data.customProperties;
-    if (customProperties != null && customProperties.constructor !== Array){
-        customProperties = [customProperties];
-    }
-    for(var prop in customProperties){
-        var property = customProperties[prop];
-        if(property.name == STORE_APP_TYPE){
-            return property.value;
+function getStoreAppType(data) {
+    if (data) {
+        var customProperties = data.customProperties;
+        if (customProperties != null && customProperties.constructor !== Array) {
+            customProperties = [customProperties];
         }
+        for (var prop in customProperties) {
+            var property = customProperties[prop];
+            if (property.name == STORE_APP_TYPE) {
+                return property.value;
+            }
+        }
+        return APP_AGENT_TYPE;
     }
-    return APP_AGENT_TYPE;
 }
 
 function disableForm(){
