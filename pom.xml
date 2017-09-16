@@ -27,7 +27,7 @@
     <groupId>org.wso2.carbon.identity.cloud</groupId>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>identity-cloud</artifactId>
-    <version>3.0.19-SNAPSHOT</version>
+    <version>3.0.20-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon - Identity Cloud</name>
     <description>
