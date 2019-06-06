@@ -209,7 +209,15 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             if (rs.next() == true) {
                 isExist = true;
             }
+            dbConnection.commit();
         } catch (SQLException e) {
+            try {
+                dbConnection.rollback();
+            } catch (SQLException e1) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Failed to rollback the transaction", e);
+                }
+            }
             String msg = "Error occurred while retrieving user info for user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(msg, e);
@@ -266,7 +274,15 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             if (rs.next()) {
                 isAuthed = true;
             }
+            dbConnection.commit();
         } catch (SQLException e) {
+            try {
+                dbConnection.rollback();
+            } catch (SQLException e1) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Failed to rollback the transaction", e);
+                }
+            }
             String msg = "Error occurred while retrieving user authentication info for user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(msg, e);
