@@ -102,15 +102,7 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             this.updateStringValuesToDatabase(dbConnection, sqlStmt1, userName, password, tenantId);
             dbConnection.commit();
         } catch (Exception e) {
-            try {
-                dbConnection.rollback();
-            } catch (SQLException e1) {
-                String errorMessage = "Error while rollback in add user operation for user : " + userName;
-                if (log.isDebugEnabled()) {
-                    log.debug(errorMessage, e1);
-                }
-                throw new UserStoreException(errorMessage, e1);
-            }
+            rollBackTransaction(dbConnection);
             String errorMessage = "Error while persisting user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(errorMessage, e);
@@ -211,13 +203,7 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             }
             dbConnection.commit();
         } catch (SQLException e) {
-            try {
-                dbConnection.rollback();
-            } catch (SQLException e1) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Failed to rollback the transaction", e);
-                }
-            }
+            rollBackTransaction(dbConnection);
             String msg = "Error occurred while retrieving user info for user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(msg, e);
@@ -276,13 +262,7 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             }
             dbConnection.commit();
         } catch (SQLException e) {
-            try {
-                dbConnection.rollback();
-            } catch (SQLException e1) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Failed to rollback the transaction", e);
-                }
-            }
+            rollBackTransaction(dbConnection);
             String msg = "Error occurred while retrieving user authentication info for user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(msg, e);
@@ -451,15 +431,7 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
             this.updateStringValuesToDatabase(dbConnection, sqlStmt, userName, tenantId);
             dbConnection.commit();
         } catch (Exception e) {
-            try {
-                dbConnection.rollback();
-            } catch (SQLException e1) {
-                String errorMessage = "Error while rollback in delete user operation for user : " + userName;
-                if (log.isDebugEnabled()) {
-                    log.debug(errorMessage, e1);
-                }
-                throw new UserStoreException(errorMessage, e1);
-            }
+            rollBackTransaction(dbConnection);
             String errorMessage = "Error while deleting user : " + userName;
             if (log.isDebugEnabled()) {
                 log.debug(errorMessage, e);
@@ -468,6 +440,20 @@ public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
         } finally {
             DatabaseUtil.closeAllConnections(dbConnection);
         }
+    }
 
+    /**
+     * Revoke the transaction when catch then sql transaction errors.
+     *
+     * @param dbConnection database connection.
+     */
+    private void rollBackTransaction(Connection dbConnection) {
+        try {
+            if (dbConnection != null) {
+                dbConnection.rollback();
+            }
+        } catch (SQLException e1) {
+            log.error("An error occurred while rolling back transactions. ", e1);
+        }
     }
 }
