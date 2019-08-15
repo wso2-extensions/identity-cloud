@@ -27,7 +27,7 @@ import org.osgi.service.component.ComponentContext;
  */
 
 public class JaggeryWebComponent {
-    private static Log log = LogFactory.getLog(JaggeryWebComponent.class);
+    private static final Log log = LogFactory.getLog(JaggeryWebComponent.class);
 
     protected void activate(ComponentContext ctxt) {
         if (log.isDebugEnabled()){

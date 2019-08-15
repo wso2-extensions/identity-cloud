@@ -33,7 +33,7 @@ import org.wso2.carbon.user.core.service.RealmService;
  */
 public class IdentityCloudAuthenticatorServiceComponent {
 
-    private static Log log = LogFactory.getLog(IdentityCloudAuthenticatorServiceComponent.class);
+    private static final Log log = LogFactory.getLog(IdentityCloudAuthenticatorServiceComponent.class);
 
     private static RealmService realmService;
 

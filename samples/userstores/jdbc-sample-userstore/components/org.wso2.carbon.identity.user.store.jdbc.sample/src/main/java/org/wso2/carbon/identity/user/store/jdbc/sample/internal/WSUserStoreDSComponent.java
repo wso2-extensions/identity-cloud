@@ -38,7 +38,7 @@ import org.wso2.carbon.user.core.service.RealmService;
  */
 public class WSUserStoreDSComponent {
 
-    private static Log log = LogFactory.getLog(WSUserStoreDSComponent.class);
+    private static final Log log = LogFactory.getLog(WSUserStoreDSComponent.class);
 
     protected void activate(ComponentContext ctxt) {
         try {

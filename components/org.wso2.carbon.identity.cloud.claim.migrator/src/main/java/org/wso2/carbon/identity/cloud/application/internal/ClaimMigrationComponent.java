@@ -32,7 +32,7 @@ import org.wso2.carbon.identity.cloud.application.listener.ClaimMigrationListene
 public class ClaimMigrationComponent {
 
 
-    private static Log log = LogFactory.getLog(ClaimMigrationComponent.class);
+    private static final Log log = LogFactory.getLog(ClaimMigrationComponent.class);
     private static BundleContext bundleContext;
 
     protected void activate(ComponentContext context) {
