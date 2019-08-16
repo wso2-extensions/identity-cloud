@@ -50,7 +50,7 @@ import java.util.Map;
  */
 public class CloudSampleJDBCUserStoreManager extends JDBCUserStoreManager {
 
-    private static Log log = LogFactory.getLog(CloudSampleJDBCUserStoreManager.class);
+    private static final Log log = LogFactory.getLog(CloudSampleJDBCUserStoreManager.class);
     private static final String EVERYONE_ROLE = "Internal/everyone";
 
     public CloudSampleJDBCUserStoreManager() {
